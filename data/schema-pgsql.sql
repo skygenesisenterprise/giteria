@@ -143,3 +143,115 @@ CREATE TABLE EventParticipants (
     FOREIGN KEY (user_id) REFERENCES Users(id),
     FOREIGN KEY (event_id) REFERENCES UserEvents(id)
 );
+
+CREATE TABLE UserSettings (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    notification_preferences JSONB,
+    language VARCHAR(50),
+    theme VARCHAR(50),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(id)
+);
+
+CREATE TABLE UserAchievements (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    achievement_name VARCHAR(255) NOT NULL,
+    description TEXT,
+    awarded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(id)
+);
+
+CREATE TABLE UserMentorships (
+    id SERIAL PRIMARY KEY,
+    mentor_id INT NOT NULL,
+    mentee_id INT NOT NULL,
+    start_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    end_date TIMESTAMP,
+    status VARCHAR(50) NOT NULL,
+    FOREIGN KEY (mentor_id) REFERENCES Users(id),
+    FOREIGN KEY (mentee_id) REFERENCES Users(id)
+);
+
+CREATE TABLE UserFeedback (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    feedback TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(id)
+);
+
+CREATE TABLE UserSurveys (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    survey_id INT NOT NULL,
+    response JSONB,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(id)
+);
+
+CREATE TABLE Surveys (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    created_by INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (created_by) REFERENCES Users(id)
+);
+
+CREATE TABLE UserGamification (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    points INT DEFAULT 0,
+    level INT DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(id)
+);
+
+CREATE TABLE UserContributions (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    repository_id INT NOT NULL,
+    contribution_type VARCHAR(50) NOT NULL,
+    contribution_count INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(id),
+    FOREIGN KEY (repository_id) REFERENCES Repositories(id)
+);
+
+CREATE TABLE UserForums (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    created_by INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (created_by) REFERENCES Users(id)
+);
+
+CREATE TABLE ForumPosts (
+    id SERIAL PRIMARY KEY,
+    forum_id INT NOT NULL,
+    user_id INT NOT NULL,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (forum_id) REFERENCES UserForums(id),
+    FOREIGN KEY (user_id) REFERENCES Users(id)
+);
+
+CREATE TABLE ForumComments (
+    id SERIAL PRIMARY KEY,
+    post_id INT NOT NULL,
+    user_id INT NOT NULL,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (post_id) REFERENCES ForumPosts(id),
+    FOREIGN KEY (user_id) REFERENCES Users(id)
+);
