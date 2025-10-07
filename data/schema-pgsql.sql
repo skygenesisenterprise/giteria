@@ -255,3 +255,97 @@ CREATE TABLE ForumComments (
     FOREIGN KEY (post_id) REFERENCES ForumPosts(id),
     FOREIGN KEY (user_id) REFERENCES Users(id)
 );
+
+CREATE TABLE Webhooks (
+    id SERIAL PRIMARY KEY,
+    repository_id INT NOT NULL,
+    url VARCHAR(255) NOT NULL,
+    events JSONB NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (repository_id) REFERENCES Repositories(id)
+);
+
+CREATE TABLE Labels (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    color VARCHAR(50) NOT NULL,
+    repository_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (repository_id) REFERENCES Repositories(id)
+);
+
+CREATE TABLE Milestones (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    due_date TIMESTAMP,
+    repository_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (repository_id) REFERENCES Repositories(id)
+);
+
+CREATE TABLE Projects (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    repository_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (repository_id) REFERENCES Repositories(id)
+);
+
+CREATE TABLE ProjectTasks (
+    id SERIAL PRIMARY KEY,
+    project_id INT NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    status VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (project_id) REFERENCES Projects(id)
+);
+
+CREATE TABLE Releases (
+    id SERIAL PRIMARY KEY,
+    tag_name VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    body TEXT,
+    repository_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (repository_id) REFERENCES Repositories(id)
+);
+
+CREATE TABLE Wikis (
+    id SERIAL PRIMARY KEY,
+    repository_id INT NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (repository_id) REFERENCES Repositories(id)
+);
+
+CREATE TABLE UserDomains (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    domain_name VARCHAR(255) NOT NULL,
+    verification_token VARCHAR(255) NOT NULL,
+    verified BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(id)
+);
+
+CREATE TABLE UserIntegrations (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    service_name VARCHAR(255) NOT NULL,
+    access_token VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(id)
+);
