@@ -1,15 +1,15 @@
 ### 📄 `CONTRIBUTING.md`
 
-# Contributing to Aether Meet
+# Contributing to Giteria
 
-Thank you for your interest in contributing to **Aether Meet**!  
+Thank you for your interest in contributing to **Giteria**!  
 We welcome community contributions and feedback, while the project is also maintained and developed by [Sky Genesis Enterprise](https://skygenesisenterprise.com).
 
 ---
 
 ## 📦 About the Project
 
-**Aether Meet** is an open-source email client licensed under **Apache licence 2.0**, with both:
+**Giteria** is an open-source email client licensed under **MIT Licence**, with both:
 
 - A **free and self-hostable version** for the open-source community
 - A **commercial edition** with additional features and premium support maintained by Sky Genesis Enterprise
@@ -20,7 +20,7 @@ We value collaboration and are happy to accept pull requests, bug reports, and f
 
 ## 🧭 Code of Conduct
 
-We follow a [Code of Conduct](https://github.com/skygenesisenterprise/aether-meet/CODE_OF_CONDUCT.md) to ensure a safe, respectful, and inclusive environment.  
+We follow a [Code of Conduct](https://github.com/skygenesisenterprise/giteria/CODE_OF_CONDUCT.md) to ensure a safe, respectful, and inclusive environment.  
 Please make sure you read and respect it before contributing.
 
 ---
@@ -32,8 +32,8 @@ Please make sure you read and respect it before contributing.
 Use the GitHub UI to create a fork, then clone it locally:
 
 ```bash
-git clone https://github.com/skygenesisenterprise/aether-meet.git
-cd aether-meet
+git clone https://github.com/skygenesisenterprise/giteria.git
+cd giteria
 ```
 
 ### 2. Set Up Locally
@@ -108,7 +108,7 @@ Please note that **final decisions regarding project direction, architecture, an
 
 ## 📩 Questions or Suggestions?
 
-Open a [GitHub Discussion](https://github.com/skygenesisenterprise/aether-meet/discussions)
+Open a [GitHub Discussion](https://github.com/skygenesisenterprise/giteria/discussions)
 Or reach out to us at [contact@skygenesisenterprise.com](mailto:contact@skygenesisenterprise.com)
 
-Thank you for helping improve Aether Meet 💌
+Thank you for helping improve Giteria 💌
