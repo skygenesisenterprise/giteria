@@ -358,7 +358,7 @@ For enterprise customers, we offer:
 - **🎓 Training**: On-site and remote training sessions
 - **🛡️ SLA Guarantee**: Service level agreements for critical deployments
 
-Contact us at [enterprise@giteria.dev](mailto:enterprise@giteria.dev) for more information.
+Contact us at [enterprise@giteria.com](mailto:enterprise@giteria.com) for more information.
 
 ---
 
