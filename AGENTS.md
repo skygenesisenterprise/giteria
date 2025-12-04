@@ -34,7 +34,7 @@
 ### Architecture Notes
 - App Router structure with route groups
 - Component library in `app/components/ui/`
-- Types defined in `app/lib/types.ts`
+- Types defined in `app/libs/types.ts`
 
 ## Project Context
 Giteria is an open-source, self-hostable Git platform with AI integration. Focus on clean, scalable architecture for future AI features (Copilot, RAG).
