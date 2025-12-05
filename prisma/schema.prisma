@@ -1,0 +1,953 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ========================================
+// UTILISATEURS ET AUTHENTIFICATION
+// ========================================
+
+model User {
+  id                String    @id @default(cuid())
+  username          String    @unique @db.VarChar(39)
+  email             String    @unique @db.VarChar(255)
+  passwordHash      String    @map("password_hash") @db.VarChar(255)
+  avatar            String?   @db.VarChar(500)
+  name              String?   @db.VarChar(100)
+  bio               String?   @db.Text
+  location          String?   @db.VarChar(100)
+  website           String?   @db.VarChar(500)
+  isAdmin           Boolean   @default(false) @map("is_admin")
+  isActive          Boolean   @default(true) @map("is_active")
+  emailVerified      Boolean   @default(false) @map("email_verified")
+  twoFactorEnabled   Boolean   @default(false) @map("two_factor_enabled")
+  twoFactorSecret    String?   @map("two_factor_secret") @db.VarChar(32)
+  lastLoginAt       DateTime? @map("last_login_at")
+  createdAt         DateTime   @default(now()) @map("created_at")
+  updatedAt         DateTime   @updatedAt @map("updated_at")
+
+  // Relations
+  ownedRepositories  Repository[] @relation("RepositoryOwner")
+  ownedOrganizations Organization[] @relation("OrganizationOwner")
+  organizations     OrganizationMember[]
+  teamMemberships   TeamMember[]
+  repositoryMemberships RepositoryMember[]
+  createdIssues     Issue[] @relation("IssueAuthor")
+  assignedIssues     Issue[] @relation("IssueAssignee")
+  createdPulls      PullRequest[] @relation("PullRequestAuthor")
+  assignedPulls      PullRequest[] @relation("PullRequestAssignee")
+  reviewedPulls     PullRequest[] @relation("PullRequestReviewer")
+  pullRequestReviews PullRequestReview[]
+  comments          Comment[]
+  wikiPages         WikiPage[]
+  sessions          UserSession[]
+  personalAccessTokens PersonalAccessToken[]
+  oauthAccounts      OAuthAccount[]
+  aiModels          Model[]
+  activityLogs      ActivityLog[]
+
+  @@map("users")
+}
+
+model UserSession {
+  id        String   @id @default(cuid())
+  userId     String   @map("user_id") @db.VarChar(255)
+  token      String   @unique @db.VarChar(255)
+  expiresAt  DateTime @map("expires_at")
+  createdAt  DateTime @default(now()) @map("created_at")
+  lastUsedAt DateTime? @map("last_used_at")
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_sessions")
+}
+
+model PersonalAccessToken {
+  id          String   @id @default(cuid())
+  userId       String   @map("user_id") @db.VarChar(255)
+  name         String   @db.VarChar(100)
+  token        String   @unique @db.VarChar(255)
+  scopes       String[] @default([])
+  expiresAt    DateTime? @map("expires_at")
+  lastUsedAt   DateTime? @map("last_used_at")
+  isActive     Boolean   @default(true) @map("is_active")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("personal_access_tokens")
+}
+
+// ========================================
+// ORGANISATIONS
+// ========================================
+
+model Organization {
+  id          String   @id @default(cuid())
+  name        String   @db.VarChar(100)
+  slug        String   @unique @db.VarChar(39)
+  description String?  @db.Text
+  avatar      String?  @db.VarChar(500)
+  website     String?  @db.VarChar(500)
+  location    String?  @db.VarChar(100)
+  isPublic    Boolean   @default(true) @map("is_public")
+  isActive    Boolean   @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  ownerId     String   @map("owner_id") @db.VarChar(255)
+
+  // Relations
+  owner       User       @relation("OrganizationOwner", fields: [ownerId], references: [id])
+  members     OrganizationMember[]
+  repositories Repository[] @relation("OrganizationRepository")
+  teams       Team[]
+  oauthApps    OAuthApplication[]
+
+  @@map("organizations")
+}
+
+model OrganizationMember {
+  id             String   @id @default(cuid())
+  userId         String   @map("user_id") @db.VarChar(255)
+  organizationId String   @map("organization_id") @db.VarChar(255)
+  role           MemberRole @default(MEMBER)
+  joinedAt       DateTime @default(now()) @map("joined_at")
+  invitedBy      String?  @map("invited_by") @db.VarChar(255)
+
+  // Relations
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, organizationId])
+  @@map("organization_members")
+}
+
+model Team {
+  id             String   @id @default(cuid())
+  name           String   @db.VarChar(100)
+  slug           String   @unique @db.VarChar(39)
+  description    String?  @db.Text
+  organizationId String   @map("organization_id") @db.VarChar(255)
+  isActive       Boolean   @default(true) @map("is_active")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  members       TeamMember[]
+  repositories   TeamRepository[]
+
+  @@map("teams")
+}
+
+model TeamMember {
+  id     String @id @default(cuid())
+  teamId String @map("team_id") @db.VarChar(255)
+  userId String @map("user_id") @db.VarChar(255)
+  role   TeamRole @default(MEMBER)
+
+  // Relations
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([teamId, userId])
+  @@map("team_members")
+}
+
+model TeamRepository {
+  id           String   @id @default(cuid())
+  teamId       String   @map("team_id") @db.VarChar(255)
+  repositoryId String   @map("repository_id") @db.VarChar(255)
+  permission   Permission @default(READ)
+
+  // Relations
+  team       Team       @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  repository Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+
+  @@unique([teamId, repositoryId])
+  @@map("team_repositories")
+}
+
+// ========================================
+// DÉPÔTS GIT (NATIFS ET MIROIRS)
+// ========================================
+
+model Repository {
+  id                String    @id @default(cuid())
+  name              String    @db.VarChar(100)
+  slug              String    @db.VarChar(100)
+  description       String?   @db.Text
+  isPublic          Boolean   @default(false) @map("is_public")
+  isArchived        Boolean   @default(false) @map("is_archived")
+  defaultBranch     String    @default("main") @map("default_branch") @db.VarChar(255)
+  language          String?   @db.VarChar(50)
+  size              Int       @default(0)
+  stars             Int       @default(0)
+  forks             Int       @default(0)
+  issues            Int       @default(0)
+  pullRequests      Int       @default(0) @map("pull_requests")
+  isMirror          Boolean   @default(false) @map("is_mirror")
+  mirrorStatus      String?   @map("mirror_status") @db.VarChar(20) // syncing, synced, error
+  lastSyncAt        DateTime? @map("last_sync_at")
+  nextSyncAt        DateTime? @map("next_sync_at")
+  isReadonly        Boolean   @default(false) @map("is_readonly")
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+  ownerId           String?   @map("owner_id") @db.VarChar(255)
+  organizationId   String?   @map("organization_id") @db.VarChar(255)
+
+  // Relations
+  owner           User?         @relation("RepositoryOwner", fields: [ownerId], references: [id])
+  organization     Organization? @relation("OrganizationRepository", fields: [organizationId], references: [id])
+  mirrors         MirrorRepository[]
+  repositoryIssues Issue[] @relation("RepositoryIssues")
+  repositoryPulls PullRequest[] @relation("RepositoryPulls")
+  basePullRequests PullRequest[] @relation("PRBaseRepository")
+  headPullRequests PullRequest[] @relation("PRHeadRepository")
+  commits         Commit[]
+  branches        Branch[]
+  tags            Tag[]
+  issueLabels     IssueLabel[]
+  prLabels        PRLabel[]
+  labels          Label[]
+  releases        Release[]
+  packages        Package[]
+  pipelines       Pipeline[]
+  wikiPages       WikiPage[]
+  milestones      Milestone[]
+  members         RepositoryMember[]
+  teams           TeamRepository[]
+  webhooks        Webhook[]
+  secrets         RepositorySecret[]
+  environments    Environment[]
+
+  @@unique([ownerId, name])
+  @@unique([organizationId, name])
+  @@map("repositories")
+}
+
+model RepositoryMember {
+  id           String    @id @default(cuid())
+  userId       String    @map("user_id") @db.VarChar(255)
+  repositoryId String    @map("repository_id") @db.VarChar(255)
+  permission   Permission @default(READ)
+  addedAt      DateTime  @default(now()) @map("added_at")
+
+  // Relations
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  repository Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, repositoryId])
+  @@map("repository_members")
+}
+
+// ========================================
+// SYSTÈME DE MIROIR
+// ========================================
+
+model GitPlatform {
+  id        String   @id @default(cuid())
+  name      String   @unique @db.VarChar(50) // github, gitlab, bitbucket
+  displayName String  @map("display_name") @db.VarChar(100)
+  apiUrl    String   @map("api_url") @db.VarChar(255)
+  authType   AuthType  @map("auth_type") @default(OAUTH)
+  iconUrl   String?  @map("icon_url") @db.VarChar(500)
+  color     String?  @db.VarChar(7)
+  isActive   Boolean   @default(true) @map("is_active")
+  createdAt  DateTime  @default(now()) @map("created_at")
+
+  // Relations
+  mirrors MirrorRepository[]
+
+  @@map("git_platforms")
+}
+
+model MirrorRepository {
+  id              String      @id @default(cuid())
+  repositoryId    String      @map("repository_id") @db.VarChar(255)
+  sourcePlatformId String      @map("source_platform_id") @db.VarChar(255)
+  sourceRepoId    String      @map("source_repo_id") @db.VarChar(255)
+  sourceOwner     String      @map("source_owner") @db.VarChar(255)
+  sourceUrl       String      @map("source_url") @db.VarChar(500)
+  syncDirection   SyncDirection @map("sync_direction") @default(UNIDIRECTIONAL)
+  syncFrequency    Int         @map("sync_frequency") @default(300) // secondes
+  lastSyncAt      DateTime?   @map("last_sync_at")
+  nextSyncAt      DateTime?   @map("next_sync_at")
+  syncStatus      String      @map("sync_status") @default("PENDING") @db.VarChar(20)
+  syncError       String?     @map("sync_error") @db.Text
+  webhookSecret   String?     @map("webhook_secret") @db.VarChar(255)
+  isReadonly      Boolean     @default(true) @map("is_readonly")
+  syncConfig      Json?       @map("sync_config") // Configuration spécifique
+  createdAt       DateTime    @default(now()) @map("created_at")
+  updatedAt       DateTime    @updatedAt @map("updated_at")
+
+  // Relations
+  repository    Repository   @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+  sourcePlatform GitPlatform @relation(fields: [sourcePlatformId], references: [id])
+  syncLogs      SyncLog[]
+  syncConfigs   SyncConfig[]
+
+  @@unique([sourcePlatformId, sourceRepoId])
+  @@map("mirror_repositories")
+}
+
+model SyncConfig {
+  id          String   @id @default(cuid())
+  mirrorId    String   @map("mirror_id") @db.VarChar(255)
+  configType  String   @map("config_type") @db.VarChar(50) // branches, tags, issues, prs, releases
+  isEnabled   Boolean   @default(true) @map("is_enabled")
+  settings    Json?    // Configuration spécifique au type
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  // Relations
+  mirror MirrorRepository @relation(fields: [mirrorId], references: [id], onDelete: Cascade)
+
+  @@unique([mirrorId, configType])
+  @@map("sync_configs")
+}
+
+model SyncLog {
+  id           String    @id @default(cuid())
+  mirrorId     String    @map("mirror_id") @db.VarChar(255)
+  syncType     String    @map("sync_type") @db.VarChar(50) // full, incremental, webhook
+  status       String    @db.VarChar(20)
+  startedAt    DateTime  @map("started_at")
+  completedAt  DateTime? @map("completed_at")
+  details      Json?
+  errorMessage String?   @map("error_message") @db.Text
+
+  // Relations
+  mirror MirrorRepository @relation(fields: [mirrorId], references: [id], onDelete: Cascade)
+
+  @@map("sync_logs")
+}
+
+// ========================================
+// ISSUES ET PULL REQUESTS
+// ========================================
+
+model Issue {
+  id            String   @id @default(cuid())
+  number         Int
+  title         String   @db.VarChar(255)
+  body          String?  @db.Text
+  state         IssueState @default(OPEN)
+  authorId      String   @map("author_id") @db.VarChar(255)
+  repositoryId  String   @map("repository_id") @db.VarChar(255)
+  milestoneId    String?  @map("milestone_id") @db.VarChar(255)
+  closedAt       DateTime? @map("closed_at")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  author     User       @relation("IssueAuthor", fields: [authorId], references: [id])
+  repository Repository @relation("RepositoryIssues", fields: [repositoryId], references: [id], onDelete: Cascade)
+  milestone  Milestone?  @relation(fields: [milestoneId], references: [id])
+  assignees  User[]                @relation("IssueAssignee")
+  labels     IssueLabelAssignment[]
+  comments   Comment[]
+  timeline   IssueTimeline[]
+
+  @@unique([repositoryId, number])
+  @@map("issues")
+}
+
+model PullRequest {
+  id              String   @id @default(cuid())
+  number          Int
+  title           String   @db.VarChar(255)
+  body            String?  @db.Text
+  state           PRState   @default(OPEN)
+  authorId        String   @map("author_id") @db.VarChar(255)
+  repositoryId    String   @map("repository_id") @db.VarChar(255)
+  baseRepositoryId String   @map("base_repository_id") @db.VarChar(255)
+  headRepositoryId String   @map("head_repository_id") @db.VarChar(255)
+  baseBranch      String   @map("base_branch") @db.VarChar(255)
+  headBranch      String   @map("head_branch") @db.VarChar(255)
+  mergeable       Boolean?
+  mergedAt        DateTime? @map("merged_at")
+  closedAt        DateTime? @map("closed_at")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  author         User       @relation("PullRequestAuthor", fields: [authorId], references: [id])
+  repository     Repository @relation("RepositoryPulls", fields: [repositoryId], references: [id], onDelete: Cascade)
+  baseRepository Repository @relation("PRBaseRepository", fields: [baseRepositoryId], references: [id])
+  headRepository Repository @relation("PRHeadRepository", fields: [headRepositoryId], references: [id])
+  assignees     User[]      @relation("PullRequestAssignee")
+  reviewers      User[]                @relation("PullRequestReviewer")
+  labels         PullRequestLabel[]
+  comments       Comment[]
+  reviews        PullRequestReview[]
+  timeline       PRTimeline[]
+
+  @@unique([repositoryId, number])
+  @@map("pull_requests")
+}
+
+model PullRequestReview {
+  id           String   @id @default(cuid())
+  pullRequestId String   @map("pull_request_id") @db.VarChar(255)
+  reviewerId   String   @map("reviewer_id") @db.VarChar(255)
+  state        String   @db.VarChar(20) // approved, changes_requested, commented
+  body         String?  @db.Text
+  submittedAt  DateTime  @map("submitted_at")
+
+  // Relations
+  pullRequest PullRequest @relation(fields: [pullRequestId], references: [id], onDelete: Cascade)
+  reviewer    User       @relation(fields: [reviewerId], references: [id])
+
+  @@map("pull_request_reviews")
+}
+
+model Milestone {
+  id          String   @id @default(cuid())
+  title       String   @db.VarChar(255)
+  description String?  @db.Text
+  state       String   @db.VarChar(20) // open, closed
+  dueOn       DateTime? @map("due_on")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  repositoryId String   @map("repository_id") @db.VarChar(255)
+
+  // Relations
+  repository Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+  issues     Issue[]
+
+  @@map("milestones")
+}
+
+// ========================================
+// AI ET MODÈLES
+// ========================================
+
+model Model {
+  id            String    @id @default(cuid())
+  name          String    @db.VarChar(100)
+  slug          String    @unique @db.VarChar(39)
+  description   String?   @db.Text
+  isPublic      Boolean   @default(false) @map("is_public")
+  type          ModelType @default(COPILOT)
+  provider      String    @db.VarChar(50)
+  model         String    @db.VarChar(100)
+  parameters    Json?
+  downloads     Int       @default(0)
+  rating        Float     @default(0)
+  tags          String[]  @default([])
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+  ownerId       String    @map("owner_id") @db.VarChar(255)
+
+  // Relations
+  owner User? @relation(fields: [ownerId], references: [id])
+
+  @@unique([ownerId, name])
+  @@map("models")
+}
+
+// ========================================
+// CI/CD ET PIPELINES
+// ========================================
+
+model Pipeline {
+  id           String   @id @default(cuid())
+  name         String   @db.VarChar(100)
+  status       String   @db.VarChar(20) // pending, running, success, failure, cancelled
+  branch       String   @db.VarChar(255)
+  commitSha    String   @map("commit_sha") @db.VarChar(40)
+  createdAt    DateTime @default(now()) @map("created_at")
+  startedAt    DateTime? @map("started_at")
+  finishedAt   DateTime? @map("finished_at")
+  repositoryId String   @map("repository_id") @db.VarChar(255)
+
+  // Relations
+  repository Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+  jobs       PipelineJob[]
+
+  @@map("pipelines")
+}
+
+model PipelineJob {
+  id        String   @id @default(cuid())
+  name      String   @db.VarChar(100)
+  status    String   @db.VarChar(20) // pending, running, success, failure, cancelled
+  exitCode  Int?     @map("exit_code")
+  startedAt  DateTime? @map("started_at")
+  finishedAt DateTime? @map("finished_at")
+  logs      String?  @db.Text
+  pipelineId String   @map("pipeline_id") @db.VarChar(255)
+
+  // Relations
+  pipeline Pipeline @relation(fields: [pipelineId], references: [id], onDelete: Cascade)
+
+  @@map("pipeline_jobs")
+}
+
+// ========================================
+// PACKAGES ET RELEASES
+// ========================================
+
+model Package {
+  id           String   @id @default(cuid())
+  name         String   @db.VarChar(100)
+  version      String   @db.VarChar(50)
+  description  String?  @db.Text
+  repositoryId String   @map("repository_id") @db.VarChar(255)
+  size         Int       @default(0)
+  downloads    Int       @default(0)
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  repository Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+
+  @@unique([repositoryId, name, version])
+  @@map("packages")
+}
+
+model Release {
+  id           String   @id @default(cuid())
+  name         String   @db.VarChar(100)
+  tagName      String   @map("tag_name") @db.VarChar(255)
+  description  String?  @db.Text
+  isPrerelease Boolean   @default(false) @map("is_prerelease")
+  isDraft      Boolean   @default(false) @map("is_draft")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  publishedAt  DateTime? @map("published_at")
+  repositoryId String   @map("repository_id") @db.VarChar(255)
+
+  // Relations
+  repository Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+  assets      ReleaseAsset[]
+
+  @@map("releases")
+}
+
+model ReleaseAsset {
+  id           String   @id @default(cuid())
+  name         String   @db.VarChar(255)
+  size         Int
+  downloadUrl  String   @map("download_url") @db.VarChar(500)
+  contentType  String   @map("content_type") @db.VarChar(100)
+  createdAt    DateTime  @default(now()) @map("created_at")
+  releaseId    String   @map("release_id") @db.VarChar(255)
+
+  // Relations
+  release Release @relation(fields: [releaseId], references: [id], onDelete: Cascade)
+
+  @@map("release_assets")
+}
+
+// ========================================
+// WIKI ET DOCUMENTATION
+// ========================================
+
+model WikiPage {
+  id           String   @id @default(cuid())
+  title        String   @db.VarChar(255)
+  slug         String   @db.VarChar(255)
+  content      String   @db.Text
+  isPublished  Boolean   @default(false) @map("is_published")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+  repositoryId String   @map("repository_id") @db.VarChar(255)
+  authorId     String   @map("author_id") @db.VarChar(255)
+
+  // Relations
+  repository Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+  author     User       @relation(fields: [authorId], references: [id])
+
+  @@unique([repositoryId, slug])
+  @@map("wiki_pages")
+}
+
+// ========================================
+// WEBHOOKS ET INTÉGRATIONS
+// ========================================
+
+model Webhook {
+  id           String   @id @default(cuid())
+  name         String   @db.VarChar(100)
+  url          String   @db.VarChar(500)
+  events       String[] @default([])
+  secret       String?  @db.VarChar(255)
+  isActive     Boolean   @default(true) @map("is_active")
+  contentType  String   @default("json") @map("content_type") @db.VarChar(50)
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+  repositoryId String   @map("repository_id") @db.VarChar(255)
+
+  // Relations
+  repository Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+  deliveries  WebhookDelivery[]
+
+  @@map("webhooks")
+}
+
+model WebhookDelivery {
+  id          String   @id @default(cuid())
+  webhookId   String   @map("webhook_id") @db.VarChar(255)
+  eventType   String   @map("event_type") @db.VarChar(100)
+  statusCode  Int?     @map("status_code")
+  response    String?  @db.Text
+  deliveredAt DateTime  @default(now()) @map("delivered_at")
+
+  // Relations
+  webhook Webhook @relation(fields: [webhookId], references: [id], onDelete: Cascade)
+
+  @@map("webhook_deliveries")
+}
+
+// ========================================
+// SÉCURITÉ ET SECRETS
+// ========================================
+
+model RepositorySecret {
+  id           String   @id @default(cuid())
+  name         String   @db.VarChar(100)
+  encryptedValue String   @map("encrypted_value") @db.Text
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+  repositoryId String   @map("repository_id") @db.VarChar(255)
+
+  // Relations
+  repository Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+
+  @@unique([repositoryId, name])
+  @@map("repository_secrets")
+}
+
+model Environment {
+  id           String   @id @default(cuid())
+  name         String   @db.VarChar(100)
+  variables    Json     // [{name: "KEY", value: "val"}]
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+  repositoryId String   @map("repository_id") @db.VarChar(255)
+
+  // Relations
+  repository Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+
+  @@unique([repositoryId, name])
+  @@map("environments")
+}
+
+// ========================================
+// COMMENTAIRES ET ACTIVITÉ
+// ========================================
+
+model Comment {
+  id           String   @id @default(cuid())
+  body         String   @db.Text
+  authorId     String   @map("author_id") @db.VarChar(255)
+  issueId      String?  @map("issue_id") @db.VarChar(255)
+  pullRequestId String?  @map("pull_request_id") @db.VarChar(255)
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  author       User          @relation(fields: [authorId], references: [id])
+  issue        Issue?        @relation(fields: [issueId], references: [id], onDelete: Cascade)
+  pullRequest PullRequest?  @relation(fields: [pullRequestId], references: [id], onDelete: Cascade)
+
+  @@map("comments")
+}
+
+model ActivityLog {
+  id           String   @id @default(cuid())
+  action       String   @db.VarChar(100)
+  entityType   String   @map("entity_type") @db.VarChar(50) // user, org, repo
+  entityId     String   @map("entity_id") @db.VarChar(255)
+  userId       String?  @map("user_id") @db.VarChar(255)
+  details      Json?
+  ipAddress    String?  @map("ip_address") @db.VarChar(45)
+  userAgent    String?  @map("user_agent") @db.Text
+  createdAt    DateTime  @default(now()) @map("created_at")
+
+  // Relations
+  user         User?         @relation(fields: [userId], references: [id])
+
+  @@map("activity_logs")
+}
+
+// ========================================
+// OAUTH ET APPLICATIONS
+// ========================================
+
+model OAuthProvider {
+  id          String   @id @default(cuid())
+  name        String   @unique @db.VarChar(50)
+  displayName String   @map("display_name") @db.VarChar(100)
+  clientId    String   @map("client_id") @db.VarChar(255)
+  redirectUri  String   @map("redirect_uri") @db.VarChar(500)
+  scopes       String[] @default([])
+  isActive    Boolean   @default(true) @map("is_active")
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  // Relations
+  accounts OAuthAccount[]
+
+  @@map("oauth_providers")
+}
+
+model OAuthAccount {
+  id           String   @id @default(cuid())
+  userId       String   @map("user_id") @db.VarChar(255)
+  providerId   String   @map("provider_id") @db.VarChar(255)
+  providerName String   @map("provider_name") @db.VarChar(50)
+  providerUserId String   @map("provider_user_id") @db.VarChar(255)
+  accessToken  String   @map("access_token") @db.Text
+  refreshToken String?  @map("refresh_token") @db.Text
+  expiresAt    DateTime? @map("expires_at")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  provider   OAuthProvider @relation(fields: [providerId], references: [id])
+
+  @@unique([providerId, providerUserId])
+  @@map("oauth_accounts")
+}
+
+model OAuthApplication {
+  id           String   @id @default(cuid())
+  name         String   @db.VarChar(100)
+  description  String?  @db.Text
+  clientId     String   @unique @map("client_id") @db.VarChar(255)
+  clientSecret String   @map("client_secret") @db.VarChar(255)
+  redirectUris String[] @map("redirect_uris")
+  scopes       String[] @default([])
+  isActive     Boolean   @default(true) @map("is_active")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+  organizationId String? @map("organization_id") @db.VarChar(255)
+
+  // Relations
+  organization Organization? @relation(fields: [organizationId], references: [id])
+
+  @@map("oauth_applications")
+}
+
+// ========================================
+// TIMELINES (pour issues et PRs)
+// ========================================
+
+model IssueTimeline {
+  id           String   @id @default(cuid())
+  issueId      String   @map("issue_id") @db.VarChar(255)
+  eventType    String   @map("event_type") @db.VarChar(50) // opened, closed, reopened, assigned, etc.
+  actorId      String?  @map("actor_id") @db.VarChar(255)
+  data         Json?    // Données spécifiques à l'événement
+  createdAt    DateTime  @default(now()) @map("created_at")
+
+  // Relations
+  issue Issue @relation(fields: [issueId], references: [id], onDelete: Cascade)
+
+  @@map("issue_timeline")
+}
+
+model PRTimeline {
+  id           String   @id @default(cuid())
+  pullRequestId String   @map("pull_request_id") @db.VarChar(255)
+  eventType    String   @map("event_type") @db.VarChar(50) // opened, closed, merged, review_requested, etc.
+  actorId      String?  @map("actor_id") @db.VarChar(255)
+  data         Json?    // Données spécifiques à l'événement
+  createdAt    DateTime  @default(now()) @map("created_at")
+
+  // Relations
+  pullRequest PullRequest @relation(fields: [pullRequestId], references: [id], onDelete: Cascade)
+
+  @@map("pr_timeline")
+}
+
+// ========================================
+// MODÈLES MANQUANTS
+// ========================================
+
+model Commit {
+  id           String   @id @default(cuid())
+  sha          String   @unique @db.VarChar(40)
+  message      String   @db.Text
+  authorName   String   @map("author_name") @db.VarChar(255)
+  authorEmail  String   @map("author_email") @db.VarChar(255)
+  authorDate   DateTime @map("author_date")
+  committerName String  @map("committer_name") @db.VarChar(255)
+  committerEmail String @map("committer_email") @db.VarChar(255)
+  committerDate DateTime @map("committer_date")
+  repositoryId String   @map("repository_id") @db.VarChar(255)
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  // Relations
+  repository Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+
+  @@map("commits")
+}
+
+model Branch {
+  id           String   @id @default(cuid())
+  name         String   @db.VarChar(255)
+  repositoryId String   @map("repository_id") @db.VarChar(255)
+  lastCommitSha String? @map("last_commit_sha") @db.VarChar(40)
+  isDefault    Boolean   @default(false) @map("is_default")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  repository Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+
+  @@unique([repositoryId, name])
+  @@map("branches")
+}
+
+model Tag {
+  id           String   @id @default(cuid())
+  name         String   @db.VarChar(255)
+  repositoryId String   @map("repository_id") @db.VarChar(255)
+  commitSha    String?  @map("commit_sha") @db.VarChar(40)
+  isAnnotated  Boolean   @default(false) @map("is_annotated")
+  message      String?  @db.Text
+  createdAt    DateTime  @default(now()) @map("created_at")
+
+  // Relations
+  repository Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+
+  @@unique([repositoryId, name])
+  @@map("tags")
+}
+
+model IssueLabel {
+  id         String   @id @default(cuid())
+  name       String   @db.VarChar(50)
+  color      String   @db.VarChar(7)
+  repositoryId String @map("repository_id") @db.VarChar(255)
+  createdAt  DateTime  @default(now()) @map("created_at")
+
+  // Relations
+  repository Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+  issues     IssueLabelAssignment[]
+
+  @@unique([repositoryId, name])
+  @@map("issue_labels")
+}
+
+model PRLabel {
+  id         String   @id @default(cuid())
+  name       String   @db.VarChar(50)
+  color      String   @db.VarChar(7)
+  repositoryId String @map("repository_id") @db.VarChar(255)
+  createdAt  DateTime  @default(now()) @map("created_at")
+
+  // Relations
+  repository Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+  pullRequests PullRequestLabel[]
+
+  @@unique([repositoryId, name])
+  @@map("pr_labels")
+}
+
+model Label {
+  id         String   @id @default(cuid())
+  name       String   @db.VarChar(50)
+  color      String   @db.VarChar(7)
+  repositoryId String @map("repository_id") @db.VarChar(255)
+  createdAt  DateTime  @default(now()) @map("created_at")
+
+  // Relations
+  repository Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+
+  @@unique([repositoryId, name])
+  @@map("labels")
+}
+
+model PullRequestLabel {
+  pullRequestId String @map("pull_request_id") @db.VarChar(255)
+  labelId      String @map("label_id") @db.VarChar(255)
+
+  // Relations
+  pullRequest PullRequest @relation(fields: [pullRequestId], references: [id], onDelete: Cascade)
+  label       PRLabel    @relation(fields: [labelId], references: [id], onDelete: Cascade)
+
+  @@id([pullRequestId, labelId])
+  @@map("pull_request_labels")
+}
+
+model IssueLabelAssignment {
+  issueId String @map("issue_id") @db.VarChar(255)
+  labelId String @map("label_id") @db.VarChar(255)
+
+  // Relations
+  issue Issue       @relation(fields: [issueId], references: [id], onDelete: Cascade)
+  label IssueLabel  @relation(fields: [labelId], references: [id], onDelete: Cascade)
+
+  @@id([issueId, labelId])
+  @@map("issue_label_assignments")
+}
+
+// ========================================
+// ÉNUMS ET TYPES
+// ========================================
+
+enum MemberRole {
+  OWNER
+  ADMIN
+  MEMBER
+  READONLY
+}
+
+enum TeamRole {
+  OWNER
+  MAINTAINER
+  MEMBER
+}
+
+enum Permission {
+  READ
+  WRITE
+  ADMIN
+}
+
+enum IssueState {
+  OPEN
+  CLOSED
+}
+
+enum PRState {
+  OPEN
+  CLOSED
+  MERGED
+}
+
+enum ModelType {
+  COPILOT
+  RAG
+  CUSTOM
+}
+
+enum AuthType {
+  OAUTH
+  TOKEN
+  SSH_KEY
+}
+
+enum SyncDirection {
+  UNIDIRECTIONAL
+  BIDIRECTIONAL
+}
+
+enum SyncStatus {
+  PENDING
+  SYNCING
+  SUCCESS
+  ERROR
+}
