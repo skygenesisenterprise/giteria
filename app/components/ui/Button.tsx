@@ -1,7 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { cn } from "@/lib/utils";
+import React from "react";
+
+function cn(...classes: (string | undefined | null | false)[]) {
+  return classes.filter(Boolean).join(' ');
+}
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
