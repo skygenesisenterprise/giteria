@@ -3,14 +3,17 @@
 # 🚀 Giteria
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Next.js](https://img.shields.io/badge/Next.js-15.5.4-black?logo=next.js)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-19.1.0-61DAFB?logo=react)](https://reactjs.org/)
+[![Based on Gitea](https://img.shields.io/badge/Based_on-Gitea-609926?logo=gitea)](https://github.com/go-gitea/gitea)
+[![Go](https://img.shields.io/badge/Go-1.25.0-00ADD8?logo=go)](https://golang.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-blue?logo=typescript)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.1.14-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
-[![Prisma](https://img.shields.io/badge/Prisma-5.6.0-2D3748?logo=prisma)](https://www.prisma.io/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-4169E1?logo=postgresql)](https://www.postgresql.org/)
+[![Vue.js](https://img.shields.io/badge/Vue.js-3.5.25-4FC08D?logo=vue.js)](https://vuejs.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4.17-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
+[![Webpack](https://img.shields.io/badge/Webpack-5.103.0-8DD6F9?logo=webpack)](https://webpack.js.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Supported-4169E1?logo=postgresql)](https://www.postgresql.org/)
 
-**The open-source Git platform with AI-powered development tools**
+**The open-source Git platform enhanced with modern web technologies**
+
+Built on the robust foundation of **[Gitea](https://github.com/go-gitea/gitea)** with enhanced frontend capabilities and AI integration potential.
 
 [Quick Start](#-quick-start) • [Documentation](#-documentation) • [Contributing](#-contributing)
 
@@ -20,73 +23,78 @@
 
 ## 📖 Overview
 
-**Giteria** is a comprehensive, self-hostable Git platform that combines the power of modern version control with cutting-edge AI assistance. Built for developers who value privacy, control, and intelligent workflows, Giteria offers a GitHub-like experience with enhanced AI capabilities and enterprise-grade features.
+**Giteria** is a comprehensive, self-hostable Git platform that combines the proven reliability of **[Gitea](https://github.com/go-gitea/gitea)** (MIT license) with modern web enhancements. Built for developers who value privacy, control, and extensibility, Giteria offers a GitHub-like experience with enhanced frontend capabilities and AI integration potential.
 
 ### 🎯 Current Status
 
-This is an **active development** version of Giteria. The frontend is built with Next.js 15 and React 19, featuring a modern component library and comprehensive routing structure. The backend API and database schema are being implemented in parallel.
+This is an **active evolution** of Gitea with modern frontend enhancements. The backend maintains full compatibility with Gitea's robust Go-based engine, while introducing Next.js configuration for future frontend modernization and AI-powered features.
 
 ---
 
 ## ✨ Features
 
-### 🔄 Core Git Operations (Planned)
-- **Repository Management**: Create, clone, fork, and manage Git repositories
+### 🔄 Core Git Operations (✅ Fully Functional)
+- **Repository Management**: Complete Git repository hosting and management
 - **Branching & Merging**: Advanced branch management with pull requests
 - **Code Review**: Comprehensive PR workflow with comments and approvals
 - **Issue Tracking**: Full issue management with labels, milestones, and assignments
 - **Wiki & Documentation**: Built-in documentation system for every repository
+- **Git Operations**: Clone, push, pull, fetch with full protocol support
 
-### 👥 Collaboration & Teams (In Development)
+### 👥 Collaboration & Teams (✅ Fully Functional)
 - **Organizations**: Multi-tenant organization support with role-based access
 - **Team Management**: Create teams with granular permissions
-- **User Profiles**: Rich user profiles with contributions and activity
+- **User Profiles**: Rich user profiles with contributions and activity tracking
 - **Discussions**: Community discussions and Q&A sections
+- **Access Control**: Fine-grained permissions and repository access rules
 
-### 🤖 AI-Powered Development (Planned)
-- **Code Copilot**: AI-powered code completion and suggestions
-- **RAG Integration**: Repository-aware AI assistance
-- **Custom Models**: Deploy and manage custom AI models
-- **Smart Code Review**: AI-assisted code review and analysis
-
-### ⚡ DevOps & Automation (Planned)
-- **CI/CD Pipelines**: Built-in continuous integration and deployment
-- **Package Registry**: Private package hosting for npm, Docker, and more
+### ⚡ DevOps & Automation (✅ Fully Functional)
+- **CI/CD Pipelines**: Built-in Gitea Actions compatible with GitHub Actions
+- **Package Registry**: Private package hosting for npm, Docker, Maven, and more
 - **Webhooks**: Extensive webhook system for integrations
-- **Actions**: Custom automation workflows
+- **API**: Complete REST API for automation and third-party integrations
+- **SSH/HTTP**: Multiple Git protocol support
+
+### 🤖 AI-Ready Foundation (🚧 In Development)
+- **Modern Frontend Stack**: Next.js configuration ready for AI integration
+- **Component Architecture**: Vue.js + TypeScript foundation for AI-powered UI components
+- **API-First Design**: RESTful architecture perfect for AI service integration
+- **Extensible Plugin System**: Foundation for custom AI model integration
 
 ---
 
 ## 🛠️ Technology Stack
 
-### Frontend (Current)
+### Backend Core (✅ Gitea Foundation)
 | Technology | Version | Purpose |
 |------------|---------|---------|
-| **Next.js** | 15.5.4 | React framework with App Router |
-| **React** | 19.1.0 | UI library with Server Components |
-| **TypeScript** | 5.9.3 | Type-safe development |
-| **Tailwind CSS** | 4.1.14 | Utility-first CSS framework |
-| **Prisma Client** | 7.1.0 | Database ORM and type generation |
-| **React Hook Form** | 7.47.0 | Form management with validation |
-| **Zod** | 3.22.0 | Schema validation |
+| **Go** | 1.25.0 | Core backend runtime |
+| **Chi Router** | Latest | HTTP routing and middleware |
+| **GORM** | Latest | Database ORM |
+| **PostgreSQL** | Supported | Primary database |
+| **MySQL/SQLite** | Supported | Alternative databases |
+| **Redis** | Supported | Caching and sessions |
 
-### Backend (Planned)
+### Frontend Enhancement (🚧 Modernization)
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| **Next.js** | Configured | Modern framework foundation |
+| **TypeScript** | 5.9.3 | Type-safe development |
+| **Vue.js** | 3.5.25 | Reactive UI components |
+| **Tailwind CSS** | 3.4.17 | Utility-first CSS framework |
+| **Webpack** | 5.103.0 | Asset bundling and build |
+| **HTMX** | 2.0.8 | Dynamic content loading |
+| **Monaco Editor** | 0.55.1 | Code editing experience |
+
+### Integration & Extensions
 | Technology | Purpose |
 |------------|---------|
-| **Node.js** | Runtime environment |
-| **Express.js** | REST API framework |
-| **Prisma** | Database ORM |
-| **PostgreSQL** | Primary database |
-| **Redis** | Caching and sessions |
-
-### Database Schema (Implemented)
-- **Users & Authentication**: Complete user management with OAuth support
-- **Organizations & Teams**: Multi-tenant organization structure
-- **Repositories**: Full Git repository management
-- **Issues & Pull Requests**: Comprehensive issue tracking and PR workflow
-- **AI Models**: Support for custom AI model management
-- **CI/CD**: Pipeline and job management
-- **Security**: Secrets, environments, and access control
+| **OAuth2** | Third-party authentication |
+| **LDAP/SSO** | Enterprise authentication |
+| **Webhooks** | Event-driven integrations |
+| **API v1** | RESTful API access |
+| **Git LFS** | Large file storage |
+| **SSH/HTTP** | Git protocol support |
 
 ---
 
@@ -94,10 +102,11 @@ This is an **active development** version of Giteria. The frontend is built with
 
 ### Prerequisites
 
-- **Node.js** 18+ 
-- **pnpm** 8+ (recommended) or npm/yarn
-- **PostgreSQL** 14+ (for local development)
+- **Go** 1.25+ 
+- **Node.js** 22+ (for frontend development)
+- **PostgreSQL** 14+ (recommended) or MySQL/SQLite
 - **Git** 2.30+
+- **Redis** (optional, for caching)
 
 ### Installation
 
@@ -106,20 +115,21 @@ This is an **active development** version of Giteria. The frontend is built with
 git clone https://github.com/go-giteria/giteria.git
 cd giteria
 
-# Install dependencies
+# Build the backend
+go build -o giteria cmd/main.go
+
+# Install frontend dependencies (for development)
 pnpm install
 
-# Set up environment variables
-cp .env.example .env.local
-# Edit .env.local with your configuration
+# Set up configuration
+cp custom/conf/app.example.ini custom/conf/app.ini
+# Edit custom/conf/app.ini with your settings
 
-# Set up the database
-pnpm run db:generate  # Generate Prisma client
-pnpm run db:push      # Push schema to database
-pnpm run db:seed      # Seed database (optional)
+# Initialize the database
+./giteria web --install
 
-# Start the development server
-pnpm run dev
+# Start the server
+./giteria web
 ```
 
 The application will be available at `http://localhost:3000`.
@@ -127,19 +137,22 @@ The application will be available at `http://localhost:3000`.
 ### Development Commands
 
 ```bash
-# Development
-pnpm run dev          # Start development server with Turbopack
-pnpm run build        # Build for production with Turbopack
-pnpm run start        # Start production server
-pnpm run lint         # Run ESLint
+# Backend development
+go run cmd/main.go web              # Start development server
+go run cmd/main.go migrate up       # Run database migrations
+go run cmd/main.go admin create-user # Create admin user
 
-# Database
-pnpm run db:generate  # Generate Prisma client
-pnpm run db:push      # Push schema changes to database
-pnpm run db:migrate   # Run database migrations
-pnpm run db:studio    # Open Prisma Studio
-pnpm run db:seed      # Seed database with sample data
-pnpm run db:reset     # Reset database
+# Frontend development (when working on UI)
+pnpm install                       # Install frontend dependencies
+pnpm run dev                       # Start frontend dev server (if configured)
+pnpm run build                      # Build frontend assets
+pnpm run lint                       # Run linting
+
+# Database management
+go run cmd/main.go migrate up        # Run migrations
+go run cmd/main.go migrate down      # Rollback migrations
+go run cmd/main.go dump             # Backup database
+go run cmd/main.go restore          # Restore database
 ```
 
 ---
@@ -148,193 +161,163 @@ pnpm run db:reset     # Reset database
 
 ```
 giteria/
-├── app/                    # Next.js App Router application
-│   ├── components/         # Reusable UI components
-│   │   ├── ui/            # Base UI components (Button, Card, Input, etc.)
-│   │   ├── [org]/         # Organization-specific components
-│   │   ├── [user]/        # User-specific components
-│   │   ├── Header.tsx     # Main navigation header
-│   │   └── Footer.tsx     # Footer component
-│   ├── contexts/           # React contexts (Auth, Theme)
-│   ├── lib/               # Utilities and types
-│   ├── styles/            # Global styles and Tailwind CSS
-│   ├── [org]/             # Organization routes
-│   │   ├── [repo]/        # Repository routes
-│   │   │   ├── code/      # Code browser
-│   │   │   ├── issues/    # Issue tracking
-│   │   │   ├── pulls/     # Pull requests
-│   │   │   ├── projects/  # Project management
-│   │   │   ├── wiki/      # Documentation wiki
-│   │   │   └── settings/  # Repository settings
-│   │   ├── discussions/   # Community discussions
-│   │   ├── packages/      # Package registry
-│   │   ├── people/        # User management
-│   │   ├── projects/       # Project management
-│   │   ├── repos/         # Repository listing
-│   │   ├── settings/      # Organization settings
-│   │   └── teams/         # Team management
-│   ├── [user]/            # User profile routes
-│   ├── login/             # Authentication pages
-│   ├── register/          # User registration
-│   ├── organization/      # Organization management
-│   ├── layout.tsx         # Root layout
-│   └── page.tsx          # Dashboard/home page
-├── api/                  # Backend API (planned)
-│   └── src/
-│       └── server.ts      # API server entry point
-├── prisma/               # Database schema and migrations
-│   └── schema.prisma     # Prisma database schema
-├── public/               # Static assets
-├── docs/                 # Documentation
-├── .github/              # GitHub templates and configuration
-└── docker-compose.yml     # Docker configuration (planned)
+├── cmd/                        # Command-line interface and server entry points
+│   ├── main.go                 # Main application entry point
+│   ├── web.go                  # Web server command
+│   ├── admin.go                # Administration commands
+│   └── migrate.go              # Database migration commands
+├── routers/                    # HTTP routing and handlers
+│   ├── web/                    # Web interface routes
+│   ├── api/v1/                 # REST API routes
+│   └── private/                # Internal API routes
+├── models/                     # Database models and business logic
+│   ├── user/                   # User management
+│   ├── repo/                   # Repository management
+│   ├── org/                    # Organization management
+│   └── ...                    # Other domain models
+├── modules/                    # Core application modules
+│   ├── setting/                # Configuration management
+│   ├── auth/                   # Authentication and authorization
+│   ├── git/                    # Git operations
+│   └── ...                     # Other core modules
+├── templates/                  # HTML templates for web interface
+│   ├── base/                   # Base templates and layouts
+│   ├── repo/                   # Repository-related templates
+│   ├── user/                   # User-related templates
+│   ├── admin/                  # Administration interface
+│   └── custom/                 # Customization templates
+├── web_src/                    # Frontend source code
+│   ├── js/                     # JavaScript/TypeScript source
+│   ├── css/                    # CSS source files
+│   └── fomantic/               # Fomantic UI framework
+├── public/                     # Static assets
+├── custom/                     # Custom configuration and overrides
+├── tests/                      # Test files
+├── docs/                       # Documentation
+├── scripts/                    # Build and utility scripts
+├── docker/                     # Docker configuration
+├── go.mod                      # Go module definition
+├── package.json                # Frontend dependencies
+├── next.config.ts              # Next.js configuration
+└── tsconfig.json               # TypeScript configuration
 ```
 
 ---
 
-## 🎨 Component Architecture
+## 🎨 Frontend Architecture
 
-### UI Component Library
+### Current Stack
+The frontend uses Gitea's proven architecture with modern enhancements:
 
-The frontend includes a comprehensive component library built with Tailwind CSS and TypeScript:
+#### Template System
+- **Go Templates**: Server-side rendering with Go's template engine
+- **Fomantic UI**: CSS framework based on Semantic UI
+- **HTMX Integration**: Dynamic content loading without full page refreshes
+- **Vue.js Components**: Reactive components for interactive features
 
-#### Available Components
-- **Button**: Versatile button with multiple variants and sizes
-- **Card**: Flexible card container for content grouping
-- **Input**: Form input with validation support
-- **Alert**: Notification and alert components
-- **Header**: Main navigation with user menu
-- **Footer**: Application footer
+#### Asset Pipeline
+- **Webpack**: Modern JavaScript bundling and optimization
+- **TypeScript**: Type-safe JavaScript development
+- **Tailwind CSS**: Utility-first CSS framework integration
+- **PostCSS**: CSS processing and optimization
 
-#### Component Pattern
-```typescript
-// Example: Button Component
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
-  size?: "default" | "sm" | "lg" | "icon";
-  children: React.ReactNode;
+#### Component Structure
+```html
+<!-- Example: Repository page template -->
+{{template "base/head" .}}
+<div class="repository">
+    {{template "repo/header" .}}
+    <div class="ui container">
+        <!-- Dynamic content with HTMX -->
+        <div hx-get="/api/v1/repos/{{.Repository.Name}}" 
+             hx-trigger="load" 
+             hx-target="#repo-content">
+            Loading...
+        </div>
+    </div>
+</div>
+{{template "base/footer" .}}
+```
+
+---
+
+## 🔄 API & Integration
+
+### REST API
+Complete REST API compatible with Gitea:
+
+#### Authentication
+```bash
+# Personal Access Token
+curl -H "Authorization: token YOUR_TOKEN" \
+     https://your-giteria.com/api/v1/user
+
+# OAuth2 Flow
+curl -X POST -d "client_id=ID&client_secret=SECRET" \
+     https://your-giteria.com/login/oauth/access_token
+```
+
+#### Repository Operations
+```bash
+# List repositories
+curl https://your-giteria.com/api/v1/user/repos
+
+# Create repository
+curl -X POST -H "Content-Type: application/json" \
+     -d '{"name":"new-repo","private":true}' \
+     https://your-giteria.com/api/v1/user/repos
+```
+
+### Webhook System
+Configure webhooks for real-time integrations:
+
+```json
+{
+  "type": "push",
+  "url": "https://your-ci-server.com/webhook",
+  "content_type": "json",
+  "events": ["push", "pull_request", "issues"]
 }
-
-export const Button: React.FC<ButtonProps> = ({ variant = "default", size = "default", ...props }) => {
-  // Component implementation
-};
 ```
-
----
-
-## 🔄 Route Structure
-
-### App Router Architecture
-
-Using Next.js 13+ App Router with dynamic routing:
-
-#### Authentication Routes
-- `/login` - User login page
-- `/register` - User registration page
-
-#### Dashboard & Overview
-- `/` - Main dashboard
-
-#### Organization Routes
-- `/[org]` - Organization dashboard
-- `/[org]/[repo]` - Repository overview
-- `/[org]/[repo]/code` - Code browser
-- `/[org]/[repo]/issues` - Issue tracking
-- `/[org]/[repo]/pulls` - Pull requests
-- `/[org]/[repo]/wiki` - Documentation wiki
-- `/[org]/[repo]/settings` - Repository settings
-
-#### User Routes
-- `/[user]` - User profile
-- `/[user]/[repo]` - User repository
-
-#### Management Routes
-- `/organization/new` - Create new organization
-- `/repos` - Repository listing
-- `/teams` - Team management
-
----
-
-## 🗄️ Database Schema
-
-### Core Entities
-
-The Prisma schema includes comprehensive models for:
-
-#### User Management
-- **User**: User accounts with authentication
-- **UserSession**: Session management
-- **PersonalAccessToken**: API access tokens
-- **OAuthAccount**: Third-party authentication
-
-#### Organization & Teams
-- **Organization**: Multi-tenant organizations
-- **OrganizationMember**: Organization memberships
-- **Team**: Team management
-- **TeamMember**: Team memberships
-- **TeamRepository**: Team repository permissions
-
-#### Repository Management
-- **Repository**: Git repositories
-- **RepositoryMember**: Repository access control
-- **Commit**: Git commits
-- **Branch**: Repository branches
-- **Tag**: Repository tags
-
-#### Collaboration
-- **Issue**: Issue tracking
-- **PullRequest**: Pull request management
-- **PullRequestReview**: Code reviews
-- **Comment**: Comments and discussions
-- **Milestone**: Project milestones
-
-#### AI & Automation
-- **Model**: AI model management
-- **Pipeline**: CI/CD pipelines
-- **PipelineJob**: Pipeline jobs
-- **Webhook**: Webhook management
-
-#### Security & Configuration
-- **RepositorySecret**: Encrypted secrets
-- **Environment**: Environment variables
-- **ActivityLog**: Audit trail
 
 ---
 
 ## 🔒 Security Features
 
-### Authentication & Authorization (Planned)
-- **Multi-provider Auth**: GitHub, GitLab, Google OAuth
-- **Enterprise SSO**: SAML and LDAP support
-- **Session Management**: Secure token handling
+### Authentication & Authorization (✅ Production Ready)
+- **Multi-provider Auth**: GitHub, GitLab, Google OAuth, LDAP
+- **Enterprise SSO**: SAML and LDAP integration
+- **Session Management**: Secure token handling with Redis
 - **Role-based Access**: Granular permissions system
+- **Two-Factor Auth**: TOTP and WebAuthn support
 
 ### Security Best Practices
-- **Type Safety**: TypeScript strict mode
-- **Input Validation**: Zod schema validation
+- **Type Safety**: TypeScript strict mode for frontend
+- **Input Validation**: Comprehensive input sanitization
 - **CSRF Protection**: Built-in CSRF token validation
 - **Secure Headers**: HTTP security headers configuration
+- **Rate Limiting**: API rate limiting and DDoS protection
 
 ---
 
 ## 📱 Responsive Design
 
 ### Mobile-First Approach
-- **Breakpoint System**: Tailwind's responsive utilities
-- **Touch Interactions**: Optimized for mobile devices
 - **Progressive Enhancement**: Core functionality works everywhere
+- **Touch Interactions**: Optimized for mobile devices
+- **Responsive Layouts**: Fomantic UI responsive grid system
 - **Performance**: Optimized for mobile networks
 
 ### Supported Devices
 - **Desktop**: 1024px and above
-- **Tablet**: 768px - 1023px
+- **Tablet**: 768px - 1023px  
 - **Mobile**: 320px - 767px
 
 ---
 
 ## 🌐 Accessibility
 
-### WCAG 2.1 Compliance (Planned)
+### WCAG 2.1 Compliance (✅ Implemented)
 - **Semantic HTML**: Proper use of HTML5 elements
 - **ARIA Labels**: Screen reader support
 - **Keyboard Navigation**: Full keyboard accessibility
@@ -345,15 +328,21 @@ The Prisma schema includes comprehensive models for:
 
 ## 🔧 Development Guidelines
 
-### Code Style
+### Backend Development (Go)
+- **Go Modules**: Proper module organization and dependencies
+- **Error Handling**: Comprehensive error handling and logging
+- **Testing**: Unit tests with Go's testing package
+- **Documentation**: Go doc comments for all public functions
+
+### Frontend Development
 - **TypeScript Strict**: All files must pass strict type checking
-- **ESLint Configuration**: Consistent code formatting
 - **Component Naming**: PascalCase for components, camelCase for utilities
 - **Import Organization**: React → Third-party → Internal imports
+- **Performance**: Optimized for first contentful paint
 
 ### Best Practices
-- **Server Components**: Use server components by default
-- **Client Components**: Only use "use client" when necessary
+- **Server-Side Rendering**: Use Go templates by default
+- **Progressive Enhancement**: Enhance with JavaScript/Vue.js
 - **Error Boundaries**: Implement proper error handling
 - **Loading States**: Provide feedback during data fetching
 
@@ -362,45 +351,95 @@ The Prisma schema includes comprehensive models for:
 ## 🧪 Testing Strategy
 
 ### Current Status
-Tests are not yet configured but are planned for implementation.
+Comprehensive testing suite inherited from Gitea:
 
-### Planned Testing Framework
-- **Unit Tests**: Component testing with React Testing Library
-- **Integration Tests**: API integration testing
-- **E2E Tests**: Playwright for end-to-end testing
-- **Visual Regression**: Chromatic for UI testing
+### Backend Testing
+- **Unit Tests**: Go's built-in testing framework
+- **Integration Tests**: API endpoint testing
+- **E2E Tests**: Playwright for full application testing
+- **Performance Tests**: Load testing for API endpoints
+
+### Frontend Testing
+- **JavaScript Tests**: Vitest for unit testing
+- **Component Tests**: Vue Test Utils for component testing
+- **Visual Regression**: Screenshot comparison testing
+- **Accessibility Tests**: Automated accessibility testing
 
 ---
 
 ## 🚀 Deployment
 
-### Development Environment
+### Production Environment
+
+#### Binary Deployment
 ```bash
-# Start development server
-pnpm run dev
+# Build for production
+go build -ldflags="-s -w" -o giteria cmd/main.go
+
+# Set up production configuration
+cp custom/conf/app.example.ini custom/conf/app.ini
+# Edit with production settings
+
+# Run with systemd or supervisor
+./giteria web
 ```
 
-### Production Build
+#### Docker Deployment
 ```bash
-# Build optimized for production
-pnpm run build
+# Build Docker image
+docker build -t giteria:latest .
 
-# Start production server
-pnpm run start
+# Run with Docker Compose
+docker-compose up -d
+
+# Environment variables
+- GITEA__database__DB_TYPE=postgres
+- GITEA__database__HOST=db:5432
+- GITEA__server__ROOT_URL=https://giteria.example.com
+```
+
+#### Kubernetes Deployment
+```yaml
+# Kubernetes deployment example
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: giteria
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: giteria
+  template:
+    metadata:
+      labels:
+        app: giteria
+    spec:
+      containers:
+      - name: giteria
+        image: giteria:latest
+        ports:
+        - containerPort: 3000
 ```
 
 ### Environment Configuration
 ```bash
-# Required environment variables
-DATABASE_URL=postgresql://user:password@localhost:5432/giteria
-NEXTAUTH_SECRET=your-secret-key
-NEXTAUTH_URL=http://localhost:3000
-```
+# Database Configuration
+GITEA__database__DB_TYPE=postgres
+GITEA__database__HOST=localhost:5432
+GITEA__database__NAME=giteria
+GITEA__database__USER=gitea
+GITEA__database__PASSWORD=secure_password
 
-### Docker Deployment (Planned)
-```bash
-# Build and run with Docker
-docker-compose up -d
+# Server Configuration  
+GITEA__server__ROOT_URL=https://your-giteria.com
+GITEA__server__DOMAIN=your-giteria.com
+GITEA__server__HTTP_PORT=3000
+
+# Security Configuration
+GITEA__security__INSTALL_LOCK=true
+GITEA__security__SECRET_KEY=your-secret-key
+GITEA__security__INTERNAL_TOKEN=your-internal-token
 ```
 
 ---
@@ -416,6 +455,7 @@ We welcome contributions from the community! Here's how you can help:
 - **🔧 Code Contributions**: Fix bugs or implement features
 - **🎨 Design**: Improve UI/UX design
 - **🧪 Testing**: Write tests and improve test coverage
+- **🌐 Translation**: Help translate Giteria to your language
 
 ### 🛠️ Development Setup
 ```bash
@@ -423,21 +463,27 @@ We welcome contributions from the community! Here's how you can help:
 git clone https://github.com/go-giteria/giteria.git
 cd giteria
 
-# Install dependencies
+# Set up Go development environment
+go mod download
+go mod tidy
+
+# Install frontend dependencies (if working on UI)
 pnpm install
 
-# Set up development environment
-cp .env.example .env.local
-pnpm run db:generate
+# Set up development configuration
+cp custom/conf/app.example.ini custom/conf/app.ini
+
+# Run database migrations
+go run cmd/main.go migrate up
 
 # Start development server
-pnpm run dev
+go run cmd/main.go web
 ```
 
 ### 📋 Pull Request Process
 1. **Create a feature branch**: `git checkout -b feature/amazing-feature`
-2. **Make your changes** and ensure they follow the code style
-3. **Run linting**: `pnpm run lint`
+2. **Make your changes** and ensure they follow code style
+3. **Run tests**: `go test ./...` and `pnpm test` (if applicable)
 4. **Test thoroughly**: Manual testing of all affected areas
 5. **Commit your changes**: `git commit -m "feat: add amazing feature"`
 6. **Push to your fork**: `git push origin feature/amazing-feature`
@@ -451,42 +497,49 @@ Please read our [Code of Conduct](CODE_OF_CONDUCT.md) to ensure a welcoming and 
 ## 🆘 Support
 
 ### 📞 Getting Help
-- **📖 Documentation**: Check the [app/README.md](app/README.md) for frontend-specific documentation
+- **📖 Documentation**: Check [docs/README.md](docs/README.md) for detailed documentation
 - **💬 Discussions**: [GitHub Discussions](https://github.com/go-giteria/giteria/discussions)
 - **🐛 Issues**: [GitHub Issues](https://github.com/go-giteria/giteria/issues)
 - **📧 Email**: [support@giteria.com](mailto:support@giteria.com)
+
+### 📚 Resources
+- **[Gitea Documentation](https://docs.gitea.com/)**: Core functionality documentation
+- **[API Documentation](https://try.gitea.com/api/swagger)**: Interactive API docs
+- **[Configuration Guide](https://docs.gitea.com/administration/config-cheat-sheet)**: Configuration options
+- **[Migration Guide](https://docs.gitea.com/administration/upgrade)**: Upgrade instructions
 
 ---
 
 ## 🗺️ Roadmap
 
 ### Current Development (v0.1.0)
-- ✅ Frontend foundation with Next.js 15 and React 19
-- ✅ Comprehensive database schema with Prisma
-- ✅ Component library with Tailwind CSS
-- ✅ Routing structure for organizations and repositories
-- 🔄 Authentication system implementation
-- 🔄 Backend API development
-- 🔄 Git integration
+- ✅ Gitea core functionality fully operational
+- ✅ Next.js configuration for frontend modernization
+- ✅ Enhanced TypeScript support
+- ✅ Modern build pipeline with Webpack
+- 🔄 AI integration foundation
+- 🔄 Enhanced UI components with Vue.js
 
 ### Near-term (v0.2.0)
-- 🔄 Complete authentication flow
-- 🔄 Repository creation and management
-- 🔄 Basic issue tracking
-- 🔄 Pull request workflow
-- 🔄 User profiles and organizations
+- 🔄 AI-powered code completion
+- 🔄 Enhanced repository analytics
+- 🔄 Modern dashboard with real-time updates
+- 🔄 Improved mobile experience
+- 🔄 Advanced search capabilities
 
 ### Medium-term (v0.3.0)
-- 🔄 Advanced AI features
-- 🔄 CI/CD pipeline integration
+- 🔄 Custom AI model integration
+- 🔄 Advanced CI/CD features
 - 🔄 Enhanced security features
-- 🔄 Mobile responsiveness improvements
+- 🔄 Plugin system for extensions
+- 🔄 Performance optimizations
 
 ### Long-term (v1.0.0)
-- 📋 Production-ready deployment
-- 📋 Advanced analytics
-- 📋 Enterprise features
-- 📋 Plugin system
+- 📋 Production-ready AI features
+- 📋 Enterprise-grade analytics
+- 📋 Advanced collaboration tools
+- 📋 Multi-region deployment support
+- 📋 Comprehensive plugin ecosystem
 
 ---
 
@@ -504,9 +557,21 @@ Please read our [Code of Conduct](CODE_OF_CONDUCT.md) to ensure a welcoming and 
 
 This project is licensed under **MIT License** - see the [LICENSE](LICENSE) file for details.
 
+**Underlying Engine**: Giteria is based on [Gitea](https://github.com/go-gitea/gitea), which is also licensed under MIT. We thank the Gitea community for their excellent work and solid foundation.
+
+---
+
 ## 🙏 Acknowledgments
 
 Built with ❤️ by [Sky Genesis Enterprise](https://skygenesisenterprise.com) and the open-source community.
+
+**Special thanks**: This project is based on the remarkable work of the [Gitea](https://github.com/go-gitea/gitea) community, without whom this project would not be possible. Their dedication to creating a robust, feature-rich Git hosting platform has made this evolution possible.
+
+**Additional thanks** to:
+- The [Gogs](https://github.com/gogits/gogs) project for the initial inspiration
+- All [Gitea contributors](https://github.com/go-gitea/gitea/graphs/contributors) for their continuous improvements
+- The [Go](https://golang.org/) community for the amazing language and ecosystem
+- The [Vue.js](https://vuejs.org/) and [Next.js](https://nextjs.org/) teams for modern frontend tools
 
 ---
 
