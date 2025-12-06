@@ -1,41 +1,132 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Compiled Object files, Static and Dynamic libs (Shared Objects)
+*.o
+*.a
+*.so
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
+# Folders
+_obj
+_test
 
-# testing
-/coverage
+# IntelliJ
+.idea
+.run
 
-# next.js
-/.next/
-/out/
+# IntelliJ Gateway
+.uuid
 
-# production
-/build
+# Goland's output filename can not be set manually
+/go_build_*
+/gitea_*
 
-# misc
-.DS_Store
-*.pem
+# MS VSCode
+.vscode
+__debug_bin*
 
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
+# Visual Studio
+/.vs/
 
-# env files (can opt-in for committing if needed)
-.env*.local
+# mise version managment tool
+mise.toml
 
-# vercel
-.vercel
+*.cgo1.go
+*.cgo2.c
+_cgo_defun.c
+_cgo_gotypes.go
+_cgo_export.*
 
-# typescript
+_testmain.go
+
+*.exe
+*.test
+*.prof
 *.tsbuildinfo
-next-env.d.ts
+
+*coverage.out
+coverage.all
+cpu.out
+
+/modules/migration/bindata.*
+/modules/options/bindata.*
+/modules/public/bindata.*
+/modules/templates/bindata.*
+
+*.db
+*.log
+*.log.*.gz
+
+/gitea
+/gitea-vet
+/debug
+/integrations.test
+
+/bin
+/dist
+/custom/*
+!/custom/conf/app.example.ini
+/data
+/indexers
+/log
+/public/assets/img/avatar
+/tests/integration/gitea-integration-*
+/tests/integration/indexers-*
+/tests/e2e/gitea-e2e-*
+/tests/e2e/indexers-*
+/tests/e2e/reports
+/tests/e2e/test-artifacts
+/tests/e2e/test-snapshots
+/tests/*.ini
+/tests/**/*.git/**/*.sample
+/node_modules
+/.venv
+/yarn.lock
+/yarn-error.log
+/npm-debug.log*
+/.pnpm-store
+/public/assets/js
+/public/assets/css
+/public/assets/fonts
+/public/assets/licenses.txt
+/vendor
+/VERSION
+/.air
+/.go-licenses
+
+# Files and folders that were previously generated
+/public/assets/img/webpack
+
+# Snapcraft
+/gitea_a*.txt
+snap/.snapcraft/
+parts/
+stage/
+prime/
+*.snap
+*.snap-build
+*_source.tar.bz2
+.DS_Store
+
+# nix-direnv generated files
+.direnv/
+
+# Make evidence files
+/.make_evidence
+
+# Manpage
+/man
+
+# Ignore AI/LLM instruction files
+/.claude/
+/.cursorrules
+/.cursor/
+/.goosehints
+/.windsurfrules
+/.github/copilot-instructions.md
+/AGENT.md
+/CLAUDE.md
+/llms.txt
+
+# Ignore worktrees when working on multiple branches
+.worktrees/
+
+# A Makefile for custom make targets
+Makefile.local

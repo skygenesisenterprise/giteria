@@ -1,109 +1,98 @@
-# Dependencies
-node_modules
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
+# Compiled Object files, Static and Dynamic libs (Shared Objects)
+*.o
+*.a
+*.so
 
-# Build outputs
-dist
-build
-.next
-.nuxt
-.vite
+# Folders
+_obj
+_test
 
-# Environment files
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# IDE and editor files
-.vscode
+# IntelliJ
 .idea
-*.swp
-*.swo
-*~
+# Goland's output filename can not be set manually
+/go_build_*
 
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
+# MS VSCode
+.vscode
+__debug_bin*
 
-# Git
-.git
-.gitignore
+# Architecture specific extensions/prefixes
+*.[568vq]
+[568vq].out
 
-# Docker
-Dockerfile*
-docker-compose*.yml
-.dockerignore
+*.cgo1.go
+*.cgo2.c
+_cgo_defun.c
+_cgo_gotypes.go
+_cgo_export.*
 
-# Documentation
-README.md
-docs/
-*.md
+_testmain.go
 
-# Tests
-coverage
-.nyc_output
-test-results
-playwright-report
+*.exe
+*.test
+*.prof
 
-# Logs
-logs
+*coverage.out
+coverage.all
+cpu.out
+
+*.db
 *.log
 
-# Runtime data
-pids
-*.pid
-*.seed
-*.pid.lock
+/gitea
+/gitea-vet
+/debug
+/integrations.test
 
-# Coverage directory used by tools like istanbul
-coverage/
+/bin
+/dist
+/custom/*
+!/custom/conf
+/custom/conf/*
+!/custom/conf/app.example.ini
+/data
+/indexers
+/log
+/tests/integration/gitea-integration-*
+/tests/integration/indexers-*
+/tests/e2e/gitea-e2e-*
+/tests/e2e/indexers-*
+/tests/e2e/reports
+/tests/e2e/test-artifacts
+/tests/e2e/test-snapshots
+/tests/*.ini
+/node_modules
+/yarn.lock
+/yarn-error.log
+/npm-debug.log*
+/pnpm-debug.log*
+/public/assets/js
+/public/assets/css
+/public/assets/fonts
+/public/assets/img/avatar
+/vendor
+/VERSION
+/.air
+/.go-licenses
+/Dockerfile
+/Dockerfile.rootless
+/.venv
 
-# Dependency directories
-jspm_packages/
+# Files and folders that were previously generated
+/public/assets/img/webpack
 
-# Optional npm cache directory
-.npm
+# Snapcraft
+snap/.snapcraft/
+parts/
+stage/
+prime/
+*.snap
+*.snap-build
+*_source.tar.bz2
+.DS_Store
 
-# Optional REPL history
-.node_repl_history
+# Make evidence files
+/.make_evidence
 
-# Lock files (keep only package-lock.json for Docker)
-yarn.lock
-bun.lock
-
-# Output of 'npm pack'
-*.tgz
-
-# Yarn Integrity file
-.yarn-integrity
-
-# Storybook build outputs
-storybook-static
-
-# Temporary folders
-tmp/
-temp/
-
-# Cache directories
-.cache
-.parcel-cache
-.eslintcache
-.stylelintcache
-
-# Husky
-.husky/_
-
-# Local development
-.env-template
-scripts/setup-env.cjs
-scripts/check-env.cjs
+# Manpage
+/man
