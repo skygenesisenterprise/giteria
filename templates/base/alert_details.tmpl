@@ -1,0 +1,11 @@
+{{.Message}}
+{{if .Details}}
+<details>
+	<summary>{{.Summary}}</summary>
+	{{.Details | SanitizeHTML}}
+</details>
+{{else}}
+<div>
+	{{.Summary}}
+</div>
+{{end}}

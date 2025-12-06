@@ -1,0 +1,55 @@
+{{template "base/head" .}}
+<div role="main" aria-label="{{.Title}}" class="page-content repository commits">
+	{{template "repo/header" .}}
+	<div class="ui container">
+		<div id="git-graph-container" class="ui segment {{if eq .Mode "monochrome"}}monochrome{{end}}">
+			<h2 class="ui header dividing">
+				{{ctx.Locale.Tr "repo.commit_graph"}}
+				<div class="ui icon buttons tiny color-buttons">
+					<div class="ui multiple selection search dropdown" id="flow-select-refs-dropdown">
+						<input type="hidden" name="flow">
+						<div class="default text">{{ctx.Locale.Tr "repo.commit_graph.select"}}</div>
+						<div class="menu">
+							<div class="item" data-value="...flow-hide-pr-refs">
+								{{svg "octicon-eye-closed"}}
+								<span class="gt-ellipsis" title="{{ctx.Locale.Tr "repo.commit_graph.hide_pr_refs"}}">{{ctx.Locale.Tr "repo.commit_graph.hide_pr_refs"}}</span>
+							</div>
+							{{range .AllRefs}}
+								{{$refGroup := .RefGroup}}
+								{{if eq $refGroup "pull"}}
+									<div class="item" data-value="{{.Name}}">
+										{{svg "octicon-git-pull-request"}}
+										<span class="gt-ellipsis" title="{{.ShortName}}">#{{.ShortName}}</span>
+									</div>
+								{{else if eq $refGroup "tags"}}
+									<div class="item" data-value="{{.Name}}">
+										{{svg "octicon-tag"}}
+										<span class="gt-ellipsis" title="{{.ShortName}}">{{.ShortName}}</span>
+									</div>
+								{{else if eq $refGroup "remotes"}}
+									<div class="item" data-value="{{.Name}}">
+										{{svg "octicon-cross-reference"}}
+										<span class="gt-ellipsis" title="{{.ShortName}}">{{.ShortName}}</span>
+									</div>
+								{{else if eq $refGroup "heads"}}
+									<div class="item" data-value="{{.Name}}">
+										{{svg "octicon-git-branch"}}
+										<span class="gt-ellipsis" title="{{.ShortName}}">{{.ShortName}}</span>
+									</div>
+								{{end}}
+							{{end}}
+						</div>
+					</div>
+					<button id="flow-color-monochrome" class="ui icon button{{if eq .Mode "monochrome"}} active{{end}}" title="{{ctx.Locale.Tr "repo.commit_graph.monochrome"}}">{{svg "material-invert-colors" 16 "tw-mr-1"}}{{ctx.Locale.Tr "repo.commit_graph.monochrome"}}</button>
+					<button id="flow-color-colored" class="ui icon button{{if ne .Mode "monochrome"}} active{{end}}" title="{{ctx.Locale.Tr "repo.commit_graph.color"}}">{{svg "material-palette" 16 "tw-mr-1"}}{{ctx.Locale.Tr "repo.commit_graph.color"}}</button>
+				</div>
+			</h2>
+			<div id="git-graph-body">
+				{{template "repo/graph/svgcontainer" .}}
+				{{template "repo/graph/commits" .}}
+				{{template "base/paginate" .}}
+			</div>
+		</div>
+	</div>
+</div>
+{{template "base/footer" .}}

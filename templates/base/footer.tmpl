@@ -1,0 +1,14 @@
+{{if false}}
+	{{/* to make html structure "likely" complete to prevent IDE warnings */}}
+<html>
+<body>
+	<div>
+{{end}}
+
+		{{template "custom/body_inner_post" .}}
+	</div>
+	{{template "custom/body_outer_post" .}}
+	{{template "base/footer_content" .}}
+	{{template "custom/footer" .}}
+</body>
+</html>
