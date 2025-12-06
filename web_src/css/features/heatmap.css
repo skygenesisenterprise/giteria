@@ -1,0 +1,57 @@
+#user-heatmap {
+  width: 100%;
+  font-size: 9px;
+  position: relative;
+}
+
+.activity-heatmap-container {
+  container-type: inline-size;
+}
+
+@container (width > 0) {
+  #user-heatmap {
+    /* Set element to fixed height so that it does not resize after load. The calculation is complex
+       because the element does not scale with a fixed aspect ratio. */
+    height: calc((100cqw / 5) - (100cqw / 25) + 20px);
+  }
+}
+
+/* Fallback height adjustment above for browsers that don't support container queries */
+@supports not (container-type: inline-size) {
+  /* Before the Vue component is mounted, show a loading indicator with dummy size */
+  /* The ratio is guesswork for legacy browsers, new browsers use the "@container" approach above  */
+  #user-heatmap.is-loading {
+    aspect-ratio: 5.4823972051; /* the size is about 816 x 148.84 */
+  }
+  .user.profile #user-heatmap.is-loading {
+    aspect-ratio: 5.6290608387; /* the size is about 953 x 169.3 */
+  }
+}
+
+#user-heatmap text {
+  fill: currentcolor !important;
+}
+
+/* root legend */
+#user-heatmap .vch__container > .vch__legend {
+  display: flex;
+  font-size: 11px;
+  justify-content: space-between;
+}
+
+/* for the "Less" and "More" legend */
+#user-heatmap .vch__legend .vch__legend {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+}
+
+#user-heatmap .vch__legend .vch__legend div:first-child,
+#user-heatmap .vch__legend .vch__legend div:last-child {
+  display: inline-block;
+  padding: 0 5px;
+}
+
+#user-heatmap .vch__day__square:hover {
+  outline: 1.5px solid var(--color-text);
+}

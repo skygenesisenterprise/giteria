@@ -1,0 +1,122 @@
+#project-board {
+  display: flex;
+  align-items: stretch;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  overflow: auto;
+  margin: 0 0.5em;
+  min-height: max(calc(100vh - 400px), 300px);
+  max-height: calc(100vh - 120px);
+}
+
+.project-header {
+  padding: 0.5em 0;
+  flex-wrap: wrap;
+}
+
+.project-header h2 {
+  white-space: nowrap;
+  margin: 0;
+}
+
+.project-column {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-project-column-bg);
+  border: 1px solid var(--color-secondary);
+  border-radius: var(--border-radius);
+  margin: 0 0.5rem;
+  padding: 0.5rem;
+  width: 320px;
+  overflow: visible;
+}
+
+.project-column-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5em;
+}
+
+.ui.label.project-column-issue-count {
+  color: inherit;
+}
+
+.project-column > .ui.cards {
+  flex: 1;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  overflow: clip auto;
+  gap: .25rem;
+  margin: 0;
+  padding: 0;
+}
+
+.project-column > .divider {
+  margin: 5px 0;
+  border-color: currentcolor;
+  opacity: .5;
+}
+
+.project-column:first-child {
+  margin-left: auto !important;
+}
+
+.project-column:last-child {
+  margin-right: auto !important;
+}
+
+.card-attachment-images {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: auto;
+  cursor: default;
+  scroll-snap-type: x mandatory;
+  text-align: center;
+}
+
+.card-attachment-images img {
+  display: inline-block;
+  max-height: 50px;
+  border-radius: var(--border-radius);
+  text-align: left;
+  scroll-snap-align: center;
+  margin-right: 2px;
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+
+.card-attachment-images img:only-child {
+  max-height: 90px;
+  margin: auto;
+}
+
+.card-ghost {
+  border-color: var(--color-secondary-dark-4) !important;
+  border-style: dashed !important;
+  background: none !important;
+}
+
+.card-ghost * {
+  opacity: 0;
+}
+
+.fullscreen.projects-view {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Hide project-description in full-screen due to its variable height. No need to show it for better space use. */
+.fullscreen.projects-view .project-description {
+  display: none;
+}
+
+.fullscreen.projects-view #project-board {
+  flex: 1;
+  max-height: unset;
+  padding-bottom: 0.5em;
+}

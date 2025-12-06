@@ -1,0 +1,106 @@
+.home .logo {
+  max-width: 220px;
+}
+
+@media (max-width: 767.98px) {
+  .home .hero h1 {
+    font-size: 3.5em;
+  }
+  .home .hero h2 {
+    font-size: 2em;
+  }
+}
+
+@media (min-width: 768px) {
+  .home .hero h1 {
+    font-size: 5.5em;
+  }
+  .home .hero h2 {
+    font-size: 3em;
+  }
+}
+
+.home .hero .svg {
+  color: var(--color-logo);
+  height: 40px;
+  width: 50px;
+  vertical-align: bottom;
+}
+
+.home .hero.header {
+  font-size: 20px;
+}
+
+.home p.large {
+  font-size: 16px;
+}
+
+.home .stackable {
+  padding-top: 30px;
+}
+
+.home a {
+  color: var(--color-logo);
+}
+
+.page-footer {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--color-footer);
+  border-top: 1px solid var(--color-secondary);
+  padding: 8px 20px;
+}
+
+.page-footer .left-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25em;
+}
+
+.page-footer .right-links {
+  min-width: 180px; /* make sure the menu dropdown doesn't overflow horizontally when language name is short */
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+}
+
+.page-footer .right-links > a {
+  border-left: 1px solid var(--color-secondary-dark-1);
+  padding-left: 1em;
+}
+
+/* the theme item is also used for the menu's "default text" display */
+.page-footer .ui.dropdown .theme-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+/* Fomantic UI dropdown "remote items by API" can't change parent "item" element,
+so we use "theme-menu-item" in the "item" and add tooltip to the inner one.
+Then the inner one needs to get padding and parent "item" padding needs to be removed */
+.page-footer .menu.theme-menu > .item {
+  padding: 0 !important;
+}
+
+.page-footer .menu.theme-menu > .item > .theme-menu-item {
+  padding: 11px 16px;
+}
+
+.page-footer .ui.dropdown .menu.language-menu,
+.page-footer .ui.dropdown .menu.theme-menu {
+  max-height: min(500px, calc(100vh - 60px));
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 880px) {
+  .page-footer {
+    flex-direction: column;
+    gap: 0.5em;
+  }
+}

@@ -1,0 +1,10 @@
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  overflow-wrap: anywhere;
+}
+
+.breadcrumb .breadcrumb-divider {
+  color: var(--color-text-light-2);
+}
