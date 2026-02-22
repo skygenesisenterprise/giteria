@@ -28,7 +28,6 @@
       "@/hook/*": ["./hook"],
       "@/services/*": ["./services"]
     },
-    "baseUrl": ".",
     "types": ["next", "node"],
     "allowImportingTsExtensions": true
   },
