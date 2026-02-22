@@ -1,7 +1,7 @@
 {
-  "name": "@aether-mailer/docs",
+  "name": "@giteria/docs",
   "version": "0.1.0",
-  "description": "Documentation site for Aether Mailer project",
+  "description": "Documentation site for Giteria project",
   "private": true,
   "type": "module",
   "scripts": {
