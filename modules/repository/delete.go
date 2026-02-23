@@ -6,9 +6,9 @@ package repository
 import (
 	"context"
 
-	"code.gitea.io/gitea/models/organization"
-	repo_model "code.gitea.io/gitea/models/repo"
-	user_model "code.gitea.io/gitea/models/user"
+	"github.com/skygenesisenterprise/giteria/models/organization"
+	repo_model "github.com/skygenesisenterprise/giteria/models/repo"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
 )
 
 // CanUserDelete returns true if user could delete the repository

@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 )
 
 func timeEstimateString(timeSec any) string {

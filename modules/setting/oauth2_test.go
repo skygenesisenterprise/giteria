@@ -7,8 +7,8 @@ import (
 	"os"
 	"testing"
 
-	"code.gitea.io/gitea/modules/generate"
-	"code.gitea.io/gitea/modules/test"
+	"github.com/skygenesisenterprise/giteria/modules/generate"
+	"github.com/skygenesisenterprise/giteria/modules/test"
 
 	"github.com/stretchr/testify/assert"
 )

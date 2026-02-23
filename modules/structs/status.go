@@ -6,7 +6,7 @@ package structs
 import (
 	"time"
 
-	"code.gitea.io/gitea/modules/commitstatus"
+	"github.com/skygenesisenterprise/giteria/modules/commitstatus"
 )
 
 // CommitStatus holds a single status of a single Commit

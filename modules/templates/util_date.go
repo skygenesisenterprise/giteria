@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/timeutil"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/timeutil"
 )
 
 type DateUtils struct{}

@@ -9,16 +9,16 @@ import (
 	"net/url"
 	"time"
 
-	"code.gitea.io/gitea/models/avatars"
-	repo_model "code.gitea.io/gitea/models/repo"
-	user_model "code.gitea.io/gitea/models/user"
-	"code.gitea.io/gitea/modules/cache"
-	"code.gitea.io/gitea/modules/cachegroup"
-	"code.gitea.io/gitea/modules/git"
-	"code.gitea.io/gitea/modules/gitrepo"
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/setting"
-	api "code.gitea.io/gitea/modules/structs"
+	"github.com/skygenesisenterprise/giteria/models/avatars"
+	repo_model "github.com/skygenesisenterprise/giteria/models/repo"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	"github.com/skygenesisenterprise/giteria/modules/cache"
+	"github.com/skygenesisenterprise/giteria/modules/cachegroup"
+	"github.com/skygenesisenterprise/giteria/modules/git"
+	"github.com/skygenesisenterprise/giteria/modules/gitrepo"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	api "github.com/skygenesisenterprise/giteria/modules/structs"
 )
 
 // PushCommit represents a commit in a push operation.

@@ -6,7 +6,7 @@ package timeutil
 import (
 	"time"
 
-	"code.gitea.io/gitea/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
 )
 
 // TimeStampNano is for nano time in database, do not use it unless there is a real requirement.

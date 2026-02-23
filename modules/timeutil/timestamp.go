@@ -6,7 +6,7 @@ package timeutil
 import (
 	"time"
 
-	"code.gitea.io/gitea/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
 )
 
 // TimeStamp defines a timestamp

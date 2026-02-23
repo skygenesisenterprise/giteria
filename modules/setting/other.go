@@ -3,7 +3,7 @@
 
 package setting
 
-import "code.gitea.io/gitea/modules/log"
+import "github.com/skygenesisenterprise/giteria/modules/log"
 
 type OtherConfig struct {
 	ShowFooterVersion          bool

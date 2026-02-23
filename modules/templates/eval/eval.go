@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 )
 
 type Num struct {

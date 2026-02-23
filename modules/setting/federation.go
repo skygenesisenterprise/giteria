@@ -4,7 +4,7 @@
 package setting
 
 import (
-	"code.gitea.io/gitea/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/log"
 
 	"github.com/42wim/httpsig"
 )

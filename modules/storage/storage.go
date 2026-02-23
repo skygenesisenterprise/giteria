@@ -11,8 +11,8 @@ import (
 	"net/url"
 	"os"
 
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
 )
 
 // ErrURLNotSupported represents url is not supported

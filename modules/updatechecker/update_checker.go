@@ -8,10 +8,10 @@ import (
 	"io"
 	"net/http"
 
-	"code.gitea.io/gitea/modules/json"
-	"code.gitea.io/gitea/modules/proxy"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/system"
+	"github.com/skygenesisenterprise/giteria/modules/json"
+	"github.com/skygenesisenterprise/giteria/modules/proxy"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/system"
 
 	"github.com/hashicorp/go-version"
 )

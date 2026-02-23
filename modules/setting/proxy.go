@@ -6,7 +6,7 @@ package setting
 import (
 	"net/url"
 
-	"code.gitea.io/gitea/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/log"
 )
 
 // Proxy settings

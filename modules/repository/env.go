@@ -8,28 +8,28 @@ import (
 	"strconv"
 	"strings"
 
-	repo_model "code.gitea.io/gitea/models/repo"
-	user_model "code.gitea.io/gitea/models/user"
-	"code.gitea.io/gitea/modules/setting"
+	repo_model "github.com/skygenesisenterprise/giteria/models/repo"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
 )
 
 // env keys for git hooks need
 const (
-	EnvRepoName     = "GITEA_REPO_NAME"
-	EnvRepoUsername = "GITEA_REPO_USER_NAME"
-	EnvRepoID       = "GITEA_REPO_ID"
-	EnvRepoIsWiki   = "GITEA_REPO_IS_WIKI"
-	EnvPusherName   = "GITEA_PUSHER_NAME"
-	EnvPusherEmail  = "GITEA_PUSHER_EMAIL"
-	EnvPusherID     = "GITEA_PUSHER_ID"
-	EnvKeyID        = "GITEA_KEY_ID" // public key ID
-	EnvDeployKeyID  = "GITEA_DEPLOY_KEY_ID"
-	EnvPRID         = "GITEA_PR_ID"
-	EnvPRIndex      = "GITEA_PR_INDEX" // not used by Gitea at the moment, it is for custom git hooks
-	EnvPushTrigger  = "GITEA_PUSH_TRIGGER"
-	EnvIsInternal   = "GITEA_INTERNAL_PUSH"
-	EnvAppURL       = "GITEA_ROOT_URL"
-	EnvActionPerm   = "GITEA_ACTION_PERM"
+	EnvRepoName     = "GITERIA_REPO_NAME"
+	EnvRepoUsername = "GITERIA_REPO_USER_NAME"
+	EnvRepoID       = "GITERIA_REPO_ID"
+	EnvRepoIsWiki   = "GITERIA_REPO_IS_WIKI"
+	EnvPusherName   = "GITERIA_PUSHER_NAME"
+	EnvPusherEmail  = "GITERIA_PUSHER_EMAIL"
+	EnvPusherID     = "GITERIA_PUSHER_ID"
+	EnvKeyID        = "GITERIA_KEY_ID" // public key ID
+	EnvDeployKeyID  = "GITERIA_DEPLOY_KEY_ID"
+	EnvPRID         = "GITERIA_PR_ID"
+	EnvPRIndex      = "GITERIA_PR_INDEX" // not used by Gitea at the moment, it is for custom git hooks
+	EnvPushTrigger  = "GITERIA_PUSH_TRIGGER"
+	EnvIsInternal   = "GITERIA_INTERNAL_PUSH"
+	EnvAppURL       = "GITERIA_ROOT_URL"
+	EnvActionPerm   = "GITERIA_ACTION_PERM"
 )
 
 type PushTrigger string

@@ -9,7 +9,7 @@ import (
 	"maps"
 	"sync"
 
-	"code.gitea.io/gitea/modules/process"
+	"github.com/skygenesisenterprise/giteria/modules/process"
 )
 
 type ContextDataProvider interface {

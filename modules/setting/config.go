@@ -6,8 +6,8 @@ package setting
 import (
 	"sync"
 
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/setting/config"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/setting/config"
 )
 
 type PictureStruct struct {

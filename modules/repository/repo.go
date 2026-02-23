@@ -10,15 +10,15 @@ import (
 	"io"
 	"strings"
 
-	"code.gitea.io/gitea/models/db"
-	git_model "code.gitea.io/gitea/models/git"
-	repo_model "code.gitea.io/gitea/models/repo"
-	"code.gitea.io/gitea/modules/git"
-	"code.gitea.io/gitea/modules/gitrepo"
-	"code.gitea.io/gitea/modules/lfs"
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/timeutil"
+	"github.com/skygenesisenterprise/giteria/models/db"
+	git_model "github.com/skygenesisenterprise/giteria/models/git"
+	repo_model "github.com/skygenesisenterprise/giteria/models/repo"
+	"github.com/skygenesisenterprise/giteria/modules/git"
+	"github.com/skygenesisenterprise/giteria/modules/gitrepo"
+	"github.com/skygenesisenterprise/giteria/modules/lfs"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/timeutil"
 )
 
 /*

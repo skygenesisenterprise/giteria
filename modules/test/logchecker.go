@@ -11,7 +11,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"code.gitea.io/gitea/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/log"
 )
 
 type LogChecker struct {

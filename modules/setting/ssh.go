@@ -9,8 +9,8 @@ import (
 	"text/template"
 	"time"
 
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 
 	gossh "golang.org/x/crypto/ssh"
 )

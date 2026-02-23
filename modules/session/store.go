@@ -6,7 +6,7 @@ package session
 import (
 	"net/http"
 
-	"code.gitea.io/gitea/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
 
 	"gitea.com/go-chi/session"
 )

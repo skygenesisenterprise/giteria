@@ -10,14 +10,14 @@ import (
 	"strings"
 	"testing"
 
-	"code.gitea.io/gitea/models/issues"
-	"code.gitea.io/gitea/models/repo"
-	user_model "code.gitea.io/gitea/models/user"
-	"code.gitea.io/gitea/modules/markup"
-	"code.gitea.io/gitea/modules/reqctx"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/test"
-	"code.gitea.io/gitea/modules/translation"
+	"github.com/skygenesisenterprise/giteria/models/issues"
+	"github.com/skygenesisenterprise/giteria/models/repo"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	"github.com/skygenesisenterprise/giteria/modules/markup"
+	"github.com/skygenesisenterprise/giteria/modules/reqctx"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/test"
+	"github.com/skygenesisenterprise/giteria/modules/translation"
 
 	"github.com/stretchr/testify/assert"
 )

@@ -8,7 +8,7 @@ import (
 	"html/template"
 	"strings"
 
-	"code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 )
 
 type StringUtils struct{}

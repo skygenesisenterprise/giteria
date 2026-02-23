@@ -8,10 +8,10 @@ import (
 	"testing"
 	"time"
 
-	repo_model "code.gitea.io/gitea/models/repo"
-	"code.gitea.io/gitea/models/unittest"
-	"code.gitea.io/gitea/modules/git"
-	"code.gitea.io/gitea/modules/setting"
+	repo_model "github.com/skygenesisenterprise/giteria/models/repo"
+	"github.com/skygenesisenterprise/giteria/models/unittest"
+	"github.com/skygenesisenterprise/giteria/modules/git"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
 
 	"github.com/stretchr/testify/assert"
 )

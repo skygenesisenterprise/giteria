@@ -7,9 +7,9 @@ import (
 	"context"
 	"fmt"
 
-	git_model "code.gitea.io/gitea/models/git"
-	repo_model "code.gitea.io/gitea/models/repo"
-	"code.gitea.io/gitea/modules/gitrepo"
+	git_model "github.com/skygenesisenterprise/giteria/models/git"
+	repo_model "github.com/skygenesisenterprise/giteria/models/repo"
+	"github.com/skygenesisenterprise/giteria/modules/gitrepo"
 )
 
 // UpdateRepoSize updates the repository size, calculating it using getDirectorySize

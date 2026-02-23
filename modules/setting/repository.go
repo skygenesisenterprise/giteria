@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"code.gitea.io/gitea/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/log"
 )
 
 // enumerates all the policy repository creating

@@ -9,9 +9,9 @@ import (
 	"net/url"
 	"strings"
 
-	"code.gitea.io/gitea/modules/session"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/session"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 )
 
 // SetRedirectToCookie convenience function to set the RedirectTo cookie consistently

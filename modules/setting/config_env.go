@@ -10,11 +10,11 @@ import (
 	"strconv"
 	"strings"
 
-	"code.gitea.io/gitea/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/log"
 )
 
 const (
-	EnvConfigKeyPrefixGitea = "GITEA__"
+	EnvConfigKeyPrefixGitea = "GITERIA__"
 	EnvConfigKeySuffixFile  = "__FILE"
 )
 

@@ -6,8 +6,8 @@ package setting
 import (
 	"time"
 
-	"code.gitea.io/gitea/modules/container"
-	"code.gitea.io/gitea/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/container"
+	"github.com/skygenesisenterprise/giteria/modules/log"
 )
 
 // UI settings

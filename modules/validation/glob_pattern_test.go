@@ -6,7 +6,7 @@ package validation
 import (
 	"testing"
 
-	"code.gitea.io/gitea/modules/glob"
+	"github.com/skygenesisenterprise/giteria/modules/glob"
 
 	"gitea.com/go-chi/binding"
 )

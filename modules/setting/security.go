@@ -8,9 +8,9 @@ import (
 	"os"
 	"strings"
 
-	"code.gitea.io/gitea/modules/auth/password/hash"
-	"code.gitea.io/gitea/modules/generate"
-	"code.gitea.io/gitea/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/auth/password/hash"
+	"github.com/skygenesisenterprise/giteria/modules/generate"
+	"github.com/skygenesisenterprise/giteria/modules/log"
 )
 
 // Security settings

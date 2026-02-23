@@ -17,7 +17,7 @@ func Test_shortenFilename(t *testing.T) {
 		expected string
 	}{
 		{
-			"code.gitea.io/routers/common/logger_context.go",
+			"github.com/skygenesisenterprise/giteria/routers/common/logger_context.go",
 			"NO_FALLBACK",
 			"common/logger_context.go",
 		},

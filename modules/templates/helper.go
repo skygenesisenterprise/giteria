@@ -12,14 +12,14 @@ import (
 	"strings"
 	"time"
 
-	"code.gitea.io/gitea/modules/base"
-	"code.gitea.io/gitea/modules/htmlutil"
-	"code.gitea.io/gitea/modules/markup"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/svg"
-	"code.gitea.io/gitea/modules/templates/eval"
-	"code.gitea.io/gitea/modules/util"
-	"code.gitea.io/gitea/services/gitdiff"
+	"github.com/skygenesisenterprise/giteria/modules/base"
+	"github.com/skygenesisenterprise/giteria/modules/htmlutil"
+	"github.com/skygenesisenterprise/giteria/modules/markup"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/svg"
+	"github.com/skygenesisenterprise/giteria/modules/templates/eval"
+	"github.com/skygenesisenterprise/giteria/modules/util"
+	"github.com/skygenesisenterprise/giteria/services/gitdiff"
 )
 
 // NewFuncMap returns functions for injecting to templates

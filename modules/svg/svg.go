@@ -9,9 +9,9 @@ import (
 	"path"
 	"strings"
 
-	gitea_html "code.gitea.io/gitea/modules/htmlutil"
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/public"
+	gitea_html "github.com/skygenesisenterprise/giteria/modules/htmlutil"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/public"
 )
 
 var svgIcons map[string]string

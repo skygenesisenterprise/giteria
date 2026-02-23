@@ -6,7 +6,7 @@ package templates
 import (
 	"bytes"
 
-	"code.gitea.io/gitea/modules/json"
+	"github.com/skygenesisenterprise/giteria/modules/json"
 )
 
 type JsonUtils struct{} //nolint:revive // variable naming triggers on Json, wants JSON

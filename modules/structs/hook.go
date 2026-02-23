@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"code.gitea.io/gitea/modules/json"
+	"github.com/skygenesisenterprise/giteria/modules/json"
 )
 
 // ErrInvalidReceiveHook FIXME

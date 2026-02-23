@@ -12,9 +12,9 @@ import (
 	"testing"
 	"time"
 
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/queue"
-	"code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/queue"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 )
 
 var (

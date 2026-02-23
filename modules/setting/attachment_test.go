@@ -13,7 +13,7 @@ func Test_getStorageCustomType(t *testing.T) {
 	iniStr := `
 [attachment]
 STORAGE_TYPE = my_minio
-MINIO_BUCKET = gitea-attachment
+MINIO_BUCKET = giteria-attachment
 
 [storage.my_minio]
 STORAGE_TYPE = minio
@@ -26,7 +26,7 @@ MINIO_ENDPOINT = my_minio:9000
 
 	assert.EqualValues(t, "minio", Attachment.Storage.Type)
 	assert.Equal(t, "my_minio:9000", Attachment.Storage.MinioConfig.Endpoint)
-	assert.Equal(t, "gitea-attachment", Attachment.Storage.MinioConfig.Bucket)
+	assert.Equal(t, "giteria-attachment", Attachment.Storage.MinioConfig.Bucket)
 	assert.Equal(t, "attachments/", Attachment.Storage.MinioConfig.BasePath)
 }
 
@@ -36,10 +36,10 @@ func Test_getStorageTypeSectionOverridesStorageSection(t *testing.T) {
 STORAGE_TYPE = minio
 
 [storage.minio]
-MINIO_BUCKET = gitea-minio
+MINIO_BUCKET = giteria-minio
 
 [storage]
-MINIO_BUCKET = gitea
+MINIO_BUCKET = giteria
 `
 	cfg, err := NewConfigProviderFromData(iniStr)
 	assert.NoError(t, err)
@@ -47,7 +47,7 @@ MINIO_BUCKET = gitea
 	assert.NoError(t, loadAttachmentFrom(cfg))
 
 	assert.EqualValues(t, "minio", Attachment.Storage.Type)
-	assert.Equal(t, "gitea-minio", Attachment.Storage.MinioConfig.Bucket)
+	assert.Equal(t, "giteria-minio", Attachment.Storage.MinioConfig.Bucket)
 	assert.Equal(t, "attachments/", Attachment.Storage.MinioConfig.BasePath)
 }
 
@@ -55,10 +55,10 @@ func Test_getStorageSpecificOverridesStorage(t *testing.T) {
 	iniStr := `
 [attachment]
 STORAGE_TYPE = minio
-MINIO_BUCKET = gitea-attachment
+MINIO_BUCKET = giteria-attachment
 
 [storage.attachments]
-MINIO_BUCKET = gitea
+MINIO_BUCKET = giteria
 
 [storage]
 STORAGE_TYPE = local
@@ -115,7 +115,7 @@ MINIO_SECRET_ACCESS_KEY = correct_key
 	storage := Attachment.Storage
 
 	assert.EqualValues(t, "minio", storage.Type)
-	assert.Equal(t, "gitea", storage.MinioConfig.Bucket)
+	assert.Equal(t, "giteria", storage.MinioConfig.Bucket)
 }
 
 func Test_AttachmentStorage1(t *testing.T) {
@@ -128,6 +128,6 @@ STORAGE_TYPE = minio
 
 	assert.NoError(t, loadAttachmentFrom(cfg))
 	assert.EqualValues(t, "minio", Attachment.Storage.Type)
-	assert.Equal(t, "gitea", Attachment.Storage.MinioConfig.Bucket)
+	assert.Equal(t, "giteria", Attachment.Storage.MinioConfig.Bucket)
 	assert.Equal(t, "attachments/", Attachment.Storage.MinioConfig.BasePath)
 }

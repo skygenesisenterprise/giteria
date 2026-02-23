@@ -10,9 +10,9 @@ import (
 	"strings"
 	"testing"
 
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/test"
-	"code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/test"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/stretchr/testify/assert"

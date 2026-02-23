@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"sync"
 
-	"code.gitea.io/gitea/modules/json"
+	"github.com/skygenesisenterprise/giteria/modules/json"
 
 	"gitea.com/go-chi/session"
 	couchbase "gitea.com/go-chi/session/couchbase"

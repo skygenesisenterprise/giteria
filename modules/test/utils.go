@@ -11,8 +11,8 @@ import (
 	"runtime"
 	"strings"
 
-	"code.gitea.io/gitea/modules/json"
-	"code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/json"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 )
 
 // RedirectURL returns the redirect URL of a http response.

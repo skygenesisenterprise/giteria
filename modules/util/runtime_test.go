@@ -12,7 +12,7 @@ import (
 
 func TestCallerFuncName(t *testing.T) {
 	s := CallerFuncName()
-	assert.Equal(t, "code.gitea.io/gitea/modules/util.TestCallerFuncName", s)
+	assert.Equal(t, "github.com/skygenesisenterprise/giteria/modules/util.TestCallerFuncName", s)
 }
 
 func BenchmarkCallerFuncName(b *testing.B) {

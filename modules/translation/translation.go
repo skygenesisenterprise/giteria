@@ -10,11 +10,11 @@ import (
 	"strings"
 	"sync"
 
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/options"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/translation/i18n"
-	"code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/options"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/translation/i18n"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 
 	"golang.org/x/text/language"
 	"golang.org/x/text/message"
