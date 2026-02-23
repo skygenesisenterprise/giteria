@@ -7,13 +7,13 @@ import (
 	"context"
 	"testing"
 
-	"code.gitea.io/gitea/modules/db"
-	git_model "code.gitea.io/gitea/modules/git"
-	issues_model "code.gitea.io/gitea/modules/issues"
-	repo_model "code.gitea.io/gitea/modules/repo"
-	"code.gitea.io/gitea/modules/unittest"
-	"code.gitea.io/gitea/modules/git"
-	"code.gitea.io/gitea/modules/optional"
+	"github.com/skygenesisenterprise/giteria/modules/db"
+	git_model "github.com/skygenesisenterprise/giteria/modules/git"
+	issues_model "github.com/skygenesisenterprise/giteria/modules/issues"
+	repo_model "github.com/skygenesisenterprise/giteria/modules/repo"
+	"github.com/skygenesisenterprise/giteria/modules/unittest"
+	"github.com/skygenesisenterprise/giteria/modules/git"
+	"github.com/skygenesisenterprise/giteria/modules/optional"
 
 	"github.com/stretchr/testify/assert"
 )

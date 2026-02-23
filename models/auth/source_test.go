@@ -7,9 +7,9 @@ import (
 	"strings"
 	"testing"
 
-	auth_model "code.gitea.io/gitea/modules/auth"
-	"code.gitea.io/gitea/modules/unittest"
-	"code.gitea.io/gitea/modules/json"
+	auth_model "github.com/skygenesisenterprise/giteria/modules/auth"
+	"github.com/skygenesisenterprise/giteria/modules/unittest"
+	"github.com/skygenesisenterprise/giteria/modules/json"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

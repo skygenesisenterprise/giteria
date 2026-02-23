@@ -7,11 +7,11 @@ import (
 	"context"
 	"fmt"
 
-	"code.gitea.io/gitea/modules/db"
-	repo_model "code.gitea.io/gitea/modules/repo"
-	user_model "code.gitea.io/gitea/modules/user"
-	"code.gitea.io/gitea/modules/timeutil"
-	"code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/db"
+	repo_model "github.com/skygenesisenterprise/giteria/modules/repo"
+	user_model "github.com/skygenesisenterprise/giteria/modules/user"
+	"github.com/skygenesisenterprise/giteria/modules/timeutil"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 )
 
 // ActionRunnerToken represents runner tokens

@@ -14,10 +14,10 @@ import (
 	"strings"
 	"sync/atomic"
 
-	"code.gitea.io/gitea/modules/db"
-	"code.gitea.io/gitea/modules/cache"
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/db"
+	"github.com/skygenesisenterprise/giteria/modules/cache"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
 
 	"strk.kbt.io/projects/go/libravatar"
 )

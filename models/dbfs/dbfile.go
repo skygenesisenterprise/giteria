@@ -14,7 +14,7 @@ import (
 	"strings"
 	"time"
 
-	"code.gitea.io/gitea/modules/db"
+	"github.com/skygenesisenterprise/giteria/modules/db"
 )
 
 var defaultFileBlockSize int64 = 32 * 1024

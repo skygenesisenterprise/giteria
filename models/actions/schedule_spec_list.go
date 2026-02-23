@@ -6,9 +6,9 @@ package actions
 import (
 	"context"
 
-	"code.gitea.io/gitea/modules/db"
-	repo_model "code.gitea.io/gitea/modules/repo"
-	"code.gitea.io/gitea/modules/container"
+	"github.com/skygenesisenterprise/giteria/modules/db"
+	repo_model "github.com/skygenesisenterprise/giteria/modules/repo"
+	"github.com/skygenesisenterprise/giteria/modules/container"
 
 	"xorm.io/builder"
 )

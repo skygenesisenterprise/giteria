@@ -7,11 +7,11 @@ import (
 	"testing"
 	"time"
 
-	activities_model "code.gitea.io/gitea/modules/activities"
-	"code.gitea.io/gitea/modules/unittest"
-	user_model "code.gitea.io/gitea/modules/user"
-	"code.gitea.io/gitea/modules/json"
-	"code.gitea.io/gitea/modules/timeutil"
+	activities_model "github.com/skygenesisenterprise/giteria/modules/activities"
+	"github.com/skygenesisenterprise/giteria/modules/unittest"
+	user_model "github.com/skygenesisenterprise/giteria/modules/user"
+	"github.com/skygenesisenterprise/giteria/modules/json"
+	"github.com/skygenesisenterprise/giteria/modules/timeutil"
 
 	"github.com/stretchr/testify/assert"
 )

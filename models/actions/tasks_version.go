@@ -6,9 +6,9 @@ package actions
 import (
 	"context"
 
-	"code.gitea.io/gitea/modules/db"
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/timeutil"
+	"github.com/skygenesisenterprise/giteria/modules/db"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/timeutil"
 )
 
 // ActionTasksVersion

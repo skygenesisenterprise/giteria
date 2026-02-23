@@ -6,7 +6,7 @@ package actions
 import (
 	"testing"
 
-	"code.gitea.io/gitea/modules/unittest"
+	"github.com/skygenesisenterprise/giteria/modules/unittest"
 )
 
 func TestMain(m *testing.M) {

@@ -6,8 +6,8 @@ package auth_test
 import (
 	"testing"
 
-	auth_model "code.gitea.io/gitea/modules/auth"
-	"code.gitea.io/gitea/modules/unittest"
+	auth_model "github.com/skygenesisenterprise/giteria/modules/auth"
+	"github.com/skygenesisenterprise/giteria/modules/unittest"
 
 	"github.com/stretchr/testify/assert"
 )

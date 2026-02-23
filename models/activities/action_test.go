@@ -8,14 +8,14 @@ import (
 	"path"
 	"testing"
 
-	activities_model "code.gitea.io/gitea/modules/activities"
-	"code.gitea.io/gitea/modules/db"
-	issue_model "code.gitea.io/gitea/modules/issues"
-	repo_model "code.gitea.io/gitea/modules/repo"
-	"code.gitea.io/gitea/modules/unittest"
-	user_model "code.gitea.io/gitea/modules/user"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/test"
+	activities_model "github.com/skygenesisenterprise/giteria/modules/activities"
+	"github.com/skygenesisenterprise/giteria/modules/db"
+	issue_model "github.com/skygenesisenterprise/giteria/modules/issues"
+	repo_model "github.com/skygenesisenterprise/giteria/modules/repo"
+	"github.com/skygenesisenterprise/giteria/modules/unittest"
+	user_model "github.com/skygenesisenterprise/giteria/modules/user"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/test"
 
 	"github.com/stretchr/testify/assert"
 )

@@ -6,7 +6,7 @@ package db
 import (
 	"fmt"
 
-	"code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 )
 
 // ErrCancelled represents an error due to context cancellation

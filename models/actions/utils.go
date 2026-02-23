@@ -12,9 +12,9 @@ import (
 	"io"
 	"time"
 
-	auth_model "code.gitea.io/gitea/modules/auth"
-	"code.gitea.io/gitea/modules/timeutil"
-	"code.gitea.io/gitea/modules/util"
+	auth_model "github.com/skygenesisenterprise/giteria/modules/auth"
+	"github.com/skygenesisenterprise/giteria/modules/timeutil"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 )
 
 func generateSaltedToken() (string, string, string, string, error) {

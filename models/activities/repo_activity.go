@@ -9,12 +9,12 @@ import (
 	"sort"
 	"time"
 
-	"code.gitea.io/gitea/modules/db"
-	issues_model "code.gitea.io/gitea/modules/issues"
-	repo_model "code.gitea.io/gitea/modules/repo"
-	user_model "code.gitea.io/gitea/modules/user"
-	"code.gitea.io/gitea/modules/git"
-	"code.gitea.io/gitea/modules/gitrepo"
+	"github.com/skygenesisenterprise/giteria/modules/db"
+	issues_model "github.com/skygenesisenterprise/giteria/modules/issues"
+	repo_model "github.com/skygenesisenterprise/giteria/modules/repo"
+	user_model "github.com/skygenesisenterprise/giteria/modules/user"
+	"github.com/skygenesisenterprise/giteria/modules/git"
+	"github.com/skygenesisenterprise/giteria/modules/gitrepo"
 
 	"xorm.io/builder"
 	"xorm.io/xorm"

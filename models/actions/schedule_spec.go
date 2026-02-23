@@ -8,9 +8,9 @@ import (
 	"strings"
 	"time"
 
-	"code.gitea.io/gitea/modules/db"
-	repo_model "code.gitea.io/gitea/modules/repo"
-	"code.gitea.io/gitea/modules/timeutil"
+	"github.com/skygenesisenterprise/giteria/modules/db"
+	repo_model "github.com/skygenesisenterprise/giteria/modules/repo"
+	"github.com/skygenesisenterprise/giteria/modules/timeutil"
 
 	"github.com/robfig/cron/v3"
 )

@@ -8,7 +8,7 @@ import (
 	"slices"
 	"strings"
 
-	"code.gitea.io/gitea/modules/perm"
+	"github.com/skygenesisenterprise/giteria/modules/perm"
 )
 
 // AccessTokenScopeCategory represents the scope category for an access token

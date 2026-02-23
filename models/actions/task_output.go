@@ -6,7 +6,7 @@ package actions
 import (
 	"context"
 
-	"code.gitea.io/gitea/modules/db"
+	"github.com/skygenesisenterprise/giteria/modules/db"
 )
 
 // ActionTaskOutput represents an output of ActionTask.

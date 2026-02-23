@@ -6,7 +6,7 @@ package actions
 import (
 	"slices"
 
-	"code.gitea.io/gitea/modules/translation"
+	"github.com/skygenesisenterprise/giteria/modules/translation"
 
 	runnerv1 "code.gitea.io/actions-proto-go/runner/v1"
 )

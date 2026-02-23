@@ -6,8 +6,8 @@ package install
 import (
 	"context"
 
-	"code.gitea.io/gitea/modules/db"
-	"code.gitea.io/gitea/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/db"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
 )
 
 // CheckDatabaseConnection checks the database connection

@@ -6,11 +6,11 @@ package git_test
 import (
 	"testing"
 
-	"code.gitea.io/gitea/modules/unittest"
+	"github.com/skygenesisenterprise/giteria/modules/unittest"
 
 	_ "github.com/skygenesisenterprise/giteria/models"
-	_ "code.gitea.io/gitea/modules/actions"
-	_ "code.gitea.io/gitea/modules/activities"
+	_ "github.com/skygenesisenterprise/giteria/modules/actions"
+	_ "github.com/skygenesisenterprise/giteria/modules/activities"
 )
 
 func TestMain(m *testing.M) {

@@ -7,7 +7,7 @@ import (
 	"context"
 	"fmt"
 
-	"code.gitea.io/gitea/modules/db"
+	"github.com/skygenesisenterprise/giteria/modules/db"
 
 	"golang.org/x/crypto/ssh"
 	"xorm.io/builder"

@@ -8,9 +8,9 @@ import (
 	"fmt"
 	"time"
 
-	"code.gitea.io/gitea/modules/db"
-	"code.gitea.io/gitea/modules/perm"
-	"code.gitea.io/gitea/modules/timeutil"
+	"github.com/skygenesisenterprise/giteria/modules/db"
+	"github.com/skygenesisenterprise/giteria/modules/perm"
+	"github.com/skygenesisenterprise/giteria/modules/timeutil"
 
 	"xorm.io/builder"
 )

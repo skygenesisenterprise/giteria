@@ -12,8 +12,8 @@ import (
 	"strings"
 	"testing"
 
-	"code.gitea.io/gitea/modules/unittest"
-	"code.gitea.io/gitea/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/unittest"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
 
 	"github.com/42wim/sshsig"
 	"github.com/stretchr/testify/assert"

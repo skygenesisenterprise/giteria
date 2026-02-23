@@ -10,11 +10,11 @@ import (
 	"strings"
 	"time"
 
-	"code.gitea.io/gitea/modules/db"
-	repo_model "code.gitea.io/gitea/modules/repo"
-	user_model "code.gitea.io/gitea/modules/user"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/db"
+	repo_model "github.com/skygenesisenterprise/giteria/modules/repo"
+	user_model "github.com/skygenesisenterprise/giteria/modules/user"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 )
 
 // LFSLock represents a git lfs lock of repository.

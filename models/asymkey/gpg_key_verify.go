@@ -8,10 +8,10 @@ import (
 	"strconv"
 	"time"
 
-	"code.gitea.io/gitea/modules/db"
-	user_model "code.gitea.io/gitea/modules/user"
-	"code.gitea.io/gitea/modules/base"
-	"code.gitea.io/gitea/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/db"
+	user_model "github.com/skygenesisenterprise/giteria/modules/user"
+	"github.com/skygenesisenterprise/giteria/modules/base"
+	"github.com/skygenesisenterprise/giteria/modules/log"
 )
 
 // This file provides functions relating verifying gpg keys

@@ -6,9 +6,9 @@ package git
 import (
 	"context"
 
-	"code.gitea.io/gitea/modules/db"
-	"code.gitea.io/gitea/modules/commitstatus"
-	"code.gitea.io/gitea/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/db"
+	"github.com/skygenesisenterprise/giteria/modules/commitstatus"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
 
 	"xorm.io/builder"
 )

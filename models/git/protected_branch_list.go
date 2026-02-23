@@ -7,9 +7,9 @@ import (
 	"context"
 	"sort"
 
-	"code.gitea.io/gitea/modules/db"
-	"code.gitea.io/gitea/modules/glob"
-	"code.gitea.io/gitea/modules/optional"
+	"github.com/skygenesisenterprise/giteria/modules/db"
+	"github.com/skygenesisenterprise/giteria/modules/glob"
+	"github.com/skygenesisenterprise/giteria/modules/optional"
 )
 
 type ProtectedBranchRules []*ProtectedBranch

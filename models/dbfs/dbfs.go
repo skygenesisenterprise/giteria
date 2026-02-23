@@ -10,7 +10,7 @@ import (
 	"path"
 	"time"
 
-	"code.gitea.io/gitea/modules/db"
+	"github.com/skygenesisenterprise/giteria/modules/db"
 )
 
 /*

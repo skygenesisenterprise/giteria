@@ -7,12 +7,12 @@ import (
 	"path/filepath"
 	"testing"
 
-	"code.gitea.io/gitea/modules/db"
-	issues_model "code.gitea.io/gitea/modules/issues"
-	"code.gitea.io/gitea/modules/unittest"
-	"code.gitea.io/gitea/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/db"
+	issues_model "github.com/skygenesisenterprise/giteria/modules/issues"
+	"github.com/skygenesisenterprise/giteria/modules/unittest"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
 
-	_ "code.gitea.io/gitea/cmd" // for TestPrimaryKeys
+	_ "github.com/skygenesisenterprise/giteria/cmd" // for TestPrimaryKeys
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

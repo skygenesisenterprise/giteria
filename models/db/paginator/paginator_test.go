@@ -6,8 +6,8 @@ package paginator
 import (
 	"testing"
 
-	"code.gitea.io/gitea/modules/db"
-	"code.gitea.io/gitea/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/db"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
 
 	"github.com/stretchr/testify/assert"
 )

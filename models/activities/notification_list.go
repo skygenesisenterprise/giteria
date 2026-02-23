@@ -6,15 +6,15 @@ package activities
 import (
 	"context"
 
-	"code.gitea.io/gitea/modules/db"
-	issues_model "code.gitea.io/gitea/modules/issues"
-	access_model "code.gitea.io/gitea/modules/perm/access"
-	repo_model "code.gitea.io/gitea/modules/repo"
-	"code.gitea.io/gitea/modules/unit"
-	user_model "code.gitea.io/gitea/modules/user"
-	"code.gitea.io/gitea/modules/container"
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/db"
+	issues_model "github.com/skygenesisenterprise/giteria/modules/issues"
+	access_model "github.com/skygenesisenterprise/giteria/modules/perm/access"
+	repo_model "github.com/skygenesisenterprise/giteria/modules/repo"
+	"github.com/skygenesisenterprise/giteria/modules/unit"
+	user_model "github.com/skygenesisenterprise/giteria/modules/user"
+	"github.com/skygenesisenterprise/giteria/modules/container"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 
 	"xorm.io/builder"
 )

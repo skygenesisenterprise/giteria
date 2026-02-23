@@ -15,11 +15,11 @@ import (
 	"slices"
 	"strings"
 
-	"code.gitea.io/gitea/modules/db"
-	"code.gitea.io/gitea/modules/container"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/timeutil"
-	"code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/db"
+	"github.com/skygenesisenterprise/giteria/modules/container"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/timeutil"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 
 	uuid "github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"

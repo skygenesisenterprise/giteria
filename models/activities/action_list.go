@@ -9,12 +9,12 @@ import (
 	"fmt"
 	"strconv"
 
-	"code.gitea.io/gitea/modules/db"
-	issues_model "code.gitea.io/gitea/modules/issues"
-	repo_model "code.gitea.io/gitea/modules/repo"
-	user_model "code.gitea.io/gitea/modules/user"
-	"code.gitea.io/gitea/modules/container"
-	"code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/db"
+	issues_model "github.com/skygenesisenterprise/giteria/modules/issues"
+	repo_model "github.com/skygenesisenterprise/giteria/modules/repo"
+	user_model "github.com/skygenesisenterprise/giteria/modules/user"
+	"github.com/skygenesisenterprise/giteria/modules/container"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 
 	"xorm.io/builder"
 )
