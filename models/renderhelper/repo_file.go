@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"path"
 
-	repo_model "code.gitea.io/gitea/models/repo"
+	repo_model "code.gitea.io/gitea/modules/repo"
 	"code.gitea.io/gitea/modules/markup"
 	"code.gitea.io/gitea/modules/util"
 )

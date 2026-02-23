@@ -8,9 +8,9 @@ import (
 	"slices"
 	"strings"
 
-	"code.gitea.io/gitea/models/db"
-	"code.gitea.io/gitea/models/perm"
-	"code.gitea.io/gitea/models/unit"
+	"code.gitea.io/gitea/modules/db"
+	"code.gitea.io/gitea/modules/perm"
+	"code.gitea.io/gitea/modules/unit"
 	"code.gitea.io/gitea/modules/json"
 	"code.gitea.io/gitea/modules/setting"
 	"code.gitea.io/gitea/modules/timeutil"

@@ -6,7 +6,7 @@ package v1_22
 import (
 	"testing"
 
-	"code.gitea.io/gitea/models/migrations/base"
+	"code.gitea.io/gitea/modules/migrations/base"
 )
 
 func TestMain(m *testing.M) {

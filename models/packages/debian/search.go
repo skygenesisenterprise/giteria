@@ -7,8 +7,8 @@ import (
 	"context"
 	"strconv"
 
-	"code.gitea.io/gitea/models/db"
-	"code.gitea.io/gitea/models/packages"
+	"code.gitea.io/gitea/modules/db"
+	"code.gitea.io/gitea/modules/packages"
 	debian_module "code.gitea.io/gitea/modules/packages/debian"
 
 	"xorm.io/builder"

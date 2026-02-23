@@ -9,8 +9,8 @@ import (
 	"fmt"
 	"net/url"
 
-	repo_model "code.gitea.io/gitea/models/repo"
-	user_model "code.gitea.io/gitea/models/user"
+	repo_model "code.gitea.io/gitea/modules/repo"
+	user_model "code.gitea.io/gitea/modules/user"
 	"code.gitea.io/gitea/modules/cache"
 	"code.gitea.io/gitea/modules/json"
 	"code.gitea.io/gitea/modules/packages/alpine"

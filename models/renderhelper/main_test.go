@@ -7,7 +7,7 @@ import (
 	"context"
 	"testing"
 
-	"code.gitea.io/gitea/models/unittest"
+	"code.gitea.io/gitea/modules/unittest"
 	"code.gitea.io/gitea/modules/markup"
 )
 

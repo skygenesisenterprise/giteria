@@ -8,9 +8,9 @@ import (
 	"fmt"
 	"html/template"
 
-	"code.gitea.io/gitea/models/db"
-	repo_model "code.gitea.io/gitea/models/repo"
-	user_model "code.gitea.io/gitea/models/user"
+	"code.gitea.io/gitea/modules/db"
+	repo_model "code.gitea.io/gitea/modules/repo"
+	user_model "code.gitea.io/gitea/modules/user"
 	"code.gitea.io/gitea/modules/log"
 	"code.gitea.io/gitea/modules/optional"
 	"code.gitea.io/gitea/modules/setting"

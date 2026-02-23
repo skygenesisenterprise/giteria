@@ -15,7 +15,7 @@ import (
 	"slices"
 	"strings"
 
-	"code.gitea.io/gitea/models/db"
+	"code.gitea.io/gitea/modules/db"
 	"code.gitea.io/gitea/modules/container"
 	"code.gitea.io/gitea/modules/setting"
 	"code.gitea.io/gitea/modules/timeutil"

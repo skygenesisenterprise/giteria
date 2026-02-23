@@ -8,8 +8,8 @@ import (
 	"fmt"
 	"hash"
 
-	repo_model "code.gitea.io/gitea/models/repo"
-	user_model "code.gitea.io/gitea/models/user"
+	repo_model "code.gitea.io/gitea/modules/repo"
+	user_model "code.gitea.io/gitea/modules/user"
 	"code.gitea.io/gitea/modules/log"
 
 	"github.com/ProtonMail/go-crypto/openpgp/packet"

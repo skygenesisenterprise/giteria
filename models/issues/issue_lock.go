@@ -6,8 +6,8 @@ package issues
 import (
 	"context"
 
-	"code.gitea.io/gitea/models/db"
-	user_model "code.gitea.io/gitea/models/user"
+	"code.gitea.io/gitea/modules/db"
+	user_model "code.gitea.io/gitea/modules/user"
 )
 
 // IssueLockOptions defines options for locking and/or unlocking an issue/PR

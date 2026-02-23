@@ -8,12 +8,12 @@ import (
 	"testing"
 	"time"
 
-	actions_model "code.gitea.io/gitea/models/actions"
-	"code.gitea.io/gitea/models/db"
-	git_model "code.gitea.io/gitea/models/git"
-	repo_model "code.gitea.io/gitea/models/repo"
-	"code.gitea.io/gitea/models/unittest"
-	user_model "code.gitea.io/gitea/models/user"
+	actions_model "code.gitea.io/gitea/modules/actions"
+	"code.gitea.io/gitea/modules/db"
+	git_model "code.gitea.io/gitea/modules/git"
+	repo_model "code.gitea.io/gitea/modules/repo"
+	"code.gitea.io/gitea/modules/unittest"
+	user_model "code.gitea.io/gitea/modules/user"
 	"code.gitea.io/gitea/modules/commitstatus"
 	"code.gitea.io/gitea/modules/gitrepo"
 

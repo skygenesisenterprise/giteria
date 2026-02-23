@@ -6,7 +6,7 @@ package user
 import (
 	"context"
 
-	"code.gitea.io/gitea/models/db"
+	"code.gitea.io/gitea/modules/db"
 )
 
 func GetUsersMapByIDs(ctx context.Context, userIDs []int64) (map[int64]*User, error) {

@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"strings"
 
-	user_model "code.gitea.io/gitea/models/user"
+	user_model "code.gitea.io/gitea/modules/user"
 	"code.gitea.io/gitea/modules/util"
 )
 

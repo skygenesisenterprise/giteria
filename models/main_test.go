@@ -6,14 +6,14 @@ package models
 import (
 	"testing"
 
-	activities_model "code.gitea.io/gitea/models/activities"
-	"code.gitea.io/gitea/models/organization"
-	repo_model "code.gitea.io/gitea/models/repo"
-	"code.gitea.io/gitea/models/unittest"
-	user_model "code.gitea.io/gitea/models/user"
+	activities_model "code.gitea.io/gitea/modules/activities"
+	"code.gitea.io/gitea/modules/organization"
+	repo_model "code.gitea.io/gitea/modules/repo"
+	"code.gitea.io/gitea/modules/unittest"
+	user_model "code.gitea.io/gitea/modules/user"
 
-	_ "code.gitea.io/gitea/models/actions"
-	_ "code.gitea.io/gitea/models/system"
+	_ "code.gitea.io/gitea/modules/actions"
+	_ "code.gitea.io/gitea/modules/system"
 
 	"github.com/stretchr/testify/assert"
 )

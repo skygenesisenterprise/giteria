@@ -9,8 +9,8 @@ import (
 	"slices"
 	"strings"
 
-	"code.gitea.io/gitea/models/db"
-	"code.gitea.io/gitea/models/organization"
+	"code.gitea.io/gitea/modules/db"
+	"code.gitea.io/gitea/modules/organization"
 	"code.gitea.io/gitea/modules/glob"
 	"code.gitea.io/gitea/modules/timeutil"
 )

@@ -1,7 +1,7 @@
 {
-  "name": "@aether-identity/messages",
+  "name": "@giteria/messages",
   "version": "1.0.0",
-  "description": "Internationalization messages for Aether identity ecosystem",
+  "description": "Internationalization messages for Giteria ecosystem",
   "main": "generated/index.js",
   "types": "generated/index.d.ts",
   "scripts": {
@@ -14,7 +14,7 @@
     "dev": "npm run build && npm run generate:checksums"
   },
   "keywords": [
-    "aether-vault",
+    "giteria",
     "i18n",
     "internationalization",
     "messages",
@@ -40,11 +40,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/skygenesisenterprise/aether-identity.git",
+    "url": "https://github.com/skygenesisenterprise/giteria.git",
     "directory": "messages"
   },
   "bugs": {
-    "url": "https://github.com/skygenesisenterprise/aether-identity/issues"
+    "url": "https://github.com/skygenesisenterprise/giteria/issues"
   },
-  "homepage": "https://github.com/skygenesisenterprise/aether-identity/tree/main/messages"
+  "homepage": "https://github.com/skygenesisenterprise/giteria/tree/main/messages"
 }

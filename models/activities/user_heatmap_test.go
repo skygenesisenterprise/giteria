@@ -7,9 +7,9 @@ import (
 	"testing"
 	"time"
 
-	activities_model "code.gitea.io/gitea/models/activities"
-	"code.gitea.io/gitea/models/unittest"
-	user_model "code.gitea.io/gitea/models/user"
+	activities_model "code.gitea.io/gitea/modules/activities"
+	"code.gitea.io/gitea/modules/unittest"
+	user_model "code.gitea.io/gitea/modules/user"
 	"code.gitea.io/gitea/modules/json"
 	"code.gitea.io/gitea/modules/timeutil"
 

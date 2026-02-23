@@ -6,7 +6,7 @@ package v1_9
 import (
 	"fmt"
 
-	"code.gitea.io/gitea/models/migrations/base"
+	"code.gitea.io/gitea/modules/migrations/base"
 	"code.gitea.io/gitea/modules/log"
 	"code.gitea.io/gitea/modules/timeutil"
 	"code.gitea.io/gitea/modules/util"

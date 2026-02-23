@@ -6,10 +6,10 @@ package activities_test
 import (
 	"testing"
 
-	"code.gitea.io/gitea/models/unittest"
+	"code.gitea.io/gitea/modules/unittest"
 
-	_ "code.gitea.io/gitea/models"
-	_ "code.gitea.io/gitea/models/actions"
+	_ "github.com/skygenesisenterprise/giteria/models"
+	_ "code.gitea.io/gitea/modules/actions"
 )
 
 func TestMain(m *testing.M) {

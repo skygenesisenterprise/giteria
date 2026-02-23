@@ -6,8 +6,8 @@ package models
 import (
 	"testing"
 
-	issues_model "code.gitea.io/gitea/models/issues"
-	"code.gitea.io/gitea/models/unittest"
+	issues_model "code.gitea.io/gitea/modules/issues"
+	"code.gitea.io/gitea/modules/unittest"
 
 	"github.com/stretchr/testify/assert"
 )

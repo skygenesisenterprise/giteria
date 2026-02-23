@@ -6,8 +6,8 @@ package renderhelper
 import (
 	"testing"
 
-	repo_model "code.gitea.io/gitea/models/repo"
-	"code.gitea.io/gitea/models/unittest"
+	repo_model "code.gitea.io/gitea/modules/repo"
+	"code.gitea.io/gitea/modules/unittest"
 	"code.gitea.io/gitea/modules/markup"
 	"code.gitea.io/gitea/modules/markup/markdown"
 

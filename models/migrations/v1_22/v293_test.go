@@ -6,8 +6,8 @@ package v1_22
 import (
 	"testing"
 
-	"code.gitea.io/gitea/models/migrations/base"
-	"code.gitea.io/gitea/models/project"
+	"code.gitea.io/gitea/modules/migrations/base"
+	"code.gitea.io/gitea/modules/project"
 
 	"github.com/stretchr/testify/assert"
 )

@@ -6,7 +6,7 @@ package issues
 import (
 	"context"
 
-	"code.gitea.io/gitea/models/db"
+	"code.gitea.io/gitea/modules/db"
 )
 
 // RecalculateIssueIndexForRepo create issue_index for repo if not exist and

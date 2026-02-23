@@ -6,8 +6,8 @@ package actions
 import (
 	"context"
 
-	"code.gitea.io/gitea/models/db"
-	repo_model "code.gitea.io/gitea/models/repo"
+	"code.gitea.io/gitea/modules/db"
+	repo_model "code.gitea.io/gitea/modules/repo"
 	"code.gitea.io/gitea/modules/container"
 	"code.gitea.io/gitea/modules/timeutil"
 

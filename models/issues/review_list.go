@@ -8,9 +8,9 @@ import (
 	"slices"
 	"sort"
 
-	"code.gitea.io/gitea/models/db"
-	organization_model "code.gitea.io/gitea/models/organization"
-	user_model "code.gitea.io/gitea/models/user"
+	"code.gitea.io/gitea/modules/db"
+	organization_model "code.gitea.io/gitea/modules/organization"
+	user_model "code.gitea.io/gitea/modules/user"
 	"code.gitea.io/gitea/modules/container"
 	"code.gitea.io/gitea/modules/optional"
 

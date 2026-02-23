@@ -6,10 +6,10 @@ package repo_test
 import (
 	"testing"
 
-	"code.gitea.io/gitea/models/db"
-	repo_model "code.gitea.io/gitea/models/repo"
-	"code.gitea.io/gitea/models/unittest"
-	user_model "code.gitea.io/gitea/models/user"
+	"code.gitea.io/gitea/modules/db"
+	repo_model "code.gitea.io/gitea/modules/repo"
+	"code.gitea.io/gitea/modules/unittest"
+	user_model "code.gitea.io/gitea/modules/user"
 
 	"github.com/stretchr/testify/assert"
 )

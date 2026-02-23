@@ -6,7 +6,7 @@ package v1_13
 import (
 	"fmt"
 
-	"code.gitea.io/gitea/models/migrations/base"
+	"code.gitea.io/gitea/modules/migrations/base"
 	"code.gitea.io/gitea/modules/setting"
 
 	"xorm.io/xorm"

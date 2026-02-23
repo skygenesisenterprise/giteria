@@ -4,7 +4,7 @@
 package v1_24
 
 import (
-	"code.gitea.io/gitea/models/perm"
+	"code.gitea.io/gitea/modules/perm"
 
 	"xorm.io/xorm"
 )

@@ -4,7 +4,7 @@
 package v1_17
 
 import (
-	"code.gitea.io/gitea/models/pull"
+	"code.gitea.io/gitea/modules/pull"
 	"code.gitea.io/gitea/modules/timeutil"
 
 	"xorm.io/xorm"

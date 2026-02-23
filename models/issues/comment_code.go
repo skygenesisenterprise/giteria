@@ -7,9 +7,9 @@ import (
 	"context"
 	"strconv"
 
-	"code.gitea.io/gitea/models/db"
-	"code.gitea.io/gitea/models/renderhelper"
-	user_model "code.gitea.io/gitea/models/user"
+	"code.gitea.io/gitea/modules/db"
+	"code.gitea.io/gitea/modules/renderhelper"
+	user_model "code.gitea.io/gitea/modules/user"
 	"code.gitea.io/gitea/modules/markup/markdown"
 
 	"xorm.io/builder"

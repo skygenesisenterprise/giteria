@@ -7,8 +7,8 @@ import (
 	"strings"
 	"testing"
 
-	auth_model "code.gitea.io/gitea/models/auth"
-	"code.gitea.io/gitea/models/unittest"
+	auth_model "code.gitea.io/gitea/modules/auth"
+	"code.gitea.io/gitea/modules/unittest"
 	"code.gitea.io/gitea/modules/json"
 
 	"github.com/stretchr/testify/assert"

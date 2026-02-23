@@ -6,13 +6,13 @@ package access
 import (
 	"testing"
 
-	"code.gitea.io/gitea/models/db"
-	"code.gitea.io/gitea/models/organization"
-	perm_model "code.gitea.io/gitea/models/perm"
-	repo_model "code.gitea.io/gitea/models/repo"
-	"code.gitea.io/gitea/models/unit"
-	"code.gitea.io/gitea/models/unittest"
-	user_model "code.gitea.io/gitea/models/user"
+	"code.gitea.io/gitea/modules/db"
+	"code.gitea.io/gitea/modules/organization"
+	perm_model "code.gitea.io/gitea/modules/perm"
+	repo_model "code.gitea.io/gitea/modules/repo"
+	"code.gitea.io/gitea/modules/unit"
+	"code.gitea.io/gitea/modules/unittest"
+	user_model "code.gitea.io/gitea/modules/user"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

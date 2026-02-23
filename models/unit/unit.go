@@ -10,7 +10,7 @@ import (
 	"strings"
 	"sync/atomic"
 
-	"code.gitea.io/gitea/models/perm"
+	"code.gitea.io/gitea/modules/perm"
 	"code.gitea.io/gitea/modules/container"
 	"code.gitea.io/gitea/modules/log"
 	"code.gitea.io/gitea/modules/setting"

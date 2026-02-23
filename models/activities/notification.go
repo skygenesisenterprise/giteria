@@ -9,11 +9,11 @@ import (
 	"net/url"
 	"strconv"
 
-	"code.gitea.io/gitea/models/db"
-	issues_model "code.gitea.io/gitea/models/issues"
-	"code.gitea.io/gitea/models/organization"
-	repo_model "code.gitea.io/gitea/models/repo"
-	user_model "code.gitea.io/gitea/models/user"
+	"code.gitea.io/gitea/modules/db"
+	issues_model "code.gitea.io/gitea/modules/issues"
+	"code.gitea.io/gitea/modules/organization"
+	repo_model "code.gitea.io/gitea/modules/repo"
+	user_model "code.gitea.io/gitea/modules/user"
 	"code.gitea.io/gitea/modules/setting"
 	"code.gitea.io/gitea/modules/timeutil"
 

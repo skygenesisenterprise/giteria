@@ -7,9 +7,9 @@ import (
 	"testing"
 	"time"
 
-	issues_model "code.gitea.io/gitea/models/issues"
-	"code.gitea.io/gitea/models/unittest"
-	user_model "code.gitea.io/gitea/models/user"
+	issues_model "code.gitea.io/gitea/modules/issues"
+	"code.gitea.io/gitea/modules/unittest"
+	user_model "code.gitea.io/gitea/modules/user"
 	"code.gitea.io/gitea/modules/optional"
 
 	"github.com/stretchr/testify/assert"

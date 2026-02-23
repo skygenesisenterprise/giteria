@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"strings"
 
-	"code.gitea.io/gitea/models/db"
-	"code.gitea.io/gitea/models/packages"
+	"code.gitea.io/gitea/modules/db"
+	"code.gitea.io/gitea/modules/packages"
 	cran_module "code.gitea.io/gitea/modules/packages/cran"
 
 	"xorm.io/builder"

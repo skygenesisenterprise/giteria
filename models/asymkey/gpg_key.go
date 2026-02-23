@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"code.gitea.io/gitea/models/db"
-	user_model "code.gitea.io/gitea/models/user"
+	"code.gitea.io/gitea/modules/db"
+	user_model "code.gitea.io/gitea/modules/user"
 	"code.gitea.io/gitea/modules/timeutil"
 
 	"github.com/ProtonMail/go-crypto/openpgp"
