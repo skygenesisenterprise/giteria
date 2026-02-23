@@ -4,8 +4,8 @@
 package oauth2
 
 import (
-	"code.gitea.io/gitea/models/auth"
-	"code.gitea.io/gitea/modules/json"
+	"github.com/skygenesisenterprise/giteria/models/auth"
+	"github.com/skygenesisenterprise/giteria/modules/json"
 )
 
 // Source holds configuration for the OAuth2 login source.

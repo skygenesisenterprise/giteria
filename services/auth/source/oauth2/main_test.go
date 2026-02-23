@@ -6,7 +6,7 @@ package oauth2
 import (
 	"testing"
 
-	"code.gitea.io/gitea/models/unittest"
+	"github.com/skygenesisenterprise/giteria/models/unittest"
 )
 
 func TestMain(m *testing.M) {

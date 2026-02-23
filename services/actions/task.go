@@ -8,12 +8,12 @@ import (
 	"errors"
 	"fmt"
 
-	actions_model "code.gitea.io/gitea/models/actions"
-	"code.gitea.io/gitea/models/db"
-	secret_model "code.gitea.io/gitea/models/secret"
-	notify_service "code.gitea.io/gitea/services/notify"
+	actions_model "github.com/skygenesisenterprise/giteria/models/actions"
+	"github.com/skygenesisenterprise/giteria/models/db"
+	secret_model "github.com/skygenesisenterprise/giteria/models/secret"
+	notify_service "github.com/skygenesisenterprise/giteria/services/notify"
 
-	runnerv1 "code.gitea.io/actions-proto-go/runner/v1"
+	runnerv1 "github.com/skygenesisenterprise/giteria/actions-proto-go/runner/v1"
 	"google.golang.org/protobuf/types/known/structpb"
 )
 

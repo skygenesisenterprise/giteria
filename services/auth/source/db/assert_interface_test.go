@@ -4,9 +4,9 @@
 package db_test
 
 import (
-	auth_model "code.gitea.io/gitea/models/auth"
-	"code.gitea.io/gitea/services/auth"
-	"code.gitea.io/gitea/services/auth/source/db"
+	auth_model "github.com/skygenesisenterprise/giteria/models/auth"
+	"github.com/skygenesisenterprise/giteria/services/auth"
+	"github.com/skygenesisenterprise/giteria/services/auth/source/db"
 )
 
 // This test file exists to assert that our Source exposes the interfaces that we expect

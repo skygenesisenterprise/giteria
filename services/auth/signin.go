@@ -7,18 +7,18 @@ import (
 	"context"
 	"strings"
 
-	"code.gitea.io/gitea/models/auth"
-	"code.gitea.io/gitea/models/db"
-	user_model "code.gitea.io/gitea/models/user"
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/optional"
-	"code.gitea.io/gitea/services/auth/source/oauth2"
-	"code.gitea.io/gitea/services/auth/source/smtp"
+	"github.com/skygenesisenterprise/giteria/models/auth"
+	"github.com/skygenesisenterprise/giteria/models/db"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/optional"
+	"github.com/skygenesisenterprise/giteria/services/auth/source/oauth2"
+	"github.com/skygenesisenterprise/giteria/services/auth/source/smtp"
 
-	_ "code.gitea.io/gitea/services/auth/source/db"   // register the sources (and below)
-	_ "code.gitea.io/gitea/services/auth/source/ldap" // register the ldap source
-	_ "code.gitea.io/gitea/services/auth/source/pam"  // register the pam source
-	_ "code.gitea.io/gitea/services/auth/source/sspi" // register the sspi source
+	_ "github.com/skygenesisenterprise/giteria/services/auth/source/db"   // register the sources (and below)
+	_ "github.com/skygenesisenterprise/giteria/services/auth/source/ldap" // register the ldap source
+	_ "github.com/skygenesisenterprise/giteria/services/auth/source/pam"  // register the pam source
+	_ "github.com/skygenesisenterprise/giteria/services/auth/source/sspi" // register the sspi source
 )
 
 // UserSignIn validates user name and password.

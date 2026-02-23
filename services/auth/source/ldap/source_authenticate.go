@@ -7,15 +7,15 @@ import (
 	"context"
 	"strings"
 
-	asymkey_model "code.gitea.io/gitea/models/asymkey"
-	"code.gitea.io/gitea/models/auth"
-	user_model "code.gitea.io/gitea/models/user"
-	auth_module "code.gitea.io/gitea/modules/auth"
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/optional"
-	asymkey_service "code.gitea.io/gitea/services/asymkey"
-	source_service "code.gitea.io/gitea/services/auth/source"
-	user_service "code.gitea.io/gitea/services/user"
+	asymkey_model "github.com/skygenesisenterprise/giteria/models/asymkey"
+	"github.com/skygenesisenterprise/giteria/models/auth"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	auth_module "github.com/skygenesisenterprise/giteria/modules/auth"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/optional"
+	asymkey_service "github.com/skygenesisenterprise/giteria/services/asymkey"
+	source_service "github.com/skygenesisenterprise/giteria/services/auth/source"
+	user_service "github.com/skygenesisenterprise/giteria/services/user"
 )
 
 // Authenticate queries if login/password is valid against the LDAP directory pool,

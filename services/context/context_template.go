@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"time"
 
-	"code.gitea.io/gitea/services/webtheme"
+	"github.com/skygenesisenterprise/giteria/services/webtheme"
 )
 
 var _ context.Context = TemplateContext(nil)

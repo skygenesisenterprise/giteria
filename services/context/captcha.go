@@ -7,14 +7,14 @@ import (
 	"fmt"
 	"sync"
 
-	"code.gitea.io/gitea/modules/cache"
-	"code.gitea.io/gitea/modules/hcaptcha"
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/mcaptcha"
-	"code.gitea.io/gitea/modules/recaptcha"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/templates"
-	"code.gitea.io/gitea/modules/turnstile"
+	"github.com/skygenesisenterprise/giteria/modules/cache"
+	"github.com/skygenesisenterprise/giteria/modules/hcaptcha"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/mcaptcha"
+	"github.com/skygenesisenterprise/giteria/modules/recaptcha"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/templates"
+	"github.com/skygenesisenterprise/giteria/modules/turnstile"
 
 	"gitea.com/go-chi/captcha"
 )

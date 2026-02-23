@@ -6,7 +6,7 @@ package context
 import (
 	"net/http"
 
-	web_types "code.gitea.io/gitea/modules/web/types"
+	web_types "github.com/skygenesisenterprise/giteria/modules/web/types"
 )
 
 // ResponseWriter represents a response writer for HTTP

@@ -7,9 +7,9 @@ import (
 	"context"
 	"net/url"
 
-	git_model "code.gitea.io/gitea/models/git"
-	user_model "code.gitea.io/gitea/models/user"
-	api "code.gitea.io/gitea/modules/structs"
+	git_model "github.com/skygenesisenterprise/giteria/models/git"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	api "github.com/skygenesisenterprise/giteria/modules/structs"
 )
 
 // ToCommitStatus converts git_model.CommitStatus to api.CommitStatus

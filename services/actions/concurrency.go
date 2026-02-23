@@ -7,9 +7,9 @@ import (
 	"context"
 	"fmt"
 
-	actions_model "code.gitea.io/gitea/models/actions"
-	"code.gitea.io/gitea/modules/json"
-	api "code.gitea.io/gitea/modules/structs"
+	actions_model "github.com/skygenesisenterprise/giteria/models/actions"
+	"github.com/skygenesisenterprise/giteria/modules/json"
+	api "github.com/skygenesisenterprise/giteria/modules/structs"
 
 	"github.com/nektos/act/pkg/jobparser"
 	act_model "github.com/nektos/act/pkg/model"

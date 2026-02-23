@@ -7,17 +7,17 @@ import (
 	"context"
 	"time"
 
-	activities_model "code.gitea.io/gitea/models/activities"
-	"code.gitea.io/gitea/models/system"
-	user_model "code.gitea.io/gitea/models/user"
-	"code.gitea.io/gitea/modules/git/gitcmd"
-	issue_indexer "code.gitea.io/gitea/modules/indexer/issues"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/updatechecker"
-	asymkey_service "code.gitea.io/gitea/services/asymkey"
-	repo_service "code.gitea.io/gitea/services/repository"
-	archiver_service "code.gitea.io/gitea/services/repository/archiver"
-	user_service "code.gitea.io/gitea/services/user"
+	activities_model "github.com/skygenesisenterprise/giteria/models/activities"
+	"github.com/skygenesisenterprise/giteria/models/system"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	"github.com/skygenesisenterprise/giteria/modules/git/gitcmd"
+	issue_indexer "github.com/skygenesisenterprise/giteria/modules/indexer/issues"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/updatechecker"
+	asymkey_service "github.com/skygenesisenterprise/giteria/services/asymkey"
+	repo_service "github.com/skygenesisenterprise/giteria/services/repository"
+	archiver_service "github.com/skygenesisenterprise/giteria/services/repository/archiver"
+	user_service "github.com/skygenesisenterprise/giteria/services/user"
 )
 
 func registerDeleteInactiveUsers() {
