@@ -10,12 +10,12 @@ import (
 	"io"
 	"strings"
 
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/markup"
-	"code.gitea.io/gitea/modules/markup/common"
-	"code.gitea.io/gitea/modules/markup/markdown/math"
-	"code.gitea.io/gitea/modules/setting"
-	giteautil "code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/markup"
+	"github.com/skygenesisenterprise/giteria/modules/markup/common"
+	"github.com/skygenesisenterprise/giteria/modules/markup/markdown/math"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	giteautil "github.com/skygenesisenterprise/giteria/modules/util"
 
 	chromahtml "github.com/alecthomas/chroma/v2/formatters/html"
 	"github.com/yuin/goldmark"

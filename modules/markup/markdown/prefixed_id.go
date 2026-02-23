@@ -7,9 +7,9 @@ import (
 	"bytes"
 	"fmt"
 
-	"code.gitea.io/gitea/modules/container"
-	"code.gitea.io/gitea/modules/markup/common"
-	"code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/container"
+	"github.com/skygenesisenterprise/giteria/modules/markup/common"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 
 	"github.com/yuin/goldmark/ast"
 )

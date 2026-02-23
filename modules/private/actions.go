@@ -6,7 +6,7 @@ package private
 import (
 	"context"
 
-	"code.gitea.io/gitea/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
 )
 
 type GenerateTokenRequest struct {

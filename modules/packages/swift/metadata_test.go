@@ -14,10 +14,10 @@ import (
 )
 
 const (
-	packageName          = "gitea"
+	packageName          = "giteria"
 	packageVersion       = "1.0.1"
 	packageDescription   = "Package Description"
-	packageRepositoryURL = "https://gitea.io/gitea/gitea"
+	packageRepositoryURL = "https://giteria.com/giteria/giteria"
 	packageAuthor        = "KN4CK3R"
 	packageLicense       = "MIT"
 )

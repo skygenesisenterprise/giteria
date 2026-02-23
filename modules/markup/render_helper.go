@@ -7,7 +7,7 @@ import (
 	"context"
 	"html/template"
 
-	"code.gitea.io/gitea/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
 )
 
 const (

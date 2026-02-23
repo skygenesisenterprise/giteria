@@ -6,9 +6,9 @@ package metrics
 import (
 	"runtime"
 
-	activities_model "code.gitea.io/gitea/models/activities"
-	"code.gitea.io/gitea/modules/graceful"
-	"code.gitea.io/gitea/modules/setting"
+	activities_model "github.com/skygenesisenterprise/giteria/models/activities"
+	"github.com/skygenesisenterprise/giteria/modules/graceful"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
 
 	"github.com/prometheus/client_golang/prometheus"
 )

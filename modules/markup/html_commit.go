@@ -7,9 +7,9 @@ import (
 	"slices"
 	"strings"
 
-	"code.gitea.io/gitea/modules/base"
-	"code.gitea.io/gitea/modules/references"
-	"code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/base"
+	"github.com/skygenesisenterprise/giteria/modules/references"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 
 	"golang.org/x/net/html"
 	"golang.org/x/net/html/atom"

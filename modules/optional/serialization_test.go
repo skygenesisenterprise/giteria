@@ -7,8 +7,8 @@ import (
 	std_json "encoding/json" //nolint:depguard // for testing purpose
 	"testing"
 
-	"code.gitea.io/gitea/modules/json"
-	"code.gitea.io/gitea/modules/optional"
+	"github.com/skygenesisenterprise/giteria/modules/json"
+	"github.com/skygenesisenterprise/giteria/modules/optional"
 
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/yaml.v3"

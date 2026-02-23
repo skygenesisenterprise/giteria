@@ -8,9 +8,9 @@ import (
 	"io"
 	"strings"
 
-	"code.gitea.io/gitea/modules/json"
-	"code.gitea.io/gitea/modules/packages/container/helm"
-	"code.gitea.io/gitea/modules/validation"
+	"github.com/skygenesisenterprise/giteria/modules/json"
+	"github.com/skygenesisenterprise/giteria/modules/packages/container/helm"
+	"github.com/skygenesisenterprise/giteria/modules/validation"
 
 	oci "github.com/opencontainers/image-spec/specs-go/v1"
 )

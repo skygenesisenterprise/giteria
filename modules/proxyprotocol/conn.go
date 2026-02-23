@@ -14,7 +14,7 @@ import (
 	"sync"
 	"time"
 
-	"code.gitea.io/gitea/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/log"
 )
 
 var (

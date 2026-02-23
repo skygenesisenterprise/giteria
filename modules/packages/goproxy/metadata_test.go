@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	packageName    = "gitea.com/go-gitea/gitea"
+	packageName    = "giteria.com/giteria/giteria"
 	packageVersion = "v0.0.1"
 )
 

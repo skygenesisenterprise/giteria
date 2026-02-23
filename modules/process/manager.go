@@ -12,7 +12,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"code.gitea.io/gitea/modules/gtprof"
+	"github.com/skygenesisenterprise/giteria/modules/gtprof"
 )
 
 // TODO: This packages still uses a singleton for the Manager.

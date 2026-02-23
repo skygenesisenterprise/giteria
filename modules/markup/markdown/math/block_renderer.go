@@ -6,8 +6,8 @@ package math
 import (
 	"html/template"
 
-	"code.gitea.io/gitea/modules/markup/internal"
-	giteaUtil "code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/markup/internal"
+	giteaUtil "github.com/skygenesisenterprise/giteria/modules/util"
 
 	gast "github.com/yuin/goldmark/ast"
 	"github.com/yuin/goldmark/renderer"

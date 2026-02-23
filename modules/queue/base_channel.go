@@ -9,7 +9,7 @@ import (
 	"sync"
 	"time"
 
-	"code.gitea.io/gitea/modules/container"
+	"github.com/skygenesisenterprise/giteria/modules/container"
 )
 
 var errChannelClosed = errors.New("channel is closed")

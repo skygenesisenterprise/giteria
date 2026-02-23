@@ -9,7 +9,7 @@ import (
 	"io"
 	"reflect"
 
-	"code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 )
 
 const (

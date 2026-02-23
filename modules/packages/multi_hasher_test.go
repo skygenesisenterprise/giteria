@@ -20,7 +20,7 @@ const (
 func TestMultiHasherSums(t *testing.T) {
 	t.Run("Sums", func(t *testing.T) {
 		h := NewMultiHasher()
-		h.Write([]byte("gitea"))
+		h.Write([]byte("giteria"))
 
 		hashMD5, hashSHA1, hashSHA256, hashSHA512 := h.Sums()
 

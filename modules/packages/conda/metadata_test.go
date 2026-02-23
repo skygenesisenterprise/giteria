@@ -10,7 +10,7 @@ import (
 	"io"
 	"testing"
 
-	"code.gitea.io/gitea/modules/zstd"
+	"github.com/skygenesisenterprise/giteria/modules/zstd"
 
 	"github.com/dsnet/compress/bzip2"
 	"github.com/stretchr/testify/assert"
@@ -20,9 +20,9 @@ const (
 	packageName      = "gitea"
 	packageVersion   = "1.0.1"
 	description      = "Package Description"
-	projectURL       = "https://gitea.com"
-	repositoryURL    = "https://gitea.com/gitea/gitea"
-	documentationURL = "https://docs.gitea.com"
+	projectURL       = "https://giteria.com"
+	repositoryURL    = "https://giteria.com/giteria/giteria"
+	documentationURL = "https://docs.giteria.com"
 )
 
 func TestParsePackage(t *testing.T) {

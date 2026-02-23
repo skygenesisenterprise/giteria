@@ -8,7 +8,7 @@ import (
 	"io"
 	"strings"
 
-	"code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 )
 
 // Conaninfo represents infos of a Conan package

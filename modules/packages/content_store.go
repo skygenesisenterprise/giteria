@@ -9,9 +9,9 @@ import (
 	"path"
 	"strings"
 
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/storage"
-	"code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/storage"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 )
 
 // BlobHash256Key is the key to address a blob content
