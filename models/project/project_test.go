@@ -6,9 +6,9 @@ package project
 import (
 	"testing"
 
-	"code.gitea.io/gitea/modules/db"
-	"code.gitea.io/gitea/modules/unittest"
-	"code.gitea.io/gitea/modules/timeutil"
+	"github.com/skygenesisenterprise/giteria/modules/db"
+	"github.com/skygenesisenterprise/giteria/modules/unittest"
+	"github.com/skygenesisenterprise/giteria/modules/timeutil"
 
 	"github.com/stretchr/testify/assert"
 )

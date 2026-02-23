@@ -8,11 +8,11 @@ import (
 	"slices"
 	"sort"
 
-	"code.gitea.io/gitea/modules/db"
-	organization_model "code.gitea.io/gitea/modules/organization"
-	user_model "code.gitea.io/gitea/modules/user"
-	"code.gitea.io/gitea/modules/container"
-	"code.gitea.io/gitea/modules/optional"
+	"github.com/skygenesisenterprise/giteria/modules/db"
+	organization_model "github.com/skygenesisenterprise/giteria/modules/organization"
+	user_model "github.com/skygenesisenterprise/giteria/modules/user"
+	"github.com/skygenesisenterprise/giteria/modules/container"
+	"github.com/skygenesisenterprise/giteria/modules/optional"
 
 	"xorm.io/builder"
 )

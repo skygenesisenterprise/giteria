@@ -7,12 +7,12 @@ import (
 	"context"
 	"fmt"
 
-	"code.gitea.io/gitea/modules/db"
-	"code.gitea.io/gitea/modules/perm"
-	"code.gitea.io/gitea/modules/unit"
-	user_model "code.gitea.io/gitea/modules/user"
-	"code.gitea.io/gitea/modules/container"
-	"code.gitea.io/gitea/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/db"
+	"github.com/skygenesisenterprise/giteria/modules/perm"
+	"github.com/skygenesisenterprise/giteria/modules/unit"
+	user_model "github.com/skygenesisenterprise/giteria/modules/user"
+	"github.com/skygenesisenterprise/giteria/modules/container"
+	"github.com/skygenesisenterprise/giteria/modules/log"
 
 	"xorm.io/builder"
 )

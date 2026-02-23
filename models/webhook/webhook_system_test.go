@@ -6,8 +6,8 @@ package webhook
 import (
 	"testing"
 
-	"code.gitea.io/gitea/modules/unittest"
-	"code.gitea.io/gitea/modules/optional"
+	"github.com/skygenesisenterprise/giteria/modules/unittest"
+	"github.com/skygenesisenterprise/giteria/modules/optional"
 
 	"github.com/stretchr/testify/assert"
 )

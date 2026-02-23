@@ -6,10 +6,10 @@ package repo
 import (
 	"context"
 
-	"code.gitea.io/gitea/modules/db"
-	user_model "code.gitea.io/gitea/modules/user"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/timeutil"
+	"github.com/skygenesisenterprise/giteria/modules/db"
+	user_model "github.com/skygenesisenterprise/giteria/modules/user"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/timeutil"
 )
 
 // WatchMode specifies what kind of watch the user has on a repository

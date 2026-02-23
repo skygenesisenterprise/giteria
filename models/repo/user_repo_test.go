@@ -6,9 +6,9 @@ package repo_test
 import (
 	"testing"
 
-	repo_model "code.gitea.io/gitea/modules/repo"
-	"code.gitea.io/gitea/modules/unittest"
-	user_model "code.gitea.io/gitea/modules/user"
+	repo_model "github.com/skygenesisenterprise/giteria/modules/repo"
+	"github.com/skygenesisenterprise/giteria/modules/unittest"
+	user_model "github.com/skygenesisenterprise/giteria/modules/user"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

@@ -9,17 +9,17 @@ import (
 	"fmt"
 	"slices"
 
-	actions_model "code.gitea.io/gitea/modules/actions"
-	"code.gitea.io/gitea/modules/db"
-	"code.gitea.io/gitea/modules/organization"
-	perm_model "code.gitea.io/gitea/modules/perm"
-	repo_model "code.gitea.io/gitea/modules/repo"
-	"code.gitea.io/gitea/modules/unit"
-	user_model "code.gitea.io/gitea/modules/user"
-	"code.gitea.io/gitea/modules/container"
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/util"
+	actions_model "github.com/skygenesisenterprise/giteria/modules/actions"
+	"github.com/skygenesisenterprise/giteria/modules/db"
+	"github.com/skygenesisenterprise/giteria/modules/organization"
+	perm_model "github.com/skygenesisenterprise/giteria/modules/perm"
+	repo_model "github.com/skygenesisenterprise/giteria/modules/repo"
+	"github.com/skygenesisenterprise/giteria/modules/unit"
+	user_model "github.com/skygenesisenterprise/giteria/modules/user"
+	"github.com/skygenesisenterprise/giteria/modules/container"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 )
 
 // Permission contains all the permissions related variables to a repository for a user

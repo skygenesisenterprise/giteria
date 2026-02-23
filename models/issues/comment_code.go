@@ -7,10 +7,10 @@ import (
 	"context"
 	"strconv"
 
-	"code.gitea.io/gitea/modules/db"
-	"code.gitea.io/gitea/modules/renderhelper"
-	user_model "code.gitea.io/gitea/modules/user"
-	"code.gitea.io/gitea/modules/markup/markdown"
+	"github.com/skygenesisenterprise/giteria/modules/db"
+	"github.com/skygenesisenterprise/giteria/modules/renderhelper"
+	user_model "github.com/skygenesisenterprise/giteria/modules/user"
+	"github.com/skygenesisenterprise/giteria/modules/markup/markdown"
 
 	"xorm.io/builder"
 )

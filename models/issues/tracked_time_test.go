@@ -7,10 +7,10 @@ import (
 	"testing"
 	"time"
 
-	issues_model "code.gitea.io/gitea/modules/issues"
-	"code.gitea.io/gitea/modules/unittest"
-	user_model "code.gitea.io/gitea/modules/user"
-	"code.gitea.io/gitea/modules/optional"
+	issues_model "github.com/skygenesisenterprise/giteria/modules/issues"
+	"github.com/skygenesisenterprise/giteria/modules/unittest"
+	user_model "github.com/skygenesisenterprise/giteria/modules/user"
+	"github.com/skygenesisenterprise/giteria/modules/optional"
 
 	"github.com/stretchr/testify/assert"
 )

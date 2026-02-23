@@ -6,7 +6,7 @@ package system
 import (
 	"context"
 
-	"code.gitea.io/gitea/modules/db"
+	"github.com/skygenesisenterprise/giteria/modules/db"
 )
 
 // AppState represents a state record in database

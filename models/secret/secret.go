@@ -8,14 +8,14 @@ import (
 	"fmt"
 	"strings"
 
-	actions_model "code.gitea.io/gitea/modules/actions"
-	"code.gitea.io/gitea/modules/db"
-	actions_module "code.gitea.io/gitea/modules/actions"
-	"code.gitea.io/gitea/modules/log"
-	secret_module "code.gitea.io/gitea/modules/secret"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/timeutil"
-	"code.gitea.io/gitea/modules/util"
+	actions_model "github.com/skygenesisenterprise/giteria/modules/actions"
+	"github.com/skygenesisenterprise/giteria/modules/db"
+	actions_module "github.com/skygenesisenterprise/giteria/modules/actions"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	secret_module "github.com/skygenesisenterprise/giteria/modules/secret"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/timeutil"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 
 	"xorm.io/builder"
 )

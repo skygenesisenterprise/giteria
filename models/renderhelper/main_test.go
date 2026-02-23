@@ -7,8 +7,8 @@ import (
 	"context"
 	"testing"
 
-	"code.gitea.io/gitea/modules/unittest"
-	"code.gitea.io/gitea/modules/markup"
+	"github.com/skygenesisenterprise/giteria/modules/unittest"
+	"github.com/skygenesisenterprise/giteria/modules/markup"
 )
 
 func TestMain(m *testing.M) {

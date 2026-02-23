@@ -6,8 +6,8 @@ package rpm
 import (
 	"context"
 
-	packages_model "code.gitea.io/gitea/modules/packages"
-	rpm_module "code.gitea.io/gitea/modules/packages/rpm"
+	packages_model "github.com/skygenesisenterprise/giteria/modules/packages"
+	rpm_module "github.com/skygenesisenterprise/giteria/modules/packages/rpm"
 )
 
 // GetGroups gets all available groups

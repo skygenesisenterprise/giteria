@@ -6,9 +6,9 @@ package system_test
 import (
 	"testing"
 
-	"code.gitea.io/gitea/modules/db"
-	"code.gitea.io/gitea/modules/system"
-	"code.gitea.io/gitea/modules/unittest"
+	"github.com/skygenesisenterprise/giteria/modules/db"
+	"github.com/skygenesisenterprise/giteria/modules/system"
+	"github.com/skygenesisenterprise/giteria/modules/unittest"
 
 	"github.com/stretchr/testify/assert"
 )

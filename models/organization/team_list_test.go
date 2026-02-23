@@ -6,8 +6,8 @@ package organization_test
 import (
 	"testing"
 
-	org_model "code.gitea.io/gitea/modules/organization"
-	"code.gitea.io/gitea/modules/unittest"
+	org_model "github.com/skygenesisenterprise/giteria/modules/organization"
+	"github.com/skygenesisenterprise/giteria/modules/unittest"
 
 	"github.com/stretchr/testify/assert"
 )

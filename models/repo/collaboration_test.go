@@ -6,11 +6,11 @@ package repo_test
 import (
 	"testing"
 
-	"code.gitea.io/gitea/modules/db"
-	"code.gitea.io/gitea/modules/perm"
-	access_model "code.gitea.io/gitea/modules/perm/access"
-	repo_model "code.gitea.io/gitea/modules/repo"
-	"code.gitea.io/gitea/modules/unittest"
+	"github.com/skygenesisenterprise/giteria/modules/db"
+	"github.com/skygenesisenterprise/giteria/modules/perm"
+	access_model "github.com/skygenesisenterprise/giteria/modules/perm/access"
+	repo_model "github.com/skygenesisenterprise/giteria/modules/repo"
+	"github.com/skygenesisenterprise/giteria/modules/unittest"
 
 	"github.com/stretchr/testify/assert"
 )

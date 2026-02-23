@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 
-	"code.gitea.io/gitea/modules/db"
+	"github.com/skygenesisenterprise/giteria/modules/db"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

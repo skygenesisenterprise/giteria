@@ -6,8 +6,8 @@ package user
 import (
 	"context"
 
-	"code.gitea.io/gitea/modules/db"
-	"code.gitea.io/gitea/modules/timeutil"
+	"github.com/skygenesisenterprise/giteria/modules/db"
+	"github.com/skygenesisenterprise/giteria/modules/timeutil"
 )
 
 // Follow represents relations of user and their followers.

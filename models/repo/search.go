@@ -3,7 +3,7 @@
 
 package repo
 
-import "code.gitea.io/gitea/modules/db"
+import "github.com/skygenesisenterprise/giteria/modules/db"
 
 // OrderByMap represents all possible search order
 var OrderByMap = map[string]map[string]db.SearchOrderBy{

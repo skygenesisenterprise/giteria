@@ -7,8 +7,8 @@ import (
 	"context"
 	"fmt"
 
-	"code.gitea.io/gitea/modules/auth"
-	"code.gitea.io/gitea/modules/db"
+	"github.com/skygenesisenterprise/giteria/modules/auth"
+	"github.com/skygenesisenterprise/giteria/modules/db"
 )
 
 // UserList is a list of user.

@@ -8,11 +8,11 @@ import (
 	"strings"
 	"time"
 
-	"code.gitea.io/gitea/modules/db"
-	"code.gitea.io/gitea/modules/packages"
-	user_model "code.gitea.io/gitea/modules/user"
-	container_module "code.gitea.io/gitea/modules/packages/container"
-	"code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/db"
+	"github.com/skygenesisenterprise/giteria/modules/packages"
+	user_model "github.com/skygenesisenterprise/giteria/modules/user"
+	container_module "github.com/skygenesisenterprise/giteria/modules/packages/container"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 
 	"xorm.io/builder"
 )

@@ -7,9 +7,9 @@ import (
 	"context"
 	"strings"
 
-	"code.gitea.io/gitea/modules/db"
-	"code.gitea.io/gitea/modules/perm"
-	"code.gitea.io/gitea/modules/unit"
+	"github.com/skygenesisenterprise/giteria/modules/db"
+	"github.com/skygenesisenterprise/giteria/modules/perm"
+	"github.com/skygenesisenterprise/giteria/modules/unit"
 
 	"xorm.io/builder"
 )

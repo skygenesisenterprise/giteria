@@ -6,13 +6,13 @@ package packages_test
 import (
 	"testing"
 
-	packages_model "code.gitea.io/gitea/modules/packages"
-	"code.gitea.io/gitea/modules/unittest"
-	user_model "code.gitea.io/gitea/modules/user"
+	packages_model "github.com/skygenesisenterprise/giteria/modules/packages"
+	"github.com/skygenesisenterprise/giteria/modules/unittest"
+	user_model "github.com/skygenesisenterprise/giteria/modules/user"
 
 	_ "github.com/skygenesisenterprise/giteria/models"
-	_ "code.gitea.io/gitea/modules/actions"
-	_ "code.gitea.io/gitea/modules/activities"
+	_ "github.com/skygenesisenterprise/giteria/modules/actions"
+	_ "github.com/skygenesisenterprise/giteria/modules/activities"
 
 	"github.com/stretchr/testify/assert"
 )

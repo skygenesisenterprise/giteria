@@ -9,8 +9,8 @@ import (
 	"fmt"
 	"strings"
 
-	user_model "code.gitea.io/gitea/modules/user"
-	"code.gitea.io/gitea/modules/util"
+	user_model "github.com/skygenesisenterprise/giteria/modules/user"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 )
 
 // ErrWikiAlreadyExist represents a "WikiAlreadyExist" kind of error.

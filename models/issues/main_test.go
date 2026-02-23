@@ -6,14 +6,14 @@ package issues_test
 import (
 	"testing"
 
-	issues_model "code.gitea.io/gitea/modules/issues"
-	"code.gitea.io/gitea/modules/unittest"
+	issues_model "github.com/skygenesisenterprise/giteria/modules/issues"
+	"github.com/skygenesisenterprise/giteria/modules/unittest"
 
 	_ "github.com/skygenesisenterprise/giteria/models"
-	_ "code.gitea.io/gitea/modules/actions"
-	_ "code.gitea.io/gitea/modules/activities"
-	_ "code.gitea.io/gitea/modules/repo"
-	_ "code.gitea.io/gitea/modules/user"
+	_ "github.com/skygenesisenterprise/giteria/modules/actions"
+	_ "github.com/skygenesisenterprise/giteria/modules/activities"
+	_ "github.com/skygenesisenterprise/giteria/modules/repo"
+	_ "github.com/skygenesisenterprise/giteria/modules/user"
 
 	"github.com/stretchr/testify/assert"
 )

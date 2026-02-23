@@ -9,13 +9,13 @@ import (
 	"image/png"
 	"io"
 
-	"code.gitea.io/gitea/modules/avatars"
-	"code.gitea.io/gitea/modules/db"
-	"code.gitea.io/gitea/modules/avatar"
-	"code.gitea.io/gitea/modules/httplib"
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/storage"
+	"github.com/skygenesisenterprise/giteria/modules/avatars"
+	"github.com/skygenesisenterprise/giteria/modules/db"
+	"github.com/skygenesisenterprise/giteria/modules/avatar"
+	"github.com/skygenesisenterprise/giteria/modules/httplib"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/storage"
 )
 
 // CustomAvatarRelativePath returns user custom avatar relative path.

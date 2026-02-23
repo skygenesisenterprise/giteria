@@ -6,8 +6,8 @@ package organization
 import (
 	"context"
 
-	"code.gitea.io/gitea/modules/db"
-	user_model "code.gitea.io/gitea/modules/user"
+	"github.com/skygenesisenterprise/giteria/gitea/modules/db"
+	user_model "github.com/skygenesisenterprise/giteria/gitea/modules/user"
 
 	"xorm.io/builder"
 )

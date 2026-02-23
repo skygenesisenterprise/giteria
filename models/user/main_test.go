@@ -6,12 +6,12 @@ package user_test
 import (
 	"testing"
 
-	"code.gitea.io/gitea/modules/unittest"
+	"github.com/skygenesisenterprise/giteria/modules/unittest"
 
 	_ "github.com/skygenesisenterprise/giteria/models"
-	_ "code.gitea.io/gitea/modules/actions"
-	_ "code.gitea.io/gitea/modules/activities"
-	_ "code.gitea.io/gitea/modules/user"
+	_ "github.com/skygenesisenterprise/giteria/modules/actions"
+	_ "github.com/skygenesisenterprise/giteria/modules/activities"
+	_ "github.com/skygenesisenterprise/giteria/modules/user"
 )
 
 func TestMain(m *testing.M) {

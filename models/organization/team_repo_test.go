@@ -6,11 +6,11 @@ package organization_test
 import (
 	"testing"
 
-	"code.gitea.io/gitea/modules/organization"
-	"code.gitea.io/gitea/modules/perm"
-	"code.gitea.io/gitea/modules/repo"
-	"code.gitea.io/gitea/modules/unit"
-	"code.gitea.io/gitea/modules/unittest"
+	"github.com/skygenesisenterprise/giteria/modules/organization"
+	"github.com/skygenesisenterprise/giteria/modules/perm"
+	"github.com/skygenesisenterprise/giteria/modules/repo"
+	"github.com/skygenesisenterprise/giteria/modules/unit"
+	"github.com/skygenesisenterprise/giteria/modules/unittest"
 
 	"github.com/stretchr/testify/assert"
 )
