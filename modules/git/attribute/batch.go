@@ -11,9 +11,9 @@ import (
 	"path/filepath"
 	"time"
 
-	"code.gitea.io/gitea/modules/git"
-	"code.gitea.io/gitea/modules/git/gitcmd"
-	"code.gitea.io/gitea/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/git"
+	"github.com/skygenesisenterprise/giteria/modules/git/gitcmd"
+	"github.com/skygenesisenterprise/giteria/modules/log"
 )
 
 // BatchChecker provides a reader for check-attribute content that can be long running

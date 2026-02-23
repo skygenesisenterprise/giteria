@@ -10,7 +10,7 @@ import (
 	"bytes"
 	"io"
 
-	"code.gitea.io/gitea/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/log"
 )
 
 // Blob represents a Git object.

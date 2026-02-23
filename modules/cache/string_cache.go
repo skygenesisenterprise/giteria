@@ -7,9 +7,9 @@ import (
 	"errors"
 	"strings"
 
-	"code.gitea.io/gitea/modules/json"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/json"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 
 	chi_cache "gitea.com/go-chi/cache" //nolint:depguard // we wrap this package here
 )

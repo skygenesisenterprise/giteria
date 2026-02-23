@@ -11,8 +11,8 @@ import (
 	"runtime"
 	"strings"
 
-	"code.gitea.io/gitea/modules/git/gitcmd"
-	"code.gitea.io/gitea/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/git/gitcmd"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
 )
 
 // syncGitConfig only modifies gitconfig, won't change global variables (otherwise there will be data-race problem)

@@ -16,8 +16,8 @@ import (
 	"strings"
 	"time"
 
-	"code.gitea.io/gitea/modules/git/gitcmd"
-	"code.gitea.io/gitea/modules/proxy"
+	"github.com/skygenesisenterprise/giteria/modules/git/gitcmd"
+	"github.com/skygenesisenterprise/giteria/modules/proxy"
 )
 
 // GPGSettings represents the default GPG settings for this repository

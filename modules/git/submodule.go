@@ -9,8 +9,8 @@ import (
 	"fmt"
 	"os"
 
-	"code.gitea.io/gitea/modules/git/gitcmd"
-	"code.gitea.io/gitea/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/git/gitcmd"
+	"github.com/skygenesisenterprise/giteria/modules/log"
 )
 
 type TemplateSubmoduleCommit struct {

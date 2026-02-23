@@ -6,10 +6,10 @@ package activitypub
 import (
 	"testing"
 
-	"code.gitea.io/gitea/models/unittest"
-	user_model "code.gitea.io/gitea/models/user"
+	"github.com/skygenesisenterprise/giteria/models/unittest"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
 
-	_ "code.gitea.io/gitea/models" // https://forum.gitea.com/t/testfixtures-could-not-clean-table-access-no-such-table-access/4137/4
+	_ "github.com/skygenesisenterprise/giteria/models" // https://forum.gitea.com/t/testfixtures-could-not-clean-table-access-no-such-table-access/4137/4
 
 	"github.com/stretchr/testify/assert"
 )

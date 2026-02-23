@@ -6,8 +6,8 @@ package hash
 import (
 	"strconv"
 
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 )
 
 func parseIntParam(value, param, algorithmName, config string, previousErr error) (int, error) {

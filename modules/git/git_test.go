@@ -8,8 +8,8 @@ import (
 	"os"
 	"testing"
 
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/tempdir"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/tempdir"
 
 	"github.com/hashicorp/go-version"
 	"github.com/stretchr/testify/assert"

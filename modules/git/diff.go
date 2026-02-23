@@ -14,8 +14,8 @@ import (
 	"strconv"
 	"strings"
 
-	"code.gitea.io/gitea/modules/git/gitcmd"
-	"code.gitea.io/gitea/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/git/gitcmd"
+	"github.com/skygenesisenterprise/giteria/modules/log"
 )
 
 // RawDiffType type of a raw diff.

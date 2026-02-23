@@ -8,10 +8,10 @@ import (
 	"encoding/binary"
 	"encoding/gob"
 
-	"code.gitea.io/gitea/models/auth"
-	user_model "code.gitea.io/gitea/models/user"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/models/auth"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 
 	"github.com/go-webauthn/webauthn/protocol"
 	"github.com/go-webauthn/webauthn/webauthn"

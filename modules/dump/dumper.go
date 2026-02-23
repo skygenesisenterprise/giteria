@@ -15,9 +15,9 @@ import (
 	"slices"
 	"strings"
 
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/timeutil"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/timeutil"
 
 	"github.com/mholt/archives"
 )

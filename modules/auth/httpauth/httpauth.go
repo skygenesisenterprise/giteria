@@ -7,7 +7,7 @@ import (
 	"encoding/base64"
 	"strings"
 
-	"code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 )
 
 type BasicAuth struct {

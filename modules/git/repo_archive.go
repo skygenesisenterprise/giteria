@@ -11,7 +11,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"code.gitea.io/gitea/modules/git/gitcmd"
+	"github.com/skygenesisenterprise/giteria/modules/git/gitcmd"
 )
 
 // ArchiveType archive types

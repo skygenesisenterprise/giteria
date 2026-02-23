@@ -9,11 +9,11 @@ import (
 	"bytes"
 	"io"
 
-	"code.gitea.io/gitea/modules/analyze"
-	"code.gitea.io/gitea/modules/git"
-	"code.gitea.io/gitea/modules/git/attribute"
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/optional"
+	"github.com/skygenesisenterprise/giteria/modules/analyze"
+	"github.com/skygenesisenterprise/giteria/modules/git"
+	"github.com/skygenesisenterprise/giteria/modules/git/attribute"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/optional"
 
 	"github.com/go-enry/go-enry/v2"
 )

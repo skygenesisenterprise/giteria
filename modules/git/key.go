@@ -7,8 +7,8 @@ import (
 	"context"
 	"strings"
 
-	"code.gitea.io/gitea/modules/git/gitcmd"
-	"code.gitea.io/gitea/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/git/gitcmd"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
 )
 
 // Based on https://git-scm.com/docs/git-config#Documentation/git-config.txt-gpgformat

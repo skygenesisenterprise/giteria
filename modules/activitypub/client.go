@@ -14,9 +14,9 @@ import (
 	"strings"
 	"time"
 
-	user_model "code.gitea.io/gitea/models/user"
-	"code.gitea.io/gitea/modules/proxy"
-	"code.gitea.io/gitea/modules/setting"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	"github.com/skygenesisenterprise/giteria/modules/proxy"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
 
 	"github.com/42wim/httpsig"
 )

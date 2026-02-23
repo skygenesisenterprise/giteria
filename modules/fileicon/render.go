@@ -7,7 +7,7 @@ import (
 	"html/template"
 	"strings"
 
-	"code.gitea.io/gitea/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
 )
 
 type RenderedIconPool struct {

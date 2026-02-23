@@ -6,10 +6,10 @@ package actions
 import (
 	"net/http"
 
-	actions_model "code.gitea.io/gitea/models/actions"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/storage"
-	"code.gitea.io/gitea/services/context"
+	actions_model "github.com/skygenesisenterprise/giteria/models/actions"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/storage"
+	"github.com/skygenesisenterprise/giteria/services/context"
 )
 
 // Artifacts using the v4 backend are stored as a single combined zip file per artifact on the backend

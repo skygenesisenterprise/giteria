@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"code.gitea.io/gitea/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/log"
 )
 
 // Helper to get a signature from the commit line, which looks like:

@@ -13,8 +13,8 @@ import (
 	"strings"
 	"sync"
 
-	"code.gitea.io/gitea/modules/git/gitcmd"
-	"code.gitea.io/gitea/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/git/gitcmd"
+	"github.com/skygenesisenterprise/giteria/modules/log"
 )
 
 // CatFileBatchCheck runs cat-file with --batch-check

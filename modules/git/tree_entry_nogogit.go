@@ -5,7 +5,7 @@
 
 package git
 
-import "code.gitea.io/gitea/modules/log"
+import "github.com/skygenesisenterprise/giteria/modules/log"
 
 // Size returns the size of the entry
 func (te *TreeEntry) Size() int64 {

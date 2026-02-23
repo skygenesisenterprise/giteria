@@ -9,8 +9,8 @@ import (
 	"os"
 	"strings"
 
-	"code.gitea.io/gitea/modules/git/gitcmd"
-	"code.gitea.io/gitea/modules/process"
+	"github.com/skygenesisenterprise/giteria/modules/git/gitcmd"
+	"github.com/skygenesisenterprise/giteria/modules/process"
 )
 
 // LoadPublicKeyContent will load the key from gpg

@@ -17,11 +17,11 @@ import (
 	"strings"
 	"time"
 
-	"code.gitea.io/gitea/modules/git/internal" //nolint:depguard // only this file can use the internal type CmdArg, other files and packages should use AddXxx functions
-	"code.gitea.io/gitea/modules/gtprof"
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/process"
-	"code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/git/internal" //nolint:depguard // only this file can use the internal type CmdArg, other files and packages should use AddXxx functions
+	"github.com/skygenesisenterprise/giteria/modules/gtprof"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/process"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 )
 
 // TrustedCmdArgs returns the trusted arguments for git command.

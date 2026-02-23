@@ -9,7 +9,7 @@ import (
 	"io"
 	"strings"
 
-	"code.gitea.io/gitea/modules/git/gitcmd"
+	"github.com/skygenesisenterprise/giteria/modules/git/gitcmd"
 )
 
 // Tree represents a flat directory listing.

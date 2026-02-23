@@ -10,9 +10,9 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 
 	"github.com/gogs/chardet"
 	"golang.org/x/net/html/charset"

@@ -12,8 +12,8 @@ import (
 	"strings"
 	"sync"
 
-	"code.gitea.io/gitea/modules/git/gitcmd"
-	"code.gitea.io/gitea/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/git/gitcmd"
+	"github.com/skygenesisenterprise/giteria/modules/log"
 )
 
 // RevListAllObjects runs rev-list --objects --all and writes to a pipewriter

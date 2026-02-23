@@ -7,15 +7,15 @@ import (
 	"context"
 	"time"
 
-	activities_model "code.gitea.io/gitea/models/activities"
-	issues_model "code.gitea.io/gitea/models/issues"
-	"code.gitea.io/gitea/modules/graceful"
-	"code.gitea.io/gitea/modules/json"
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/process"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/timeutil"
-	"code.gitea.io/gitea/services/convert"
+	activities_model "github.com/skygenesisenterprise/giteria/models/activities"
+	issues_model "github.com/skygenesisenterprise/giteria/models/issues"
+	"github.com/skygenesisenterprise/giteria/modules/graceful"
+	"github.com/skygenesisenterprise/giteria/modules/json"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/process"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/timeutil"
+	"github.com/skygenesisenterprise/giteria/services/convert"
 )
 
 // Init starts this eventsource

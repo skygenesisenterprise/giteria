@@ -12,7 +12,7 @@ import (
 	"strings"
 	"sync"
 
-	"code.gitea.io/gitea/modules/git"
+	"github.com/skygenesisenterprise/giteria/modules/git"
 
 	gogit "github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing"

@@ -6,11 +6,11 @@ package activitypub
 import (
 	"testing"
 
-	"code.gitea.io/gitea/models/unittest"
+	"github.com/skygenesisenterprise/giteria/models/unittest"
 
-	_ "code.gitea.io/gitea/models"
-	_ "code.gitea.io/gitea/models/actions"
-	_ "code.gitea.io/gitea/models/activities"
+	_ "github.com/skygenesisenterprise/giteria/models"
+	_ "github.com/skygenesisenterprise/giteria/models/actions"
+	_ "github.com/skygenesisenterprise/giteria/models/activities"
 )
 
 func TestMain(m *testing.M) {

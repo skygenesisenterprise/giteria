@@ -11,8 +11,8 @@ import (
 	"strconv"
 	"strings"
 
-	"code.gitea.io/gitea/modules/git/gitcmd"
-	"code.gitea.io/gitea/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/git/gitcmd"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
 )
 
 // GetBranchCommitID returns last commit ID string of given branch.

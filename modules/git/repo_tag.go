@@ -9,9 +9,9 @@ import (
 	"io"
 	"strings"
 
-	"code.gitea.io/gitea/modules/git/foreachref"
-	"code.gitea.io/gitea/modules/git/gitcmd"
-	"code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/git/foreachref"
+	"github.com/skygenesisenterprise/giteria/modules/git/gitcmd"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 )
 
 // TagPrefix tags prefix path on the repository

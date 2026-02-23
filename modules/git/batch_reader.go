@@ -12,8 +12,8 @@ import (
 	"strconv"
 	"strings"
 
-	"code.gitea.io/gitea/modules/git/gitcmd"
-	"code.gitea.io/gitea/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/git/gitcmd"
+	"github.com/skygenesisenterprise/giteria/modules/log"
 
 	"github.com/djherbis/buffer"
 	"github.com/djherbis/nio/v3"

@@ -8,7 +8,7 @@ import (
 	"bytes"
 	"strings"
 
-	"code.gitea.io/gitea/modules/git/gitcmd"
+	"github.com/skygenesisenterprise/giteria/modules/git/gitcmd"
 )
 
 type TreeCommon struct {

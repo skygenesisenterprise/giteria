@@ -7,9 +7,9 @@ import (
 	"crypto/sha256"
 	"fmt"
 
-	"code.gitea.io/gitea/modules/cache"
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/cache"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
 )
 
 func getCacheKey(repoPath, commitID, entryPath string) string {

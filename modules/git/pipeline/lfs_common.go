@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"time"
 
-	"code.gitea.io/gitea/modules/git"
+	"github.com/skygenesisenterprise/giteria/modules/git"
 )
 
 // LFSResult represents commits found using a provided pointer file hash
