@@ -8,10 +8,10 @@ import (
 	"path/filepath"
 	"testing"
 
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/tempdir"
-	"code.gitea.io/gitea/modules/test"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/tempdir"
+	"github.com/skygenesisenterprise/giteria/modules/test"
 )
 
 func TestMain(m *testing.M) {

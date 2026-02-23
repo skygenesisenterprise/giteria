@@ -7,10 +7,10 @@ import (
 	"context"
 	"errors"
 
-	"code.gitea.io/gitea/models/db"
-	repo_model "code.gitea.io/gitea/models/repo"
-	"code.gitea.io/gitea/modules/indexer"
-	"code.gitea.io/gitea/modules/indexer/internal"
+	"github.com/skygenesisenterprise/giteria/models/db"
+	repo_model "github.com/skygenesisenterprise/giteria/models/repo"
+	"github.com/skygenesisenterprise/giteria/modules/indexer"
+	"github.com/skygenesisenterprise/giteria/modules/indexer/internal"
 )
 
 // Indexer defines an interface to index and search code contents

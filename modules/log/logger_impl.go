@@ -12,8 +12,8 @@ import (
 	"sync/atomic"
 	"time"
 
-	"code.gitea.io/gitea/modules/json"
-	"code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/json"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 )
 
 type LoggerImpl struct {

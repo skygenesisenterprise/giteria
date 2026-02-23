@@ -6,7 +6,7 @@ package gitrepo
 import (
 	"context"
 
-	"code.gitea.io/gitea/modules/git"
+	"github.com/skygenesisenterprise/giteria/modules/git"
 )
 
 // CloneExternalRepo clones an external repository to the managed repository.

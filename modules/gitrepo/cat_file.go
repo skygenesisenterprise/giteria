@@ -6,7 +6,7 @@ package gitrepo
 import (
 	"context"
 
-	"code.gitea.io/gitea/modules/git"
+	"github.com/skygenesisenterprise/giteria/modules/git"
 )
 
 func NewBatch(ctx context.Context, repo Repository) (*git.Batch, error) {

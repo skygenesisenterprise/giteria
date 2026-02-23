@@ -9,7 +9,7 @@ import (
 	"regexp"
 	"strconv"
 
-	"code.gitea.io/gitea/modules/git/gitcmd"
+	"github.com/skygenesisenterprise/giteria/modules/git/gitcmd"
 )
 
 // GetDiffShortStatByCmdArgs counts number of changed files, number of additions and deletions

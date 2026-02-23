@@ -10,11 +10,11 @@ import (
 	"strconv"
 	"strings"
 
-	"code.gitea.io/gitea/modules/indexer"
-	indexer_internal "code.gitea.io/gitea/modules/indexer/internal"
-	inner_meilisearch "code.gitea.io/gitea/modules/indexer/internal/meilisearch"
-	"code.gitea.io/gitea/modules/indexer/issues/internal"
-	"code.gitea.io/gitea/modules/json"
+	"github.com/skygenesisenterprise/giteria/modules/indexer"
+	indexer_internal "github.com/skygenesisenterprise/giteria/modules/indexer/internal"
+	inner_meilisearch "github.com/skygenesisenterprise/giteria/modules/indexer/internal/meilisearch"
+	"github.com/skygenesisenterprise/giteria/modules/indexer/issues/internal"
+	"github.com/skygenesisenterprise/giteria/modules/json"
 
 	"github.com/meilisearch/meilisearch-go"
 )
