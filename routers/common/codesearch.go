@@ -4,10 +4,10 @@
 package common
 
 import (
-	"code.gitea.io/gitea/modules/indexer"
-	code_indexer "code.gitea.io/gitea/modules/indexer/code"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/services/context"
+	"github.com/skygenesisenterprise/giteria/modules/indexer"
+	code_indexer "github.com/skygenesisenterprise/giteria/modules/indexer/code"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/services/context"
 )
 
 func PrepareCodeSearch(ctx *context.Context) (ret struct {

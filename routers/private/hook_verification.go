@@ -9,10 +9,10 @@ import (
 	"io"
 	"os"
 
-	"code.gitea.io/gitea/modules/git"
-	"code.gitea.io/gitea/modules/git/gitcmd"
-	"code.gitea.io/gitea/modules/log"
-	asymkey_service "code.gitea.io/gitea/services/asymkey"
+	"github.com/skygenesisenterprise/giteria/modules/git"
+	"github.com/skygenesisenterprise/giteria/modules/git/gitcmd"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	asymkey_service "github.com/skygenesisenterprise/giteria/services/asymkey"
 )
 
 // This file contains commit verification functions for refs passed across in hooks

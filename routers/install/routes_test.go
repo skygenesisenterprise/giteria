@@ -8,7 +8,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"code.gitea.io/gitea/models/unittest"
+	"github.com/skygenesisenterprise/giteria/models/unittest"
 
 	"github.com/stretchr/testify/assert"
 )

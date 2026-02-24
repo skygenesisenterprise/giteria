@@ -8,13 +8,13 @@ import (
 	"html"
 	"net/http"
 
-	"code.gitea.io/gitea/modules/public"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/web"
-	"code.gitea.io/gitea/routers/common"
-	"code.gitea.io/gitea/routers/web/healthcheck"
-	"code.gitea.io/gitea/routers/web/misc"
-	"code.gitea.io/gitea/services/forms"
+	"github.com/skygenesisenterprise/giteria/modules/public"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/web"
+	"github.com/skygenesisenterprise/giteria/routers/common"
+	"github.com/skygenesisenterprise/giteria/routers/web/healthcheck"
+	"github.com/skygenesisenterprise/giteria/routers/web/misc"
+	"github.com/skygenesisenterprise/giteria/services/forms"
 )
 
 // Routes registers the installation routes

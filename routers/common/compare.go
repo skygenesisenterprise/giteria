@@ -4,10 +4,10 @@
 package common
 
 import (
-	repo_model "code.gitea.io/gitea/models/repo"
-	user_model "code.gitea.io/gitea/models/user"
-	"code.gitea.io/gitea/modules/git"
-	pull_service "code.gitea.io/gitea/services/pull"
+	repo_model "github.com/skygenesisenterprise/giteria/models/repo"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	"github.com/skygenesisenterprise/giteria/modules/git"
+	pull_service "github.com/skygenesisenterprise/giteria/services/pull"
 )
 
 // CompareInfo represents the collected results from ParseCompareInfo
