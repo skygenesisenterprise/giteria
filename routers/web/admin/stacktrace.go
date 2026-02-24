@@ -7,9 +7,9 @@ import (
 	"net/http"
 	"runtime"
 
-	"code.gitea.io/gitea/modules/process"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/services/context"
+	"github.com/skygenesisenterprise/giteria/modules/process"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/services/context"
 )
 
 func monitorTraceCommon(ctx *context.Context) {

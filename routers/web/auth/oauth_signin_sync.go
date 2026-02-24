@@ -6,14 +6,14 @@ package auth
 import (
 	"fmt"
 
-	asymkey_model "code.gitea.io/gitea/models/asymkey"
-	"code.gitea.io/gitea/models/auth"
-	user_model "code.gitea.io/gitea/models/user"
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/util"
-	asymkey_service "code.gitea.io/gitea/services/asymkey"
-	"code.gitea.io/gitea/services/auth/source/oauth2"
-	"code.gitea.io/gitea/services/context"
+	asymkey_model "github.com/skygenesisenterprise/giteria/models/asymkey"
+	"github.com/skygenesisenterprise/giteria/models/auth"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/util"
+	asymkey_service "github.com/skygenesisenterprise/giteria/services/asymkey"
+	"github.com/skygenesisenterprise/giteria/services/auth/source/oauth2"
+	"github.com/skygenesisenterprise/giteria/services/context"
 
 	"github.com/markbates/goth"
 )

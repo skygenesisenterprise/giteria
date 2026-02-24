@@ -8,16 +8,16 @@ import (
 	"net/url"
 	"strings"
 
-	"code.gitea.io/gitea/models/db"
-	repo_model "code.gitea.io/gitea/models/repo"
-	user_model "code.gitea.io/gitea/models/user"
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/templates"
-	"code.gitea.io/gitea/modules/util"
-	"code.gitea.io/gitea/routers/web/explore"
-	"code.gitea.io/gitea/services/context"
-	repo_service "code.gitea.io/gitea/services/repository"
+	"github.com/skygenesisenterprise/giteria/models/db"
+	repo_model "github.com/skygenesisenterprise/giteria/models/repo"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/templates"
+	"github.com/skygenesisenterprise/giteria/modules/util"
+	"github.com/skygenesisenterprise/giteria/routers/web/explore"
+	"github.com/skygenesisenterprise/giteria/services/context"
+	repo_service "github.com/skygenesisenterprise/giteria/services/repository"
 )
 
 const (

@@ -5,13 +5,13 @@
 package admin
 
 import (
-	"code.gitea.io/gitea/models/db"
-	user_model "code.gitea.io/gitea/models/user"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/structs"
-	"code.gitea.io/gitea/modules/templates"
-	"code.gitea.io/gitea/routers/web/explore"
-	"code.gitea.io/gitea/services/context"
+	"github.com/skygenesisenterprise/giteria/models/db"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/structs"
+	"github.com/skygenesisenterprise/giteria/modules/templates"
+	"github.com/skygenesisenterprise/giteria/routers/web/explore"
+	"github.com/skygenesisenterprise/giteria/services/context"
 )
 
 const (

@@ -7,10 +7,10 @@ import (
 	"strings"
 	"time"
 
-	"code.gitea.io/gitea/models/repo"
-	"code.gitea.io/gitea/modules/git"
-	"code.gitea.io/gitea/modules/util"
-	"code.gitea.io/gitea/services/context"
+	"github.com/skygenesisenterprise/giteria/models/repo"
+	"github.com/skygenesisenterprise/giteria/modules/git"
+	"github.com/skygenesisenterprise/giteria/modules/util"
+	"github.com/skygenesisenterprise/giteria/services/context"
 
 	"github.com/gorilla/feeds"
 )

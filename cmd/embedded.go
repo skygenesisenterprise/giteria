@@ -11,14 +11,14 @@ import (
 	"path/filepath"
 	"strings"
 
-	"code.gitea.io/gitea/modules/assetfs"
-	"code.gitea.io/gitea/modules/glob"
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/options"
-	"code.gitea.io/gitea/modules/public"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/templates"
-	"code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/assetfs"
+	"github.com/skygenesisenterprise/giteria/modules/glob"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/options"
+	"github.com/skygenesisenterprise/giteria/modules/public"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/templates"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 
 	"github.com/urfave/cli/v3"
 )

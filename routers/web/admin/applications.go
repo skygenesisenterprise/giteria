@@ -6,12 +6,12 @@ package admin
 import (
 	"net/http"
 
-	"code.gitea.io/gitea/models/auth"
-	"code.gitea.io/gitea/models/db"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/templates"
-	user_setting "code.gitea.io/gitea/routers/web/user/setting"
-	"code.gitea.io/gitea/services/context"
+	"github.com/skygenesisenterprise/giteria/models/auth"
+	"github.com/skygenesisenterprise/giteria/models/db"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/templates"
+	user_setting "github.com/skygenesisenterprise/giteria/routers/web/user/setting"
+	"github.com/skygenesisenterprise/giteria/services/context"
 )
 
 var (

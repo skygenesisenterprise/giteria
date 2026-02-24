@@ -10,14 +10,14 @@ import (
 	"os"
 	"strings"
 
-	"code.gitea.io/gitea/modules/git"
-	"code.gitea.io/gitea/modules/log"
-	base "code.gitea.io/gitea/modules/migration"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/structs"
-	"code.gitea.io/gitea/modules/util"
-	"code.gitea.io/gitea/services/convert"
-	"code.gitea.io/gitea/services/migrations"
+	"github.com/skygenesisenterprise/giteria/modules/git"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	base "github.com/skygenesisenterprise/giteria/modules/migration"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/structs"
+	"github.com/skygenesisenterprise/giteria/modules/util"
+	"github.com/skygenesisenterprise/giteria/services/convert"
+	"github.com/skygenesisenterprise/giteria/services/migrations"
 
 	"github.com/urfave/cli/v3"
 )

@@ -8,10 +8,10 @@ import (
 	"strings"
 	"testing"
 
-	auth_model "code.gitea.io/gitea/models/auth"
-	"code.gitea.io/gitea/models/db"
-	"code.gitea.io/gitea/models/unittest"
-	user_model "code.gitea.io/gitea/models/user"
+	auth_model "github.com/skygenesisenterprise/giteria/models/auth"
+	"github.com/skygenesisenterprise/giteria/models/db"
+	"github.com/skygenesisenterprise/giteria/models/unittest"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

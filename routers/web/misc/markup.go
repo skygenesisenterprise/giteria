@@ -5,11 +5,11 @@
 package misc
 
 import (
-	api "code.gitea.io/gitea/modules/structs"
-	"code.gitea.io/gitea/modules/util"
-	"code.gitea.io/gitea/modules/web"
-	"code.gitea.io/gitea/routers/common"
-	"code.gitea.io/gitea/services/context"
+	api "github.com/skygenesisenterprise/giteria/modules/structs"
+	"github.com/skygenesisenterprise/giteria/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/web"
+	"github.com/skygenesisenterprise/giteria/routers/common"
+	"github.com/skygenesisenterprise/giteria/services/context"
 )
 
 // Markup render markup document to HTML

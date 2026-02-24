@@ -9,10 +9,10 @@ import (
 	"fmt"
 	"strings"
 
-	user_model "code.gitea.io/gitea/models/user"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/storage"
-	user_service "code.gitea.io/gitea/services/user"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/storage"
+	user_service "github.com/skygenesisenterprise/giteria/services/user"
 
 	"github.com/urfave/cli/v3"
 )

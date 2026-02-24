@@ -7,12 +7,12 @@ import (
 	"errors"
 	"net/http"
 
-	user_model "code.gitea.io/gitea/models/user"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/templates"
-	shared "code.gitea.io/gitea/routers/web/shared/secrets"
-	shared_user "code.gitea.io/gitea/routers/web/shared/user"
-	"code.gitea.io/gitea/services/context"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/templates"
+	shared "github.com/skygenesisenterprise/giteria/routers/web/shared/secrets"
+	shared_user "github.com/skygenesisenterprise/giteria/routers/web/shared/user"
+	"github.com/skygenesisenterprise/giteria/services/context"
 )
 
 const (

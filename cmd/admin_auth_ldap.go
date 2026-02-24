@@ -8,9 +8,9 @@ import (
 	"fmt"
 	"strings"
 
-	"code.gitea.io/gitea/models/auth"
-	"code.gitea.io/gitea/modules/util"
-	"code.gitea.io/gitea/services/auth/source/ldap"
+	"github.com/skygenesisenterprise/giteria/models/auth"
+	"github.com/skygenesisenterprise/giteria/modules/util"
+	"github.com/skygenesisenterprise/giteria/services/auth/source/ldap"
 
 	"github.com/urfave/cli/v3"
 )

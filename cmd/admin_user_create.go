@@ -9,12 +9,12 @@ import (
 	"fmt"
 	"strings"
 
-	auth_model "code.gitea.io/gitea/models/auth"
-	"code.gitea.io/gitea/models/db"
-	user_model "code.gitea.io/gitea/models/user"
-	pwd "code.gitea.io/gitea/modules/auth/password"
-	"code.gitea.io/gitea/modules/optional"
-	"code.gitea.io/gitea/modules/setting"
+	auth_model "github.com/skygenesisenterprise/giteria/models/auth"
+	"github.com/skygenesisenterprise/giteria/models/db"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	pwd "github.com/skygenesisenterprise/giteria/modules/auth/password"
+	"github.com/skygenesisenterprise/giteria/modules/optional"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
 
 	"github.com/urfave/cli/v3"
 )

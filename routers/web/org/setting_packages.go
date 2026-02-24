@@ -7,11 +7,11 @@ import (
 	"fmt"
 	"net/http"
 
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/templates"
-	shared "code.gitea.io/gitea/routers/web/shared/packages"
-	shared_user "code.gitea.io/gitea/routers/web/shared/user"
-	"code.gitea.io/gitea/services/context"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/templates"
+	shared "github.com/skygenesisenterprise/giteria/routers/web/shared/packages"
+	shared_user "github.com/skygenesisenterprise/giteria/routers/web/shared/user"
+	"github.com/skygenesisenterprise/giteria/services/context"
 )
 
 const (

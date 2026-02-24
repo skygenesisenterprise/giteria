@@ -13,14 +13,14 @@ import (
 	"time"
 	"unicode"
 
-	"code.gitea.io/gitea/models/asymkey"
-	"code.gitea.io/gitea/models/db"
-	user_model "code.gitea.io/gitea/models/user"
-	"code.gitea.io/gitea/modules/badge"
-	"code.gitea.io/gitea/modules/git"
-	"code.gitea.io/gitea/modules/templates"
-	"code.gitea.io/gitea/modules/util"
-	"code.gitea.io/gitea/services/context"
+	"github.com/skygenesisenterprise/giteria/models/asymkey"
+	"github.com/skygenesisenterprise/giteria/models/db"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	"github.com/skygenesisenterprise/giteria/modules/badge"
+	"github.com/skygenesisenterprise/giteria/modules/git"
+	"github.com/skygenesisenterprise/giteria/modules/templates"
+	"github.com/skygenesisenterprise/giteria/modules/util"
+	"github.com/skygenesisenterprise/giteria/services/context"
 )
 
 // List all devtest templates, they will be used for e2e tests for the UI components

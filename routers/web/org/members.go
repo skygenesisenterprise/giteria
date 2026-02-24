@@ -7,14 +7,14 @@ package org
 import (
 	"net/http"
 
-	"code.gitea.io/gitea/models/organization"
-	user_model "code.gitea.io/gitea/models/user"
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/templates"
-	shared_user "code.gitea.io/gitea/routers/web/shared/user"
-	"code.gitea.io/gitea/services/context"
-	org_service "code.gitea.io/gitea/services/org"
+	"github.com/skygenesisenterprise/giteria/models/organization"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/templates"
+	shared_user "github.com/skygenesisenterprise/giteria/routers/web/shared/user"
+	"github.com/skygenesisenterprise/giteria/services/context"
+	org_service "github.com/skygenesisenterprise/giteria/services/org"
 )
 
 const (

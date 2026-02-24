@@ -12,10 +12,10 @@ import (
 	"strings"
 	"testing"
 
-	"code.gitea.io/gitea/models/unittest"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/test"
-	"code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/models/unittest"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/test"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/urfave/cli/v3"

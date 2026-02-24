@@ -6,14 +6,14 @@ package setting
 import (
 	"net/http"
 
-	asymkey_model "code.gitea.io/gitea/models/asymkey"
-	"code.gitea.io/gitea/models/db"
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/web"
-	asymkey_service "code.gitea.io/gitea/services/asymkey"
-	"code.gitea.io/gitea/services/context"
-	"code.gitea.io/gitea/services/forms"
+	asymkey_model "github.com/skygenesisenterprise/giteria/models/asymkey"
+	"github.com/skygenesisenterprise/giteria/models/db"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/web"
+	asymkey_service "github.com/skygenesisenterprise/giteria/services/asymkey"
+	"github.com/skygenesisenterprise/giteria/services/context"
+	"github.com/skygenesisenterprise/giteria/services/forms"
 )
 
 // DeployKeys render the deploy keys list of a repository page

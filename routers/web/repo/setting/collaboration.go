@@ -8,16 +8,16 @@ import (
 	"net/http"
 	"strings"
 
-	"code.gitea.io/gitea/models/organization"
-	"code.gitea.io/gitea/models/perm"
-	repo_model "code.gitea.io/gitea/models/repo"
-	unit_model "code.gitea.io/gitea/models/unit"
-	user_model "code.gitea.io/gitea/models/user"
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/services/context"
-	"code.gitea.io/gitea/services/mailer"
-	repo_service "code.gitea.io/gitea/services/repository"
+	"github.com/skygenesisenterprise/giteria/models/organization"
+	"github.com/skygenesisenterprise/giteria/models/perm"
+	repo_model "github.com/skygenesisenterprise/giteria/models/repo"
+	unit_model "github.com/skygenesisenterprise/giteria/models/unit"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/services/context"
+	"github.com/skygenesisenterprise/giteria/services/mailer"
+	repo_service "github.com/skygenesisenterprise/giteria/services/repository"
 )
 
 // Collaboration render a repository's collaboration page

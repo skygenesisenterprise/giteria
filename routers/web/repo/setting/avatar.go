@@ -8,13 +8,13 @@ import (
 	"fmt"
 	"io"
 
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/typesniffer"
-	"code.gitea.io/gitea/modules/web"
-	"code.gitea.io/gitea/services/context"
-	"code.gitea.io/gitea/services/forms"
-	repo_service "code.gitea.io/gitea/services/repository"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/typesniffer"
+	"github.com/skygenesisenterprise/giteria/modules/web"
+	"github.com/skygenesisenterprise/giteria/services/context"
+	"github.com/skygenesisenterprise/giteria/services/forms"
+	repo_service "github.com/skygenesisenterprise/giteria/services/repository"
 )
 
 // UpdateAvatarSetting update repo's avatar

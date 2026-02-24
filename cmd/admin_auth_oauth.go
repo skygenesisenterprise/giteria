@@ -9,9 +9,9 @@ import (
 	"fmt"
 	"net/url"
 
-	auth_model "code.gitea.io/gitea/models/auth"
-	"code.gitea.io/gitea/modules/util"
-	"code.gitea.io/gitea/services/auth/source/oauth2"
+	auth_model "github.com/skygenesisenterprise/giteria/models/auth"
+	"github.com/skygenesisenterprise/giteria/modules/util"
+	"github.com/skygenesisenterprise/giteria/services/auth/source/oauth2"
 
 	"github.com/urfave/cli/v3"
 )

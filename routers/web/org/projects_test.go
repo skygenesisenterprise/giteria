@@ -6,9 +6,9 @@ package org_test
 import (
 	"testing"
 
-	"code.gitea.io/gitea/models/unittest"
-	"code.gitea.io/gitea/routers/web/org"
-	"code.gitea.io/gitea/services/contexttest"
+	"github.com/skygenesisenterprise/giteria/models/unittest"
+	"github.com/skygenesisenterprise/giteria/routers/web/org"
+	"github.com/skygenesisenterprise/giteria/services/contexttest"
 
 	"github.com/stretchr/testify/assert"
 )

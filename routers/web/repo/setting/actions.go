@@ -8,13 +8,13 @@ import (
 	"net/http"
 	"strings"
 
-	repo_model "code.gitea.io/gitea/models/repo"
-	unit_model "code.gitea.io/gitea/models/unit"
-	user_model "code.gitea.io/gitea/models/user"
-	"code.gitea.io/gitea/modules/templates"
-	"code.gitea.io/gitea/modules/util"
-	"code.gitea.io/gitea/services/context"
-	repo_service "code.gitea.io/gitea/services/repository"
+	repo_model "github.com/skygenesisenterprise/giteria/models/repo"
+	unit_model "github.com/skygenesisenterprise/giteria/models/unit"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	"github.com/skygenesisenterprise/giteria/modules/templates"
+	"github.com/skygenesisenterprise/giteria/modules/util"
+	"github.com/skygenesisenterprise/giteria/services/context"
+	repo_service "github.com/skygenesisenterprise/giteria/services/repository"
 )
 
 const tplRepoActionsGeneralSettings templates.TplName = "repo/settings/actions"

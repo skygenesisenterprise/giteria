@@ -12,23 +12,23 @@ import (
 	"path"
 	"strings"
 
-	"code.gitea.io/gitea/models/db"
-	"code.gitea.io/gitea/models/perm"
-	access_model "code.gitea.io/gitea/models/perm/access"
-	user_model "code.gitea.io/gitea/models/user"
-	"code.gitea.io/gitea/models/webhook"
-	"code.gitea.io/gitea/modules/git"
-	"code.gitea.io/gitea/modules/json"
-	"code.gitea.io/gitea/modules/setting"
-	api "code.gitea.io/gitea/modules/structs"
-	"code.gitea.io/gitea/modules/templates"
-	"code.gitea.io/gitea/modules/util"
-	"code.gitea.io/gitea/modules/web"
-	webhook_module "code.gitea.io/gitea/modules/webhook"
-	"code.gitea.io/gitea/services/context"
-	"code.gitea.io/gitea/services/convert"
-	"code.gitea.io/gitea/services/forms"
-	webhook_service "code.gitea.io/gitea/services/webhook"
+	"github.com/skygenesisenterprise/giteria/models/db"
+	"github.com/skygenesisenterprise/giteria/models/perm"
+	access_model "github.com/skygenesisenterprise/giteria/models/perm/access"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	"github.com/skygenesisenterprise/giteria/models/webhook"
+	"github.com/skygenesisenterprise/giteria/modules/git"
+	"github.com/skygenesisenterprise/giteria/modules/json"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	api "github.com/skygenesisenterprise/giteria/modules/structs"
+	"github.com/skygenesisenterprise/giteria/modules/templates"
+	"github.com/skygenesisenterprise/giteria/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/web"
+	webhook_module "github.com/skygenesisenterprise/giteria/modules/webhook"
+	"github.com/skygenesisenterprise/giteria/services/context"
+	"github.com/skygenesisenterprise/giteria/services/convert"
+	"github.com/skygenesisenterprise/giteria/services/forms"
+	webhook_service "github.com/skygenesisenterprise/giteria/services/webhook"
 )
 
 const (
@@ -45,7 +45,7 @@ func Webhooks(ctx *context.Context) {
 	ctx.Data["PageIsSettingsHooks"] = true
 	ctx.Data["BaseLink"] = ctx.Repo.RepoLink + "/settings/hooks"
 	ctx.Data["BaseLinkNew"] = ctx.Repo.RepoLink + "/settings/hooks"
-	ctx.Data["Description"] = ctx.Tr("repo.settings.hooks_desc", "https://docs.gitea.com/usage/webhooks")
+	ctx.Data["Description"] = ctx.Tr("repo.settings.hooks_desc", "https://docs.giteria.com/usage/webhooks")
 
 	ws, err := db.Find[webhook.Webhook](ctx, webhook.ListWebhookOptions{RepoID: ctx.Repo.Repository.ID})
 	if err != nil {

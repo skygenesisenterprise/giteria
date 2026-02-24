@@ -8,13 +8,13 @@ import (
 	"strings"
 	"testing"
 
-	"code.gitea.io/gitea/models/packages"
-	"code.gitea.io/gitea/models/unittest"
-	user_model "code.gitea.io/gitea/models/user"
-	packages_module "code.gitea.io/gitea/modules/packages"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/storage"
-	packages_service "code.gitea.io/gitea/services/packages"
+	"github.com/skygenesisenterprise/giteria/models/packages"
+	"github.com/skygenesisenterprise/giteria/models/unittest"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	packages_module "github.com/skygenesisenterprise/giteria/modules/packages"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/storage"
+	packages_service "github.com/skygenesisenterprise/giteria/services/packages"
 
 	"github.com/stretchr/testify/assert"
 )

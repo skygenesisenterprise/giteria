@@ -8,12 +8,12 @@ import (
 	"net/http"
 	"strconv"
 
-	"code.gitea.io/gitea/models/db"
-	system_model "code.gitea.io/gitea/models/system"
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/templates"
-	"code.gitea.io/gitea/services/context"
+	"github.com/skygenesisenterprise/giteria/models/db"
+	system_model "github.com/skygenesisenterprise/giteria/models/system"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/templates"
+	"github.com/skygenesisenterprise/giteria/services/context"
 )
 
 const (

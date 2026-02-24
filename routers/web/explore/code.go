@@ -7,13 +7,13 @@ import (
 	"net/http"
 	"slices"
 
-	"code.gitea.io/gitea/models/db"
-	repo_model "code.gitea.io/gitea/models/repo"
-	code_indexer "code.gitea.io/gitea/modules/indexer/code"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/templates"
-	"code.gitea.io/gitea/routers/common"
-	"code.gitea.io/gitea/services/context"
+	"github.com/skygenesisenterprise/giteria/models/db"
+	repo_model "github.com/skygenesisenterprise/giteria/models/repo"
+	code_indexer "github.com/skygenesisenterprise/giteria/modules/indexer/code"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/templates"
+	"github.com/skygenesisenterprise/giteria/routers/common"
+	"github.com/skygenesisenterprise/giteria/services/context"
 )
 
 const (

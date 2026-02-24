@@ -16,16 +16,16 @@ import (
 
 	_ "net/http/pprof" // Used for debugging if enabled and a web server is running
 
-	"code.gitea.io/gitea/modules/container"
-	"code.gitea.io/gitea/modules/graceful"
-	"code.gitea.io/gitea/modules/gtprof"
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/process"
-	"code.gitea.io/gitea/modules/public"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/util"
-	"code.gitea.io/gitea/routers"
-	"code.gitea.io/gitea/routers/install"
+	"github.com/skygenesisenterprise/giteria/modules/container"
+	"github.com/skygenesisenterprise/giteria/modules/graceful"
+	"github.com/skygenesisenterprise/giteria/modules/gtprof"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/process"
+	"github.com/skygenesisenterprise/giteria/modules/public"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/util"
+	"github.com/skygenesisenterprise/giteria/routers"
+	"github.com/skygenesisenterprise/giteria/routers/install"
 
 	"github.com/felixge/fgprof"
 	"github.com/urfave/cli/v3"

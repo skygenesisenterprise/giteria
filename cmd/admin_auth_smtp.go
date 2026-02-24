@@ -8,9 +8,9 @@ import (
 	"errors"
 	"strings"
 
-	auth_model "code.gitea.io/gitea/models/auth"
-	"code.gitea.io/gitea/modules/util"
-	"code.gitea.io/gitea/services/auth/source/smtp"
+	auth_model "github.com/skygenesisenterprise/giteria/models/auth"
+	"github.com/skygenesisenterprise/giteria/modules/util"
+	"github.com/skygenesisenterprise/giteria/services/auth/source/smtp"
 
 	"github.com/urfave/cli/v3"
 )

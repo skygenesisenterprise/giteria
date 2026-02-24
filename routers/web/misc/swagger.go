@@ -6,8 +6,8 @@ package misc
 import (
 	"net/http"
 
-	"code.gitea.io/gitea/modules/templates"
-	"code.gitea.io/gitea/services/context"
+	"github.com/skygenesisenterprise/giteria/modules/templates"
+	"github.com/skygenesisenterprise/giteria/services/context"
 )
 
 // tplSwagger swagger page template

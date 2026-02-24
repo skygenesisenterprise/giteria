@@ -9,11 +9,11 @@ import (
 	"path/filepath"
 	"strings"
 
-	actions_model "code.gitea.io/gitea/models/actions"
-	"code.gitea.io/gitea/modules/badge"
-	"code.gitea.io/gitea/modules/git"
-	"code.gitea.io/gitea/modules/util"
-	"code.gitea.io/gitea/services/context"
+	actions_model "github.com/skygenesisenterprise/giteria/models/actions"
+	"github.com/skygenesisenterprise/giteria/modules/badge"
+	"github.com/skygenesisenterprise/giteria/modules/git"
+	"github.com/skygenesisenterprise/giteria/modules/util"
+	"github.com/skygenesisenterprise/giteria/services/context"
 )
 
 func GetWorkflowBadge(ctx *context.Context) {

@@ -6,12 +6,12 @@ package feed
 import (
 	"time"
 
-	activities_model "code.gitea.io/gitea/models/activities"
-	"code.gitea.io/gitea/models/organization"
-	"code.gitea.io/gitea/models/renderhelper"
-	"code.gitea.io/gitea/modules/markup/markdown"
-	"code.gitea.io/gitea/services/context"
-	feed_service "code.gitea.io/gitea/services/feed"
+	activities_model "github.com/skygenesisenterprise/giteria/models/activities"
+	"github.com/skygenesisenterprise/giteria/models/organization"
+	"github.com/skygenesisenterprise/giteria/models/renderhelper"
+	"github.com/skygenesisenterprise/giteria/modules/markup/markdown"
+	"github.com/skygenesisenterprise/giteria/services/context"
+	feed_service "github.com/skygenesisenterprise/giteria/services/feed"
 
 	"github.com/gorilla/feeds"
 )

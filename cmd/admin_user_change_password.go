@@ -8,11 +8,11 @@ import (
 	"errors"
 	"fmt"
 
-	user_model "code.gitea.io/gitea/models/user"
-	"code.gitea.io/gitea/modules/auth/password"
-	"code.gitea.io/gitea/modules/optional"
-	"code.gitea.io/gitea/modules/setting"
-	user_service "code.gitea.io/gitea/services/user"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	"github.com/skygenesisenterprise/giteria/modules/auth/password"
+	"github.com/skygenesisenterprise/giteria/modules/optional"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	user_service "github.com/skygenesisenterprise/giteria/services/user"
 
 	"github.com/urfave/cli/v3"
 )

@@ -8,17 +8,17 @@ import (
 	"net/http"
 	"strings"
 
-	git_model "code.gitea.io/gitea/models/git"
-	"code.gitea.io/gitea/models/organization"
-	"code.gitea.io/gitea/models/perm"
-	access_model "code.gitea.io/gitea/models/perm/access"
-	"code.gitea.io/gitea/models/unit"
-	"code.gitea.io/gitea/modules/base"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/templates"
-	"code.gitea.io/gitea/modules/web"
-	"code.gitea.io/gitea/services/context"
-	"code.gitea.io/gitea/services/forms"
+	git_model "github.com/skygenesisenterprise/giteria/models/git"
+	"github.com/skygenesisenterprise/giteria/models/organization"
+	"github.com/skygenesisenterprise/giteria/models/perm"
+	access_model "github.com/skygenesisenterprise/giteria/models/perm/access"
+	"github.com/skygenesisenterprise/giteria/models/unit"
+	"github.com/skygenesisenterprise/giteria/modules/base"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/templates"
+	"github.com/skygenesisenterprise/giteria/modules/web"
+	"github.com/skygenesisenterprise/giteria/services/context"
+	"github.com/skygenesisenterprise/giteria/services/forms"
 )
 
 const (

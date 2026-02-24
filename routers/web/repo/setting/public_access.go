@@ -8,12 +8,12 @@ import (
 	"slices"
 	"strconv"
 
-	"code.gitea.io/gitea/models/perm"
-	"code.gitea.io/gitea/models/repo"
-	"code.gitea.io/gitea/models/unit"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/templates"
-	"code.gitea.io/gitea/services/context"
+	"github.com/skygenesisenterprise/giteria/models/perm"
+	"github.com/skygenesisenterprise/giteria/models/repo"
+	"github.com/skygenesisenterprise/giteria/models/unit"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/templates"
+	"github.com/skygenesisenterprise/giteria/services/context"
 )
 
 const tplRepoSettingsPublicAccess templates.TplName = "repo/settings/public_access"
