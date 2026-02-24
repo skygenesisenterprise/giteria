@@ -6,10 +6,10 @@ package repo
 import (
 	"strconv"
 
-	user_model "code.gitea.io/gitea/models/user"
-	"code.gitea.io/gitea/modules/optional"
-	"code.gitea.io/gitea/services/context"
-	user_service "code.gitea.io/gitea/services/user"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	"github.com/skygenesisenterprise/giteria/modules/optional"
+	"github.com/skygenesisenterprise/giteria/services/context"
+	user_service "github.com/skygenesisenterprise/giteria/services/user"
 )
 
 // SetEditorconfigIfExists set editor config as render variable

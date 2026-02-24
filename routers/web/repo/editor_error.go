@@ -6,14 +6,14 @@ package repo
 import (
 	"errors"
 
-	git_model "code.gitea.io/gitea/models/git"
-	"code.gitea.io/gitea/modules/git"
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/util"
-	"code.gitea.io/gitea/routers/utils"
-	context_service "code.gitea.io/gitea/services/context"
-	files_service "code.gitea.io/gitea/services/repository/files"
+	git_model "github.com/skygenesisenterprise/giteria/models/git"
+	"github.com/skygenesisenterprise/giteria/modules/git"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/util"
+	"github.com/skygenesisenterprise/giteria/routers/utils"
+	context_service "github.com/skygenesisenterprise/giteria/services/context"
+	files_service "github.com/skygenesisenterprise/giteria/services/repository/files"
 )
 
 func errorAs[T error](v error) (e T, ok bool) {

@@ -7,9 +7,9 @@ import (
 	"net/http"
 	"strconv"
 
-	user_model "code.gitea.io/gitea/models/user"
-	"code.gitea.io/gitea/modules/json"
-	"code.gitea.io/gitea/services/context"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	"github.com/skygenesisenterprise/giteria/modules/json"
+	"github.com/skygenesisenterprise/giteria/services/context"
 )
 
 func UpdatePreferences(ctx *context.Context) {

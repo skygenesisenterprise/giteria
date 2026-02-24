@@ -6,10 +6,10 @@ package repo
 import (
 	"net/http"
 
-	"code.gitea.io/gitea/models/unit"
-	"code.gitea.io/gitea/modules/optional"
-	"code.gitea.io/gitea/services/context"
-	issue_service "code.gitea.io/gitea/services/issue"
+	"github.com/skygenesisenterprise/giteria/models/unit"
+	"github.com/skygenesisenterprise/giteria/modules/optional"
+	"github.com/skygenesisenterprise/giteria/services/context"
+	issue_service "github.com/skygenesisenterprise/giteria/services/issue"
 )
 
 // IssueSuggestions returns a list of issue suggestions

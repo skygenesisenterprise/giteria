@@ -9,13 +9,13 @@ import (
 	"path"
 	"strings"
 
-	pull_model "code.gitea.io/gitea/models/pull"
-	"code.gitea.io/gitea/modules/base"
-	"code.gitea.io/gitea/modules/fileicon"
-	"code.gitea.io/gitea/modules/git"
-	"code.gitea.io/gitea/services/context"
-	"code.gitea.io/gitea/services/gitdiff"
-	files_service "code.gitea.io/gitea/services/repository/files"
+	pull_model "github.com/skygenesisenterprise/giteria/models/pull"
+	"github.com/skygenesisenterprise/giteria/modules/base"
+	"github.com/skygenesisenterprise/giteria/modules/fileicon"
+	"github.com/skygenesisenterprise/giteria/modules/git"
+	"github.com/skygenesisenterprise/giteria/services/context"
+	"github.com/skygenesisenterprise/giteria/services/gitdiff"
+	files_service "github.com/skygenesisenterprise/giteria/services/repository/files"
 
 	"github.com/go-enry/go-enry/v2"
 )

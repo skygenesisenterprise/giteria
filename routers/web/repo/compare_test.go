@@ -6,8 +6,8 @@ package repo
 import (
 	"testing"
 
-	issues_model "code.gitea.io/gitea/models/issues"
-	"code.gitea.io/gitea/services/gitdiff"
+	issues_model "github.com/skygenesisenterprise/giteria/models/issues"
+	"github.com/skygenesisenterprise/giteria/services/gitdiff"
 
 	"github.com/stretchr/testify/assert"
 )
