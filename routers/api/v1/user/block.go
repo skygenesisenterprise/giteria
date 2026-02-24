@@ -4,8 +4,8 @@
 package user
 
 import (
-	"code.gitea.io/gitea/routers/api/v1/shared"
-	"code.gitea.io/gitea/services/context"
+	"github.com/skygenesisenterprise/giteria/routers/api/v1/shared"
+	"github.com/skygenesisenterprise/giteria/services/context"
 )
 
 func ListBlocks(ctx *context.APIContext) {

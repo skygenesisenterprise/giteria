@@ -6,9 +6,9 @@ package settings
 import (
 	"net/http"
 
-	"code.gitea.io/gitea/modules/setting"
-	api "code.gitea.io/gitea/modules/structs"
-	"code.gitea.io/gitea/services/context"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	api "github.com/skygenesisenterprise/giteria/modules/structs"
+	"github.com/skygenesisenterprise/giteria/services/context"
 )
 
 // GetGeneralUISettings returns instance's global settings for ui

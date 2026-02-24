@@ -13,7 +13,7 @@ import (
 	"github.com/skygenesisenterprise/giteria/models/db"
 	repo_model "github.com/skygenesisenterprise/giteria/models/repo"
 	system_model "github.com/skygenesisenterprise/giteria/models/system"
-	"code.gitea.io/gitea/models/unit"
+	"github.com/skygenesisenterprise/giteria/models/unit"
 	user_model "github.com/skygenesisenterprise/giteria/models/user"
 	"github.com/skygenesisenterprise/giteria/modules/git"
 	"github.com/skygenesisenterprise/giteria/modules/gitrepo"

@@ -17,7 +17,7 @@ import (
 	access_model "github.com/skygenesisenterprise/giteria/models/perm/access"
 	"github.com/skygenesisenterprise/giteria/models/pull"
 	repo_model "github.com/skygenesisenterprise/giteria/models/repo"
-	"code.gitea.io/gitea/models/unit"
+	"github.com/skygenesisenterprise/giteria/models/unit"
 	user_model "github.com/skygenesisenterprise/giteria/models/user"
 	"github.com/skygenesisenterprise/giteria/modules/git"
 	"github.com/skygenesisenterprise/giteria/modules/git/gitcmd"

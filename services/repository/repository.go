@@ -27,8 +27,8 @@ import (
 	"github.com/skygenesisenterprise/giteria/modules/queue"
 	repo_module "github.com/skygenesisenterprise/giteria/modules/repository"
 	"github.com/skygenesisenterprise/giteria/modules/setting"
-	"code.gitea.io/gitea/modules/structs"
-	"code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/structs"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 	notify_service "github.com/skygenesisenterprise/giteria/services/notify"
 	pull_service "github.com/skygenesisenterprise/giteria/services/pull"
 )

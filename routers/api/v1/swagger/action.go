@@ -3,7 +3,7 @@
 
 package swagger
 
-import api "code.gitea.io/gitea/modules/structs"
+import api "github.com/skygenesisenterprise/giteria/modules/structs"
 
 // SecretList
 // swagger:response SecretList
