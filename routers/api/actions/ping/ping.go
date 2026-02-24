@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"code.gitea.io/gitea/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/log"
 
 	pingv1 "code.gitea.io/actions-proto-go/ping/v1"
 	"code.gitea.io/actions-proto-go/ping/v1/pingv1connect"

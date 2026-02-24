@@ -88,9 +88,9 @@ func main() {
 		pkgName := path.Dir(pkgPath)
 
 		// There might be a bug somewhere in go-licenses that sometimes interprets the
-		// root package as "." and sometimes as "code.gitea.io/gitea". Workaround by
+		// root package as "." and sometimes as "github.com/skygenesisenterprise/giteria". Workaround by
 		// removing both of them for the sake of stable output.
-		if pkgName == "." || pkgName == "code.gitea.io/gitea" {
+		if pkgName == "." || pkgName == "github.com/skygenesisenterprise/giteria" {
 			continue
 		}
 

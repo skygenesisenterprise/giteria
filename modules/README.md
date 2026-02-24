@@ -323,8 +323,8 @@ modules/
 
 ```go
 import (
-    "code.gitera.io/giteria/modules/storage"
-    "code.gitea.io/giteria/modules/setting"
+    "github.com/skygenesisenterprise/giteria/modules/storage"
+    "github.com/skygenesisenterprise/giteria/modules/setting"
 )
 
 func init() {
@@ -336,7 +336,7 @@ func init() {
 ### Authentication
 
 ```go
-import "code.gitea.io/giteria/modules/auth"
+import "github.com/skygenesisenterprise/giteria/modules/auth"
 
 func handleLogin(username, password string) error {
     // Use auth module for authentication
@@ -347,7 +347,7 @@ func handleLogin(username, password string) error {
 ### Templates
 
 ```go
-import "code.gitea.io/giteria/modules/templates"
+import "github.com/skygenesisenterprise/giteria/modules/templates"
 
 func renderTemplate() string {
     return templates.Render("email/welcome", map[string]any{

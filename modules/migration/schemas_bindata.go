@@ -15,7 +15,7 @@ import (
 
 	_ "embed"
 
-	"code.gitea.io/gitea/modules/assetfs"
+	"github.com/skygenesisenterprise/giteria/modules/assetfs"
 )
 
 //go:embed bindata.dat

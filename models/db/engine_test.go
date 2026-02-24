@@ -60,7 +60,7 @@ func TestPrimaryKeys(t *testing.T) {
 	//   https://github.com/go-gitea/gitea/issues/21086
 	//   https://github.com/go-gitea/gitea/issues/16802
 	// To avoid creating tables without primary key again, this test will check them.
-	// Import "code.gitea.io/gitea/cmd" to make sure each db.RegisterModel in init functions has been called.
+	// Import "github.com/skygenesisenterprise/giteria/cmd" to make sure each db.RegisterModel in init functions has been called.
 
 	beans, err := db.NamesToBean()
 	require.NoError(t, err)
