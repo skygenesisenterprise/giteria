@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	repo_module "code.gitea.io/gitea/modules/repository"
+	repo_module "github.com/skygenesisenterprise/giteria/modules/repository"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

@@ -6,8 +6,8 @@ package pull
 import (
 	"context"
 
-	git_model "code.gitea.io/gitea/models/git"
-	repo_model "code.gitea.io/gitea/models/repo"
+	git_model "github.com/skygenesisenterprise/giteria/models/git"
+	repo_model "github.com/skygenesisenterprise/giteria/models/repo"
 )
 
 func CreateOrUpdateProtectedBranch(ctx context.Context, repo *repo_model.Repository,

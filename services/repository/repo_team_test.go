@@ -6,9 +6,9 @@ package repository
 import (
 	"testing"
 
-	"code.gitea.io/gitea/models/organization"
-	repo_model "code.gitea.io/gitea/models/repo"
-	"code.gitea.io/gitea/models/unittest"
+	"github.com/skygenesisenterprise/giteria/models/organization"
+	repo_model "github.com/skygenesisenterprise/giteria/models/repo"
+	"github.com/skygenesisenterprise/giteria/models/unittest"
 
 	"github.com/stretchr/testify/assert"
 )

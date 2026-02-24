@@ -8,7 +8,7 @@ import (
 	"strings"
 	"sync"
 
-	"code.gitea.io/gitea/modules/util"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 )
 
 // https://docs.github.com/en/actions/learn-github-actions/variables#naming-conventions-for-configuration-variables

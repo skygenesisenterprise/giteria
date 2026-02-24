@@ -11,11 +11,11 @@ import (
 	"strconv"
 	"sync"
 
-	git_model "code.gitea.io/gitea/models/git"
-	issues_model "code.gitea.io/gitea/models/issues"
-	"code.gitea.io/gitea/modules/git/pipeline"
-	"code.gitea.io/gitea/modules/lfs"
-	"code.gitea.io/gitea/modules/log"
+	git_model "github.com/skygenesisenterprise/giteria/models/git"
+	issues_model "github.com/skygenesisenterprise/giteria/models/issues"
+	"github.com/skygenesisenterprise/giteria/modules/git/pipeline"
+	"github.com/skygenesisenterprise/giteria/modules/lfs"
+	"github.com/skygenesisenterprise/giteria/modules/log"
 )
 
 // LFSPush pushes lfs objects referred to in new commits in the head repository from the base repository
