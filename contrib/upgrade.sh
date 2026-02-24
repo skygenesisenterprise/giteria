@@ -1,37 +1,37 @@
 #!/usr/bin/env bash
-# This is an update script for gitea installed via the binary distribution
-# from dl.gitea.com on linux as systemd service. It performs a backup and updates
-# Gitea in place.
-# NOTE: This adds the GPG Signing Key of the Gitea maintainers to the keyring.
+# This is an update script for giteria installed via the binary distribution
+# from dl.giteria.com on linux as systemd service. It performs a backup and updates
+# Giteria in place.
+# NOTE: This adds the GPG Signing Key of the Giteria maintainers to the keyring.
 # Depends on: bash, curl, xz, sha256sum. optionally jq, gpg
 #   See section below for available environment vars.
 #   When no version is specified, updates to the latest release.
 # Examples:
 #   upgrade.sh 1.15.10
-#   giteahome=/opt/gitea giteaconf=$giteahome/app.ini upgrade.sh
+#   giteahome=/opt/giteria giteaconf=$giteahome/app.ini upgrade.sh
 
-# Check if gitea service is running
-if ! pidof gitea &> /dev/null; then
-  echo "Error: gitea is not running."
+# Check if giteria service is running
+if ! pidof giteria &> /dev/null; then
+  echo "Error: giteria is not running."
   exit 1
 fi
 
-# Continue with rest of the script if gitea is running
-echo "Gitea is running. Continuing with rest of script..."
+# Continue with rest of the script if giteria is running
+echo "Giteria is running. Continuing with rest of script..."
 
 # apply variables from environment
-: "${giteabin:="/usr/local/bin/gitea"}"
-: "${giteahome:="/var/lib/gitea"}"
-: "${giteaconf:="/etc/gitea/app.ini"}"
+: "${giteabin:="/usr/local/bin/giteria"}"
+: "${giteahome:="/var/lib/giteria"}"
+: "${giteaconf:="/etc/giteria/app.ini"}"
 : "${giteauser:="git"}"
 : "${sudocmd:="sudo"}"
 : "${arch:="linux-amd64"}"
-: "${service_start:="$sudocmd systemctl start gitea"}"
-: "${service_stop:="$sudocmd systemctl stop gitea"}"
-: "${service_status:="$sudocmd systemctl status gitea"}"
-: "${backupopts:=""}" # see `gitea dump --help` for available options
+: "${service_start:="$sudocmd systemctl start giteria"}"
+: "${service_stop:="$sudocmd systemctl stop giteria"}"
+: "${service_status:="$sudocmd systemctl status giteria"}"
+: "${backupopts:=""}" # see `giteria dump --help` for available options
 
-function giteacmd {
+function giteriacmd {
   if [[ $sudocmd = "su" ]]; then
     # `-c` only accept one string as argument.
     "$sudocmd" - "$giteauser" -c "$(printf "%q " "$giteabin" "--config" "$giteaconf" "--work-path" "$giteahome" "$@")"
@@ -65,9 +65,9 @@ if [[ -f /etc/os-release ]]; then
 
   if [[ "$os_release" =~ "OpenWrt" ]]; then
     sudocmd="su"
-    service_start="/etc/init.d/gitea start"
-    service_stop="/etc/init.d/gitea stop"
-    service_status="/etc/init.d/gitea status"
+    service_start="/etc/init.d/giteria start"
+    service_stop="/etc/init.d/giteria stop"
+    service_status="/etc/init.d/giteria status"
   else
     require systemctl
   fi
@@ -78,29 +78,29 @@ require curl xz sha256sum "$sudocmd"
 # select version to install
 if [[ -z "${giteaversion:-}" ]]; then
   require jq
-  giteaversion=$(curl --connect-timeout 10 -sL https://dl.gitea.com/gitea/version.json | jq -r .latest.version)
+  giteaversion=$(curl --connect-timeout 10 -sL https://dl.giteria.com/giteria/version.json | jq -r .latest.version)
   echo "Latest available version is $giteaversion"
 fi
 
 # confirm update
 echo "Checking currently installed version..."
-current=$(giteacmd --version | cut -d ' ' -f 3)
+current=$(giteriacmd --version | cut -d ' ' -f 3)
 [[ "$current" == "$giteaversion" ]] && echo "$current is already installed, stopping." && exit 0
 if [[ -z "${no_confirm:-}"  ]]; then
-  echo "Make sure to read the changelog first: https://github.com/go-gitea/gitea/blob/main/CHANGELOG.md"
-  echo "Are you ready to update Gitea from ${current} to ${giteaversion}? (y/N)"
+  echo "Make sure to read the changelog first: https://github.com/go-giteria/giteria/blob/main/CHANGELOG.md"
+  echo "Are you ready to update Giteria from ${current} to ${giteaversion}? (y/N)"
   read -r confirm
   [[ "$confirm" == "y" ]] || [[ "$confirm" == "Y" ]] || exit 1
 fi
 
-echo "Upgrading gitea from $current to $giteaversion ..."
+echo "Upgrading giteria from $current to $giteaversion ..."
 
 pushd "$(pwd)" &>/dev/null
-cd "$giteahome" # needed for gitea dump later
+cd "$giteahome" # needed for giteria dump later
 
 # download new binary
-binname="gitea-${giteaversion}-${arch}"
-binurl="https://dl.gitea.com/gitea/${giteaversion}/${binname}.xz"
+binname="giteria-${giteaversion}-${arch}"
+binurl="https://dl.giteria.com/giteria/${giteaversion}/${binname}.xz"
 echo "Downloading $binurl..."
 curl --connect-timeout 10 --silent --show-error --fail --location -O "$binurl{,.sha256,.asc}"
 

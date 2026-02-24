@@ -77,80 +77,80 @@ func TestCliCmd(t *testing.T) {
 	}{
 		// help commands
 		{
-			cmd: "./gitea -h",
+			cmd: "./giteria -h",
 			exp: "DEFAULT CONFIGURATION:",
 		},
 		{
-			cmd: "./gitea help",
+			cmd: "./giteria help",
 			exp: "DEFAULT CONFIGURATION:",
 		},
 
 		{
-			cmd: "./gitea -c /dev/null -h",
+			cmd: "./giteria -c /dev/null -h",
 			exp: "ConfigFile: /dev/null",
 		},
 
 		{
-			cmd: "./gitea -c /dev/null help",
+			cmd: "./giteria -c /dev/null help",
 			exp: "ConfigFile: /dev/null",
 		},
 		{
-			cmd: "./gitea help -c /dev/null",
-			exp: "ConfigFile: /dev/null",
-		},
-
-		{
-			cmd: "./gitea -c /dev/null test-cmd -h",
-			exp: "ConfigFile: /dev/null",
-		},
-		{
-			cmd: "./gitea test-cmd -c /dev/null -h",
-			exp: "ConfigFile: /dev/null",
-		},
-		{
-			cmd: "./gitea test-cmd -h -c /dev/null",
+			cmd: "./giteria help -c /dev/null",
 			exp: "ConfigFile: /dev/null",
 		},
 
 		{
-			cmd: "./gitea -c /dev/null test-cmd help",
+			cmd: "./giteria -c /dev/null test-cmd -h",
 			exp: "ConfigFile: /dev/null",
 		},
 		{
-			cmd: "./gitea test-cmd -c /dev/null help",
+			cmd: "./giteria test-cmd -c /dev/null -h",
 			exp: "ConfigFile: /dev/null",
 		},
 		{
-			cmd: "./gitea test-cmd help -c /dev/null",
+			cmd: "./giteria test-cmd -h -c /dev/null",
+			exp: "ConfigFile: /dev/null",
+		},
+
+		{
+			cmd: "./giteria -c /dev/null test-cmd help",
+			exp: "ConfigFile: /dev/null",
+		},
+		{
+			cmd: "./giteria test-cmd -c /dev/null help",
+			exp: "ConfigFile: /dev/null",
+		},
+		{
+			cmd: "./giteria test-cmd help -c /dev/null",
 			exp: "ConfigFile: /dev/null",
 		},
 
 		// parse paths
 		{
-			cmd: "./gitea test-cmd",
+			cmd: "./giteria test-cmd",
 			exp: makePathOutput(defaultWorkPath, defaultCustomPath, defaultCustomConf),
 		},
 		{
-			cmd: "./gitea -c /tmp/app.ini test-cmd",
+			cmd: "./giteria -c /tmp/app.ini test-cmd",
 			exp: makePathOutput(defaultWorkPath, defaultCustomPath, "/tmp/app.ini"),
 		},
 		{
-			cmd: "./gitea test-cmd -c /tmp/app.ini",
+			cmd: "./giteria test-cmd -c /tmp/app.ini",
 			exp: makePathOutput(defaultWorkPath, defaultCustomPath, "/tmp/app.ini"),
 		},
 		{
-			env: map[string]string{"GITEA_WORK_DIR": "/tmp"},
-			cmd: "./gitea test-cmd",
+			env: map[string]string{"GITERIA_WORK_DIR": "/tmp"},
+			cmd: "./giteria test-cmd",
 			exp: makePathOutput("/tmp", "/tmp/custom", "/tmp/custom/conf/app.ini"),
 		},
 		{
-			env: map[string]string{"GITEA_WORK_DIR": "/tmp"},
-			cmd: "./gitea test-cmd --work-path /tmp/other",
+			env: map[string]string{"GITERIA_WORK_DIR": "/tmp"},
+			cmd: "./giteria test-cmd --work-path /tmp/other",
 			exp: makePathOutput("/tmp/other", "/tmp/other/custom", "/tmp/other/custom/conf/app.ini"),
 		},
 		{
-			env: map[string]string{"GITEA_WORK_DIR": "/tmp"},
-			cmd: "./gitea test-cmd --config /tmp/app-other.ini",
+			env: map[string]string{"GITERIA_WORK_DIR": "/tmp"},
+			cmd: "./giteria test-cmd --config /tmp/app-other.ini",
 			exp: makePathOutput("/tmp", "/tmp/custom", "/tmp/app-other.ini"),
 		},
 	}
@@ -177,28 +177,28 @@ func TestCliCmd(t *testing.T) {
 
 func TestCliCmdError(t *testing.T) {
 	app := newTestApp(cli.Command{Action: func(ctx context.Context, cmd *cli.Command) error { return errors.New("normal error") }})
-	r, err := runTestApp(app, "./gitea", "test-cmd")
+	r, err := runTestApp(app, "./giteria", "test-cmd")
 	assert.Error(t, err)
 	assert.Equal(t, 1, r.ExitCode)
 	assert.Empty(t, r.Stdout)
 	assert.Equal(t, "Command error: normal error\n", r.Stderr)
 
 	app = newTestApp(cli.Command{Action: func(ctx context.Context, cmd *cli.Command) error { return cli.Exit("exit error", 2) }})
-	r, err = runTestApp(app, "./gitea", "test-cmd")
+	r, err = runTestApp(app, "./giteria", "test-cmd")
 	assert.Error(t, err)
 	assert.Equal(t, 2, r.ExitCode)
 	assert.Empty(t, r.Stdout)
 	assert.Equal(t, "exit error\n", r.Stderr)
 
 	app = newTestApp(cli.Command{Action: func(ctx context.Context, cmd *cli.Command) error { return nil }})
-	r, err = runTestApp(app, "./gitea", "test-cmd", "--no-such")
+	r, err = runTestApp(app, "./giteria", "test-cmd", "--no-such")
 	assert.Error(t, err)
 	assert.Equal(t, 1, r.ExitCode)
 	assert.Empty(t, r.Stdout)
 	assert.Equal(t, "Incorrect Usage: flag provided but not defined: -no-such\n\n", r.Stderr)
 
 	app = newTestApp(cli.Command{Action: func(ctx context.Context, cmd *cli.Command) error { return nil }})
-	r, err = runTestApp(app, "./gitea", "test-cmd")
+	r, err = runTestApp(app, "./giteria", "test-cmd")
 	assert.NoError(t, err)
 	assert.Equal(t, -1, r.ExitCode) // the cli.OsExiter is not called
 	assert.Empty(t, r.Stdout)
@@ -221,7 +221,7 @@ func TestCliCmdBefore(t *testing.T) {
 			return nil
 		},
 	})
-	_, err := runTestApp(app, "./gitea", "--config", "/dev/null", "test-cmd")
+	_, err := runTestApp(app, "./giteria", "--config", "/dev/null", "test-cmd")
 	assert.NoError(t, err)
 	assert.Equal(t, ctxNew, actionCtx)
 	assert.Equal(t, "/tmp/any.ini", configValues["before"], "BeforeFunc must be called before preparing config")

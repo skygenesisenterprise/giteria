@@ -1,0 +1,6 @@
+#!/bin/bash
+[[ -f ./setup ]] && source ./setup
+
+pushd /app/giteria >/dev/null
+exec su-exec $USER /usr/local/bin/giteria web
+popd

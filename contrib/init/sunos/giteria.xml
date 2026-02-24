@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE service_bundle SYSTEM "/usr/share/lib/xml/dtd/service_bundle.dtd.1">
 <service_bundle type="manifest" name="export">
-	<service name="gitea" type="service" version="1">
+	<service name="giteria" type="service" version="1">
 		<create_default_instance enabled="false"/>
 
 		<dependency name="network" grouping="require_all" restart_on="refresh" type="service">
@@ -15,14 +15,14 @@
 		<exec_method
 		    type="method"
 		    name="start"
-		    exec="/opt/local/bin/gitea web"
+		    exec="/opt/local/bin/giteria web"
 		    timeout_seconds="60">
 		  <method_context>
 		    <method_credential user="git" group="git" />
 		    <method_environment>
-		      <envvar name='GITEA_WORK_DIR' value='/opt/local/share/gitea'/>
-		      <envvar name='GITEA_CUSTOM' value='/opt/local/etc/gitea'/>
-		      <envvar name='HOME' value='/var/db/gitea'/>
+		      <envvar name='GITERIA_WORK_DIR' value='/opt/local/share/giteria'/>
+		      <envvar name='GITERIA_CUSTOM' value='/opt/local/etc/giteria'/>
+		      <envvar name='HOME' value='/var/db/giteria'/>
 		      <envvar name='PATH' value='/opt/local/bin:${PATH}'/>
 		      <envvar name='USER' value='git'/>
 		    </method_environment>

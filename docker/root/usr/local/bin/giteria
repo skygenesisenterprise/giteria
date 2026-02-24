@@ -1,0 +1,15 @@
+#!/bin/bash
+
+###############################################################
+# This script sets defaults for giteria to run in the container #
+###############################################################
+
+# It assumes that you place this script as giteria in /usr/local/bin
+#
+# And place the original in /usr/lib/giteria with working files in /data/giteria
+GITERIA="/app/giteria/giteria"
+WORK_DIR="/data/giteria"
+CUSTOM_PATH="/data/giteria"
+
+# Provide docker defaults
+GITERIA_WORK_DIR="${GITERIA_WORK_DIR:-$WORK_DIR}" GITERIA_CUSTOM="${GITERIA_CUSTOM:-$CUSTOM_PATH}" exec -a "$0" "$GITERIA" $CONF_ARG "$@"

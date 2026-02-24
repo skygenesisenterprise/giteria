@@ -1,6 +1,6 @@
 #!/bin/sh
 ### BEGIN INIT INFO
-# Provides:          gitea
+# Provides:          giteria
 # Required-Start:    $syslog $network
 # Required-Stop:     $syslog
 # Default-Start:     2 3 4 5
@@ -13,8 +13,8 @@
 
 # PATH should only include /usr/* if it runs after the mountnfs.sh script
 PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/bin
-DESC="Gitea - Git with a cup of tea"
-NAME=gitea
+DESC="Giteria - A Git platform for everyone"
+NAME=giteria
 SERVICEVERBOSE=yes
 PIDFILE=/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
@@ -32,11 +32,11 @@ STOP_SCHEDULE="${STOP_SCHEDULE:-QUIT/5/TERM/1/KILL/5}"
 
 do_start()
 {
-    GITEA_ENVS="USER=$USER GITEA_WORK_DIR=$WORKINGDIR HOME=/home/$USER"
-    GITEA_EXEC="$DAEMON -- $DAEMON_ARGS"
+    GITERIA_ENVS="USER=$USER GITERIA_WORK_DIR=$WORKINGDIR HOME=/home/$USER"
+    GITERIA_EXEC="$DAEMON -- $DAEMON_ARGS"
     sh -c "start-stop-daemon --start --quiet --pidfile $PIDFILE --make-pidfile \\
         --background --chdir $WORKINGDIR --chuid $USER \\
-        --exec /bin/bash -- -c '/usr/bin/env $GITEA_ENVS $GITEA_EXEC'"
+        --exec /bin/bash -- -c '/usr/bin/env $GITERIA_ENVS $GITERIA_EXEC'"
 }
 
 do_stop()

@@ -1,0 +1,19 @@
+#!/bin/sh
+#
+# $OpenBSD$
+
+daemon="/usr/local/bin/giteria"
+daemon_user="git"
+daemon_flags="web -c /etc/giteria/app.ini"
+
+giteria_directory="/var/lib/giteria"
+
+rc_bg=YES
+
+. /etc/rc.d/rc.subr
+
+rc_start() {
+	${rcexec} "cd ${giteria_directory}; ${daemon} ${daemon_flags} ${_bg}"
+}
+
+rc_cmd $1

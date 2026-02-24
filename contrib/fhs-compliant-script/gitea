@@ -1,15 +1,15 @@
 #!/bin/bash
 
 #############################################################################
-# This script sets some defaults for gitea to run in a FHS compliant manner #
+# This script sets some defaults for giteria to run in a FHS compliant manner #
 #############################################################################
 
-# It assumes that you place this script as gitea in /usr/bin
+# It assumes that you place this script as giteria in /usr/bin
 #
-# And place the original in /usr/lib/gitea with working files in /var/lib/gitea
-# and main configuration in /etc/gitea/app.ini
-GITEA="/usr/lib/gitea/gitea"
-WORK_DIR="/var/lib/gitea"
+# And place the original in /usr/lib/giteria with working files in /var/lib/giteria
+# and main configuration in /etc/giteria/app.ini
+GITERIA="/usr/lib/giteria/giteria"
+WORK_DIR="/var/lib/giteria"
 APP_INI="/etc/gitea/app.ini"
 
 APP_INI_SET=""
@@ -33,8 +33,8 @@ for i in "$@"; do
 done
 
 if [ -z "$APP_INI_SET" ]; then
-	CONF_ARG=("-c" "${GITEA_APP_INI:-$APP_INI}")
+	CONF_ARG=("-c" "${GITERIA_APP_INI:-$APP_INI}")
 fi
 
 # Provide FHS compliant defaults
-GITEA_WORK_DIR="${GITEA_WORK_DIR:-$WORK_DIR}" exec -a "$0" "$GITEA" "${CONF_ARG[@]}"  "$@"
+GITERIA_WORK_DIR="${GITERIA_WORK_DIR:-$WORK_DIR}" exec -a "$0" "$GITERIA" "${CONF_ARG[@]}"  "$@"

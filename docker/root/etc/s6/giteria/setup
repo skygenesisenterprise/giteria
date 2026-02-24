@@ -14,16 +14,16 @@ if [ -f /data/git/.ssh/authorized_keys ]; then
 fi
 
 if [ ! -f /data/git/.ssh/environment ]; then
-    echo "GITEA_CUSTOM=$GITEA_CUSTOM" >| /data/git/.ssh/environment
+    echo "GITERIA_CUSTOM=$GITERIA_CUSTOM" >| /data/git/.ssh/environment
     chmod 600 /data/git/.ssh/environment
 
-elif ! grep -q "^GITEA_CUSTOM=$GITEA_CUSTOM$" /data/git/.ssh/environment; then
-    sed -i /^GITEA_CUSTOM=/d /data/git/.ssh/environment
-    echo "GITEA_CUSTOM=$GITEA_CUSTOM" >> /data/git/.ssh/environment
+elif ! grep -q "^GITERIA_CUSTOM=$GITERIA_CUSTOM$" /data/git/.ssh/environment; then
+    sed -i /^GITERIA_CUSTOM=/d /data/git/.ssh/environment
+    echo "GITERIA_CUSTOM=$GITERIA_CUSTOM" >> /data/git/.ssh/environment
 fi
 
-if [ ! -f ${GITEA_CUSTOM}/conf/app.ini ]; then
-    mkdir -p ${GITEA_CUSTOM}/conf
+if [ ! -f ${GITERIA_CUSTOM}/conf/app.ini ]; then
+    mkdir -p ${GITERIA_CUSTOM}/conf
 
     # Set INSTALL_LOCK to true only if SECRET_KEY is not empty and
     # INSTALL_LOCK is empty
@@ -32,11 +32,11 @@ if [ ! -f ${GITEA_CUSTOM}/conf/app.ini ]; then
     fi
 
     # Substitute the environment variables in the template
-    APP_NAME=${APP_NAME:-"Gitea: Git with a cup of tea"} \
+    APP_NAME=${APP_NAME:-"Giteria: A Git Platform for everyone"} \
     RUN_MODE=${RUN_MODE:-"prod"} \
     DOMAIN=${DOMAIN:-"localhost"} \
     SSH_DOMAIN=${SSH_DOMAIN:-"localhost"} \
-    HTTP_PORT=${HTTP_PORT:-"3000"} \
+    HTTP_PORT=${HTTP_PORT:-"3001"} \
     ROOT_URL=${ROOT_URL:-""} \
     DISABLE_SSH=${DISABLE_SSH:-"false"} \
     SSH_PORT=${SSH_PORT:-"22"} \
@@ -44,23 +44,23 @@ if [ ! -f ${GITEA_CUSTOM}/conf/app.ini ]; then
     LFS_START_SERVER=${LFS_START_SERVER:-"false"} \
     DB_TYPE=${DB_TYPE:-"sqlite3"} \
     DB_HOST=${DB_HOST:-"localhost:3306"} \
-    DB_NAME=${DB_NAME:-"gitea"} \
+    DB_NAME=${DB_NAME:-"giteria"} \
     DB_USER=${DB_USER:-"root"} \
     DB_PASSWD=${DB_PASSWD:-""} \
     INSTALL_LOCK=${INSTALL_LOCK:-"false"} \
     DISABLE_REGISTRATION=${DISABLE_REGISTRATION:-"false"} \
     REQUIRE_SIGNIN_VIEW=${REQUIRE_SIGNIN_VIEW:-"false"} \
     SECRET_KEY=${SECRET_KEY:-""} \
-    envsubst < /etc/templates/app.ini > ${GITEA_CUSTOM}/conf/app.ini
+    envsubst < /etc/templates/app.ini > ${GITERIA_CUSTOM}/conf/app.ini
 
-    chown ${USER}:git ${GITEA_CUSTOM}/conf/app.ini
+    chown ${USER}:git ${GITERIA_CUSTOM}/conf/app.ini
 fi
 
-# Replace app.ini settings with env variables in the form GITEA__SECTION_NAME__KEY_NAME
-environment-to-ini --config ${GITEA_CUSTOM}/conf/app.ini
+# Replace app.ini settings with env variables in the form GITERIA__SECTION_NAME__KEY_NAME
+environment-to-ini --config ${GITERIA_CUSTOM}/conf/app.ini
 
-# only chown if current owner is not already the gitea ${USER}. No recursive check to save time
-if ! [[ $(ls -ld /data/gitea | awk '{print $3}') = ${USER} ]]; then chown -R ${USER}:git /data/gitea; fi
-if ! [[ $(ls -ld /app/gitea  | awk '{print $3}') = ${USER} ]]; then chown -R ${USER}:git /app/gitea;  fi
+# only chown if current owner is not already the giteria ${USER}. No recursive check to save time
+if ! [[ $(ls -ld /data/giteria | awk '{print $3}') = ${USER} ]]; then chown -R ${USER}:git /data/giteria; fi
+if ! [[ $(ls -ld /app/giteria  | awk '{print $3}') = ${USER} ]]; then chown -R ${USER}:git /app/giteria;  fi
 if ! [[ $(ls -ld /data/git   | awk '{print $3}') = ${USER} ]]; then chown -R ${USER}:git /data/git;   fi
-chmod 0755 /data/gitea /app/gitea /data/git
+chmod 0755 /data/giteria /app/giteria /data/git

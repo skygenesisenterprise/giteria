@@ -2,44 +2,44 @@
 #
 # $FreeBSD$
 #
-# PROVIDE: gitea
+# PROVIDE: giteria
 # REQUIRE: NETWORKING SYSLOG
 # KEYWORD: shutdown
 #
-# Add the following lines to /etc/rc.conf to enable gitea:
+# Add the following lines to /etc/rc.conf to enable giteria:
 #
-#gitea_enable="YES"
+#giteria_enable="YES"
 
 . /etc/rc.subr
 
-name="gitea"
-rcvar="gitea_enable"
+name="giteria"
+rcvar="giteria_enable"
 
 load_rc_config $name
 
-: ${gitea_user:="git"}
-: ${gitea_enable:="NO"}
-: ${gitea_directory:="/var/lib/gitea"}
+: ${giteria_user:="git"}
+: ${giteria_enable:="NO"}
+: ${giteria_directory:="/var/lib/giteria"}
 
-command="/usr/local/bin/gitea web -c /etc/gitea/app.ini"
+command="/usr/local/bin/giteria web -c /etc/giteria/app.ini"
 procname="$(echo $command |cut -d' ' -f1)"
 
-pidfile="${gitea_directory}/${name}.pid"
+pidfile="${giteria_directory}/${name}.pid"
 
 start_cmd="${name}_start"
 stop_cmd="${name}_stop"
 
-gitea_start() {
-	cd ${gitea_directory}
-	export USER=${gitea_user}
-	export HOME=/usr/home/${gitea_user}
-	export GITEA_WORK_DIR=${gitea_directory}
-	/usr/sbin/daemon -f -u ${gitea_user} -p ${pidfile} $command
+giteria_start() {
+	cd ${giteria_directory}
+	export USER=${giteria_user}
+	export HOME=/usr/home/${giteria_user}
+	export GITERIA_WORK_DIR=${giteria_directory}
+	/usr/sbin/daemon -f -u ${giteria_user} -p ${pidfile} $command
 }
 
-gitea_stop() {
+giteria_stop() {
 	if [ ! -f $pidfile ]; then
-		echo "GITEA PID File not found. Maybe GITEA is not running?"
+		echo "GITERIA PID File not found. Maybe GITERIA is not running?"
 	else
 		kill $(cat $pidfile)
 	fi

@@ -17,8 +17,8 @@ import (
 	actions_service "github.com/skygenesisenterprise/giteria/services/actions"
 	notify_service "github.com/skygenesisenterprise/giteria/services/notify"
 
-	runnerv1 "github.com/skygenesisenterprise/actions-proto-go/runner/v1"
-	"github.com/skygenesisenterprise/actions-proto-go/runner/v1/runnerv1connect"
+	runnerv1 "code.gitea.io/actions-proto-go/runner/v1"
+	"code.gitea.io/actions-proto-go/runner/v1/runnerv1connect"
 	"connectrpc.com/connect"
 	gouuid "github.com/google/uuid"
 	"google.golang.org/grpc/codes"

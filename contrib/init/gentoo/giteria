@@ -1,10 +1,10 @@
 #!/sbin/openrc-run
 
-DIR=/var/lib/gitea
+DIR=/var/lib/giteria
 USER=git
 HOME=/home/${USER}
-GITEA_WORK_DIR=${DIR}
-EXECUTABLE=/usr/local/bin/gitea
+GITERIA_WORK_DIR=${DIR}
+EXECUTABLE=/usr/local/bin/giteria
 
 export USER
 export HOME

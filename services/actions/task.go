@@ -13,7 +13,7 @@ import (
 	secret_model "github.com/skygenesisenterprise/giteria/models/secret"
 	notify_service "github.com/skygenesisenterprise/giteria/services/notify"
 
-	runnerv1 "github.com/skygenesisenterprise/giteria/actions-proto-go/runner/v1"
+	runnerv1 "code.gitea.io/actions-proto-go/runner/v1"
 	"google.golang.org/protobuf/types/known/structpb"
 )
 

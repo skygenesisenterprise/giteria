@@ -7,14 +7,14 @@ USE_PROCD=1
 START=90
 STOP=10
 
-PROG=/opt/gitea/gitea
-GITEA_WORK_DIR=/opt/gitea
-CONF_FILE=$GITEA_WORK_DIR/app.ini
+PROG=/opt/giteria/giteria
+GITERIA_WORK_DIR=/opt/giteria
+CONF_FILE=$GITERIA_WORK_DIR/app.ini
 
 start_service(){
-    procd_open_instance gitea
-    procd_set_param env GITEA_WORK_DIR=$GITEA_WORK_DIR
-    procd_set_param env HOME=$GITEA_WORK_DIR
+    procd_open_instance giteria
+    procd_set_param env GITERIA_WORK_DIR=$GITERIA_WORK_DIR
+    procd_set_param env HOME=$GITERIA_WORK_DIR
     procd_set_param command $PROG web -c $CONF_FILE
     procd_set_param file $CONF_FILE
     procd_set_param user git

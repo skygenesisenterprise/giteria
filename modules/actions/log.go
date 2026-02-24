@@ -17,7 +17,7 @@ import (
 	"github.com/skygenesisenterprise/giteria/modules/storage"
 	"github.com/skygenesisenterprise/giteria/modules/zstd"
 
-	runnerv1 "github.com/skygenesisenterprise/actions-proto-go/runner/v1"
+	runnerv1 "code.gitea.io/actions-proto-go/runner/v1"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
