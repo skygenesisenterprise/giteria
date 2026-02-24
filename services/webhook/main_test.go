@@ -6,12 +6,12 @@ package webhook
 import (
 	"testing"
 
-	"code.gitea.io/gitea/models/unittest"
-	"code.gitea.io/gitea/modules/hostmatcher"
-	"code.gitea.io/gitea/modules/setting"
+	"github.com/skygenesisenterprise/giteria/models/unittest"
+	"github.com/skygenesisenterprise/giteria/modules/hostmatcher"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
 
-	_ "code.gitea.io/gitea/models"
-	_ "code.gitea.io/gitea/models/actions"
+	_ "github.com/skygenesisenterprise/giteria/models"
+	_ "github.com/skygenesisenterprise/giteria/models/actions"
 )
 
 func TestMain(m *testing.M) {

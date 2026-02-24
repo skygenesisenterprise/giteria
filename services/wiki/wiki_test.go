@@ -8,14 +8,14 @@ import (
 	"strings"
 	"testing"
 
-	repo_model "code.gitea.io/gitea/models/repo"
-	"code.gitea.io/gitea/models/unittest"
-	user_model "code.gitea.io/gitea/models/user"
-	"code.gitea.io/gitea/modules/git"
-	"code.gitea.io/gitea/modules/gitrepo"
-	repo_service "code.gitea.io/gitea/services/repository"
+	repo_model "github.com/skygenesisenterprise/giteria/models/repo"
+	"github.com/skygenesisenterprise/giteria/models/unittest"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	"github.com/skygenesisenterprise/giteria/modules/git"
+	"github.com/skygenesisenterprise/giteria/modules/gitrepo"
+	repo_service "github.com/skygenesisenterprise/giteria/services/repository"
 
-	_ "code.gitea.io/gitea/models/actions"
+	_ "github.com/skygenesisenterprise/giteria/models/actions"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

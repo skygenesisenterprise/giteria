@@ -6,7 +6,7 @@ package webhook
 import (
 	"testing"
 
-	api "code.gitea.io/gitea/modules/structs"
+	api "github.com/skygenesisenterprise/giteria/modules/structs"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -17,13 +17,13 @@ func createTestPayload() *api.CreatePayload {
 		Ref:     "refs/heads/test",
 		RefType: "branch",
 		Repo: &api.Repository{
-			HTMLURL:  "http://localhost:3000/test/repo",
+			HTMLURL:  "http://localhost:3001/test/repo",
 			Name:     "repo",
 			FullName: "test/repo",
 		},
 		Sender: &api.User{
 			UserName:  "user1",
-			AvatarURL: "http://localhost:3000/user1/avatar",
+			AvatarURL: "http://localhost:3001/user1/avatar",
 		},
 	}
 }
@@ -33,13 +33,13 @@ func deleteTestPayload() *api.DeletePayload {
 		Ref:     "refs/heads/test",
 		RefType: "branch",
 		Repo: &api.Repository{
-			HTMLURL:  "http://localhost:3000/test/repo",
+			HTMLURL:  "http://localhost:3001/test/repo",
 			Name:     "repo",
 			FullName: "test/repo",
 		},
 		Sender: &api.User{
 			UserName:  "user1",
-			AvatarURL: "http://localhost:3000/user1/avatar",
+			AvatarURL: "http://localhost:3001/user1/avatar",
 		},
 	}
 }
@@ -47,18 +47,18 @@ func deleteTestPayload() *api.DeletePayload {
 func forkTestPayload() *api.ForkPayload {
 	return &api.ForkPayload{
 		Forkee: &api.Repository{
-			HTMLURL:  "http://localhost:3000/test/repo2",
+			HTMLURL:  "http://localhost:3001/test/repo2",
 			Name:     "repo2",
 			FullName: "test/repo2",
 		},
 		Repo: &api.Repository{
-			HTMLURL:  "http://localhost:3000/test/repo",
+			HTMLURL:  "http://localhost:3001/test/repo",
 			Name:     "repo",
 			FullName: "test/repo",
 		},
 		Sender: &api.User{
 			UserName:  "user1",
-			AvatarURL: "http://localhost:3000/user1/avatar",
+			AvatarURL: "http://localhost:3001/user1/avatar",
 		},
 	}
 }
@@ -75,7 +75,7 @@ func pushTestPayloadWithCommitMessage(message string) *api.PushPayload {
 	commit := &api.PayloadCommit{
 		ID:      "2020558fe2e34debb818a514715839cabd25e778",
 		Message: message,
-		URL:     "http://localhost:3000/test/repo/commit/2020558fe2e34debb818a514715839cabd25e778",
+		URL:     "http://localhost:3001/test/repo/commit/2020558fe2e34debb818a514715839cabd25e778",
 		Author: &api.PayloadUser{
 			Name:     "user1",
 			Email:    "user1@localhost",
@@ -97,17 +97,17 @@ func pushTestPayloadWithCommitMessage(message string) *api.PushPayload {
 		Commits:      []*api.PayloadCommit{commit, commit},
 		TotalCommits: 2,
 		Repo: &api.Repository{
-			HTMLURL:  "http://localhost:3000/test/repo",
+			HTMLURL:  "http://localhost:3001/test/repo",
 			Name:     "repo",
 			FullName: "test/repo",
 		},
 		Pusher: &api.User{
 			UserName:  "user1",
-			AvatarURL: "http://localhost:3000/user1/avatar",
+			AvatarURL: "http://localhost:3001/user1/avatar",
 		},
 		Sender: &api.User{
 			UserName:  "user1",
-			AvatarURL: "http://localhost:3000/user1/avatar",
+			AvatarURL: "http://localhost:3001/user1/avatar",
 		},
 	}
 }
@@ -117,28 +117,28 @@ func issueTestPayload() *api.IssuePayload {
 		Index: 2,
 		Sender: &api.User{
 			UserName:  "user1",
-			AvatarURL: "http://localhost:3000/user1/avatar",
+			AvatarURL: "http://localhost:3001/user1/avatar",
 		},
 		Repository: &api.Repository{
-			HTMLURL:  "http://localhost:3000/test/repo",
+			HTMLURL:  "http://localhost:3001/test/repo",
 			Name:     "repo",
 			FullName: "test/repo",
 		},
 		Issue: &api.Issue{
 			ID:      2,
 			Index:   2,
-			URL:     "http://localhost:3000/api/v1/repos/test/repo/issues/2",
-			HTMLURL: "http://localhost:3000/test/repo/issues/2",
+			URL:     "http://localhost:3001/api/v1/repos/test/repo/issues/2",
+			HTMLURL: "http://localhost:3001/test/repo/issues/2",
 			Title:   "crash",
 			Body:    "issue body",
 			Poster: &api.User{
 				UserName:  "user1",
-				AvatarURL: "http://localhost:3000/user1/avatar",
+				AvatarURL: "http://localhost:3001/user1/avatar",
 			},
 			Assignees: []*api.User{
 				{
 					UserName:  "user1",
-					AvatarURL: "http://localhost:3000/user1/avatar",
+					AvatarURL: "http://localhost:3001/user1/avatar",
 				},
 			},
 			Milestone: &api.Milestone{
@@ -155,27 +155,27 @@ func issueCommentTestPayload() *api.IssueCommentPayload {
 		Action: api.HookIssueCommentCreated,
 		Sender: &api.User{
 			UserName:  "user1",
-			AvatarURL: "http://localhost:3000/user1/avatar",
+			AvatarURL: "http://localhost:3001/user1/avatar",
 		},
 		Repository: &api.Repository{
-			HTMLURL:  "http://localhost:3000/test/repo",
+			HTMLURL:  "http://localhost:3001/test/repo",
 			Name:     "repo",
 			FullName: "test/repo",
 		},
 		Comment: &api.Comment{
-			HTMLURL:  "http://localhost:3000/test/repo/issues/2#issuecomment-4",
-			IssueURL: "http://localhost:3000/test/repo/issues/2",
+			HTMLURL:  "http://localhost:3001/test/repo/issues/2#issuecomment-4",
+			IssueURL: "http://localhost:3001/test/repo/issues/2",
 			Body:     "more info needed",
 		},
 		Issue: &api.Issue{
 			ID:      2,
 			Index:   2,
-			URL:     "http://localhost:3000/api/v1/repos/test/repo/issues/2",
-			HTMLURL: "http://localhost:3000/test/repo/issues/2",
+			URL:     "http://localhost:3001/api/v1/repos/test/repo/issues/2",
+			HTMLURL: "http://localhost:3001/test/repo/issues/2",
 			Title:   "crash",
 			Poster: &api.User{
 				UserName:  "user1",
-				AvatarURL: "http://localhost:3000/user1/avatar",
+				AvatarURL: "http://localhost:3001/user1/avatar",
 			},
 			Body: "this happened",
 		},
@@ -187,28 +187,28 @@ func pullRequestCommentTestPayload() *api.IssueCommentPayload {
 		Action: api.HookIssueCommentCreated,
 		Sender: &api.User{
 			UserName:  "user1",
-			AvatarURL: "http://localhost:3000/user1/avatar",
+			AvatarURL: "http://localhost:3001/user1/avatar",
 		},
 		Repository: &api.Repository{
-			HTMLURL:  "http://localhost:3000/test/repo",
+			HTMLURL:  "http://localhost:3001/test/repo",
 			Name:     "repo",
 			FullName: "test/repo",
 		},
 		Comment: &api.Comment{
-			HTMLURL: "http://localhost:3000/test/repo/pulls/12#issuecomment-4",
-			PRURL:   "http://localhost:3000/test/repo/pulls/12",
+			HTMLURL: "http://localhost:3001/test/repo/pulls/12#issuecomment-4",
+			PRURL:   "http://localhost:3001/test/repo/pulls/12",
 			Body:    "changes requested",
 		},
 		Issue: &api.Issue{
 			ID:      12,
 			Index:   12,
-			URL:     "http://localhost:3000/api/v1/repos/test/repo/pulls/12",
-			HTMLURL: "http://localhost:3000/test/repo/pulls/12",
+			URL:     "http://localhost:3001/api/v1/repos/test/repo/pulls/12",
+			HTMLURL: "http://localhost:3001/test/repo/pulls/12",
 			Title:   "Fix bug",
 			Body:    "fixes bug #2",
 			Poster: &api.User{
 				UserName:  "user1",
-				AvatarURL: "http://localhost:3000/user1/avatar",
+				AvatarURL: "http://localhost:3001/user1/avatar",
 			},
 		},
 		IsPull: true,
@@ -218,13 +218,13 @@ func pullRequestCommentTestPayload() *api.IssueCommentPayload {
 func wikiTestPayload() *api.WikiPayload {
 	return &api.WikiPayload{
 		Repository: &api.Repository{
-			HTMLURL:  "http://localhost:3000/test/repo",
+			HTMLURL:  "http://localhost:3001/test/repo",
 			Name:     "repo",
 			FullName: "test/repo",
 		},
 		Sender: &api.User{
 			UserName:  "user1",
-			AvatarURL: "http://localhost:3000/user1/avatar",
+			AvatarURL: "http://localhost:3001/user1/avatar",
 		},
 		Page:    "index",
 		Comment: "Wiki change comment",
@@ -236,10 +236,10 @@ func pullReleaseTestPayload() *api.ReleasePayload {
 		Action: api.HookReleasePublished,
 		Sender: &api.User{
 			UserName:  "user1",
-			AvatarURL: "http://localhost:3000/user1/avatar",
+			AvatarURL: "http://localhost:3001/user1/avatar",
 		},
 		Repository: &api.Repository{
-			HTMLURL:  "http://localhost:3000/test/repo",
+			HTMLURL:  "http://localhost:3001/test/repo",
 			Name:     "repo",
 			FullName: "test/repo",
 		},
@@ -248,7 +248,7 @@ func pullReleaseTestPayload() *api.ReleasePayload {
 			Target:  "master",
 			Title:   "First stable release",
 			Note:    "Note of first stable release",
-			HTMLURL: "http://localhost:3000/test/repo/releases/tag/v1.0",
+			HTMLURL: "http://localhost:3001/test/repo/releases/tag/v1.0",
 		},
 	}
 }
@@ -259,29 +259,29 @@ func pullRequestTestPayload() *api.PullRequestPayload {
 		Index:  12,
 		Sender: &api.User{
 			UserName:  "user1",
-			AvatarURL: "http://localhost:3000/user1/avatar",
+			AvatarURL: "http://localhost:3001/user1/avatar",
 		},
 		Repository: &api.Repository{
-			HTMLURL:  "http://localhost:3000/test/repo",
+			HTMLURL:  "http://localhost:3001/test/repo",
 			Name:     "repo",
 			FullName: "test/repo",
 		},
 		PullRequest: &api.PullRequest{
 			ID:        12,
 			Index:     12,
-			URL:       "http://localhost:3000/test/repo/pulls/12",
-			HTMLURL:   "http://localhost:3000/test/repo/pulls/12",
+			URL:       "http://localhost:3001/test/repo/pulls/12",
+			HTMLURL:   "http://localhost:3001/test/repo/pulls/12",
 			Title:     "Fix bug",
 			Body:      "fixes bug #2",
 			Mergeable: true,
 			Poster: &api.User{
 				UserName:  "user1",
-				AvatarURL: "http://localhost:3000/user1/avatar",
+				AvatarURL: "http://localhost:3001/user1/avatar",
 			},
 			Assignees: []*api.User{
 				{
 					UserName:  "user1",
-					AvatarURL: "http://localhost:3000/user1/avatar",
+					AvatarURL: "http://localhost:3001/user1/avatar",
 				},
 			},
 			Milestone: &api.Milestone{
@@ -316,27 +316,27 @@ func packageTestPayload() *api.PackagePayload {
 		Action: api.HookPackageCreated,
 		Sender: &api.User{
 			UserName:  "user1",
-			AvatarURL: "http://localhost:3000/user1/avatar",
+			AvatarURL: "http://localhost:3001/user1/avatar",
 		},
 		Repository: nil,
 		Organization: &api.Organization{
 			Name:      "org1",
-			AvatarURL: "http://localhost:3000/org1/avatar",
+			AvatarURL: "http://localhost:3001/org1/avatar",
 		},
 		Package: &api.Package{
 			Owner: &api.User{
 				UserName:  "user1",
-				AvatarURL: "http://localhost:3000/user1/avatar",
+				AvatarURL: "http://localhost:3001/user1/avatar",
 			},
 			Repository: nil,
 			Creator: &api.User{
 				UserName:  "user1",
-				AvatarURL: "http://localhost:3000/user1/avatar",
+				AvatarURL: "http://localhost:3001/user1/avatar",
 			},
 			Type:    "container",
 			Name:    "GiteaContainer",
 			Version: "latest",
-			HTMLURL: "http://localhost:3000/user1/-/packages/container/GiteaContainer/latest",
+			HTMLURL: "http://localhost:3001/user1/-/packages/container/GiteaContainer/latest",
 		},
 	}
 }

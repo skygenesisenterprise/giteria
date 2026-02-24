@@ -6,10 +6,10 @@ package webhook
 import (
 	"testing"
 
-	webhook_model "code.gitea.io/gitea/models/webhook"
-	"code.gitea.io/gitea/modules/json"
-	api "code.gitea.io/gitea/modules/structs"
-	webhook_module "code.gitea.io/gitea/modules/webhook"
+	webhook_model "github.com/skygenesisenterprise/giteria/models/webhook"
+	"github.com/skygenesisenterprise/giteria/modules/json"
+	api "github.com/skygenesisenterprise/giteria/modules/structs"
+	webhook_module "github.com/skygenesisenterprise/giteria/modules/webhook"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
