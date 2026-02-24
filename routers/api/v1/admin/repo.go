@@ -4,10 +4,10 @@
 package admin
 
 import (
-	api "code.gitea.io/gitea/modules/structs"
-	"code.gitea.io/gitea/modules/web"
-	"code.gitea.io/gitea/routers/api/v1/repo"
-	"code.gitea.io/gitea/services/context"
+	api "github.com/skygenesisenterprise/giteria/modules/structs"
+	"github.com/skygenesisenterprise/giteria/modules/web"
+	"github.com/skygenesisenterprise/giteria/routers/api/v1/repo"
+	"github.com/skygenesisenterprise/giteria/services/context"
 )
 
 // CreateRepo api for creating a repository

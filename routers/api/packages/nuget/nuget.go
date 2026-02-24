@@ -14,17 +14,17 @@ import (
 	"strconv"
 	"strings"
 
-	"code.gitea.io/gitea/models/db"
-	packages_model "code.gitea.io/gitea/models/packages"
-	nuget_model "code.gitea.io/gitea/models/packages/nuget"
-	"code.gitea.io/gitea/modules/optional"
-	packages_module "code.gitea.io/gitea/modules/packages"
-	nuget_module "code.gitea.io/gitea/modules/packages/nuget"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/util"
-	"code.gitea.io/gitea/routers/api/packages/helper"
-	"code.gitea.io/gitea/services/context"
-	packages_service "code.gitea.io/gitea/services/packages"
+	"github.com/skygenesisenterprise/giteria/models/db"
+	packages_model "github.com/skygenesisenterprise/giteria/models/packages"
+	nuget_model "github.com/skygenesisenterprise/giteria/models/packages/nuget"
+	"github.com/skygenesisenterprise/giteria/modules/optional"
+	packages_module "github.com/skygenesisenterprise/giteria/modules/packages"
+	nuget_module "github.com/skygenesisenterprise/giteria/modules/packages/nuget"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/util"
+	"github.com/skygenesisenterprise/giteria/routers/api/packages/helper"
+	"github.com/skygenesisenterprise/giteria/services/context"
+	packages_service "github.com/skygenesisenterprise/giteria/services/packages"
 )
 
 func apiError(ctx *context.Context, status int, obj any) {

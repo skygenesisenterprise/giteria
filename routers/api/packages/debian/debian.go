@@ -11,16 +11,16 @@ import (
 	"net/http"
 	"strings"
 
-	"code.gitea.io/gitea/models/db"
-	packages_model "code.gitea.io/gitea/models/packages"
-	packages_module "code.gitea.io/gitea/modules/packages"
-	debian_module "code.gitea.io/gitea/modules/packages/debian"
-	"code.gitea.io/gitea/modules/util"
-	"code.gitea.io/gitea/routers/api/packages/helper"
-	"code.gitea.io/gitea/services/context"
-	notify_service "code.gitea.io/gitea/services/notify"
-	packages_service "code.gitea.io/gitea/services/packages"
-	debian_service "code.gitea.io/gitea/services/packages/debian"
+	"github.com/skygenesisenterprise/giteria/models/db"
+	packages_model "github.com/skygenesisenterprise/giteria/models/packages"
+	packages_module "github.com/skygenesisenterprise/giteria/modules/packages"
+	debian_module "github.com/skygenesisenterprise/giteria/modules/packages/debian"
+	"github.com/skygenesisenterprise/giteria/modules/util"
+	"github.com/skygenesisenterprise/giteria/routers/api/packages/helper"
+	"github.com/skygenesisenterprise/giteria/services/context"
+	notify_service "github.com/skygenesisenterprise/giteria/services/notify"
+	packages_service "github.com/skygenesisenterprise/giteria/services/packages"
+	debian_service "github.com/skygenesisenterprise/giteria/services/packages/debian"
 )
 
 func apiError(ctx *context.Context, status int, obj any) {

@@ -1,7 +1,7 @@
 // Copyright 2017 The Gitea Authors. All rights reserved.
 // SPDX-License-Identifier: MIT
 
-package structs // import "code.gitea.io/gitea/modules/structs"
+package structs // import "github.com/skygenesisenterprise/giteria/modules/structs"
 
 import (
 	"time"

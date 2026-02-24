@@ -16,7 +16,7 @@ RUN apk --no-cache add \
     nodejs \
     pnpm
 
-WORKDIR ${GOPATH}/src/code.gitea.io/gitea
+WORKDIR ${GOPATH}/src/github.com/skygenesisenterprise/giteria
 # Use COPY but not "mount" because some directories like "node_modules" contain platform-depended contents and these directories need to be ignored.
 # ".git" directory will be mounted later separately for getting version data.
 # TODO: in the future, maybe we can pre-build the frontend assets on one platform and share them for different platforms, the benefit is that it won't be affected by webpack plugin compatibility problems, then the working directory can be fully mounted and the COPY is not needed.
@@ -37,7 +37,7 @@ RUN chmod 755 /tmp/local/usr/bin/entrypoint \
               /tmp/local/etc/s6/gitea/* \
               /tmp/local/etc/s6/openssh/* \
               /tmp/local/etc/s6/.s6-svscan/* \
-              /go/src/code.gitea.io/gitea/gitea
+              /go/src/github.com/skygenesisenterprise/giteria/giteria
 
 FROM docker.io/library/alpine:3.22 AS gitea
 
@@ -69,10 +69,10 @@ RUN addgroup \
   echo "git:*" | chpasswd -e
 
 COPY --from=build-env /tmp/local /
-COPY --from=build-env /go/src/code.gitea.io/gitea/gitea /app/gitea/gitea
+COPY --from=build-env /go/src/github.com/skygenesisenterprise/giteria/giteria /app/giteria/giteria
 
 ENV USER=git
-ENV GITEA_CUSTOM=/data/gitea
+ENV GITEA_CUSTOM=/data/giteria
 
 VOLUME ["/data"]
 

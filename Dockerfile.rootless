@@ -16,7 +16,7 @@ RUN apk --no-cache add \
     nodejs \
     pnpm
 
-WORKDIR ${GOPATH}/src/code.gitea.io/gitea
+WORKDIR ${GOPATH}/src/github.com/skygenesisenterprise/giteria
 # See the comments in Dockerfile
 COPY --exclude=.git/ . .
 
@@ -31,7 +31,7 @@ COPY docker/rootless /tmp/local
 
 # Set permissions for builds that made under windows which strips the executable bit from file
 RUN chmod 755 /tmp/local/usr/local/bin/* \
-              /go/src/code.gitea.io/gitea/gitea
+              /go/src/github.com/skygenesisenterprise/giteria/giteria
 
 FROM docker.io/library/alpine:3.22 AS gitea-rootless
 
@@ -52,30 +52,30 @@ RUN addgroup \
     git && \
   adduser \
     -S -H -D \
-    -h /var/lib/gitea/git \
+    -h /var/lib/giteria/git \
     -s /bin/bash \
     -u 1000 \
     -G git \
     git
 
-RUN mkdir -p /var/lib/gitea /etc/gitea
-RUN chown git:git /var/lib/gitea /etc/gitea
+RUN mkdir -p /var/lib/giteria /etc/giteria
+RUN chown git:git /var/lib/giteria /etc/giteria
 
 COPY --from=build-env /tmp/local /
-COPY --from=build-env --chown=root:root /go/src/code.gitea.io/gitea/gitea /app/gitea/gitea
+COPY --from=build-env --chown=root:root /go/src/github.com/skygenesisenterprise/giteria/giteria /app/giteria/giteria
 
 # git:git
 USER 1000:1000
-ENV GITEA_WORK_DIR=/var/lib/gitea
-ENV GITEA_CUSTOM=/var/lib/gitea/custom
-ENV GITEA_TEMP=/tmp/gitea
-ENV TMPDIR=/tmp/gitea
+ENV GITEA_WORK_DIR=/var/lib/giteria
+ENV GITEA_CUSTOM=/var/lib/giteria/custom
+ENV GITEA_TEMP=/tmp/giteria
+ENV TMPDIR=/tmp/giteria
 
 # TODO add to docs the ability to define the ini to load (useful to test and revert a config)
 ENV GITEA_APP_INI=/etc/gitea/app.ini
-ENV HOME="/var/lib/gitea/git"
-VOLUME ["/var/lib/gitea", "/etc/gitea"]
-WORKDIR /var/lib/gitea
+ENV HOME="/var/lib/giteria/git"
+VOLUME ["/var/lib/giteria", "/etc/gitea"]
+WORKDIR /var/lib/giteria
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--", "/usr/local/bin/docker-entrypoint.sh"]
 CMD []

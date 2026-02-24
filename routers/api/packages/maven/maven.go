@@ -19,15 +19,15 @@ import (
 	"strconv"
 	"strings"
 
-	packages_model "code.gitea.io/gitea/models/packages"
-	"code.gitea.io/gitea/modules/globallock"
-	"code.gitea.io/gitea/modules/json"
-	packages_module "code.gitea.io/gitea/modules/packages"
-	maven_module "code.gitea.io/gitea/modules/packages/maven"
-	"code.gitea.io/gitea/modules/util"
-	"code.gitea.io/gitea/routers/api/packages/helper"
-	"code.gitea.io/gitea/services/context"
-	packages_service "code.gitea.io/gitea/services/packages"
+	packages_model "github.com/skygenesisenterprise/giteria/models/packages"
+	"github.com/skygenesisenterprise/giteria/modules/globallock"
+	"github.com/skygenesisenterprise/giteria/modules/json"
+	packages_module "github.com/skygenesisenterprise/giteria/modules/packages"
+	maven_module "github.com/skygenesisenterprise/giteria/modules/packages/maven"
+	"github.com/skygenesisenterprise/giteria/modules/util"
+	"github.com/skygenesisenterprise/giteria/routers/api/packages/helper"
+	"github.com/skygenesisenterprise/giteria/services/context"
+	packages_service "github.com/skygenesisenterprise/giteria/services/packages"
 )
 
 const (

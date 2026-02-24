@@ -12,20 +12,20 @@ import (
 	"strings"
 	"testing"
 
-	repo_model "code.gitea.io/gitea/models/repo"
-	"code.gitea.io/gitea/models/unittest"
-	"code.gitea.io/gitea/modules/markup"
-	"code.gitea.io/gitea/modules/setting"
-	api "code.gitea.io/gitea/modules/structs"
-	"code.gitea.io/gitea/modules/test"
-	"code.gitea.io/gitea/modules/web"
-	context_service "code.gitea.io/gitea/services/context"
-	"code.gitea.io/gitea/services/contexttest"
+	repo_model "github.com/skygenesisenterprise/giteria/models/repo"
+	"github.com/skygenesisenterprise/giteria/models/unittest"
+	"github.com/skygenesisenterprise/giteria/modules/markup"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	api "github.com/skygenesisenterprise/giteria/modules/structs"
+	"github.com/skygenesisenterprise/giteria/modules/test"
+	"github.com/skygenesisenterprise/giteria/modules/web"
+	context_service "github.com/skygenesisenterprise/giteria/services/context"
+	"github.com/skygenesisenterprise/giteria/services/contexttest"
 
 	"github.com/stretchr/testify/assert"
 )
 
-const AppURL = "http://localhost:3000/"
+const AppURL = "http://localhost:3001/"
 
 func TestMain(m *testing.M) {
 	unittest.MainTest(m, &unittest.TestOptions{
@@ -96,20 +96,20 @@ func TestAPI_RenderGFM(t *testing.T) {
 		// rendered
 		`<p>Wiki! Enjoy :)</p>
 <ul>
-<li><a href="http://localhost:3000/user2/repo1/wiki/Links" rel="nofollow">Links, Language bindings, Engine bindings</a></li>
-<li><a href="http://localhost:3000/user2/repo1/wiki/Tips" rel="nofollow">Tips</a></li>
-<li>Bezier widget (by <a href="http://localhost:3000/r-lyeh" rel="nofollow">@r-lyeh</a>) <a href="https://github.com/ocornut/imgui/issues/786" rel="nofollow">https://github.com/ocornut/imgui/issues/786</a></li>
+<li><a href="http://localhost:3001/user2/repo1/wiki/Links" rel="nofollow">Links, Language bindings, Engine bindings</a></li>
+<li><a href="http://localhost:3001/user2/repo1/wiki/Tips" rel="nofollow">Tips</a></li>
+<li>Bezier widget (by <a href="http://localhost:3001/r-lyeh" rel="nofollow">@r-lyeh</a>) <a href="https://github.com/ocornut/imgui/issues/786" rel="nofollow">https://github.com/ocornut/imgui/issues/786</a></li>
 </ul>
 `,
 		// Guard wiki sidebar: special syntax
 		`[[Guardfile-DSL / Configuring-Guard|Guardfile-DSL---Configuring-Guard]]`,
 		// rendered
-		`<p><a href="http://localhost:3000/user2/repo1/wiki/Guardfile-DSL---Configuring-Guard" rel="nofollow">Guardfile-DSL / Configuring-Guard</a></p>
+		`<p><a href="http://localhost:3001/user2/repo1/wiki/Guardfile-DSL---Configuring-Guard" rel="nofollow">Guardfile-DSL / Configuring-Guard</a></p>
 `,
 		// special syntax
 		`[[Name|Link]]`,
 		// rendered
-		`<p><a href="http://localhost:3000/user2/repo1/wiki/Link" rel="nofollow">Name</a></p>
+		`<p><a href="http://localhost:3001/user2/repo1/wiki/Link" rel="nofollow">Name</a></p>
 `,
 		// empty
 		``,
@@ -133,8 +133,8 @@ Here are some links to the most important topics. You can find the full list of 
 <p><strong>Wine Staging</strong> on website <a href="http://wine-staging.com" rel="nofollow">wine-staging.com</a>.</p>
 <h2 id="user-content-quick-links">Quick Links</h2>
 <p>Here are some links to the most important topics. You can find the full list of pages at the sidebar.</p>
-<p><a href="http://localhost:3000/user2/repo1/wiki/Configuration" rel="nofollow">Configuration</a>
-<a href="http://localhost:3000/user2/repo1/wiki/images/icon-bug.png" rel="nofollow"><img src="http://localhost:3000/user2/repo1/wiki/raw/images/icon-bug.png" title="icon-bug.png" alt="images/icon-bug.png"/></a></p>
+<p><a href="http://localhost:3001/user2/repo1/wiki/Configuration" rel="nofollow">Configuration</a>
+<a href="http://localhost:3001/user2/repo1/wiki/images/icon-bug.png" rel="nofollow"><img src="http://localhost:3001/user2/repo1/wiki/raw/images/icon-bug.png" title="icon-bug.png" alt="images/icon-bug.png"/></a></p>
 `,
 	}
 
@@ -157,20 +157,20 @@ Here are some links to the most important topics. You can find the full list of 
 	}
 
 	input := "[Link](test.md)\n![Image](image.png)"
-	testRenderMarkdown(t, "gfm", false, input, `<p><a href="http://localhost:3000/user2/repo1/src/branch/main/test.md" rel="nofollow">Link</a>
-<a href="http://localhost:3000/user2/repo1/src/branch/main/image.png" target="_blank" rel="nofollow noopener"><img src="http://localhost:3000/user2/repo1/media/branch/main/image.png" alt="Image"/></a></p>
+	testRenderMarkdown(t, "gfm", false, input, `<p><a href="http://localhost:3001/user2/repo1/src/branch/main/test.md" rel="nofollow">Link</a>
+<a href="http://localhost:3001/user2/repo1/src/branch/main/image.png" target="_blank" rel="nofollow noopener"><img src="http://localhost:3001/user2/repo1/media/branch/main/image.png" alt="Image"/></a></p>
 `, http.StatusOK)
 
-	testRenderMarkdown(t, "gfm", false, input, `<p><a href="http://localhost:3000/user2/repo1/src/branch/main/test.md" rel="nofollow">Link</a>
-<a href="http://localhost:3000/user2/repo1/src/branch/main/image.png" target="_blank" rel="nofollow noopener"><img src="http://localhost:3000/user2/repo1/media/branch/main/image.png" alt="Image"/></a></p>
+	testRenderMarkdown(t, "gfm", false, input, `<p><a href="http://localhost:3001/user2/repo1/src/branch/main/test.md" rel="nofollow">Link</a>
+<a href="http://localhost:3001/user2/repo1/src/branch/main/image.png" target="_blank" rel="nofollow noopener"><img src="http://localhost:3001/user2/repo1/media/branch/main/image.png" alt="Image"/></a></p>
 `, http.StatusOK)
 
-	testRenderMarkup(t, "gfm", false, "", input, `<p><a href="http://localhost:3000/user2/repo1/src/branch/main/test.md" rel="nofollow">Link</a>
-<a href="http://localhost:3000/user2/repo1/src/branch/main/image.png" target="_blank" rel="nofollow noopener"><img src="http://localhost:3000/user2/repo1/media/branch/main/image.png" alt="Image"/></a></p>
+	testRenderMarkup(t, "gfm", false, "", input, `<p><a href="http://localhost:3001/user2/repo1/src/branch/main/test.md" rel="nofollow">Link</a>
+<a href="http://localhost:3001/user2/repo1/src/branch/main/image.png" target="_blank" rel="nofollow noopener"><img src="http://localhost:3001/user2/repo1/media/branch/main/image.png" alt="Image"/></a></p>
 `, http.StatusOK)
 
-	testRenderMarkup(t, "file", false, "path/new-file.md", input, `<p><a href="http://localhost:3000/user2/repo1/src/branch/main/path/test.md" rel="nofollow">Link</a>
-<a href="http://localhost:3000/user2/repo1/src/branch/main/path/image.png" target="_blank" rel="nofollow noopener"><img src="http://localhost:3000/user2/repo1/media/branch/main/path/image.png" alt="Image"/></a></p>
+	testRenderMarkup(t, "file", false, "path/new-file.md", input, `<p><a href="http://localhost:3001/user2/repo1/src/branch/main/path/test.md" rel="nofollow">Link</a>
+<a href="http://localhost:3001/user2/repo1/src/branch/main/path/image.png" target="_blank" rel="nofollow noopener"><img src="http://localhost:3001/user2/repo1/media/branch/main/path/image.png" alt="Image"/></a></p>
 `, http.StatusOK)
 
 	testRenderMarkup(t, "file", false, "path/test.unknown", "## Test", "unsupported file to render: \"path/test.unknown\"\n", http.StatusUnprocessableEntity)

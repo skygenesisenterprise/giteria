@@ -138,8 +138,8 @@ package main
 
 import (
     "context"
-    "code.gitea.io/gitea/models/db"
-    user_model "code.gitea.io/gitea/models/user"
+    "github.com/skygenesisenterprise/giteria/models/db"
+    user_model "github.com/skygenesisenterprise/giteria/models/user"
     "xorm.io/engine"
 )
 

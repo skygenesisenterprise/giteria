@@ -6,10 +6,10 @@ package container
 import (
 	"net/http"
 
-	user_model "code.gitea.io/gitea/models/user"
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/services/auth"
-	"code.gitea.io/gitea/services/packages"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/services/auth"
+	"github.com/skygenesisenterprise/giteria/services/packages"
 )
 
 var _ auth.Method = &Auth{}

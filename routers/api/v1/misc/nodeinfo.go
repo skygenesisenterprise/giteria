@@ -7,11 +7,11 @@ import (
 	"net/http"
 	"time"
 
-	issues_model "code.gitea.io/gitea/models/issues"
-	user_model "code.gitea.io/gitea/models/user"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/structs"
-	"code.gitea.io/gitea/services/context"
+	issues_model "github.com/skygenesisenterprise/giteria/models/issues"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/structs"
+	"github.com/skygenesisenterprise/giteria/services/context"
 )
 
 const cacheKeyNodeInfoUsage = "API_NodeInfoUsage"

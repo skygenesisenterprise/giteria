@@ -6,11 +6,11 @@ package nuget
 import (
 	"net/http"
 
-	auth_model "code.gitea.io/gitea/models/auth"
-	user_model "code.gitea.io/gitea/models/user"
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/timeutil"
-	"code.gitea.io/gitea/services/auth"
+	auth_model "github.com/skygenesisenterprise/giteria/models/auth"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/timeutil"
+	"github.com/skygenesisenterprise/giteria/services/auth"
 )
 
 var _ auth.Method = &Auth{}
