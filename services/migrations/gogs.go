@@ -11,9 +11,9 @@ import (
 	"strings"
 	"time"
 
-	"code.gitea.io/gitea/modules/log"
-	base "code.gitea.io/gitea/modules/migration"
-	"code.gitea.io/gitea/modules/structs"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	base "github.com/skygenesisenterprise/giteria/modules/migration"
+	"github.com/skygenesisenterprise/giteria/modules/structs"
 
 	"github.com/gogs/go-gogs-client"
 )

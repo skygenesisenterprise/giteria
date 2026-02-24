@@ -7,10 +7,10 @@ import (
 	"context"
 	"errors"
 
-	repo_model "code.gitea.io/gitea/models/repo"
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/queue"
-	"code.gitea.io/gitea/modules/setting"
+	repo_model "github.com/skygenesisenterprise/giteria/models/repo"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/queue"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
 )
 
 // doMirrorSync causes this request to mirror itself

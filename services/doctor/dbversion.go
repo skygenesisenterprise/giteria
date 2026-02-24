@@ -6,10 +6,10 @@ package doctor
 import (
 	"context"
 
-	"code.gitea.io/gitea/models/db"
-	"code.gitea.io/gitea/models/migrations"
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/services/versioned_migration"
+	"github.com/skygenesisenterprise/giteria/models/db"
+	"github.com/skygenesisenterprise/giteria/models/migrations"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/services/versioned_migration"
 )
 
 func checkDBVersion(ctx context.Context, logger log.Logger, autofix bool) error {

@@ -7,13 +7,13 @@ package mailer
 import (
 	"context"
 
-	"code.gitea.io/gitea/modules/graceful"
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/queue"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/templates"
-	sender_service "code.gitea.io/gitea/services/mailer/sender"
-	notify_service "code.gitea.io/gitea/services/notify"
+	"github.com/skygenesisenterprise/giteria/modules/graceful"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/queue"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/templates"
+	sender_service "github.com/skygenesisenterprise/giteria/services/mailer/sender"
+	notify_service "github.com/skygenesisenterprise/giteria/services/notify"
 )
 
 var mailQueue *queue.WorkerPoolQueue[*sender_service.Message]

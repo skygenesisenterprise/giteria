@@ -6,11 +6,11 @@ package doctor
 import (
 	"context"
 
-	repo_model "code.gitea.io/gitea/models/repo"
-	"code.gitea.io/gitea/modules/git"
-	"code.gitea.io/gitea/modules/git/gitcmd"
-	"code.gitea.io/gitea/modules/gitrepo"
-	"code.gitea.io/gitea/modules/log"
+	repo_model "github.com/skygenesisenterprise/giteria/models/repo"
+	"github.com/skygenesisenterprise/giteria/modules/git"
+	"github.com/skygenesisenterprise/giteria/modules/git/gitcmd"
+	"github.com/skygenesisenterprise/giteria/modules/gitrepo"
+	"github.com/skygenesisenterprise/giteria/modules/log"
 )
 
 func synchronizeRepoHeads(ctx context.Context, logger log.Logger, autofix bool) error {

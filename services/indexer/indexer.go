@@ -4,10 +4,10 @@
 package indexer
 
 import (
-	code_indexer "code.gitea.io/gitea/modules/indexer/code"
-	issue_indexer "code.gitea.io/gitea/modules/indexer/issues"
-	stats_indexer "code.gitea.io/gitea/modules/indexer/stats"
-	notify_service "code.gitea.io/gitea/services/notify"
+	code_indexer "github.com/skygenesisenterprise/giteria/modules/indexer/code"
+	issue_indexer "github.com/skygenesisenterprise/giteria/modules/indexer/issues"
+	stats_indexer "github.com/skygenesisenterprise/giteria/modules/indexer/stats"
+	notify_service "github.com/skygenesisenterprise/giteria/services/notify"
 )
 
 // Init initialize the repo indexer

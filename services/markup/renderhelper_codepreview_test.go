@@ -6,11 +6,11 @@ package markup
 import (
 	"testing"
 
-	"code.gitea.io/gitea/models/unittest"
-	"code.gitea.io/gitea/modules/markup"
-	"code.gitea.io/gitea/modules/templates"
-	"code.gitea.io/gitea/modules/util"
-	"code.gitea.io/gitea/services/contexttest"
+	"github.com/skygenesisenterprise/giteria/models/unittest"
+	"github.com/skygenesisenterprise/giteria/modules/markup"
+	"github.com/skygenesisenterprise/giteria/modules/templates"
+	"github.com/skygenesisenterprise/giteria/modules/util"
+	"github.com/skygenesisenterprise/giteria/services/contexttest"
 
 	"github.com/stretchr/testify/assert"
 )

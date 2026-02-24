@@ -6,8 +6,8 @@ package payload
 import (
 	"context"
 
-	issues_model "code.gitea.io/gitea/models/issues"
-	"code.gitea.io/gitea/modules/util"
+	issues_model "github.com/skygenesisenterprise/giteria/models/issues"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 )
 
 const replyPayloadVersion1 byte = 1

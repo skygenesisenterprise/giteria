@@ -9,28 +9,28 @@ import (
 	"testing"
 	"time"
 
-	base "code.gitea.io/gitea/modules/migration"
+	base "github.com/skygenesisenterprise/giteria/modules/migration"
 
 	"github.com/stretchr/testify/assert"
 )
 
 func TestOneDevDownloadRepo(t *testing.T) {
-	resp, err := http.Get("https://code.onedev.io/projects/go-gitea-test_repo")
+	resp, err := http.Get("https://code.onedev.io/projects/go-giteria-test_repo")
 	if err != nil || resp.StatusCode != http.StatusOK {
 		t.Skipf("Can't access test repo, skipping %s", t.Name())
 	}
 
 	u, _ := url.Parse("https://code.onedev.io")
 	ctx := t.Context()
-	downloader := NewOneDevDownloader(ctx, u, "", "", "go-gitea-test_repo")
+	downloader := NewOneDevDownloader(ctx, u, "", "", "go-giteria-test_repo")
 	repo, err := downloader.GetRepoInfo(ctx)
 	assert.NoError(t, err)
 	assertRepositoryEqual(t, &base.Repository{
-		Name:        "go-gitea-test_repo",
+		Name:        "go-giteria-test_repo",
 		Owner:       "",
-		Description: "Test repository for testing migration from OneDev to gitea",
-		CloneURL:    "https://code.onedev.io/go-gitea-test_repo",
-		OriginalURL: "https://code.onedev.io/projects/go-gitea-test_repo",
+		Description: "Test repository for testing migration from OneDev to giteria",
+		CloneURL:    "https://code.onedev.io/go-giteria-test_repo",
+		OriginalURL: "https://code.onedev.io/projects/go-giteria-test_repo",
 	}, repo)
 
 	milestones, err := downloader.GetMilestones(ctx)

@@ -11,8 +11,8 @@ import (
 	"fmt"
 	"time"
 
-	user_model "code.gitea.io/gitea/models/user"
-	"code.gitea.io/gitea/modules/util"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 )
 
 // A token is a verifiable container describing an action.
@@ -22,6 +22,7 @@ import (
 //
 // The payload is verifiable by the generated HMAC using the user secret. It contains:
 // | Timestamp | Action/Handler Type | Action/Handler Data |
+//
 
 const (
 	tokenVersion1        byte = 1

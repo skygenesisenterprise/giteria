@@ -6,9 +6,9 @@ package org
 import (
 	"context"
 
-	org_model "code.gitea.io/gitea/models/organization"
-	user_model "code.gitea.io/gitea/models/user"
-	"code.gitea.io/gitea/services/mailer"
+	org_model "github.com/skygenesisenterprise/giteria/models/organization"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	"github.com/skygenesisenterprise/giteria/services/mailer"
 )
 
 // CreateTeamInvite make a persistent invite in db and mail it

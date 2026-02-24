@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	base "code.gitea.io/gitea/modules/migration"
+	base "github.com/skygenesisenterprise/giteria/modules/migration"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -24,7 +24,7 @@ func TestCodebaseDownloadRepo(t *testing.T) {
 		t.Skip("skipped test because a CODEBASE_ variable was not in the environment")
 	}
 
-	cloneAddr := "https://gitea-test.codebasehq.com/gitea-test/test.git"
+	cloneAddr := "https://giteria-test.codebasehq.com/giteria-test/test.git"
 	u, _ := url.Parse(cloneAddr)
 	if cloneUser != "" {
 		u.User = url.UserPassword(cloneUser, clonePassword)
@@ -45,7 +45,7 @@ func TestCodebaseDownloadRepo(t *testing.T) {
 		Name:        "test",
 		Owner:       "",
 		Description: "Repository Description",
-		CloneURL:    "git@codebasehq.com:gitea-test/gitea-test/test.git",
+		CloneURL:    "git@codebasehq.com:giteria-test/giteria-test/test.git",
 		OriginalURL: cloneAddr,
 	}, repo)
 
@@ -76,8 +76,8 @@ func TestCodebaseDownloadRepo(t *testing.T) {
 			Number:      2,
 			Title:       "Open Ticket",
 			Content:     "Open Ticket Message",
-			PosterName:  "gitea-test-43",
-			PosterEmail: "gitea-codebase@smack.email",
+			PosterName:  "giteria-test-43",
+			PosterEmail: "giteria-codebase@smack.email",
 			State:       "open",
 			Created:     time.Date(2021, time.September, 26, 19, 19, 14, 0, time.UTC),
 			Updated:     time.Date(2021, time.September, 26, 19, 19, 34, 0, time.UTC),
@@ -91,8 +91,8 @@ func TestCodebaseDownloadRepo(t *testing.T) {
 			Number:      1,
 			Title:       "Closed Ticket",
 			Content:     "Closed Ticket Message",
-			PosterName:  "gitea-test-43",
-			PosterEmail: "gitea-codebase@smack.email",
+			PosterName:  "giteria-test-43",
+			PosterEmail: "giteria-codebase@smack.email",
 			State:       "closed",
 			Milestone:   "Milestone1",
 			Created:     time.Date(2021, time.September, 26, 19, 18, 33, 0, time.UTC),
@@ -110,8 +110,8 @@ func TestCodebaseDownloadRepo(t *testing.T) {
 	assertCommentsEqual(t, []*base.Comment{
 		{
 			IssueIndex:  2,
-			PosterName:  "gitea-test-43",
-			PosterEmail: "gitea-codebase@smack.email",
+			PosterName:  "giteria-test-43",
+			PosterEmail: "giteria-codebase@smack.email",
 			Created:     time.Date(2021, time.September, 26, 19, 19, 34, 0, time.UTC),
 			Updated:     time.Date(2021, time.September, 26, 19, 19, 34, 0, time.UTC),
 			Content:     "open comment",
@@ -125,8 +125,8 @@ func TestCodebaseDownloadRepo(t *testing.T) {
 			Number:      3,
 			Title:       "Readme Change",
 			Content:     "Merge Request comment",
-			PosterName:  "gitea-test-43",
-			PosterEmail: "gitea-codebase@smack.email",
+			PosterName:  "giteria-test-43",
+			PosterEmail: "giteria-codebase@smack.email",
 			State:       "open",
 			Created:     time.Date(2021, time.September, 26, 20, 25, 47, 0, time.UTC),
 			Updated:     time.Date(2021, time.September, 26, 20, 25, 47, 0, time.UTC),

@@ -10,17 +10,17 @@ import (
 	"html/template"
 	"strings"
 
-	"code.gitea.io/gitea/models/perm/access"
-	"code.gitea.io/gitea/models/repo"
-	"code.gitea.io/gitea/models/unit"
-	"code.gitea.io/gitea/modules/charset"
-	"code.gitea.io/gitea/modules/git/languagestats"
-	"code.gitea.io/gitea/modules/gitrepo"
-	"code.gitea.io/gitea/modules/indexer/code"
-	"code.gitea.io/gitea/modules/markup"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/util"
-	gitea_context "code.gitea.io/gitea/services/context"
+	"github.com/skygenesisenterprise/giteria/models/perm/access"
+	"github.com/skygenesisenterprise/giteria/models/repo"
+	"github.com/skygenesisenterprise/giteria/models/unit"
+	"github.com/skygenesisenterprise/giteria/modules/charset"
+	"github.com/skygenesisenterprise/giteria/modules/git/languagestats"
+	"github.com/skygenesisenterprise/giteria/modules/gitrepo"
+	"github.com/skygenesisenterprise/giteria/modules/indexer/code"
+	"github.com/skygenesisenterprise/giteria/modules/markup"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/util"
+	gitea_context "github.com/skygenesisenterprise/giteria/services/context"
 )
 
 func renderRepoFileCodePreview(ctx context.Context, opts markup.RenderCodePreviewOptions) (template.HTML, error) {

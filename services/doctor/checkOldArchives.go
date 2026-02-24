@@ -8,9 +8,9 @@ import (
 	"os"
 	"path/filepath"
 
-	repo_model "code.gitea.io/gitea/models/repo"
-	"code.gitea.io/gitea/modules/log"
-	"code.gitea.io/gitea/modules/util"
+	repo_model "github.com/skygenesisenterprise/giteria/models/repo"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	"github.com/skygenesisenterprise/giteria/modules/util"
 )
 
 func checkOldArchives(ctx context.Context, logger log.Logger, autofix bool) error {

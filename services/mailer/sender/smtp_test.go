@@ -11,8 +11,8 @@ func TestSanitizeEmailAddress(t *testing.T) {
 		expected string
 		hasError bool
 	}{
-		{"abc@gitea.com", "abc@gitea.com", false},
-		{"<abc@gitea.com>", "abc@gitea.com", false},
+		{"abc@giteria.com", "abc@giteria.com", false},
+		{"<abc@giteria.com>", "abc@giteria.com", false},
 		{"ssss.com", "", true},
 		{"<invalid-email>", "", true},
 	}

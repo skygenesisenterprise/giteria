@@ -6,9 +6,9 @@ package forms
 import (
 	"testing"
 
-	"code.gitea.io/gitea/modules/glob"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/test"
+	"github.com/skygenesisenterprise/giteria/modules/glob"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/test"
 
 	"github.com/stretchr/testify/assert"
 )

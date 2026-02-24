@@ -8,14 +8,14 @@ import (
 	"strings"
 	"testing"
 
-	"code.gitea.io/gitea/models/organization"
-	"code.gitea.io/gitea/models/perm"
-	access_model "code.gitea.io/gitea/models/perm/access"
-	repo_model "code.gitea.io/gitea/models/repo"
-	"code.gitea.io/gitea/models/unittest"
-	user_model "code.gitea.io/gitea/models/user"
-	"code.gitea.io/gitea/modules/structs"
-	repo_service "code.gitea.io/gitea/services/repository"
+	"github.com/skygenesisenterprise/giteria/models/organization"
+	"github.com/skygenesisenterprise/giteria/models/perm"
+	access_model "github.com/skygenesisenterprise/giteria/models/perm/access"
+	repo_model "github.com/skygenesisenterprise/giteria/models/repo"
+	"github.com/skygenesisenterprise/giteria/models/unittest"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	"github.com/skygenesisenterprise/giteria/modules/structs"
+	repo_service "github.com/skygenesisenterprise/giteria/services/repository"
 
 	"github.com/stretchr/testify/assert"
 )

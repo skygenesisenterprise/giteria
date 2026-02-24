@@ -14,11 +14,11 @@ import (
 	"strings"
 	"time"
 
-	"code.gitea.io/gitea/modules/git"
-	"code.gitea.io/gitea/modules/log"
-	base "code.gitea.io/gitea/modules/migration"
-	"code.gitea.io/gitea/modules/proxy"
-	"code.gitea.io/gitea/modules/structs"
+	"github.com/skygenesisenterprise/giteria/modules/git"
+	"github.com/skygenesisenterprise/giteria/modules/log"
+	base "github.com/skygenesisenterprise/giteria/modules/migration"
+	"github.com/skygenesisenterprise/giteria/modules/proxy"
+	"github.com/skygenesisenterprise/giteria/modules/structs"
 
 	"github.com/google/go-github/v74/github"
 	"golang.org/x/oauth2"

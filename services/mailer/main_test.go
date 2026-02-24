@@ -6,10 +6,10 @@ package mailer
 import (
 	"testing"
 
-	"code.gitea.io/gitea/models/unittest"
+	"github.com/skygenesisenterprise/giteria/models/unittest"
 
-	_ "code.gitea.io/gitea/models"
-	_ "code.gitea.io/gitea/models/actions"
+	_ "github.com/skygenesisenterprise/giteria/models"
+	_ "github.com/skygenesisenterprise/giteria/models/actions"
 )
 
 func TestMain(m *testing.M) {

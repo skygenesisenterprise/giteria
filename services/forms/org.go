@@ -7,9 +7,9 @@ package forms
 import (
 	"net/http"
 
-	"code.gitea.io/gitea/modules/structs"
-	"code.gitea.io/gitea/modules/web/middleware"
-	"code.gitea.io/gitea/services/context"
+	"github.com/skygenesisenterprise/giteria/modules/structs"
+	"github.com/skygenesisenterprise/giteria/modules/web/middleware"
+	"github.com/skygenesisenterprise/giteria/services/context"
 
 	"gitea.com/go-chi/binding"
 )

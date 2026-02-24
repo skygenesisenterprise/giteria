@@ -6,9 +6,9 @@ package markup
 import (
 	"context"
 
-	"code.gitea.io/gitea/models/user"
-	"code.gitea.io/gitea/modules/markup"
-	gitea_context "code.gitea.io/gitea/services/context"
+	"github.com/skygenesisenterprise/giteria/models/user"
+	"github.com/skygenesisenterprise/giteria/modules/markup"
+	gitea_context "github.com/skygenesisenterprise/giteria/services/context"
 )
 
 func FormalRenderHelperFuncs() *markup.RenderHelperFuncs {

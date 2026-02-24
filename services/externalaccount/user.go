@@ -8,10 +8,10 @@ import (
 	"strconv"
 	"strings"
 
-	issues_model "code.gitea.io/gitea/models/issues"
-	repo_model "code.gitea.io/gitea/models/repo"
-	user_model "code.gitea.io/gitea/models/user"
-	"code.gitea.io/gitea/modules/structs"
+	issues_model "github.com/skygenesisenterprise/giteria/models/issues"
+	repo_model "github.com/skygenesisenterprise/giteria/models/repo"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	"github.com/skygenesisenterprise/giteria/modules/structs"
 
 	"github.com/markbates/goth"
 )

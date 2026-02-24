@@ -8,10 +8,10 @@ import (
 	"mime/multipart"
 	"net/http"
 
-	user_model "code.gitea.io/gitea/models/user"
-	"code.gitea.io/gitea/modules/structs"
-	"code.gitea.io/gitea/modules/web/middleware"
-	"code.gitea.io/gitea/services/context"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	"github.com/skygenesisenterprise/giteria/modules/structs"
+	"github.com/skygenesisenterprise/giteria/modules/web/middleware"
+	"github.com/skygenesisenterprise/giteria/services/context"
 
 	"gitea.com/go-chi/binding"
 )

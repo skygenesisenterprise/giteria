@@ -6,7 +6,7 @@ package oauth2_provider
 import (
 	"context"
 
-	"code.gitea.io/gitea/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
 )
 
 // Init initializes the oauth source

@@ -12,17 +12,17 @@ import (
 	"path"
 	"strconv"
 
-	packages_model "code.gitea.io/gitea/models/packages"
-	repo_model "code.gitea.io/gitea/models/repo"
-	user_model "code.gitea.io/gitea/models/user"
-	"code.gitea.io/gitea/modules/git"
-	"code.gitea.io/gitea/modules/json"
-	cargo_module "code.gitea.io/gitea/modules/packages/cargo"
-	"code.gitea.io/gitea/modules/setting"
-	"code.gitea.io/gitea/modules/structs"
-	"code.gitea.io/gitea/modules/util"
-	repo_service "code.gitea.io/gitea/services/repository"
-	files_service "code.gitea.io/gitea/services/repository/files"
+	packages_model "github.com/skygenesisenterprise/giteria/models/packages"
+	repo_model "github.com/skygenesisenterprise/giteria/models/repo"
+	user_model "github.com/skygenesisenterprise/giteria/models/user"
+	"github.com/skygenesisenterprise/giteria/modules/git"
+	"github.com/skygenesisenterprise/giteria/modules/json"
+	cargo_module "github.com/skygenesisenterprise/giteria/modules/packages/cargo"
+	"github.com/skygenesisenterprise/giteria/modules/setting"
+	"github.com/skygenesisenterprise/giteria/modules/structs"
+	"github.com/skygenesisenterprise/giteria/modules/util"
+	repo_service "github.com/skygenesisenterprise/giteria/services/repository"
+	files_service "github.com/skygenesisenterprise/giteria/services/repository/files"
 )
 
 const (
