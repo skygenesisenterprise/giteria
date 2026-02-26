@@ -4,6 +4,7 @@ import "./styles/globals.css";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import * as React from "react";
 import Footer from "./_components/Footer";
+import Navbar from "./_components/Navbar";
 
 export const metadata: Metadata = {
   title: "Giteria - The code platform for everyone",
@@ -19,6 +20,7 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className="font-sans antialiased">
+        <Navbar />
         {/* <AuthProvider>
           <DashboardLayout>{children}</DashboardLayout>
           {/* <Toaster /> */}

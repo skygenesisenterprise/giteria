@@ -30,13 +30,13 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   const showSidebar = shouldShowSidebar(pathname);
 
   if (!showSidebar) {
-    return <>{children}</>;
+    return <div className="min-h-screen">{children}</div>;
   }
 
   return (
-    <div className="flex h-screen bg-slate-950">
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <main className="flex-1 overflow-auto">{children}</main>
+    <div className="flex min-h-screen bg-slate-950">
+      <div className="flex-1 flex flex-col">
+        <main className="flex-1">{children}</main>
       </div>
     </div>
   );
