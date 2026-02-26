@@ -15,5 +15,5 @@ export default function Home() {
   }
 
   // Si authentifié, rediriger vers la boîte de réception
-  redirect("/home");
+  redirect("/dashboard");
 }

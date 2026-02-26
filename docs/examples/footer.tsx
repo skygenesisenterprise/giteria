@@ -156,7 +156,7 @@ export default function Footer() {
               <div className="lg:col-span-1">
                 <div className="mb-8">
                   <h3 className="text-2xl font-bold text-white mb-4 tracking-tight">
-                    Giteria
+                    Sky Genesis Enterprise
                   </h3>
                   <p className="text-gray-400 leading-relaxed text-sm mb-2">
                     Empowering European digital sovereignty through enterprise-grade solutions
@@ -169,8 +169,8 @@ export default function Footer() {
                 {/* Contact Information */}
                 <div className="space-y-3 mb-8">
                   <div className="flex items-center text-gray-400 hover:text-white transition-colors duration-200">
-                    <Mail className="w-4 h-4 mr-3 shrink-0" />
-                    <span className="text-sm">info@giteria.com</span>
+                    <Mail className="w-4 h-4 mr-3 flex-shrink-0" />
+                    <span className="text-sm">contact@skygenesisenterprise.com</span>
                   </div>
                 </div>
                 
@@ -199,7 +199,7 @@ export default function Footer() {
                  {/* Service Status */}
                  <div>
                     <a 
-                      href={isValidUrl("https://giteriastatus.com") ? "https://giteriastatus.com" : "https://giteriastatus.com"} 
+                      href={isValidUrl("https://status.skygenesisenterprise.com") ? "https://status.skygenesisenterprise.com" : "#"} 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors duration-200"
@@ -358,7 +358,7 @@ export default function Footer() {
           <div className="py-8 border-t border-gray-900">
             <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
               <div className="text-sm text-gray-400">
-                <span>© {currentYear} Giteria. Powered By Sky Genesis Enterprise.</span>
+                <span>© {currentYear} Sky Genesis Enterprise. All rights reserved.</span>
               </div>
               <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6 text-sm text-gray-400">
                 <span>Liège, Belgium (HQ)</span>
