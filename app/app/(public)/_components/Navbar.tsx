@@ -2,7 +2,8 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Search, Github, Menu, Plus, Bell, ChevronDown } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { Search, GitBranch, Menu, ChevronDown, LayoutDashboard } from "lucide-react";
 
 const menuItems = [
   {
@@ -223,22 +224,29 @@ const menuItems = [
 ];
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [openDropdown, setOpenDropdown] = React.useState<string | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+
+  React.useEffect(() => {
+    const token = localStorage.getItem("auth_token");
+    setIsAuthenticated(!!token);
+  }, [pathname]);
 
   return (
-    <header className="sticky top-0 z-50 bg-[#0d1117] border-b border-[#30363d]">
+    <header className="sticky top-0 z-50 bg-background border-b border-border">
       <div className="flex items-center justify-between px-4 h-16 max-w-[1800px] mx-auto">
         <div className="flex items-center gap-4">
           <button
-            className="lg:hidden p-2 text-[#8b949e] hover:text-white transition-colors"
+            className="lg:hidden p-2 text-muted-foreground hover:text-foreground transition-colors"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             <Menu className="w-5 h-5" />
           </button>
 
           <Link href="/" className="flex items-center gap-2">
-            <Github className="w-8 h-8 text-white" />
+            <GitBranch className="w-8 h-8 text-foreground" />
           </Link>
 
           <nav className="hidden lg:flex items-center">
@@ -249,18 +257,18 @@ export default function Navbar() {
                 onMouseEnter={() => item.hasDropdown && setOpenDropdown(item.name)}
                 onMouseLeave={() => setOpenDropdown(null)}
               >
-                <button className="flex items-center gap-1 px-3 py-2 text-sm text-[#8b949e] hover:text-white transition-colors">
+                <button className="flex items-center gap-1 px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
                   {item.name}
                   {item.hasDropdown && <ChevronDown className="w-4 h-4" />}
                 </button>
 
                 {item.hasDropdown && openDropdown === item.name && (
                   <div className="absolute top-full left-0 pt-2">
-                    <div className="bg-[#161b22] border border-[#30363d] rounded-lg shadow-xl w-[600px] p-4">
+                    <div className="bg-card border border-border rounded-lg shadow-xl w-[600px] p-4">
                       <div className="grid grid-cols-3 gap-4">
                         {item.categories?.map((category, catIdx) => (
                           <div key={catIdx}>
-                            <h3 className="text-xs font-semibold text-[#8b949e] uppercase tracking-wider mb-2">
+                            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
                               {category.title}
                             </h3>
                             <ul className="space-y-1">
@@ -268,12 +276,14 @@ export default function Navbar() {
                                 <li key={idx}>
                                   <Link
                                     href={subItem.href}
-                                    className="block px-2 py-1.5 rounded hover:bg-[#21262d] group"
+                                    className="block px-2 py-1.5 rounded hover:bg-secondary group"
                                   >
-                                    <span className="text-sm text-white group-hover:text-[#58a6ff] block">
+                                    <span className="text-sm text-foreground group-hover:text-primary block">
                                       {subItem.name}
                                     </span>
-                                    <span className="text-xs text-[#8b949e]">{subItem.desc}</span>
+                                    <span className="text-xs text-muted-foreground">
+                                      {subItem.desc}
+                                    </span>
                                   </Link>
                                 </li>
                               ))}
@@ -290,53 +300,58 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="hidden md:flex items-center bg-[#0d1117] border border-[#30363d] rounded-md px-2 py-1.5 w-64">
-            <Search className="w-4 h-4 text-[#8b949e] mr-2" />
+          <div className="hidden md:flex items-center bg-background border border-border rounded-md px-2 py-1.5 w-64">
+            <Search className="w-4 h-4 text-muted-foreground mr-2" />
             <input
               type="text"
               placeholder="Search or jump to..."
-              className="bg-transparent border-none outline-none text-sm text-white placeholder:text-[#8b949e] w-full"
+              className="bg-transparent border-none outline-none text-sm text-foreground placeholder:text-muted-foreground w-full"
             />
-            <span className="text-xs text-[#8b949e] border border-[#30363d] rounded px-1">/</span>
+            <span className="text-xs text-muted-foreground border border-border rounded px-1">
+              /
+            </span>
           </div>
 
-          <button className="md:hidden p-2 text-[#8b949e] hover:text-white transition-colors">
+          <button className="md:hidden p-2 text-muted-foreground hover:text-foreground transition-colors">
             <Search className="w-5 h-5" />
           </button>
 
-          <button className="p-2 text-[#8b949e] hover:text-white transition-colors">
-            <Plus className="w-5 h-5" />
-          </button>
+          {isAuthenticated ? (
+            <Link
+              href="/dashboard"
+              className="px-3 py-1.5 text-sm font-medium text-primary-foreground bg-primary border border-primary rounded-md hover:bg-primary/90 transition-colors"
+            >
+              Dashboard
+            </Link>
+          ) : (
+            <>
+              <Link
+                href="/login"
+                className="px-3 py-1.5 text-sm font-medium text-foreground bg-transparent border border-border rounded-md hover:bg-secondary transition-colors"
+              >
+                Sign in
+              </Link>
 
-          <button className="hidden sm:block p-2 text-[#8b949e] hover:text-white transition-colors">
-            <Bell className="w-5 h-5" />
-          </button>
-
-          <Link
-            href="/login"
-            className="px-3 py-1.5 text-sm font-medium text-white bg-transparent border border-[#30363d] rounded-md hover:bg-[#21262d] transition-colors"
-          >
-            Sign in
-          </Link>
-
-          <Link
-            href="/register"
-            className="hidden sm:block px-3 py-1.5 text-sm font-medium text-[#0969da] bg-white border border-gray-300 rounded-md hover:bg-gray-100 transition-colors"
-          >
-            Sign up
-          </Link>
+              <Link
+                href="/register"
+                className="hidden sm:block px-3 py-1.5 text-sm font-medium text-primary-foreground bg-primary border border-primary rounded-md hover:bg-primary/90 transition-colors"
+              >
+                Sign up
+              </Link>
+            </>
+          )}
         </div>
       </div>
 
       {isMenuOpen && (
-        <div className="lg:hidden border-t border-[#30363d] px-4 py-4 bg-[#0d1117]">
+        <div className="lg:hidden border-t border-border px-4 py-4 bg-background">
           <div className="mb-4 md:hidden">
-            <div className="flex items-center bg-[#0d1117] border border-[#30363d] rounded-md px-2 py-1.5">
-              <Search className="w-4 h-4 text-[#8b949e] mr-2" />
+            <div className="flex items-center bg-background border border-border rounded-md px-2 py-1.5">
+              <Search className="w-4 h-4 text-muted-foreground mr-2" />
               <input
                 type="text"
                 placeholder="Search or jump to..."
-                className="bg-transparent border-none outline-none text-sm text-white placeholder:text-[#8b949e] w-full"
+                className="bg-transparent border-none outline-none text-sm text-foreground placeholder:text-muted-foreground w-full"
               />
             </div>
           </div>
@@ -346,7 +361,7 @@ export default function Navbar() {
               <Link
                 key={item.name}
                 href={item.href || "#"}
-                className="px-3 py-2 text-sm text-[#8b949e] hover:text-white hover:bg-[#21262d] rounded-md transition-colors"
+                className="px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary rounded-md transition-colors"
               >
                 {item.name}
               </Link>
@@ -354,12 +369,29 @@ export default function Navbar() {
           </nav>
 
           <div className="mt-4 flex flex-col gap-2">
-            <Link
-              href="/register"
-              className="px-3 py-2 text-center text-sm font-medium text-[#0969da] bg-white border border-gray-300 rounded-md hover:bg-gray-100 transition-colors"
-            >
-              Sign up
-            </Link>
+            {isAuthenticated ? (
+              <Link
+                href="/dashboard"
+                className="px-3 py-2 text-center text-sm font-medium text-primary-foreground bg-primary border border-primary rounded-md hover:bg-primary/90 transition-colors"
+              >
+                Dashboard
+              </Link>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="px-3 py-2 text-center text-sm font-medium text-foreground bg-transparent border border-border rounded-md hover:bg-secondary transition-colors"
+                >
+                  Sign in
+                </Link>
+                <Link
+                  href="/register"
+                  className="px-3 py-2 text-center text-sm font-medium text-primary-foreground bg-primary border border-primary rounded-md hover:bg-primary/90 transition-colors"
+                >
+                  Sign up
+                </Link>
+              </>
+            )}
           </div>
         </div>
       )}

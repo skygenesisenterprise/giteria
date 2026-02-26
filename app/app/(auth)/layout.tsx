@@ -1,27 +1,22 @@
 import type { Metadata } from "next";
-import "@/styles/globals.css";
-// import { AuthProvider } from "@/context/AuthContext";
-import { DashboardLayout } from "@/components/DashboardLayout";
 
 export const metadata: Metadata = {
-  title: "Giteria - The code platform for everyone",
-  description: "Painless self-hosted all-in-one software development service, including Git hosting, code review, team collaboration, package registry and CI/CD",
+  title: {
+    template: "%s - Giteria",
+    default: "Giteria",
+  },
+  description:
+    "Giteria - Where the world builds software. Access repositories, collaborate on code, and manage your projects.",
 };
 
-export default function RootLayout({
+export default function AuthLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr">
-      <body className="font-sans antialiased">
-        {/* <AuthProvider>
-          <DashboardLayout>{children}</DashboardLayout>
-          {/* <Toaster /> */}
-        {/* </AuthProvider> */}
-        <DashboardLayout>{children}</DashboardLayout>
-      </body>
-    </html>
+    <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4 py-12">
+      <div className="w-full max-w-md space-y-6">{children}</div>
+    </div>
   );
 }
