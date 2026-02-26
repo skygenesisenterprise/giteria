@@ -4,7 +4,7 @@ import "@/styles/globals.css";
 import { DashboardLayout } from "@/components/DashboardLayout";
 
 export const metadata: Metadata = {
-  title: "Giteria",
+  title: "Giteria - The code platform for everyone",
   description: "Painless self-hosted all-in-one software development service, including Git hosting, code review, team collaboration, package registry and CI/CD",
 };
 

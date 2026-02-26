@@ -22,7 +22,7 @@ import (
 )
 
 func addOAuth2Source(t *testing.T, authName string, cfg oauth2.Source) {
-	cfg.Provider = util.IfZero(cfg.Provider, "gitea")
+	cfg.Provider = util.IfZero(cfg.Provider, "giteria")
 	err := auth_model.CreateSource(t.Context(), &auth_model.Source{
 		Type:     auth_model.OAuth2,
 		Name:     authName,
