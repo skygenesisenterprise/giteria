@@ -13,177 +13,191 @@ import {
   Sparkles,
   Terminal,
   Users,
-  Smartphone,
-  Store,
-  Box,
-  Bug,
-  FileKey,
+  Package,
+  Lock,
+  Server,
+  Globe,
+  Database,
+  Rocket,
+  Container,
+  BookOpen,
+  Layers,
+  CreditCard,
   MessageSquare,
-  LayoutGrid,
-  Heart,
+  Settings,
   ChevronRight,
 } from "lucide-react";
 
-const features = [
+const benefits = [
   {
-    icon: Code2,
-    title: "Code",
+    icon: Server,
+    title: "Self-Hosted",
     description:
-      "Write, test, and fix code quickly with GitHub Copilot, from simple boilerplate to complex features.",
+      "Run Giteria on your own infrastructure. Full control over your data and compliance requirements.",
   },
   {
-    icon: LayoutGrid,
-    title: "Plan",
+    icon: Lock,
+    title: "Data Sovereignty",
     description:
-      "Organize everything from high-level roadmaps to everyday tasks with powerful project management.",
-  },
-  {
-    icon: Users,
-    title: "Collaborate",
-    description:
-      "Keep your team's conversation and context next to your code with issues and discussions.",
+      "Keep your code and intellectual property on your servers. No third-party dependencies.",
   },
   {
     icon: Zap,
-    title: "Automate",
+    title: "All-in-One Platform",
     description:
-      "Ship faster with secure, reliable CI/CD pipelines that automate your path to production.",
+      "Git hosting, code review, issues, CI/CD, packages, and more. Everything you need in one place.",
+  },
+  {
+    icon: Globe,
+    title: "Open Source",
+    description: "Free to use and modify. Benefit from community contributions and transparency.",
   },
   {
     icon: Shield,
-    title: "Secure",
+    title: "Enterprise Security",
     description:
-      "Use AI to find and fix vulnerabilities so your team can ship more secure software faster.",
+      "Built-in security features including dependency scanning, secret detection, and access controls.",
+  },
+  {
+    icon: Users,
+    title: "Team Collaboration",
+    description:
+      "Code review, discussions, and project management tools that keep your team aligned.",
   },
 ];
 
-const stats = [
-  { value: "100M+", label: "Developers" },
-  { value: "420M+", label: "Repositories" },
-  { value: "99.9%", label: "Uptime" },
-  { value: "Billion+", label: "AI requests/day" },
+const features = [
+  {
+    icon: GitBranch,
+    title: "Git Hosting",
+    description:
+      "Full-featured Git server with SSH/HTTPS support, branch protection, and fine-grained access control.",
+    href: "/features/repository",
+  },
+  {
+    icon: Code2,
+    title: "Code Review",
+    description: "Powerful pull request reviews with inline comments, approvals, and merge checks.",
+    href: "/features/pull-requests",
+  },
+  {
+    icon: Layers,
+    title: "Issue Tracking",
+    description:
+      "Organize tasks, track bugs, and manage projects with labels, milestones, and projects.",
+    href: "/features/issues",
+  },
+  {
+    icon: Rocket,
+    title: "CI/CD Pipelines",
+    description:
+      "Automate your build, test, and deployment workflows with powerful pipeline configurations.",
+    href: "/features/actions",
+  },
+  {
+    icon: Package,
+    title: "Package Registry",
+    description: "Host and manage packages in multiple formats: npm, Go, Maven, Docker, and more.",
+    href: "/features/packages",
+  },
+  {
+    icon: MessageSquare,
+    title: "Discussions",
+    description: "Create space for Q&A, announcements, and community building alongside your code.",
+    href: "/features/discussions",
+  },
 ];
 
 const automationItems = [
   {
-    icon: Zap,
-    title: "Automate your path to production",
-    description: "Ship faster with secure, reliable CI/CD.",
+    icon: Rocket,
+    title: "CI/CD Pipelines",
+    description: "Automate builds, tests, and deployments with customizable workflows.",
     href: "/features/actions",
   },
   {
     icon: Terminal,
-    title: "Code instantly from anywhere",
-    description: "Launch a full, cloud-based development environment in seconds.",
-    href: "/features/codespaces",
+    title: "Git Hooks",
+    description: "Extend functionality with custom scripts that run on repository events.",
+    href: "/features/hooks",
   },
   {
-    icon: Smartphone,
-    title: "Keep momentum on the go",
-    description: "Manage projects and assign tasks from your mobile device.",
-    href: "/mobile",
+    icon: Container,
+    title: "Container Registry",
+    description: "Build, store, and manage Docker images securely within your infrastructure.",
+    href: "/features/containers",
   },
   {
-    icon: Store,
-    title: "Shape your toolchain",
-    description: "Extend your stack with apps, actions, and AI models.",
-    href: "/marketplace",
+    icon: BookOpen,
+    title: "Wiki & Docs",
+    description: "Document your projects with built-in wiki and README support.",
+    href: "/features/wiki",
   },
 ];
 
 const securityItems = [
   {
-    icon: Bug,
-    title: "Copilot Autofix",
-    description: "Apply fixes in seconds. Spend less time debugging and more time building.",
-    stat: "70% MTTR reduction",
+    icon: Shield,
+    title: "Dependency Scanning",
+    description: "Automatically detect vulnerabilities in your dependencies.",
+    stat: "Automated alerts & remediation",
   },
   {
-    icon: Box,
-    title: "Dependency Updates",
-    description: "Update vulnerable dependencies with supported fixes for breaking changes.",
-    stat: "8.3M+ secret leaks stopped",
+    icon: Lock,
+    title: "Secret Detection",
+    description: "Prevent sensitive data from being committed to your repositories.",
+    stat: "Pre-commit & push protection",
   },
   {
-    icon: FileKey,
-    title: "Secret Protection",
-    description: "Detect, prevent, and remediate leaked secrets across your organization.",
-    stat: "in the past 12 months",
+    icon: Database,
+    title: "Access Control",
+    description: "Fine-grained permissions at organization, team, and repository levels.",
+    stat: "Role-based security",
   },
 ];
 
 const collaborationItems = [
   {
-    icon: LayoutGrid,
-    title: "Plan with clarity",
-    description: "Organize everything from high-level roadmaps to everyday tasks.",
-    href: "/features/issues",
-  },
-  {
-    icon: CheckCircle2,
-    title: "Keep track of your tasks",
-    description: "Create issues and manage projects with tools that adapt to your code.",
-    href: "/features/issues",
+    icon: Layers,
+    title: "Project Management",
+    description: "Organize tasks with boards, lists, and roadmaps that adapt to your workflow.",
+    href: "/features/projects",
   },
   {
     icon: MessageSquare,
-    title: "Share ideas and ask questions",
-    description: "Create space for open-ended conversations alongside your project.",
+    title: "Discussions",
+    description: "Foster community with Q&A, announcements, and open conversations.",
     href: "/features/discussions",
   },
   {
-    icon: GitBranch,
-    title: "Review code changes together",
-    description: "Assign initial reviews to Copilot for greater speed and quality.",
+    icon: Users,
+    title: "Teams & Organizations",
+    description: "Manage permissions and collaboration across multiple repositories.",
+    href: "/features/organizations",
+  },
+  {
+    icon: Settings,
+    title: "Code Review",
+    description: "Review changes with inline comments, suggest modifications, and approve merges.",
     href: "/features/code-review",
   },
-  {
-    icon: Heart,
-    title: "Fund open source projects",
-    description: "Become an open source partner and support the tools that power your work.",
-    href: "/sponsors",
-  },
 ];
 
-const customerLogos = [
-  "American Airlines",
-  "Duolingo",
-  "Ernst & Young",
-  "Ford",
-  "InfoSys",
-  "Mercado Libre",
-  "Mercedes-Benz",
-  "Shopify",
-  "Philips",
-  "Société Générale",
-  "Spotify",
-  "Vodafone",
-];
-
-const testimonials = [
+const deploymentOptions = [
   {
-    quote:
-      "It helps us onboard new software engineers and get them productive right away. We have all our source code, issues, and pull requests in one place... GitHub is a complete platform that frees us from menial tasks and enables us to do our best work.",
-    author: "Fabian Faulhaber",
-    role: "Application manager at Mercedes-Benz",
-  },
-];
-
-const industries = [
-  {
-    name: "Technology",
-    description: "Figma streamlines development and strengthens security",
-    logo: "Figma",
+    title: "Single Server",
+    description: "Perfect for small teams getting started",
+    icon: Server,
   },
   {
-    name: "Automotive",
-    description: "Mercedes-Benz standardizes source code and automates onboarding",
-    logo: "Mercedes-Benz",
+    title: "Kubernetes",
+    description: "Scale with container orchestration",
+    icon: Container,
   },
   {
-    name: "Financial services",
-    description: "Mercado Libre cuts coding time by 50%",
-    logo: "Mercado Libre",
+    title: "Docker",
+    description: "Quick deployment with containers",
+    icon: Package,
   },
 ];
 
@@ -196,197 +210,485 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <section className="relative pt-20 pb-32 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-card via-background to-background opacity-50" />
+      {/* Hero Section */}
+      <section className="relative pt-20 pb-16 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-primary/5 via-background to-background" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-250 h-125 bg-primary/10 rounded-full blur-3xl" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-4xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary border border-border text-sm text-muted-foreground mb-8">
-              <Sparkles className="w-4 h-4 text-primary" />
-              <span>AI-powered developer platform</span>
+          <div className="grid lg:grid-cols-2 gap-8 items-center">
+            <div className="text-left max-w-2xl">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6">
+                <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                Open Source & Self-Hosted
+              </div>
+
+              <h1 className="text-3xl md:text-5xl font-bold text-foreground mb-5 tracking-tight leading-tight">
+                Your development platform.
+                <span className="block text-primary">Your infrastructure.</span>
+                <span className="block text-foreground">Full control.</span>
+              </h1>
+
+              <p className="text-base text-muted-foreground mb-6 leading-relaxed">
+                Git hosting, code review, CI/CD, packages, and more — running entirely on your
+                servers. No cloud dependencies, no vendor lock-in, complete data sovereignty.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4 mb-6">
+                <Link href="/login">
+                  <Button
+                    size="lg"
+                    className="px-8 py-6 text-lg bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-md"
+                  >
+                    Start Free Trial
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </Button>
+                </Link>
+                <Link href="/docs">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="px-8 py-6 text-lg border-border text-foreground hover:bg-secondary font-semibold rounded-md"
+                  >
+                    <Terminal className="w-5 h-5 mr-2" />
+                    Try Demo
+                  </Button>
+                </Link>
+              </div>
+
+              <div className="flex items-center gap-8 text-sm text-muted-foreground">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-primary" />
+                  <span>No credit card</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-primary" />
+                  <span>5 min setup</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-primary" />
+                  <span>Free for teams</span>
+                </div>
+              </div>
             </div>
 
-            <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6 tracking-tight">
-              The future of building
-              <span className="block text-primary">happens together</span>
-            </h1>
-
-            <p className="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto">
-              Tools and trends evolve, but collaboration endures. With Giteria, developers, agents,
-              and code come together on one platform.
-            </p>
-
-            <form
-              onSubmit={handleSubmit}
-              className="flex flex-col sm:flex-row gap-3 justify-center max-w-md mx-auto mb-8"
-            >
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-3 rounded-md bg-background border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-ring focus:ring-1 focus:ring-ring"
-              />
-              <Button
-                type="submit"
-                className="px-6 py-3 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-md"
-              >
-                Sign up for Giteria
-              </Button>
-            </form>
-
-            <p className="text-sm text-muted-foreground">
-              <Link href="/copilot" className="text-primary hover:underline">
-                Try Giteria Copilot free
-              </Link>{" "}
-              · No credit card required
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 bg-card border-y border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-foreground mb-2">
-                  {stat.value}
+            <div className="relative mt-8 lg:mt-0">
+              <div className="absolute inset-0 bg-linear-to-r from-primary/20 to-[#a371f7]/20 blur-3xl rounded-2xl" />
+              <div className="relative bg-card border border-border rounded-xl overflow-hidden shadow-2xl">
+                <div className="flex items-center gap-2 px-4 py-2 bg-muted/50 border-b border-border">
+                  <div className="flex gap-1.5">
+                    <div className="w-3 h-3 rounded-full bg-destructive/80" />
+                    <div className="w-3 h-3 rounded-full bg-[#ffbd2e]/80" />
+                    <div className="w-3 h-3 rounded-full bg-primary/80" />
+                  </div>
+                  <div className="flex-1 text-center">
+                    <span className="text-xs text-muted-foreground font-mono">
+                      giteria — my-org/webapp
+                    </span>
+                  </div>
                 </div>
-                <div className="text-muted-foreground">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Accelerate your entire workflow
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              From your first line of code to final deployment, Giteria provides AI and automation
-              tools to help you build and ship better software faster.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
-            {features.map((feature, index) => (
-              <div
-                key={index}
-                className="p-6 rounded-lg bg-card border border-border hover:border-primary transition-colors group"
-              >
-                <div className="w-12 h-12 rounded-lg bg-secondary flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors">
-                  <feature.icon className="w-6 h-6 text-primary" />
+                <div className="p-3 font-mono text-xs md:text-sm">
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
+                      <Users className="w-3 h-3 text-primary" />
+                    </div>
+                    <span className="text-foreground font-medium">Pull Request #142</span>
+                    <span className="text-primary ml-auto text-xs px-2 py-0.5 bg-primary/10 rounded">
+                      Open
+                    </span>
+                  </div>
+                  <div className="space-y-2 text-muted-foreground">
+                    <div className="flex gap-2">
+                      <span className="text-green-500">+187</span>
+                      <span className="text-destructive">-42</span>
+                      <span className="text-foreground">feat: add user authentication flow</span>
+                    </div>
+                    <div className="h-px bg-border my-3" />
+                    <div className="flex items-center gap-2 text-xs">
+                      <CheckCircle2 className="w-3 h-3 text-green-500" />
+                      <span className="text-foreground">3 approvals</span>
+                      <span className="text-muted-foreground/60">•</span>
+                      <MessageSquare className="w-3 h-3 text-muted-foreground" />
+                      <span className="text-foreground">5 comments</span>
+                      <span className="text-muted-foreground/60">•</span>
+                      <Zap className="w-3 h-3 text-green-500" />
+                      <span className="text-foreground">CI passing</span>
+                    </div>
+                  </div>
                 </div>
-                <h3 className="text-xl font-semibold text-foreground mb-2">{feature.title}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  {feature.description}
-                </p>
               </div>
-            ))}
+            </div>
+          </div>
+
+          <div className="mt-12 pt-8 border-t border-border">
+            <p className="text-center text-sm text-muted-foreground mb-6">
+              Trusted by development teams worldwide
+            </p>
+            <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-50">
+              <div className="flex items-center gap-2 text-muted-foreground font-semibold">
+                <Server className="w-5 h-5" />
+                Self-Hosted
+              </div>
+              <div className="flex items-center gap-2 text-muted-foreground font-semibold">
+                <Shield className="w-5 h-5" />
+                Enterprise Ready
+              </div>
+              <div className="flex items-center gap-2 text-muted-foreground font-semibold">
+                <Lock className="w-5 h-5" />
+                SOC2 Compliant
+              </div>
+              <div className="flex items-center gap-2 text-muted-foreground font-semibold">
+                <Globe className="w-5 h-5" />
+                Open Source
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="py-24 bg-card">
+      <div className="border-t border-border" />
+
+      {/* Why Giteria Section */}
+      <section className="py-20 bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-                Your AI partner everywhere. Copilot is ready to work with you at each step of the
-                software development lifecycle.
+                Why teams switch to <span className="text-primary">Giteria</span>?
+              </h2>
+              <p className="text-lg text-muted-foreground mb-8">
+                Stop sacrificing control for convenience. Get all the features of enterprise DevOps
+                platforms — without the cloud dependencies.
+              </p>
+
+              <div className="space-y-6">
+                <div className="flex gap-4">
+                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                    <Lock className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-1">
+                      Complete Data Sovereignty
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      Your code never leaves your infrastructure. Meet compliance requirements
+                      without compromises.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                    <Zap className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-1">All-in-One Platform</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Git, CI/CD, packages, issues, wiki — unified in a single, fast interface.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                    <Shield className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-1">Enterprise Security</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Dependency scanning, secret detection, SSO, and fine-grained access controls
+                      built-in.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="p-6 rounded-xl bg-card border border-border hover:border-primary/50 transition-colors">
+                <div className="text-3xl font-bold text-primary mb-1">100%</div>
+                <div className="text-sm text-muted-foreground">Open Source</div>
+              </div>
+              <div className="p-6 rounded-xl bg-card border border-border hover:border-primary/50 transition-colors">
+                <div className="text-3xl font-bold text-primary mb-1">0€</div>
+                <div className="text-sm text-muted-foreground">Cloud fees</div>
+              </div>
+              <div className="p-6 rounded-xl bg-card border border-border hover:border-primary/50 transition-colors">
+                <div className="text-3xl font-bold text-primary mb-1">∞</div>
+                <div className="text-sm text-muted-foreground">Private repos</div>
+              </div>
+              <div className="p-6 rounded-xl bg-card border border-border hover:border-primary/50 transition-colors">
+                <div className="text-3xl font-bold text-primary mb-1">5min</div>
+                <div className="text-sm text-muted-foreground">Setup time</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Benefits Section */}
+      <section className="py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="relative">
+              <div className="absolute inset-0 bg-linear-to-r from-primary/20 to-[#a371f7]/20 blur-3xl rounded-2xl" />
+              <div className="relative bg-card border border-border rounded-xl p-6 font-mono text-sm">
+                <div className="flex gap-2 mb-4">
+                  <div className="w-3 h-3 rounded-full bg-destructive/80" />
+                  <div className="w-3 h-3 rounded-full bg-[#ffbd2e]/80" />
+                  <div className="w-3 h-3 rounded-full bg-primary/80" />
+                </div>
+                <div className="space-y-2">
+                  <div className="text-muted-foreground">$ giteria run</div>
+                  <div className="text-primary">Starting Giteria instance...</div>
+                  <div className="text-muted-foreground">
+                    <span className="text-green-500">✓</span> Database connected
+                    <br />
+                    <span className="text-green-500">✓</span> Git daemon running
+                    <br />
+                    <span className="text-green-500">✓</span> Web interface ready
+                    <br />
+                    <span className="text-green-500">✓</span> CI/CD workers online
+                  </div>
+                  <div className="text-primary mt-4">
+                    → Giteria running at http://localhost:3000
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+                Everything you need.
+                <span className="block text-primary">Nothing you don't.</span>
               </h2>
 
-              <div className="space-y-4">
+              <p className="text-muted-foreground mb-8">
+                Git, code review, CI/CD, packages, issues, wiki — all in one fast, unified platform
+                running on your own servers.
+              </p>
+
+              <div className="grid grid-cols-2 gap-3">
                 {[
-                  "Intelligent code completion",
-                  "Natural language explanations",
-                  "Automated code reviews",
-                  "Bug detection and fixes",
+                  "Git hosting",
+                  "Code review",
+                  "CI/CD pipelines",
+                  "Package registry",
+                  "Issue tracking",
+                  "Wiki & docs",
                 ].map((item, index) => (
-                  <div key={index} className="flex items-center gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-primary" />
+                  <div key={index} className="flex items-center gap-2 text-sm">
+                    <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
                     <span className="text-foreground">{item}</span>
                   </div>
                 ))}
               </div>
 
               <Link
-                href="/copilot"
-                className="inline-flex items-center gap-2 mt-8 text-primary hover:underline"
+                href="/features"
+                className="inline-flex items-center gap-2 mt-8 text-primary hover:underline font-medium"
               >
-                Explore Giteria Copilot <ArrowRight className="w-4 h-4" />
+                Explore all features <ArrowRight className="w-4 h-4" />
               </Link>
-            </div>
-
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-primary to-[#a371f7] opacity-20 blur-3xl" />
-              <div className="relative bg-background border border-border rounded-lg p-6 font-mono text-sm">
-                <div className="flex gap-2 mb-4">
-                  <div className="w-3 h-3 rounded-full bg-destructive" />
-                  <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
-                  <div className="w-3 h-3 rounded-full bg-primary" />
-                </div>
-                <div className="space-y-2">
-                  <div className="text-muted-foreground">// AI suggests a function</div>
-                  <div>
-                    <span className="text-destructive">function</span>{" "}
-                    <span className="text-primary">calculateMetrics</span>(data) {"{"}
-                  </div>
-                  <div className="pl-4 text-muted-foreground">
-                    // Returns optimized calculations
-                  </div>
-                  <div className="pl-4 text-[#d2a8ff]">
-                    return data.reduce((acc, item) ={">"} {"{"}
-                  </div>
-                  <div className="pl-8 text-primary">...acc,</div>
-                  <div className="pl-8 text-foreground">[item.name]: item.value</div>
-                  <div className="pl-4">
-                    {"}"}, {});
-                  </div>
-                  <div>{"}"}</div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="py-16 border-b border-border">
+      {/* Features Sections */}
+      <section className="py-20 bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 opacity-60">
-            {customerLogos.map((logo, index) => (
-              <div key={index} className="text-lg font-semibold text-muted-foreground">
-                {logo}
-              </div>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Build, test, deploy — <span className="text-primary">all in one</span>
+            </h2>
+            <p className="text-muted-foreground max-w-xl mx-auto">
+              From code to production, every tool your team needs is integrated.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {features.map((feature, index) => (
+              <Link
+                key={index}
+                href={feature.href}
+                className="p-5 rounded-xl bg-card border border-border hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5 transition-all group"
+              >
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-3 group-hover:bg-primary/20 transition-colors">
+                  <feature.icon className="w-5 h-5 text-primary" />
+                </div>
+                <h3 className="font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">
+                  {feature.title}
+                </h3>
+                <p className="text-muted-foreground text-sm line-clamp-2">{feature.description}</p>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-24">
+      {/* Security Section */}
+      <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-destructive/10 border border-destructive/20 text-destructive text-sm font-medium mb-4">
+                <Shield className="w-4 h-4" />
+                Security First
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+                Your code deserves
+                <span className="block text-primary">enterprise protection.</span>
+              </h2>
+              <p className="text-muted-foreground mb-8">
+                Built-in security features that keep your codebase safe — without external
+                dependencies or cloud services.
+              </p>
+
+              <div className="space-y-4">
+                {securityItems.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex items-start gap-4 p-4 rounded-lg bg-card border border-border"
+                  >
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                      <item.icon className="w-5 h-5 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-foreground mb-1">{item.title}</h3>
+                      <p className="text-sm text-muted-foreground">{item.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="relative">
+              <div className="absolute inset-0 bg-linear-to-r from-primary/20 to-[#a371f7]/20 blur-3xl rounded-2xl" />
+              <div className="relative bg-card border border-border rounded-xl p-6">
+                <div className="flex items-center gap-3 mb-4 pb-4 border-b border-border">
+                  <Shield className="w-5 h-5 text-green-500" />
+                  <span className="font-semibold text-foreground">Security Scan Complete</span>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between p-3 rounded-lg bg-green-500/10 border border-green-500/20">
+                    <span className="text-sm text-foreground">Dependencies scanned</span>
+                    <span className="text-sm font-medium text-green-500">1,247 checked</span>
+                  </div>
+                  <div className="flex items-center justify-between p-3 rounded-lg bg-green-500/10 border border-green-500/20">
+                    <span className="text-sm text-foreground">Vulnerabilities</span>
+                    <span className="text-sm font-medium text-green-500">0 found</span>
+                  </div>
+                  <div className="flex items-center justify-between p-3 rounded-lg bg-green-500/10 border border-green-500/20">
+                    <span className="text-sm text-foreground">Secrets detected</span>
+                    <span className="text-sm font-medium text-green-500">0 exposed</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Automation Section */}
+      <section className="py-20 bg-muted/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+                Automate everything.
+                <span className="block text-primary">Ship faster.</span>
+              </h2>
+              <p className="text-muted-foreground mb-8">
+                Powerful CI/CD pipelines that run on your infrastructure. No external services, no
+                limits.
+              </p>
+
+              <div className="space-y-3">
+                {automationItems.map((item, index) => (
+                  <Link
+                    key={index}
+                    href={item.href}
+                    className="flex items-center gap-3 p-3 rounded-lg bg-card border border-border hover:border-primary/50 transition-colors group"
+                  >
+                    <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
+                      <item.icon className="w-4 h-4 text-primary" />
+                    </div>
+                    <span className="font-medium text-foreground group-hover:text-primary transition-colors">
+                      {item.title}
+                    </span>
+                    <ChevronRight className="w-4 h-4 text-muted-foreground ml-auto" />
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <div className="relative">
+              <div className="absolute inset-0 bg-linear-to-r from-primary/20 to-[#a371f7]/20 blur-3xl rounded-2xl" />
+              <div className="relative bg-card border border-border rounded-xl overflow-hidden">
+                <div className="flex items-center gap-2 px-4 py-2 bg-muted/50 border-b border-border">
+                  <div className="flex gap-1.5">
+                    <div className="w-2.5 h-2.5 rounded-full bg-destructive/80" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]/80" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-primary/80" />
+                  </div>
+                  <span className="text-xs text-muted-foreground font-mono">
+                    .giteria/workflows/build.yml
+                  </span>
+                </div>
+                <div className="p-4 font-mono text-xs md:text-sm">
+                  <div>
+                    <span className="text-primary">name</span>: Build &amp; Test
+                  </div>
+                  <div>
+                    <span className="text-primary">on</span>: [push, pull_request]
+                  </div>
+                  <div className="pt-2">
+                    <span className="text-primary">jobs</span>:
+                  </div>
+                  <div className="pl-3">
+                    <span className="text-primary">build</span>:
+                  </div>
+                  <div className="pl-5">
+                    <span className="text-primary">runs-on</span>: ubuntu-latest
+                  </div>
+                  <div className="pl-5">
+                    <span className="text-primary">steps</span>:
+                  </div>
+                  <div className="pl-7">- uses: actions/checkout@v4</div>
+                  <div className="pl-7">- name: Build</div>
+                  <div className="pl-9 text-muted-foreground">run: make build</div>
+                  <div className="pl-7">- name: Test</div>
+                  <div className="pl-9 text-muted-foreground">run: make test</div>
+                  <div className="pt-2 text-green-500">✓ Build passed in 2m 34s</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Collaboration Section */}
+      <section className="py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Automate your path to production
+              Built for <span className="text-primary">teams</span>
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Ship faster with secure, reliable CI/CD and development tools.
+            <p className="text-muted-foreground max-w-xl mx-auto">
+              Every feature designed to keep your team aligned and moving forward.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {automationItems.map((item, index) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {collaborationItems.map((item, index) => (
               <Link
                 key={index}
                 href={item.href}
-                className="p-6 rounded-lg bg-card border border-border hover:border-primary transition-colors group"
+                className="p-5 rounded-xl bg-card border border-border hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5 transition-all group"
               >
-                <item.icon className="w-8 h-8 text-primary mb-4" />
-                <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-3 group-hover:bg-primary/20 transition-colors">
+                  <item.icon className="w-5 h-5 text-primary" />
+                </div>
+                <h3 className="font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">
                   {item.title}
                 </h3>
                 <p className="text-muted-foreground text-sm">{item.description}</p>
@@ -396,178 +698,103 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="py-24 bg-card">
+      {/* Deployment Section */}
+      <section className="py-20 bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Built-in application security where found means fixed
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Use AI to find and fix vulnerabilities so your team can ship more secure software
-              faster.
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Deploy your way</h2>
+            <p className="text-muted-foreground max-w-xl mx-auto">
+              Giteria fits into your infrastructure. Single server, Kubernetes, or Docker.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
-            {securityItems.map((item, index) => (
-              <div key={index} className="p-6 rounded-lg bg-background border border-border">
-                <item.icon className="w-8 h-8 text-primary mb-4" />
-                <h3 className="text-lg font-semibold text-foreground mb-2">{item.title}</h3>
-                <p className="text-muted-foreground text-sm mb-4">{item.description}</p>
-                <div className="text-primary font-semibold text-sm">{item.stat}</div>
+          <div className="grid md:grid-cols-3 gap-4">
+            {deploymentOptions.map((option, index) => (
+              <div
+                key={index}
+                className="p-6 rounded-xl bg-card border border-border hover:border-primary/50 transition-colors"
+              >
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-3">
+                  <option.icon className="w-5 h-5 text-primary" />
+                </div>
+                <h3 className="font-semibold text-foreground mb-1">{option.title}</h3>
+                <p className="text-muted-foreground text-sm">{option.description}</p>
               </div>
             ))}
           </div>
-
-          <div className="text-center mt-12">
-            <Link
-              href="/security"
-              className="inline-flex items-center gap-2 text-primary hover:underline"
-            >
-              Explore Giteria Advanced Security <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
         </div>
       </section>
 
-      <section className="py-24">
+      {/* Open Source Section */}
+      <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-                Work together, achieve more
-              </h2>
-              <p className="text-lg text-muted-foreground mb-8">
-                From planning and discussion to code review, Giteria keeps your team&apos;s
-                conversation and context next to your code.
-              </p>
-
-              <div className="space-y-4">
-                {collaborationItems.map((item, index) => (
-                  <Link
-                    key={index}
-                    href={item.href}
-                    className="flex items-start gap-4 p-4 rounded-lg bg-card border border-border hover:border-primary transition-colors"
-                  >
-                    <item.icon className="w-6 h-6 text-primary shrink-0 mt-0.5" />
-                    <div>
-                      <h3 className="font-semibold text-foreground">{item.title}</h3>
-                      <p className="text-sm text-muted-foreground">{item.description}</p>
-                    </div>
-                    <ChevronRight className="w-5 h-5 text-muted-foreground shrink-0" />
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-primary to-[#a371f7] opacity-20 blur-3xl" />
-              <div className="relative bg-card border border-border rounded-lg p-6">
-                <div className="mb-6">
-                  <div className="h-4 w-32 bg-secondary rounded mb-2" />
-                  <div className="h-8 w-64 bg-foreground/10 rounded" />
-                </div>
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    <div className="w-4 h-4 rounded-full bg-primary/20" />
-                    <div className="h-4 flex-1 bg-secondary rounded" />
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-4 h-4 rounded-full bg-primary/20" />
-                    <div className="h-4 flex-1 bg-secondary rounded" />
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-4 h-4 rounded-full bg-primary" />
-                    <div className="h-4 w-48 bg-secondary rounded" />
-                  </div>
-                </div>
-                <div className="mt-6 pt-6 border-t border-border">
-                  <blockquote className="text-sm text-muted-foreground italic">
-                    &quot;Giteria is a complete platform that frees us from menial tasks and enables
-                    us to do our best work.&quot;
-                  </blockquote>
-                  <div className="mt-4 text-sm">
-                    <strong className="text-foreground">Fabian Faulhaber</strong>
-                    <span className="text-muted-foreground">
-                      {" "}
-                      - Application manager at Mercedes-Benz
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-24 bg-card">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              From startups to enterprises, Giteria scales with teams of any size
+              Open source. <span className="text-primary">Community driven.</span>
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
-            {industries.map((industry, index) => (
-              <div
-                key={index}
-                className="p-6 rounded-lg bg-background border border-border hover:border-primary transition-colors"
-              >
-                <div className="text-2xl font-bold text-foreground mb-4">{industry.logo}</div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">{industry.name}</h3>
-                <p className="text-muted-foreground text-sm">{industry.description}</p>
-              </div>
-            ))}
+          <div className="grid md:grid-cols-3 gap-4 max-w-2xl mx-auto">
+            <div className="p-6 rounded-xl bg-card border border-border text-center">
+              <div className="text-3xl font-bold text-primary mb-1">100%</div>
+              <div className="text-sm text-muted-foreground">Open Source</div>
+            </div>
+            <div className="p-6 rounded-xl bg-card border border-border text-center">
+              <div className="text-3xl font-bold text-primary mb-1">Free</div>
+              <div className="text-sm text-muted-foreground">Forever</div>
+            </div>
+            <div className="p-6 rounded-xl bg-card border border-border text-center">
+              <div className="text-3xl font-bold text-primary mb-1">You</div>
+              <div className="text-sm text-muted-foreground">In control</div>
+            </div>
           </div>
 
-          <div className="text-center mt-12">
+          <div className="text-center mt-8">
             <Link
-              href="/enterprise"
-              className="inline-flex items-center gap-2 text-primary hover:underline"
+              href="https://github.com/skygenesisenterprise/giteria"
+              target="_blank"
+              className="inline-flex items-center gap-2 text-primary hover:underline font-medium"
             >
-              Explore all solutions <ArrowRight className="w-4 h-4" />
+              Join our community <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>
       </section>
 
-      <section className="py-24">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      {/* CTA Section */}
+      <section className="py-24 relative overflow-hidden">
+        <div className="absolute inset-0 bg-linear-to-r from-primary/10 via-primary/5 to-primary/10" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-150 bg-primary/20 rounded-full blur-3xl" />
+
+        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-            Millions of developers and businesses call Giteria home
+            Ready to take control?
           </h2>
-          <p className="text-lg text-muted-foreground mb-12">
-            Whether you&apos;re scaling your development process or just learning how to code,
-            Giteria is where you belong. Join the world&apos;s most widely adopted developer
-            platform to build the technologies that shape what&apos;s next.
+          <p className="text-lg text-muted-foreground mb-10 max-w-xl mx-auto">
+            Start your self-hosted DevOps journey in minutes. No credit card required.
           </p>
 
-          <form
-            onSubmit={handleSubmit}
-            className="flex flex-col sm:flex-row gap-3 justify-center max-w-md mx-auto mb-8"
-          >
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              className="flex-1 px-4 py-3 rounded-md bg-background border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-ring focus:ring-1 focus:ring-ring"
-            />
-            <Button
-              type="submit"
-              className="px-6 py-3 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-md"
-            >
-              Sign up for Giteria
-            </Button>
-          </form>
-
-          <p className="text-sm text-muted-foreground">
-            <Link href="/copilot" className="text-primary hover:underline">
-              Try Giteria Copilot free
-            </Link>{" "}
-            · No credit card required
-          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/login">
+              <Button
+                size="lg"
+                className="px-8 py-6 text-lg bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-md"
+              >
+                Start Free Trial
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
+            </Link>
+            <Link href="/docs">
+              <Button
+                size="lg"
+                variant="outline"
+                className="px-8 py-6 text-lg border-border text-foreground hover:bg-secondary font-semibold rounded-md"
+              >
+                <BookOpen className="w-5 h-5 mr-2" />
+                Read Documentation
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
     </div>
