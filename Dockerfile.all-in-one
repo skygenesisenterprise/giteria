@@ -1,0 +1,103 @@
+# syntax=docker/dockerfile:1
+# Giteria All-in-One Docker Image
+# Contains both Go backend and Next.js frontend with nginx reverse proxy
+
+# ============================================
+# Stage 1: Build Backend (Go)
+# ============================================
+FROM docker.io/library/golang:1.25-alpine3.22 AS backend-builder
+
+ARG GOPROXY=direct
+ARG TAGS="sqlite sqlite_unlock_notify"
+ENV TAGS="bindata timetzdata $TAGS"
+
+RUN apk --no-cache add \
+    build-base \
+    git
+
+WORKDIR /build/backend
+COPY go.mod go.sum ./
+RUN go mod download
+
+COPY . .
+RUN --mount=type=cache,target=/go/pkg/mod \
+    --mount=type=cache,target="/root/.cache/go-build" \
+    make
+
+# ============================================
+# Stage 2: Build Frontend (Next.js)
+# ============================================
+FROM node:20-alpine AS frontend-builder
+
+RUN apk add --no-cache libc6-compat
+RUN npm install -g pnpm@10.28.1
+
+WORKDIR /build/frontend
+
+COPY app/package.json app/pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile --ignore-scripts
+
+COPY app/ ./
+ENV NODE_ENV=production
+RUN pnpm build
+
+# ============================================
+# Stage 3: Final Image
+# ============================================
+FROM docker.io/library/alpine:3.22
+
+LABEL maintainer="Sky Genesis Enterprise <developer@skygenesisenterprise.com>"
+LABEL description="Giteria - All-in-One Git Platform"
+
+EXPOSE 22 80 443
+
+RUN apk --no-cache add \
+    bash \
+    ca-certificates \
+    curl \
+    gettext \
+    git \
+    linux-pam \
+    nginx \
+    openssh \
+    s6 \
+    sqlite \
+    su-exec \
+    gnupg \
+    openssl
+
+RUN addgroup -S -g 1000 git && \
+    adduser -S -H -D -h /data/git -s /bin/bash -u 1000 -G git git && \
+    echo "git:*" | chpasswd -e
+
+COPY --from=backend-builder /go/src/github.com/skygenesisenterprise/giteria/giteria /usr/local/bin/giteria
+COPY --from=backend-builder /home/liam/Bureau/enterprise/giteria/docker/root /tmp/local
+
+RUN chmod 755 /tmp/local/usr/bin/entrypoint \
+              /tmp/local/usr/local/bin/* \
+              /tmp/local/etc/s6/giteria/* \
+              /tmp/local/etc/s6/openssh/* \
+              /tmp/local/etc/s6/.s6-svscan/* \
+              /usr/local/bin/giteria
+
+COPY --from=backend-builder /tmp/local /
+
+COPY --from=frontend-builder --chown=nginx:nginx /build/frontend/.next/standalone /app/frontend
+COPY --from=frontend-builder --chown=nginx:nginx /build/frontend/.next/static /app/frontend/.next/static
+COPY --from=frontend-builder --chown=nginx:nginx /build/frontend/public /app/frontend/public
+
+COPY docker/all-in-one/nginx.conf /etc/nginx/http.d/default.conf
+COPY docker/all-in-one/start.sh /start.sh
+
+RUN chmod +x /start.sh
+
+ENV USER=git
+ENV GITEA_CUSTOM=/data/giteria
+ENV PORT=3000
+ENV ROOT_URL=http://localhost:80
+ENV HTTP_PORT=80
+
+VOLUME ["/data"]
+
+ENTRYPOINT ["/usr/bin/entrypoint"]
+CMD ["/start.sh"]

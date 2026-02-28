@@ -1,0 +1,40 @@
+services:
+  # Backend (Go) + Database (SQLite)
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: giteria-backend
+    ports:
+      - "3000:3000"
+      - "2222:22"
+    environment:
+      - USER=git
+      - GITEA_CUSTOM=/data/giteria
+      - GITEA_APP_INI=/data/giteria/conf/app.ini
+      - PORT=3000
+      - ROOT_URL=http://localhost:3000
+      - HTTP_PORT=3000
+      - SSH_PORT=22
+      - DISABLE_SSH=false
+      - DB_TYPE=sqlite3
+      - INSTALL_LOCK=true
+      - DISABLE_REGISTRATION=false
+      - REQUIRE_SIGNIN_VIEW=false
+    volumes:
+      - ./docker/root/etc/templates:/templates:ro
+      - giteria_data:/data
+      - giteria_git:/data/git
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+volumes:
+  giteria_data:
+    driver: local
+  giteria_git:
+    driver: local

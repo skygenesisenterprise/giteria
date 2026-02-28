@@ -1,5 +1,4 @@
 node_modules
-.git
 .gitignore
 README.md
 .env
@@ -12,3 +11,4 @@ yarn-debug.log*
 yarn-error.log*
 .DS_Store
 *.tsbuildinfo
+*.log

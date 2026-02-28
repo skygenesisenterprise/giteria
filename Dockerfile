@@ -17,16 +17,11 @@ RUN apk --no-cache add \
     pnpm
 
 WORKDIR ${GOPATH}/src/github.com/skygenesisenterprise/giteria
-# Use COPY but not "mount" because some directories like "node_modules" contain platform-depended contents and these directories need to be ignored.
-# ".git" directory will be mounted later separately for getting version data.
-# TODO: in the future, maybe we can pre-build the frontend assets on one platform and share them for different platforms, the benefit is that it won't be affected by webpack plugin compatibility problems, then the working directory can be fully mounted and the COPY is not needed.
-COPY --exclude=.git/ . .
+COPY --exclude=node_modules/ . .
 
-# Build gitea, .git mount is required for version data
 RUN --mount=type=cache,target=/go/pkg/mod \
     --mount=type=cache,target="/root/.cache/go-build" \
     --mount=type=cache,target=/root/.local/share/pnpm/store \
-    --mount=type=bind,source=".git/",target=".git/" \
     make
 
 COPY docker/root /tmp/local

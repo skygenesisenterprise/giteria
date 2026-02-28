@@ -227,7 +227,7 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 bg-background border-b border-border">
-      <div className="flex items-center justify-between px-4 h-16 max-w-[1800px] mx-auto">
+      <div className="flex items-center justify-between px-4 h-16 max-w-450 mx-auto">
         <div className="flex items-center gap-4">
           <button
             className="lg:hidden p-2 text-muted-foreground hover:text-foreground transition-colors"
@@ -255,7 +255,7 @@ export default function Navbar() {
 
                 {item.hasDropdown && openDropdown === item.name && (
                   <div className="absolute top-full left-0 pt-2">
-                    <div className="bg-card border border-border rounded-lg shadow-xl w-[600px] p-4">
+                    <div className="bg-card border border-border rounded-lg shadow-xl w-150 p-4">
                       <div className="grid grid-cols-3 gap-4">
                         {item.categories?.map((category, catIdx) => (
                           <div key={catIdx}>

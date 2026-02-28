@@ -1,0 +1,13 @@
+http:
+  routers:
+    web:
+      rule: "PathPrefix(`/`)"
+      service: frontend
+      entryPoints:
+        - web
+
+  services:
+    frontend:
+      loadBalancer:
+        servers:
+          - url: "http://frontend:3001"

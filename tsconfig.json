@@ -3,13 +3,7 @@
   "references": [
     { "path": "./app" },
     { "path": "./tools" },
-    { "path": "./package/node" },
-    { "path": "./package/vscode" },
-    { "path": "./package/extension" },
-    { "path": "./package/snap" },
     { "path": "./tests" },
-    { "path": "./prisma"},
-    { "path": "./infrastructure"}
   ],
   "compilerOptions": {
     "target": "ES2017",

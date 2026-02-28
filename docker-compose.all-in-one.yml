@@ -1,0 +1,44 @@
+version: "3.9"
+
+services:
+  giteria:
+    build:
+      context: .
+      dockerfile: Dockerfile.all-in-one
+    container_name: giteria-all-in-one
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "22:22"
+    environment:
+      - APP_NAME=Giteria
+      - RUN_MODE=prod
+      - DOMAIN=localhost
+      - SSH_DOMAIN=localhost
+      - HTTP_PORT=3000
+      - ROOT_URL=http://localhost:80
+      - DISABLE_SSH=false
+      - SSH_PORT=22
+      - DB_TYPE=sqlite3
+      - INSTALL_LOCK=true
+    volumes:
+      - giteria_data:/data
+      - giteria_git:/data/git
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - giteria-network
+
+networks:
+  giteria-network:
+    driver: bridge
+
+volumes:
+  giteria_data:
+    driver: local
+  giteria_git:
+    driver: local

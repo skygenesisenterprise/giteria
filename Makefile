@@ -216,13 +216,36 @@ docker-stop: ## Docker - Stop Docker containers
 	@echo "$(BLUE)🛑 Stopping Docker containers...$(RESET)"
 	@$(PNPM) docker:stop
 
-docker-dev: ## Docker - Start development environment
-	@echo "$(BLUE)🐳 Starting development Docker environment...$(RESET)"
-	@docker-compose -f docker-compose.dev.yml up -d
+docker-dev: ## Docker - Start backend + database in Docker
+	@echo "$(BLUE)🐳 Starting backend + database in Docker...$(RESET)"
+	@docker compose -f docker-compose.backend.yml up -d
+	@echo "$(GREEN)✅ Backend started!$(RESET)"
+	@echo "$(YELLOW)API:  http://localhost:3000$(RESET)"
+	@echo "$(YELLOW)SSH:  localhost:2222$(RESET)"
+	@echo ""
+	@echo "$(YELLOW)Run 'pnpm dev:frontend' in another terminal for frontend$(RESET)"
+
+docker-dev-up: ## Docker - Start backend (alias)
+	@docker compose -f docker-compose.backend.yml up -d
+
+docker-dev-down: ## Docker - Stop backend
+	@docker compose -f docker-compose.backend.yml down
+
+docker-dev-logs: ## Docker - View backend logs
+	@docker compose -f docker-compose.backend.yml logs -f
+
+docker-dev-rebuild: ## Docker - Rebuild and restart backend
+	@docker compose -f docker-compose.backend.yml up -d --build
+
+docker-dev-clean: ## Docker - Clean backend data (removes database)
+	@docker compose -f docker-compose.backend.yml down -v
+
+docker-dev-shell: ## Docker - Shell into backend container
+	@docker exec -it giteria-backend /bin/bash
 
 docker-prod: ## Docker - Start production environment
 	@echo "$(BLUE)🐳 Starting production Docker environment...$(RESET)"
-	@docker-compose up -d
+	@docker compose up -d
 
 ## 🔧 Code Quality
 lint: ## Code - Lint all packages

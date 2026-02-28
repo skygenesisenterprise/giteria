@@ -1,0 +1,99 @@
+version: "3.9"
+
+services:
+  # Reverse Proxy
+  traefik:
+    image: traefik:v3.4
+    container_name: giteria-traefik
+    ports:
+      - "3000:80"
+      - "3001:3001"
+      - "2222:22"
+    volumes:
+      - ./docker/traefik.dev.yml:/traefik.yml:ro
+    command:
+      - "--api.dashboard=false"
+      - "--providers.file.filename=/traefik.yml"
+      - "--providers.file.watch=true"
+      - "--entrypoints.web.address=:80"
+      - "--log.level=INFO"
+    networks:
+      - giteria-dev
+    restart: unless-stopped
+
+  # Frontend (Next.js)
+  frontend:
+    build:
+      context: ./app
+      dockerfile: infra/Dockerfile.dev
+    container_name: giteria-frontend-dev
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+      - HOSTNAME=0.0.0.0
+      - NEXT_PUBLIC_API_URL=http://localhost:3000
+    volumes:
+      - ./app:/app
+      - /app/node_modules
+      - /app/.next
+    expose:
+      - "3001"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.frontend.priority=1"
+      - "traefik.http.services.frontend.loadbalancer.server.port=3001"
+    networks:
+      - giteria-dev
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3001"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+  # Backend (Go)
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: giteria-backend-dev
+    environment:
+      - USER=git
+      - GITEA_CUSTOM=/data/giteria
+      - GITEA_APP_INI=/data/giteria/conf/app.ini
+      - PORT=3000
+      - ROOT_URL=http://localhost:3000
+      - HTTP_PORT=3000
+      - SSH_PORT=22
+      - DISABLE_SSH=false
+      - DB_TYPE=sqlite3
+      - INSTALL_LOCK=true
+    volumes:
+      - ./docker/root/etc/templates:/templates:ro
+      - giteria_data:/data
+    expose:
+      - "3000"
+    labels:
+      - "traefik.enable=false"
+    networks:
+      - giteria-dev
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+networks:
+  giteria-dev:
+    driver: bridge
+    name: giteria-dev
+
+volumes:
+  giteria_data:
+    driver: local
