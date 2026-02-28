@@ -23,6 +23,7 @@ import {
   Code,
   Users,
   BookMarked,
+  ChevronDown,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -86,7 +87,7 @@ function CreateDropdown() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <IconButton>
-          <Plus className="w-4 h-4" />
+          <ChevronDown className="w-4 h-4" />
         </IconButton>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="bg-card border-border w-48">
@@ -126,9 +127,8 @@ function CopilotDropdown() {
 
 function NotificationButton() {
   return (
-    <IconButton className="relative">
+    <IconButton>
       <Bell className="w-5 h-5" />
-      <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-primary rounded-full" />
     </IconButton>
   );
 }
@@ -187,7 +187,7 @@ export function Header({ className }: HeaderProps) {
 
   return (
     <header className={cn("sticky top-0 z-50 bg-background border-b border-border", className)}>
-      <div className="flex items-center justify-between h-16 px-4 max-w-[1800px] mx-auto gap-8">
+      <div className="flex items-center justify-between h-16 px-4 max-w-450 mx-auto gap-8">
         {/* Left Group */}
         <div className="flex items-center gap-3">
           <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
@@ -202,8 +202,9 @@ export function Header({ className }: HeaderProps) {
           </Link>
         </div>
 
-        {/* Right Group */}
+        {/* Right Group General */}
         <div className="flex items-center gap-2">
+          {/* Right Group - Left */}
           <div className="hidden md:block">
             <SearchBar />
           </div>
@@ -218,35 +219,56 @@ export function Header({ className }: HeaderProps) {
             <CreateDropdown />
           </div>
 
-          <IconButton>
-            <FileText className="w-5 h-5" />
-          </IconButton>
+          {/* Right Group - Right */}
+          <div className="flex items-center px-1.5 py-1">
+            <div className="border border-border rounded-md p-px">
+              <IconButton>
+                <FileText className="w-5 h-5" />
+              </IconButton>
+            </div>
 
-          <IconButton>
-            <GitPullRequest className="w-5 h-5" />
-          </IconButton>
+            <div className="border border-border rounded-md p-px">
+              <IconButton>
+                <GitPullRequest className="w-5 h-5" />
+              </IconButton>
+            </div>
 
-          <IconButton>
-            <FolderGit2 className="w-5 h-5" />
-          </IconButton>
+            <div className="border border-border rounded-md p-px">
+              <IconButton>
+                <FolderGit2 className="w-5 h-5" />
+              </IconButton>
+            </div>
 
-          <NotificationButton />
+            <div className="border border-border rounded-md p-px">
+              <IconButton>
+                <Bell className="w-5 h-5" />
+              </IconButton>
+            </div>
 
-          <IconButton>
-            <Settings className="w-5 h-5" />
-          </IconButton>
+            <div className="border border-border rounded-md p-px">
+              <IconButton>
+                <Settings className="w-5 h-5" />
+              </IconButton>
+            </div>
 
-          <IconButton>
-            <HelpCircle className="w-5 h-5" />
-          </IconButton>
+            <div className="border border-border rounded-md p-px">
+              <IconButton>
+                <HelpCircle className="w-5 h-5" />
+              </IconButton>
+            </div>
 
-          <IconButton>
-            <BookOpen className="w-5 h-5" />
-          </IconButton>
+            <div className="border border-border rounded-md p-px">
+              <IconButton>
+                <BookOpen className="w-5 h-5" />
+              </IconButton>
+            </div>
 
-          <IconButton>
-            <CircleUser className="w-[22px] h-[22px]" />
-          </IconButton>
+            <div className="border border-border rounded-md p-px">
+              <IconButton>
+                <CircleUser className="w-5.5 h-5.5" />
+              </IconButton>
+            </div>
+          </div>
         </div>
       </div>
 

@@ -7,6 +7,8 @@ interface FooterProps {
 }
 
 export function Footer({ className }: FooterProps) {
+  const currentYear = new Date().getFullYear();
+
   const footerLinks = [
     { label: "Terms", href: "/terms" },
     { label: "Privacy", href: "/privacy" },
@@ -20,19 +22,19 @@ export function Footer({ className }: FooterProps) {
   ];
 
   return (
-    <footer className={cn("bg-[#010409] border-t border-[#30363d] py-6 px-4", className)}>
+    <footer className={cn("bg-background border-t border-border py-6 px-4", className)}>
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="flex items-center gap-4">
-            <p className="text-sm text-[#8b949e]">© 2026 Giteria, Inc.</p>
-          </div>
+        <div className="flex flex-col items-center gap-4">
+          <p className="text-sm text-muted-foreground">
+            © {currentYear} Giteria. Powered By Sky Genesis Enterprise.
+          </p>
 
           <nav className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
             {footerLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm text-[#8b949e] hover:text-white hover:underline transition-colors"
+                className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors"
               >
                 {link.label}
               </Link>
