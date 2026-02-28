@@ -48,15 +48,6 @@ const menuItems = [
           },
         ],
       },
-      {
-        title: "EXPLORE",
-        items: [
-          { name: "Why Giteria", desc: "The platform for developers", href: "/why-giteria" },
-          { name: "Documentation", desc: "Learn how to build", href: "/docs" },
-          { name: "Blog", desc: "News and updates", href: "/blog" },
-          { name: "Changelog", desc: "Latest features", href: "/changelog" },
-        ],
-      },
     ],
   },
   {

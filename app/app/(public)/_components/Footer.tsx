@@ -39,7 +39,7 @@ export default function Footer() {
       if (url.startsWith("http")) {
         const parsed = new URL(url);
         const allowedDomains = [
-          "skygenesisenterprise.com",
+          "giteria.com",
           "linkedin.com",
           "twitter.com",
           "github.com",
@@ -74,7 +74,7 @@ export default function Footer() {
     { name: "Guides & Tutorials", href: "/guides" },
     { name: "Changelog", href: "/changelog" },
     { name: "Whitepapers", href: "/whitepaper" },
-    { name: "Developer Portal", href: "https://developer.skygenesisenterprise.com" },
+    { name: "Developer Portal", href: "https://developer.giteria.com" },
     { name: "Newsletter", href: "/newsletter" },
     { name: "Certificates", href: "/certificates" },
   ];
@@ -98,7 +98,7 @@ export default function Footer() {
   ];
 
   const contactSupportLinks = [
-    { name: "Support Portal", href: "https://support.skygenesisenterprise.com" },
+    { name: "Support Portal", href: "https://support.giteria.com" },
     { name: "Sales Inquiry", href: "/contact/sales" },
     { name: "Office Locations", href: "/contact/locations" },
   ];
@@ -120,33 +120,33 @@ export default function Footer() {
     },
     {
       name: "Twitter",
-      href: "https://twitter.com/skyGEnterprise",
+      href: "https://twitter.com/giteria",
       icon: <TwitterIcon className="w-5 h-5" />,
     },
     {
       name: "GitHub",
-      href: "https://github.com/skygenesisenterprise",
+      href: "https://github.com/go-giteria",
       icon: <GithubIcon className="w-5 h-5" />,
     },
     {
       name: "YouTube",
-      href: "https://youtube.com/@skygenesisenterprise",
+      href: "https://youtube.com/@giteria",
       icon: <Youtube className="w-5 h-5" />,
     },
     {
       name: "Twitch",
-      href: "https://twitch.tv/skygenesisenterprise",
+      href: "https://twitch.tv/giteria",
       icon: <Twitch className="w-5 h-5" />,
     },
     { name: "Discord", href: "/discord", icon: <MessageCircle className="w-5 h-5" /> },
     {
       name: "Instagram",
-      href: "https://instagram.com/skygenesisenterprise",
+      href: "https://instagram.com/giteria",
       icon: <Camera className="w-5 h-5" />,
     },
     {
       name: "Mastodon",
-      href: "https://mastodon.social/@skygenesisenterprise",
+      href: "https://mastodon.social/@giteria",
       icon: <Globe className="w-5 h-5" />,
     },
   ];
@@ -199,7 +199,7 @@ export default function Footer() {
                   ))}
                 </div>
 
-                <div>
+                <div className="flex flex-col items-start">
                   <a
                     href={
                       isValidUrl("https://giteriastatus.com")
