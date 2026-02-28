@@ -34,17 +34,17 @@ const menuItems = [
           {
             name: "Advanced Security",
             desc: "Find and fix vulnerabilities",
-            href: "/security/advanced-security",
+            href: "/features/advanced-security",
           },
           {
             name: "Code security",
             desc: "Secure your code as you build",
-            href: "/security/advanced-security/code-security",
+            href: "/features/code-security",
           },
           {
             name: "Secret protection",
             desc: "Stop leaks before they start",
-            href: "/security/advanced-security/secret-protection",
+            href: "/features/secret-protection",
           },
         ],
       },
@@ -57,13 +57,13 @@ const menuItems = [
       {
         title: "BY COMPANY SIZE",
         items: [
-          { name: "Enterprises", desc: "For large organizations", href: "/enterprise" },
-          { name: "Small teams", desc: "For growing teams", href: "/team" },
-          { name: "Startups", desc: "For new businesses", href: "/enterprise/startups" },
+          { name: "Enterprises", desc: "For large organizations", href: "/solutions/enterprise" },
+          { name: "Small teams", desc: "For growing teams", href: "/solutions/team" },
+          { name: "Startups", desc: "For new businesses", href: "/solutions/startups" },
           {
             name: "Nonprofits",
             desc: "For charitable organizations",
-            href: "/solutions/industry/nonprofits",
+            href: "/solutions/nonprofits",
           },
         ],
       },
@@ -154,23 +154,23 @@ const menuItems = [
     categories: [
       {
         title: "COMMUNITY",
-        items: [{ name: "Sponsors", desc: "Fund open source developers", href: "/sponsors" }],
+        items: [{ name: "Sponsors", desc: "Fund open source developers", href: "/oss/sponsors" }],
       },
       {
         title: "PROGRAMS",
         items: [
-          { name: "Security Lab", desc: "Find vulnerabilities", href: "/security-lab" },
-          { name: "Maintainers", desc: "Build your community", href: "/maintainers" },
-          { name: "Accelerator", desc: "Scale your project", href: "/accelerator" },
-          { name: "Archive", desc: "Preserve open source", href: "/archive" },
+          { name: "Security Lab", desc: "Find vulnerabilities", href: "/oss/security-lab" },
+          { name: "Maintainers", desc: "Build your community", href: "/oss/maintainers" },
+          { name: "Accelerator", desc: "Scale your project", href: "/oss/accelerator" },
+          { name: "Archive", desc: "Preserve open source", href: "/oss/archive" },
         ],
       },
       {
         title: "REPOSITORIES",
         items: [
-          { name: "Topics", desc: "Explore by topic", href: "/topics" },
-          { name: "Trending", desc: "Popular repos", href: "/trending" },
-          { name: "Collections", desc: "Curated lists", href: "/collections" },
+          { name: "Topics", desc: "Explore by topic", href: "/oss/topics" },
+          { name: "Trending", desc: "Popular repos", href: "/oss/trending" },
+          { name: "Collections", desc: "Curated lists", href: "/oss/collections" },
         ],
       },
     ],
@@ -236,7 +236,7 @@ export default function Navbar() {
             <Menu className="w-5 h-5" />
           </button>
 
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="/home" className="flex items-center gap-2">
             <GitBranch className="w-8 h-8 text-foreground" />
           </Link>
 
