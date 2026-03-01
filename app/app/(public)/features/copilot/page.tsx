@@ -180,7 +180,7 @@ export default function CopilotPage() {
                     <ArrowRight className="w-5 h-5 ml-2" />
                   </Button>
                 </Link>
-                <Link href="/docs">
+                <Link href="https://docs.giteria.com/copilot" target="_blank" rel="noopener noreferrer">
                   <Button
                     size="lg"
                     variant="outline"
@@ -241,12 +241,12 @@ export default function CopilotPage() {
                       <div className="text-primary mb-1">// Accepted suggestion</div>
                       <div className="text-foreground">
                         {`export function parseJsonSafely<T>(str: string): T | null {
-  try {
-    return JSON.parse(str);
-  } catch {
-    return null;
-  }
-}`}
+                          try {
+                            return JSON.parse(str);
+                          } catch {
+                            return null;
+                          }
+                        }`}
                       </div>
                     </div>
                     <div className="flex items-center gap-2 text-xs mt-2">

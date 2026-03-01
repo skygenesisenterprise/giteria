@@ -58,7 +58,7 @@ const menuItems = [
         title: "BY COMPANY SIZE",
         items: [
           { name: "Enterprises", desc: "For large organizations", href: "/solutions/enterprise" },
-          { name: "Small teams", desc: "For growing teams", href: "/solutions/team" },
+          { name: "Small teams", desc: "For growing teams", href: "/solutions/teams" },
           { name: "Startups", desc: "For new businesses", href: "/solutions/startups" },
           {
             name: "Nonprofits",
@@ -248,10 +248,19 @@ export default function Navbar() {
                 onMouseEnter={() => item.hasDropdown && setOpenDropdown(item.name)}
                 onMouseLeave={() => setOpenDropdown(null)}
               >
-                <button className="flex items-center gap-1 px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  {item.name}
-                  {item.hasDropdown && <ChevronDown className="w-4 h-4" />}
-                </button>
+                {item.hasDropdown ? (
+                  <button className="flex items-center gap-1 px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    {item.name}
+                    <ChevronDown className="w-4 h-4" />
+                  </button>
+                ) : (
+                  <Link
+                    href={item.href || "#"}
+                    className="flex items-center gap-1 px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {item.name}
+                  </Link>
+                )}
 
                 {item.hasDropdown && openDropdown === item.name && (
                   <div className="absolute top-full left-0 pt-2">
