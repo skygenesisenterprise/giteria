@@ -16,7 +16,7 @@ const menuItems = [
           { name: "Copilot", desc: "Write better code with AI", href: "/features/copilot" },
           { name: "Spark", desc: "Build and deploy intelligent apps", href: "/features/spark" },
           { name: "Models", desc: "Manage and compare prompts", href: "/features/models" },
-          { name: "MCP Registry", desc: "Integrate external tools", href: "/mcp" },
+          { name: "MCP Registry", desc: "Integrate external tools", href: "/features/mcp" },
         ],
       },
       {
