@@ -3,10 +3,9 @@
 import * as React from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/context/AuthContext";
 
 const userData = {
-  name: "Alex",
-  username: "alexdev",
   pendingPRs: 3,
   assignedIssues: 7,
   importantNotifications: 2,

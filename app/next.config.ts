@@ -22,20 +22,23 @@ const nextConfig: NextConfig = {
         hostname: "sso.skygenesisenterprise.net",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "api.dicebear.com",
+        pathname: "/**",
+      },
       { protocol: "http", hostname: "127.0.0.1", pathname: "/**" },
       { protocol: "http", hostname: "localhost", pathname: "/**" },
     ],
   },
 
   async headers() {
-    const headers = [
-      { key: "Referrer-Policy", value: "origin-when-cross-origin" },
-    ];
+    const headers = [{ key: "Referrer-Policy", value: "origin-when-cross-origin" }];
 
     if (isProduction) {
       headers.push(
         { key: "X-Content-Type-Options", value: "nosniff" },
-        { key: "X-Frame-Options", value: "DENY" },
+        { key: "X-Frame-Options", value: "DENY" }
       );
     }
 

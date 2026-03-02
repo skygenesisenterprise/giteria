@@ -4,6 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Search, GitBranch, Menu, ChevronDown, LayoutDashboard } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
 
 const menuItems = [
   {
@@ -110,31 +111,35 @@ const menuItems = [
       {
         title: "EXPLORE BY TOPIC",
         items: [
-          { name: "AI", desc: "Artificial intelligence", href: "/resources/articles?topic=ai" },
+          { name: "AI", desc: "Artificial intelligence", href: "/resources/ai-development" },
           {
             name: "Software Development",
             desc: "Coding best practices",
-            href: "/resources/articles?topic=software-development",
+            href: "/resources/ai-development",
           },
           {
             name: "DevOps",
             desc: "Operations & delivery",
-            href: "/resources/articles?topic=devops",
+            href: "/resources/devops",
           },
           {
             name: "Security",
             desc: "AppSec & compliance",
-            href: "/resources/articles?topic=security",
+            href: "/resources/security",
           },
         ],
       },
       {
         title: "EXPLORE BY TYPE",
         items: [
-          { name: "Customer stories", desc: "Success stories", href: "/customer-stories" },
+          {
+            name: "Customer stories",
+            desc: "Success stories",
+            href: "/resources/customer-stories",
+          },
           { name: "Events", desc: "Webinars & conferences", href: "/resources/events" },
           { name: "Ebooks & reports", desc: "In-depth guides", href: "/resources/whitepapers" },
-          { name: "Giteria Skills", desc: "Learn by doing", href: "/skills" },
+          { name: "Giteria Skills", desc: "Learn by doing", href: "/resources/reskills" },
         ],
       },
       {
@@ -218,12 +223,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [openDropdown, setOpenDropdown] = React.useState<string | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
-
-  React.useEffect(() => {
-    const token = localStorage.getItem("auth_token");
-    setIsAuthenticated(!!token);
-  }, [pathname]);
+  const { isAuthenticated, isLoading, user, logout } = useAuth();
 
   return (
     <header className="sticky top-0 z-50 bg-background border-b border-border">
@@ -316,13 +316,23 @@ export default function Navbar() {
             <Search className="w-5 h-5" />
           </button>
 
-          {isAuthenticated ? (
-            <Link
-              href="/dashboard"
-              className="px-3 py-1.5 text-sm font-medium text-primary-foreground bg-primary border border-primary rounded-md hover:bg-primary/90 transition-colors"
-            >
-              Dashboard
-            </Link>
+          {isLoading ? (
+            <div className="w-20 h-8 bg-muted animate-pulse rounded-md" />
+          ) : isAuthenticated && user ? (
+            <div className="flex items-center gap-3">
+              <Link
+                href="/dashboard"
+                className="px-3 py-1.5 text-sm font-medium text-primary-foreground bg-primary border border-primary rounded-md hover:bg-primary/90 transition-colors"
+              >
+                Dashboard
+              </Link>
+              <button
+                onClick={() => logout()}
+                className="px-3 py-1.5 text-sm font-medium text-foreground bg-transparent border border-border rounded-md hover:bg-secondary transition-colors"
+              >
+                Sign out
+              </button>
+            </div>
           ) : (
             <>
               <Link
@@ -369,13 +379,26 @@ export default function Navbar() {
           </nav>
 
           <div className="mt-4 flex flex-col gap-2">
-            {isAuthenticated ? (
-              <Link
-                href="/dashboard"
-                className="px-3 py-2 text-center text-sm font-medium text-primary-foreground bg-primary border border-primary rounded-md hover:bg-primary/90 transition-colors"
-              >
-                Dashboard
-              </Link>
+            {isLoading ? (
+              <div className="w-full h-10 bg-muted animate-pulse rounded-md" />
+            ) : isAuthenticated && user ? (
+              <>
+                <div className="px-3 py-2 text-sm text-muted-foreground">
+                  Signed in as <span className="font-medium text-foreground">{user.username}</span>
+                </div>
+                <Link
+                  href="/dashboard"
+                  className="px-3 py-1.5 text-sm font-medium text-primary-foreground bg-primary border border-primary rounded-md hover:bg-primary/90 transition-colors"
+                >
+                  Dashboard
+                </Link>
+                <button
+                  onClick={() => logout()}
+                  className="px-3 py-2 text-center text-sm font-medium text-foreground bg-transparent border border-border rounded-md hover:bg-secondary transition-colors"
+                >
+                  Sign out
+                </button>
+              </>
             ) : (
               <>
                 <Link

@@ -15,14 +15,10 @@ export default function PlatformLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr">
-      <body className="font-sans antialiased">
-        <DashboardLayout>
-          <Header />
-          <div className="flex-1">{children}</div>
-          <Footer />
-        </DashboardLayout>
-      </body>
-    </html>
+    <DashboardLayout>
+      <Header />
+      <div className="flex-1">{children}</div>
+      <Footer />
+    </DashboardLayout>
   );
 }
