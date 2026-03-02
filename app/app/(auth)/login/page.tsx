@@ -1,10 +1,11 @@
-import type { Metadata } from "next"
-import { LoginForm } from "@/components/login-form"
-import { PasskeyOption, CreateAccountLink } from "@/components/passkey-option"
+import type { Metadata } from "next";
+import { LoginForm } from "@/components/login-form";
+import { PasskeyOption, CreateAccountLink } from "@/components/passkey-option";
+import { OAuthOptions } from "@/components/oauth-options";
 
 export const metadata: Metadata = {
   title: "Sign in",
-}
+};
 
 export default function LoginPage() {
   return (
@@ -13,8 +14,9 @@ export default function LoginPage() {
         Sign in to Giteria
       </h1>
       <LoginForm />
+      <OAuthOptions />
       <PasskeyOption />
       <CreateAccountLink />
     </>
-  )
+  );
 }

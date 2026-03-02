@@ -48,35 +48,27 @@ export default function OwnerPage() {
     }
   }, [owner]);
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-foreground" />
-      </div>
-    );
-  }
+  const renderContent = () => {
+    if (profileData.type === "not-found") {
+      return (
+        <div className="flex flex-col items-center justify-center gap-4">
+          <h2 className="text-2xl font-bold text-foreground">404</h2>
+          <p className="text-muted-foreground">This profile does not exist</p>
+        </div>
+      );
+    }
 
-  if (profileData.type === "not-found") {
-    return (
-      <div className="min-h-screen bg-background flex flex-col items-center justify-center gap-4">
-        <h2 className="text-2xl font-bold text-foreground">404</h2>
-        <p className="text-muted-foreground">This profile does not exist</p>
-      </div>
-    );
-  }
+    if (profileData.type === "org") {
+      return (
+        <div className="flex flex-col items-center justify-center gap-4">
+          <h2 className="text-2xl font-bold text-foreground">{owner}</h2>
+          <p className="text-muted-foreground">Organization profile coming soon</p>
+        </div>
+      );
+    }
 
-  if (profileData.type === "org") {
     return (
-      <div className="min-h-screen bg-background flex flex-col items-center justify-center gap-4">
-        <h2 className="text-2xl font-bold text-foreground">{owner}</h2>
-        <p className="text-muted-foreground">Organization profile coming soon</p>
-      </div>
-    );
-  }
-
-  return (
-    <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <>
         <div className="flex flex-col lg:flex-row gap-8">
           <div className="w-full lg:w-80 shrink-0">
             <UserSidebar user={profileData.user!} />
@@ -90,6 +82,20 @@ export default function OwnerPage() {
             <ContributionActivity username={owner} />
           </div>
         </div>
+      </>
+    );
+  };
+
+  return (
+    <div className="min-h-screen bg-background">
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        {isLoading ? (
+          <div className="flex items-center justify-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-foreground" />
+          </div>
+        ) : (
+          renderContent()
+        )}
       </div>
     </div>
   );

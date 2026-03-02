@@ -1,16 +1,14 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import {
   Search,
   GitBranch,
   Menu,
-  Plus,
   Bell,
-  Command,
   X,
   Settings,
   HelpCircle,
@@ -33,6 +31,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
+import { HeaderUser } from "./HeaderUser";
 
 interface HeaderProps {
   className?: string;
@@ -125,14 +124,6 @@ function CopilotDropdown() {
   );
 }
 
-function NotificationButton() {
-  return (
-    <IconButton>
-      <Bell className="w-5 h-5" />
-    </IconButton>
-  );
-}
-
 function MobileSidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   if (!isOpen) return null;
 
@@ -164,9 +155,26 @@ function MobileSidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
   );
 }
 
+function useHeaderUser() {
+  const pathname = usePathname();
+  const segments = pathname.split("/").filter(Boolean);
+
+  if (
+    segments.length === 1 &&
+    segments[0] !== "dashboard" &&
+    segments[0] !== "settings" &&
+    segments[0] !== "notifications" &&
+    segments[0] !== "marketplace"
+  ) {
+    return { username: segments[0], repoCount: 44, starCount: 29 };
+  }
+  return null;
+}
+
 export function Header({ className }: HeaderProps) {
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
   const pathname = usePathname();
+  const headerUser = useHeaderUser();
 
   const getPageTitle = () => {
     const path = pathname === "/" ? "Home" : pathname;
@@ -186,91 +194,97 @@ export function Header({ className }: HeaderProps) {
   const currentPage = getPageTitle();
 
   return (
-    <header className={cn("sticky top-0 z-50 bg-background border-b border-border", className)}>
-      <div className="flex items-center justify-between h-16 px-4 max-w-450 mx-auto gap-8">
-        {/* Left Group */}
-        <div className="flex items-center gap-3">
-          <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
-            <Menu className="w-5 h-5" />
-          </IconButton>
+    <header className={cn("sticky top-0 z-50 bg-background", className)}>
+      <div className="border-b border-border">
+        <div className="flex items-center justify-between h-16 px-4 max-w-450 mx-auto gap-8">
+          <div className="flex items-center gap-3">
+            <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+              <Menu className="w-5 h-5" />
+            </IconButton>
 
-          <Link href="/dashboard" className="flex items-center gap-2">
-            <GitBranch className="w-8 h-8 text-foreground" />
-            <span className="hidden lg:inline text-foreground font-bold text-sm">
-              {currentPage}
-            </span>
-          </Link>
-        </div>
-
-        {/* Right Group General */}
-        <div className="flex items-center gap-2">
-          {/* Right Group - Left */}
-          <div className="hidden md:block">
-            <SearchBar />
+            <Link href="/dashboard" className="flex items-center gap-2">
+              <GitBranch className="w-8 h-8 text-foreground" />
+              <span className="hidden lg:inline text-foreground font-bold text-sm">
+                {currentPage}
+              </span>
+            </Link>
           </div>
 
-          <IconButton className="md:hidden">
-            <Search className="w-5 h-5" />
-          </IconButton>
-
-          <div className="flex items-center border border-border rounded-md p-1">
-            <CopilotDropdown />
-            <div className="w-px h-4 bg-border mx-1" />
-            <CreateDropdown />
-          </div>
-
-          {/* Right Group - Right */}
-          <div className="flex items-center px-1.5 py-1">
-            <div className="border border-border rounded-md p-px">
-              <IconButton>
-                <FileText className="w-5 h-5" />
-              </IconButton>
+          <div className="flex items-center gap-2">
+            <div className="hidden md:block">
+              <SearchBar />
             </div>
 
-            <div className="border border-border rounded-md p-px">
-              <IconButton>
-                <GitPullRequest className="w-5 h-5" />
-              </IconButton>
+            <IconButton className="md:hidden">
+              <Search className="w-5 h-5" />
+            </IconButton>
+
+            <div className="flex items-center border border-border rounded-md p-1">
+              <CopilotDropdown />
+              <div className="w-px h-4 bg-border mx-1" />
+              <CreateDropdown />
             </div>
 
-            <div className="border border-border rounded-md p-px">
-              <IconButton>
-                <FolderGit2 className="w-5 h-5" />
-              </IconButton>
-            </div>
+            <div className="flex items-center px-1.5 py-1">
+              <div className="border border-border rounded-md p-px">
+                <IconButton>
+                  <FileText className="w-5 h-5" />
+                </IconButton>
+              </div>
 
-            <div className="border border-border rounded-md p-px">
-              <IconButton>
-                <Bell className="w-5 h-5" />
-              </IconButton>
-            </div>
+              <div className="border border-border rounded-md p-px">
+                <IconButton>
+                  <GitPullRequest className="w-5 h-5" />
+                </IconButton>
+              </div>
 
-            <div className="border border-border rounded-md p-px">
-              <IconButton>
-                <Settings className="w-5 h-5" />
-              </IconButton>
-            </div>
+              <div className="border border-border rounded-md p-px">
+                <IconButton>
+                  <FolderGit2 className="w-5 h-5" />
+                </IconButton>
+              </div>
 
-            <div className="border border-border rounded-md p-px">
-              <IconButton>
-                <HelpCircle className="w-5 h-5" />
-              </IconButton>
-            </div>
+              <div className="border border-border rounded-md p-px">
+                <IconButton>
+                  <Bell className="w-5 h-5" />
+                </IconButton>
+              </div>
 
-            <div className="border border-border rounded-md p-px">
-              <IconButton>
-                <BookOpen className="w-5 h-5" />
-              </IconButton>
-            </div>
+              <div className="border border-border rounded-md p-px">
+                <IconButton>
+                  <Settings className="w-5 h-5" />
+                </IconButton>
+              </div>
 
-            <div className="border border-border rounded-md p-px">
-              <IconButton>
-                <CircleUser className="w-5.5 h-5.5" />
-              </IconButton>
+              <div className="border border-border rounded-md p-px">
+                <IconButton>
+                  <HelpCircle className="w-5 h-5" />
+                </IconButton>
+              </div>
+
+              <div className="border border-border rounded-md p-px">
+                <IconButton>
+                  <BookOpen className="w-5 h-5" />
+                </IconButton>
+              </div>
+
+              <div className="border border-border rounded-md p-px">
+                <IconButton>
+                  <CircleUser className="w-5.5 h-5.5" />
+                </IconButton>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      {headerUser && (
+        <HeaderUser
+          username={headerUser.username}
+          repoCount={headerUser.repoCount}
+          starCount={headerUser.starCount}
+        />
+      )}
 
       <MobileSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
     </header>

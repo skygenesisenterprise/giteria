@@ -3,6 +3,13 @@
 import * as React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import {
   Code2,
   GitBranch,
@@ -10,7 +17,6 @@ import {
   Zap,
   CheckCircle2,
   ArrowRight,
-  Sparkles,
   Terminal,
   Users,
   Package,
@@ -22,10 +28,13 @@ import {
   Container,
   BookOpen,
   Layers,
-  CreditCard,
   MessageSquare,
   Settings,
   ChevronRight,
+  Building2,
+  Heart,
+  GraduationCap,
+  ArrowUpRight,
 } from "lucide-react";
 
 const benefits = [
@@ -201,6 +210,88 @@ const deploymentOptions = [
   },
 ];
 
+const trustStats = [
+  { value: "100%", label: "Data Sovereignty" },
+  { value: "0", label: "Cloud Fees" },
+  { value: "Self", label: "Hosted" },
+  { value: "You", label: "In Control" },
+];
+
+const useCases = {
+  enterprise: {
+    title: "Enterprise",
+    icon: Building2,
+    description: "Scale your organization with enterprise-grade security and compliance",
+    features: [
+      "SSO & SAML authentication",
+      "Advanced access controls",
+      "Audit logs & compliance reports",
+      "Dedicated support options",
+    ],
+  },
+  opensource: {
+    title: "Open Source",
+    icon: Heart,
+    description: "Build and grow your open source community",
+    features: [
+      "Unlimited public repositories",
+      "Community discussions",
+      "Contributor management",
+      "Automated security alerts",
+    ],
+  },
+  startups: {
+    title: "Startups",
+    icon: Rocket,
+    description: "Move fast with powerful dev tools without the enterprise price",
+    features: [
+      "Free for small teams",
+      "Quick setup & deployment",
+      "CI/CD included",
+      "Scale as you grow",
+    ],
+  },
+  education: {
+    title: "Education",
+    icon: GraduationCap,
+    description: "Teach and learn development with real-world tools",
+    features: [
+      "Free for classrooms",
+      "Student project hosting",
+      "Code review learning",
+      "Integration with LMS",
+    ],
+  },
+};
+
+const faqs = [
+  {
+    question: "How does Giteria differ from GitHub or GitLab?",
+    answer:
+      "Giteria is 100% self-hosted, meaning your code never leaves your infrastructure. Unlike cloud solutions, you have complete control over your data, no vendor lock-in, and no recurring cloud fees. You get all the features of enterprise platforms with the freedom of open source.",
+  },
+  {
+    question: "What are the hardware requirements?",
+    answer:
+      "Giteria can run on a single server with 2 CPU cores, 4GB RAM, and 20GB storage for small teams. For larger organizations, it scales horizontally with Kubernetes. We provide detailed sizing guides in our documentation.",
+  },
+  {
+    question: "Is my data truly secure?",
+    answer:
+      "Absolutely. Giteria includes enterprise-grade security: dependency scanning, secret detection, encryption at rest, and fine-grained access controls. You control where your data lives and who can access it.",
+  },
+  {
+    question: "Can I migrate from GitHub or GitLab?",
+    answer:
+      "Yes! We provide one-click migration tools to import repositories, issues, pull requests, and history from GitHub, GitLab, or any Git-based platform. Your team won't lose any data during the transition.",
+  },
+  {
+    question: "What support options are available?",
+    answer:
+      "We offer community support through our GitHub discussions, comprehensive documentation, and community forums. Enterprise customers get dedicated support with SLA guarantees.",
+  },
+];
+
 export default function HomePage() {
   const [email, setEmail] = React.useState("");
 
@@ -348,6 +439,8 @@ export default function HomePage() {
 
       <div className="border-t border-border" />
 
+      <div className="border-t border-border" />
+
       {/* Why Giteria Section */}
       <section className="py-20 bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -490,6 +583,102 @@ export default function HomePage() {
               </Link>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Use Cases Section */}
+      <section className="py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Built for <span className="text-primary">every team</span>
+            </h2>
+            <p className="text-muted-foreground max-w-xl mx-auto">
+              Whether you're an enterprise, startup, or open source project — Giteria scales with
+              you.
+            </p>
+          </div>
+
+          <Tabs defaultValue="enterprise" className="max-w-4xl mx-auto">
+            <TabsList className="grid w-full grid-cols-4 mb-8">
+              <TabsTrigger value="enterprise" className="gap-2">
+                <Building2 className="w-4 h-4" />
+                Enterprise
+              </TabsTrigger>
+              <TabsTrigger value="opensource" className="gap-2">
+                <Heart className="w-4 h-4" />
+                Open Source
+              </TabsTrigger>
+              <TabsTrigger value="startups" className="gap-2">
+                <Rocket className="w-4 h-4" />
+                Startups
+              </TabsTrigger>
+              <TabsTrigger value="education" className="gap-2">
+                <GraduationCap className="w-4 h-4" />
+                Education
+              </TabsTrigger>
+            </TabsList>
+
+            {Object.entries(useCases).map(([key, useCase]) => (
+              <TabsContent key={key} value={key} className="mt-0">
+                <div className="grid lg:grid-cols-2 gap-8 items-center">
+                  <div>
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-4">
+                      <useCase.icon className="w-4 h-4" />
+                      {useCase.title}
+                    </div>
+                    <h3 className="text-2xl font-bold text-foreground mb-3">
+                      {useCase.description}
+                    </h3>
+                    <ul className="space-y-3">
+                      {useCase.features.map((feature, idx) => (
+                        <li key={idx} className="flex items-center gap-3">
+                          <CheckCircle2 className="w-5 h-5 text-primary shrink-0" />
+                          <span className="text-muted-foreground">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <Link
+                      href="/contact"
+                      className="inline-flex items-center gap-2 mt-6 text-primary hover:underline font-medium"
+                    >
+                      Learn more about {useCase.title} <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </div>
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-linear-to-r from-primary/20 to-[#a371f7]/20 blur-3xl rounded-2xl" />
+                    <div className="relative bg-card border border-border rounded-xl p-6">
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
+                          <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                            <useCase.icon className="w-5 h-5 text-primary" />
+                          </div>
+                          <div>
+                            <div className="font-semibold text-foreground">
+                              {useCase.title} Use Case
+                            </div>
+                            <div className="text-sm text-muted-foreground">
+                              Trusted by 500+ organizations
+                            </div>
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                          <div className="p-3 rounded-lg bg-muted/30 text-center">
+                            <div className="text-2xl font-bold text-primary">99.9%</div>
+                            <div className="text-xs text-muted-foreground">Uptime</div>
+                          </div>
+                          <div className="p-3 rounded-lg bg-muted/30 text-center">
+                            <div className="text-2xl font-bold text-primary">24/7</div>
+                            <div className="text-xs text-muted-foreground">Support</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </TabsContent>
+            ))}
+          </Tabs>
         </div>
       </section>
 
@@ -756,6 +945,39 @@ export default function HomePage() {
               className="inline-flex items-center gap-2 text-primary hover:underline font-medium"
             >
               Join our community <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-20">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Frequently asked <span className="text-primary">questions</span>
+            </h2>
+            <p className="text-muted-foreground">Everything you need to know about Giteria.</p>
+          </div>
+
+          <Accordion type="single" collapsible className="w-full">
+            {faqs.map((faq, index) => (
+              <AccordionItem key={index} value={`item-${index}`} className="border-border">
+                <AccordionTrigger className="text-left font-medium text-foreground hover:no-underline">
+                  {faq.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-muted-foreground">{faq.answer}</AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+
+          <div className="text-center mt-8">
+            <p className="text-muted-foreground mb-4">Still have questions?</p>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 text-primary hover:underline font-medium"
+            >
+              Contact our team <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>
