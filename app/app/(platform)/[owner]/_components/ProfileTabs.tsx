@@ -3,20 +3,13 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, Folder, Grid3X3, Package, Star } from "lucide-react";
 
 interface ProfileTabsProps {
   username: string;
   activeTab?: string;
 }
 
-const tabs = [
-  { id: "overview", label: "Overview", href: "", icon: BookOpen },
-  { id: "repositories", label: "Repositories", href: "?tab=repositories", icon: Folder },
-  { id: "projects", label: "Projects", href: "?tab=projects", icon: Grid3X3 },
-  { id: "packages", label: "Packages", href: "?tab=packages", icon: Package },
-  { id: "stars", label: "Stars", href: "?tab=stars", icon: Star },
-];
+const tabs: { id: string; label: string; href: string; icon: React.ElementType }[] = [];
 
 export function ProfileTabs({ username, activeTab }: ProfileTabsProps) {
   const pathname = usePathname();
