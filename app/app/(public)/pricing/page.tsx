@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import {
   CheckCircle2,
@@ -211,7 +212,11 @@ export default function PricingPage() {
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
               </Link>
-              <Link href="https://docs.giteria.com/self-hosted" target="_blank" rel="noopener noreferrer">
+              <Link
+                href="https://docs.giteria.com/self-hosted"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Button
                   size="lg"
                   variant="outline"
@@ -450,17 +455,31 @@ export default function PricingPage() {
                   className="w-full flex items-center justify-between p-4 text-left hover:bg-muted/50 transition-colors"
                 >
                   <span className="font-medium text-foreground pr-4">{faq.question}</span>
-                  {openFaq === index ? (
-                    <ChevronUp className="w-5 h-5 text-muted-foreground shrink-0" />
-                  ) : (
-                    <ChevronDown className="w-5 h-5 text-muted-foreground shrink-0" />
-                  )}
+                  <motion.span
+                    animate={{ rotate: openFaq === index ? 180 : 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {openFaq === index ? (
+                      <ChevronUp className="w-5 h-5 text-muted-foreground shrink-0" />
+                    ) : (
+                      <ChevronDown className="w-5 h-5 text-muted-foreground shrink-0" />
+                    )}
+                  </motion.span>
                 </button>
-                {openFaq === index && (
-                  <div className="px-4 pb-4">
-                    <p className="text-muted-foreground text-sm">{faq.answer}</p>
-                  </div>
-                )}
+                <AnimatePresence>
+                  {openFaq === index && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <div className="px-4 pb-4">
+                        <p className="text-muted-foreground text-sm">{faq.answer}</p>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             ))}
           </div>

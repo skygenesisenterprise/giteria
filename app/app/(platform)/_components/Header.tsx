@@ -1,27 +1,31 @@
 "use client";
 
 import * as React from "react";
-import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/context/AuthContext";
 import {
   Search,
   GitBranch,
   Menu,
-  Bell,
-  X,
-  Settings,
-  HelpCircle,
-  BookOpen,
-  CircleUser,
+  Plus,
   Bot,
-  FileText,
+  CircleUser,
   GitPullRequest,
   FolderGit2,
-  Code,
-  Users,
-  BookMarked,
-  ChevronDown,
+  Inbox,
+  Download,
+  Target,
+  User,
+  Star,
+  FileCode,
+  Building2,
+  Heart,
+  Sparkles,
+  Palette,
+  Eye,
+  LogOut,
+  Settings,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -31,7 +35,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
-import { HeaderUser } from "./HeaderUser";
 
 interface HeaderProps {
   className?: string;
@@ -59,7 +62,7 @@ function SearchBar({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "flex items-center bg-background border border-border rounded-md px-2 py-1.5 w-64",
+        "flex items-center bg-background border border-border rounded-md px-2 py-1.5 w-96",
         className
       )}
     >
@@ -74,51 +77,161 @@ function SearchBar({ className }: { className?: string }) {
   );
 }
 
-function CreateDropdown() {
+function PlusDropdown({
+  isOpen,
+  onOpenChange,
+}: {
+  isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
+}) {
   const items = [
-    { icon: FileText, label: "New Issue" },
-    { icon: FolderGit2, label: "New Repository" },
-    { icon: Code, label: "New Codespace" },
-    { icon: BookMarked, label: "New gist" },
+    { icon: Target, label: "New Issue", href: "/new/issue" },
+    { icon: FolderGit2, label: "New Repository", href: "/new/repo" },
+    { icon: Download, label: "Import Repository", href: "/import" },
+    { icon: FolderGit2, label: "New Codespace", href: "/new/codespace" },
+    { icon: FolderGit2, label: "New gist", href: "/new/gist" },
   ];
 
   return (
-    <DropdownMenu>
+    <DropdownMenu open={isOpen} onOpenChange={onOpenChange}>
       <DropdownMenuTrigger asChild>
         <IconButton>
-          <ChevronDown className="w-4 h-4" />
+          <Plus className="w-4 h-4" />
         </IconButton>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="bg-card border-border w-48">
+      <DropdownMenuContent className="bg-card border-border w-52" sideOffset={4}>
         {items.map((item) => (
-          <DropdownMenuItem key={item.label} className="cursor-pointer flex items-center gap-2">
-            <item.icon className="w-4 h-4" />
-            {item.label}
+          <DropdownMenuItem
+            key={item.label}
+            className="cursor-pointer flex items-center gap-2"
+            asChild
+          >
+            <Link href={item.href}>
+              <item.icon className="w-4 h-4" />
+              {item.label}
+            </Link>
           </DropdownMenuItem>
         ))}
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer flex items-center gap-2">
-          <Users className="w-4 h-4" />
+          <FolderGit2 className="w-4 h-4" />
           New organization
         </DropdownMenuItem>
-        <DropdownMenuItem className="cursor-pointer">New project</DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer flex items-center gap-2">
+          <FolderGit2 className="w-4 h-4" />
+          New project
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
 }
 
-function CopilotDropdown() {
+function CopilotButton() {
   return (
-    <DropdownMenu>
+    <Link href="/copilot">
+      <IconButton>
+        <Bot className="w-4 h-4" />
+      </IconButton>
+    </Link>
+  );
+}
+
+function AccountDropdown({
+  isOpen,
+  onOpenChange,
+}: {
+  isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
+}) {
+  return (
+    <DropdownMenu open={isOpen} onOpenChange={onOpenChange}>
       <DropdownMenuTrigger asChild>
         <IconButton>
-          <Bot className="w-4 h-4" />
+          <CircleUser className="w-4 h-4" />
         </IconButton>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="bg-card border-border w-64">
-        <DropdownMenuLabel className="text-sm font-medium">New conversation in</DropdownMenuLabel>
+      <DropdownMenuContent className="bg-card border-border w-56" align="end" sideOffset={4}>
+        <DropdownMenuLabel className="font-normal">
+          <div className="flex flex-col space-y-1">
+            <p className="text-sm font-medium text-foreground">username</p>
+            <p className="text-xs text-muted-foreground">Activity</p>
+          </div>
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="cursor-pointer">Current workspace</DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer flex items-center gap-2" asChild>
+          <Link href="/profile">
+            <User className="w-4 h-4" />
+            Profile
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer flex items-center gap-2" asChild>
+          <Link href="/profile?tab=repositories">
+            <FolderGit2 className="w-4 h-4" />
+            Repositories
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer flex items-center gap-2" asChild>
+          <Link href="/profile?tab=stars">
+            <Star className="w-4 h-4" />
+            Stars
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer flex items-center gap-2" asChild>
+          <Link href="/profile?tab=gists">
+            <FileCode className="w-4 h-4" />
+            Gists
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer flex items-center gap-2" asChild>
+          <Link href="/profile?tab=organizations">
+            <FolderGit2 className="w-4 h-4" />
+            Organizations
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer flex items-center gap-2" asChild>
+          <Link href="/profile?tab=enterprises">
+            <Building2 className="w-4 h-4" />
+            Enterprises
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer flex items-center gap-2" asChild>
+          <Link href="/profile?tab=sponsors">
+            <Heart className="w-4 h-4" />
+            Sponsors
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem className="cursor-pointer flex items-center gap-2" asChild>
+          <Link href="/settings">
+            <Settings className="w-4 h-4" />
+            Settings
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer flex items-center gap-2">
+          <Bot className="w-4 h-4" />
+          Copilot Settings
+        </DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer flex items-center gap-2">
+          <Sparkles className="w-4 h-4" />
+          Features preview
+        </DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer flex items-center gap-2">
+          <Palette className="w-4 h-4" />
+          Appearance
+        </DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer flex items-center gap-2">
+          <Eye className="w-4 h-4" />
+          Accessibility
+        </DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer flex items-center gap-2">
+          <Building2 className="w-4 h-4" />
+          Try Enterprise
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem className="cursor-pointer flex items-center gap-2 text-red-500 focus:text-red-500">
+          <LogOut className="w-4 h-4" />
+          Logout
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
@@ -137,7 +250,7 @@ function MobileSidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
             <span className="font-semibold text-foreground">Giteria</span>
           </div>
           <IconButton onClick={onClose}>
-            <X className="w-5 h-5" />
+            <Menu className="w-5 h-5 rotate-90" />
           </IconButton>
         </div>
         <div className="p-4">
@@ -155,48 +268,14 @@ function MobileSidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
   );
 }
 
-function useHeaderUser() {
-  const pathname = usePathname();
-  const segments = pathname.split("/").filter(Boolean);
-
-  if (
-    segments.length === 1 &&
-    segments[0] !== "dashboard" &&
-    segments[0] !== "settings" &&
-    segments[0] !== "notifications" &&
-    segments[0] !== "marketplace"
-  ) {
-    return { username: segments[0], repoCount: 44, starCount: 29 };
-  }
-  return null;
-}
-
 export function Header({ className }: HeaderProps) {
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
-  const pathname = usePathname();
-  const headerUser = useHeaderUser();
-
-  const getPageTitle = () => {
-    const path = pathname === "/" ? "Home" : pathname;
-    const segments = path.split("/").filter(Boolean);
-
-    if (segments.length >= 2 && segments[0] !== "dashboard" && segments[0] !== "settings") {
-      return `${segments[0]} / ${segments[1]}`;
-    }
-
-    if (segments.length === 1) {
-      return segments[0].charAt(0).toUpperCase() + segments[0].slice(1);
-    }
-
-    return "Home";
-  };
-
-  const currentPage = getPageTitle();
+  const [openDropdown, setOpenDropdown] = React.useState<string | null>(null);
 
   return (
-    <header className={cn("sticky top-0 z-50 bg-background", className)}>
+    <header className={cn("relative bg-background", className)}>
       <div className="border-b border-border">
-        <div className="flex items-center justify-between h-16 px-4 max-w-450 mx-auto gap-8">
+        <div className="flex items-center justify-between h-16 px-4 max-w-450 mx-auto gap-6">
           <div className="flex items-center gap-3">
             <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
               <Menu className="w-5 h-5" />
@@ -204,87 +283,82 @@ export function Header({ className }: HeaderProps) {
 
             <Link href="/dashboard" className="flex items-center gap-2">
               <GitBranch className="w-8 h-8 text-foreground" />
-              <span className="hidden lg:inline text-foreground font-bold text-sm">
-                {currentPage}
-              </span>
             </Link>
           </div>
 
-          <div className="flex items-center gap-2">
-            <div className="hidden md:block">
-              <SearchBar />
-            </div>
+          <div className="flex-1 flex justify-center items-center">
+            <SearchBar />
 
-            <IconButton className="md:hidden">
+            <IconButton className="md:hidden absolute right-16">
               <Search className="w-5 h-5" />
             </IconButton>
+          </div>
 
-            <div className="flex items-center border border-border rounded-md p-1">
-              <CopilotDropdown />
-              <div className="w-px h-4 bg-border mx-1" />
-              <CreateDropdown />
+          <div className="flex items-center gap-1">
+            <div className="border border-border rounded-md p-px">
+              <CopilotButton />
             </div>
 
-            <div className="flex items-center px-1.5 py-1">
+            <div
+              className="border border-border rounded-md p-px"
+              onMouseEnter={() => setOpenDropdown("plus")}
+              onMouseLeave={() => setOpenDropdown(null)}
+            >
+              <PlusDropdown
+                isOpen={openDropdown === "plus"}
+                onOpenChange={(open) => setOpenDropdown(open ? "plus" : null)}
+              />
+            </div>
+
+            <span className="text-border mx-1">|</span>
+
+            <div className="flex items-center gap-2">
               <div className="border border-border rounded-md p-px">
-                <IconButton>
-                  <FileText className="w-5 h-5" />
-                </IconButton>
+                <Link href="/issues">
+                  <IconButton>
+                    <Target className="w-4 h-4" />
+                  </IconButton>
+                </Link>
               </div>
 
               <div className="border border-border rounded-md p-px">
-                <IconButton>
-                  <GitPullRequest className="w-5 h-5" />
-                </IconButton>
+                <Link href="/pulls">
+                  <IconButton>
+                    <GitPullRequest className="w-4 h-4" />
+                  </IconButton>
+                </Link>
               </div>
 
               <div className="border border-border rounded-md p-px">
-                <IconButton>
-                  <FolderGit2 className="w-5 h-5" />
-                </IconButton>
+                <Link href="/repositories">
+                  <IconButton>
+                    <FolderGit2 className="w-4 h-4" />
+                  </IconButton>
+                </Link>
               </div>
 
               <div className="border border-border rounded-md p-px">
-                <IconButton>
-                  <Bell className="w-5 h-5" />
-                </IconButton>
+                <Link href="/notifications">
+                  <IconButton>
+                    <Inbox className="w-4 h-4" />
+                  </IconButton>
+                </Link>
               </div>
 
-              <div className="border border-border rounded-md p-px">
-                <IconButton>
-                  <Settings className="w-5 h-5" />
-                </IconButton>
-              </div>
-
-              <div className="border border-border rounded-md p-px">
-                <IconButton>
-                  <HelpCircle className="w-5 h-5" />
-                </IconButton>
-              </div>
-
-              <div className="border border-border rounded-md p-px">
-                <IconButton>
-                  <BookOpen className="w-5 h-5" />
-                </IconButton>
-              </div>
-
-              <div className="border border-border rounded-md p-px">
-                <IconButton>
-                  <CircleUser className="w-5.5 h-5.5" />
-                </IconButton>
+              <div
+                className="border border-border rounded-md p-px"
+                onMouseEnter={() => setOpenDropdown("account")}
+                onMouseLeave={() => setOpenDropdown(null)}
+              >
+                <AccountDropdown
+                  isOpen={openDropdown === "account"}
+                  onOpenChange={(open) => setOpenDropdown(open ? "account" : null)}
+                />
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      {headerUser && (
-        <HeaderUser
-          username={headerUser.username}
-          repoCount={headerUser.repoCount}
-          starCount={headerUser.starCount}
-        />
-      )}
 
       <MobileSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
     </header>
