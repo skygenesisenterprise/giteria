@@ -2,8 +2,9 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { useAuth } from "@/context/AuthContext";
+import { useOwnerHeader } from "@/components/DashboardLayout";
 import {
   Search,
   GitBranch,
@@ -26,6 +27,12 @@ import {
   Eye,
   LogOut,
   Settings,
+  Home,
+  MessageSquare,
+  Grid3X3,
+  Users,
+  BarChart3,
+  Package,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -36,8 +43,152 @@ import {
   DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
 
-interface HeaderProps {
-  className?: string;
+export type OwnerType = "user" | "organization";
+
+export interface OwnerCapability {
+  teams?: boolean;
+  people?: boolean;
+  insights?: boolean;
+  sponsoring?: boolean;
+}
+
+export interface Owner {
+  type: OwnerType;
+  username: string;
+  name?: string;
+  avatarUrl?: string;
+  capabilities?: OwnerCapability;
+}
+
+interface NavTab {
+  id: string;
+  label: string;
+  href: string;
+  icon: React.ElementType;
+  visibleFor: OwnerType[];
+  requiredCapability?: keyof OwnerCapability;
+}
+
+const navTabs: NavTab[] = [
+  { id: "overview", label: "Overview", href: "", icon: Home, visibleFor: ["user", "organization"] },
+  {
+    id: "repositories",
+    label: "Repositories",
+    href: "/repos",
+    icon: FolderGit2,
+    visibleFor: ["user", "organization"],
+  },
+  {
+    id: "discussions",
+    label: "Discussions",
+    href: "/discussions",
+    icon: MessageSquare,
+    visibleFor: ["user", "organization"],
+  },
+  {
+    id: "projects",
+    label: "Projects",
+    href: "/projects",
+    icon: Grid3X3,
+    visibleFor: ["user", "organization"],
+  },
+  {
+    id: "packages",
+    label: "Packages",
+    href: "/package",
+    icon: Package,
+    visibleFor: ["user", "organization"],
+  },
+  {
+    id: "teams",
+    label: "Teams",
+    href: "/teams",
+    icon: Users,
+    visibleFor: ["organization"],
+    requiredCapability: "teams",
+  },
+  {
+    id: "insights",
+    label: "Insights",
+    href: "/insights",
+    icon: BarChart3,
+    visibleFor: ["organization"],
+    requiredCapability: "insights",
+  },
+  {
+    id: "sponsoring",
+    label: "Sponsoring",
+    href: "/sponsors",
+    icon: Heart,
+    visibleFor: ["user"],
+    requiredCapability: "sponsoring",
+  },
+  {
+    id: "settings",
+    label: "Settings",
+    href: "/settings",
+    icon: Settings,
+    visibleFor: ["user", "organization"],
+  },
+];
+
+function getVisibleTabs(owner: Owner): NavTab[] {
+  return navTabs.filter((tab) => {
+    if (!tab.visibleFor.includes(owner.type)) {
+      return false;
+    }
+    if (tab.requiredCapability && owner.capabilities) {
+      return owner.capabilities[tab.requiredCapability] === true;
+    }
+    return true;
+  });
+}
+
+function OwnerNavigation({ owner }: { owner: Owner }) {
+  const pathname = usePathname();
+
+  const visibleTabs = getVisibleTabs(owner);
+  const activeTabId = React.useMemo(() => {
+    const basePath = `/${owner.username}`;
+    const currentPath = pathname.slice(basePath.length).split("?")[0];
+
+    if (currentPath === "" || currentPath === "/") {
+      return "overview";
+    }
+
+    const matchedTab = visibleTabs.find((tab) => {
+      if (tab.id === "overview") return false;
+      return currentPath === tab.href || currentPath.startsWith(tab.href + "/");
+    });
+
+    return matchedTab?.id || "overview";
+  }, [pathname, owner.username, visibleTabs]);
+
+  return (
+    <div className="flex items-center gap-1 overflow-x-auto">
+      {visibleTabs.map((tab) => {
+        const isActive = activeTabId === tab.id;
+        const href = `/${owner.username}${tab.href}`;
+
+        return (
+          <Link
+            key={tab.id}
+            href={href}
+            className={cn(
+              "flex items-center gap-2 px-3 py-2.5 text-sm font-medium whitespace-nowrap border-b-2 transition-colors",
+              isActive
+                ? "border-[#fd8c73] text-foreground"
+                : "border-transparent text-muted-foreground hover:text-foreground hover:border-border"
+            )}
+            style={isActive ? { borderColor: "#fd8c73" } : undefined}
+          >
+            <tab.icon className="w-4 h-4" />
+            {tab.label}
+          </Link>
+        );
+      })}
+    </div>
+  );
 }
 
 function IconButton({
@@ -268,7 +419,8 @@ function MobileSidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
   );
 }
 
-export function Header({ className }: HeaderProps) {
+export function Header({ className }: { className?: string }) {
+  const { owner } = useOwnerHeader();
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
   const [openDropdown, setOpenDropdown] = React.useState<string | null>(null);
 
@@ -359,6 +511,14 @@ export function Header({ className }: HeaderProps) {
           </div>
         </div>
       </div>
+
+      {owner && (
+        <div className="sticky top-16 z-40 border-t border-border bg-background/95 backdrop-blur-sm">
+          <div className="flex items-center justify-between h-14 px-4 max-w-450 mx-auto gap-6">
+            <OwnerNavigation owner={owner} />
+          </div>
+        </div>
+      )}
 
       <MobileSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
     </header>
