@@ -197,14 +197,11 @@ export interface HeaderOwnerProps {
 
 export function HeaderOwner({ owner, className }: HeaderOwnerProps) {
   return (
-    <div
-      className={cn(
-        "sticky top-16 z-40 border-t border-border bg-background/95 backdrop-blur-sm",
-        className
-      )}
-    >
+    <div className={cn("-mt-2.5 bg-background/95 backdrop-blur-sm", className)}>
       <div className="flex items-center justify-between h-14 px-4 max-w-450 mx-auto gap-6">
-        <OwnerNavigation owner={owner} />
+        <div className="flex items-center gap-3 pl-0.5">
+          <OwnerNavigation owner={owner} />
+        </div>
       </div>
     </div>
   );

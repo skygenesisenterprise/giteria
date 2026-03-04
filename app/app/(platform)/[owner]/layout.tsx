@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { authEngine } from "@/lib/auth/LocalAuthEngine";
 import { OwnerHeaderProvider } from "./_components/OwnerHeaderProvider";
+import { HeaderOwner } from "../_components/HeaderOwner";
 
 export const metadata: Metadata = {
   title: "Giteria - The code platform for everyone",
@@ -35,6 +36,7 @@ export default async function OwnerLayout({ children, params }: OwnerLayoutProps
   return (
     <>
       <OwnerHeaderProvider owner={owner} />
+      <HeaderOwner owner={owner} className="border-b border-border" />
       {children}
     </>
   );
