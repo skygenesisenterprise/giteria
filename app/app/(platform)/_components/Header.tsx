@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useOwnerHeader } from "@/components/DashboardLayout";
+import { useAuth } from "@/context/AuthContext";
 import {
   Search,
   GitBranch,
@@ -359,6 +360,8 @@ function AccountDropdown({
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
+  const { user, logout } = useAuth();
+
   return (
     <DropdownMenu open={isOpen} onOpenChange={onOpenChange}>
       <DropdownMenuTrigger asChild>
@@ -369,7 +372,7 @@ function AccountDropdown({
       <DropdownMenuContent className="bg-card border-border w-56" align="end" sideOffset={4}>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium text-foreground">username</p>
+            <p className="text-sm font-medium text-foreground">{user?.username || "username"}</p>
             <p className="text-xs text-muted-foreground">Activity</p>
           </div>
         </DropdownMenuLabel>
@@ -444,7 +447,10 @@ function AccountDropdown({
           Try Enterprise
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="cursor-pointer flex items-center gap-2 text-red-500 focus:text-red-500">
+        <DropdownMenuItem
+          className="cursor-pointer flex items-center gap-2 text-red-500 focus:text-red-500"
+          onClick={logout}
+        >
           <LogOut className="w-4 h-4" />
           Logout
         </DropdownMenuItem>
