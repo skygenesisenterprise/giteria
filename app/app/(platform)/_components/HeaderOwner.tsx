@@ -6,7 +6,8 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
   Home,
-  FolderGit2,
+  BookMarked,
+  PanelsTopLeft,
   MessageSquare,
   Grid3X3,
   Package,
@@ -48,7 +49,7 @@ const navTabs: NavTab[] = [
     id: "repositories",
     label: "Repositories",
     href: "/repos",
-    icon: FolderGit2,
+    icon: BookMarked,
     visibleFor: ["user", "organization"],
   },
   {
@@ -62,7 +63,7 @@ const navTabs: NavTab[] = [
     id: "projects",
     label: "Projects",
     href: "/projects",
-    icon: Grid3X3,
+    icon: PanelsTopLeft,
     visibleFor: ["user", "organization"],
   },
   {
@@ -81,12 +82,26 @@ const navTabs: NavTab[] = [
     requiredCapability: "teams",
   },
   {
+    id: "people",
+    label: "People",
+    href: "/people",
+    icon: Users,
+    visibleFor: ["organization"],
+  },
+  {
     id: "insights",
     label: "Insights",
     href: "/insights",
     icon: BarChart3,
-    visibleFor: ["organization"],
+    visibleFor: ["user", "organization"],
     requiredCapability: "insights",
+  },
+  {
+    id: "sponsors",
+    label: "Sponsors",
+    href: "/sponsors",
+    icon: Heart,
+    visibleFor: ["organization"],
   },
   {
     id: "sponsoring",
@@ -107,6 +122,9 @@ const navTabs: NavTab[] = [
 
 function getVisibleTabs(owner: Owner): NavTab[] {
   return navTabs.filter((tab) => {
+    if (tab.id === "teams" || tab.id === "people") {
+      return owner.type === "organization";
+    }
     if (!tab.visibleFor.includes(owner.type)) {
       return false;
     }

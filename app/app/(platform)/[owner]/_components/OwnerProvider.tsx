@@ -1,12 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, createContext, useContext } from "react";
 import { authEngine } from "@/lib/auth/LocalAuthEngine";
 import { getOrganizationBySlug } from "@/lib/organizations/LocalOrgEngine";
-import { OwnerHeaderProvider } from "./_components/OwnerHeaderProvider";
-import { HeaderOwner } from "../_components/HeaderOwner";
 
-interface OwnerData {
+export interface OwnerData {
   type: "user" | "organization";
   username: string;
   name?: string;
@@ -19,37 +17,34 @@ interface OwnerData {
   };
 }
 
-interface OwnerLayoutProps {
-  children: React.ReactNode;
-  params: Promise<{ owner: string }>;
+const OwnerContext = createContext<OwnerData | null>(null);
+
+export function useOwner() {
+  return useContext(OwnerContext);
 }
 
-export default function OwnerLayout({ children, params }: OwnerLayoutProps) {
-  const [resolvedParams, setResolvedParams] = useState<{ owner: string } | null>(null);
+interface OwnerProviderProps {
+  username: string;
+  children: React.ReactNode;
+}
+
+export function OwnerProvider({ username, children }: OwnerProviderProps) {
   const [owner, setOwner] = useState<OwnerData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    params.then(setResolvedParams);
-  }, [params]);
-
-  useEffect(() => {
     async function resolveOwner() {
-      if (!resolvedParams) return;
-
-      const { owner: ownerSlug } = resolvedParams;
       setIsLoading(true);
-
       try {
-        const user = await authEngine.getUserByUsername(ownerSlug);
-        const org = getOrganizationBySlug(ownerSlug);
+        const user = await authEngine.getUserByUsername(username);
+        const org = getOrganizationBySlug(username);
 
-        const ownerType: "user" | "organization" = user ? "user" : org ? "organization" : "user";
+        const ownerType = user ? "user" : org ? "organization" : "user";
 
         const ownerData: OwnerData = {
-          type: ownerType,
-          username: ownerSlug,
-          name: user?.profile?.bio ? undefined : org?.name || ownerSlug,
+          type: ownerType as "user" | "organization",
+          username,
+          name: user?.profile?.bio ? undefined : org?.name || username,
           avatarUrl: user?.profile?.avatarUrl || org?.avatarUrl,
           capabilities: {
             teams: ownerType === "organization",
@@ -63,7 +58,7 @@ export default function OwnerLayout({ children, params }: OwnerLayoutProps) {
       } catch {
         setOwner({
           type: "user",
-          username: resolvedParams.owner,
+          username,
           capabilities: {
             teams: false,
             people: false,
@@ -76,22 +71,18 @@ export default function OwnerLayout({ children, params }: OwnerLayoutProps) {
       }
     }
 
-    resolveOwner();
-  }, [resolvedParams]);
+    if (username) {
+      resolveOwner();
+    }
+  }, [username]);
 
   if (isLoading || !owner) {
     return (
-      <div className="flex items-center justify-center min-h-[50vh]">
+      <div className="flex items-center justify-center py-12">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-foreground" />
       </div>
     );
   }
 
-  return (
-    <>
-      <OwnerHeaderProvider owner={owner} />
-      <HeaderOwner owner={owner} className="border-b border-border" />
-      {children}
-    </>
-  );
+  return <OwnerContext.Provider value={owner}>{children}</OwnerContext.Provider>;
 }
