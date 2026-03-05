@@ -13,13 +13,16 @@ import {
   Bot,
   CircleUser,
   GitPullRequest,
-  FolderGit2,
+  Book,
+  BookMarked,
   Inbox,
   Download,
-  Target,
+  CircleDot,
   User,
   Star,
   FileCode,
+  Computer,
+  SquareCode,
   Building2,
   Heart,
   Sparkles,
@@ -77,7 +80,7 @@ const navTabs: NavTab[] = [
     id: "repositories",
     label: "Repositories",
     href: "/repos",
-    icon: FolderGit2,
+    icon: BookMarked,
     visibleFor: ["user", "organization"],
   },
   {
@@ -253,11 +256,11 @@ function PlusDropdown({
   onOpenChange: (open: boolean) => void;
 }) {
   const items = [
-    { icon: Target, label: "New Issue", href: "/new/issue" },
-    { icon: FolderGit2, label: "New Repository", href: "/new/repo" },
-    { icon: Download, label: "Import Repository", href: "/import" },
-    { icon: FolderGit2, label: "New Codespace", href: "/new/codespace" },
-    { icon: FolderGit2, label: "New gist", href: "/new/gist" },
+    { icon: CircleDot, label: "New Issue", href: "/new/issue" },
+    { icon: BookMarked, label: "New Repository", href: "/new/repo" },
+    { icon: Download, label: "Import Repository", href: "/new/import" },
+    { icon: Computer, label: "New Codespace", href: "/new/codespace" },
+    { icon: Book, label: "New gist", href: "/new/gist" },
   ];
 
   return (
@@ -282,13 +285,17 @@ function PlusDropdown({
           </DropdownMenuItem>
         ))}
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="cursor-pointer flex items-center gap-2">
-          <FolderGit2 className="w-4 h-4" />
-          New organization
+        <DropdownMenuItem className="cursor-pointer flex items-center gap-2" asChild>
+          <Link href="/new/organization">
+            <Building2 className="w-4 h-4" />
+            New organization
+          </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem className="cursor-pointer flex items-center gap-2">
-          <FolderGit2 className="w-4 h-4" />
-          New project
+        <DropdownMenuItem className="cursor-pointer flex items-center gap-2" asChild>
+          <Link href="/new/project">
+            <SquareCode className="w-4 h-4" />
+            New project
+          </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
@@ -324,7 +331,7 @@ function CopilotDropdown({
         </DropdownMenuItem>
         <DropdownMenuItem className="cursor-pointer flex items-center gap-2" asChild>
           <Link href="/copilot/space">
-            <FolderGit2 className="w-4 h-4" />
+            <Book className="w-4 h-4" />
             Spaces
           </Link>
         </DropdownMenuItem>
@@ -375,7 +382,7 @@ function AccountDropdown({
         </DropdownMenuItem>
         <DropdownMenuItem className="cursor-pointer flex items-center gap-2" asChild>
           <Link href="/profile?tab=repositories">
-            <FolderGit2 className="w-4 h-4" />
+            <BookMarked className="w-4 h-4" />
             Repositories
           </Link>
         </DropdownMenuItem>
@@ -393,7 +400,7 @@ function AccountDropdown({
         </DropdownMenuItem>
         <DropdownMenuItem className="cursor-pointer flex items-center gap-2" asChild>
           <Link href="/profile?tab=organizations">
-            <FolderGit2 className="w-4 h-4" />
+            <Book className="w-4 h-4" />
             Organizations
           </Link>
         </DropdownMenuItem>
@@ -479,11 +486,36 @@ function MobileSidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
 
 export function Header({ className }: { className?: string }) {
   const { owner } = useOwnerHeader();
+  const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
   const [openDropdown, setOpenDropdown] = React.useState<string | null>(null);
 
+  const isOwnerPage = React.useMemo(() => {
+    const segments = pathname.split("/").filter(Boolean);
+    if (segments.length === 0) return false;
+    const firstSegment = segments[0];
+    const reservedPaths = [
+      "dashboard",
+      "issues",
+      "pulls",
+      "notifications",
+      "settings",
+      "new",
+      "copilot",
+      "profile",
+      "import",
+      "explore",
+      "login",
+      "register",
+      "api",
+    ];
+    return !reservedPaths.includes(firstSegment);
+  }, [pathname]);
+
   return (
-    <header className={cn("relative bg-background", className)}>
+    <header
+      className={cn("relative bg-background", !isOwnerPage && "border-b border-border", className)}
+    >
       <div className="flex items-center justify-between h-16 px-4 max-w-450 mx-auto gap-6">
         <div className="flex items-center gap-3">
           <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
@@ -515,18 +547,18 @@ export function Header({ className }: { className?: string }) {
 
           <div className="flex items-center gap-2">
             <div className="border border-border rounded-md p-px">
-              <Link href="/issues">
-                <IconButton>
-                  <Target className="w-4 h-4" />
-                </IconButton>
-              </Link>
-            </div>
-
-            <div className="border border-border rounded-md p-px">
               <PlusDropdown
                 isOpen={openDropdown === "plus"}
                 onOpenChange={(open) => setOpenDropdown(open ? "plus" : null)}
               />
+            </div>
+
+            <div className="border border-border rounded-md p-px">
+              <Link href="/issues">
+                <IconButton>
+                  <CircleDot className="w-4 h-4" />
+                </IconButton>
+              </Link>
             </div>
 
             <div className="border border-border rounded-md p-px">
@@ -540,7 +572,7 @@ export function Header({ className }: { className?: string }) {
             <div className="border border-border rounded-md p-px">
               <Link href="/repositories">
                 <IconButton>
-                  <FolderGit2 className="w-4 h-4" />
+                  <BookMarked className="w-4 h-4" />
                 </IconButton>
               </Link>
             </div>
