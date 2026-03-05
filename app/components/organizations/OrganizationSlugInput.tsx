@@ -51,7 +51,7 @@ export function OrganizationSlugInput({
       </Label>
       <div className="flex items-center gap-2">
         <span className="text-muted-foreground text-sm">giteria.com/</span>
-        <div className="relative flex-1 max-w-[300px]">
+        <div className="relative flex-1 max-w-75">
           <Input
             id="slug"
             type="text"

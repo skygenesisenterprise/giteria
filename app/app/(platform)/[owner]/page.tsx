@@ -23,6 +23,7 @@ import {
 } from "@/components/organizations/OrganizationDescription";
 import { OrgMembersList } from "@/components/organizations/OrgMembersList";
 import { OrgRepositoriesList } from "@/components/organizations/OrgRepositoriesList";
+import { OrgOverview } from "@/components/organizations/OrgOverview";
 import type { Organization } from "@/lib/organizations/api";
 import type { OrgMember, OrgRepository } from "@/lib/organizations/mockData";
 import { Users, FolderGit2, Star, Settings } from "lucide-react";
@@ -125,45 +126,25 @@ export default function OwnerPage() {
           <div className="space-y-8">
             <OrganizationDescription organization={orgProfile} />
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-2 space-y-6">
-                <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-xl font-semibold">Pinned repositories</h2>
-                  </div>
-                  <OrgRepositoriesList repositories={repos} orgSlug={ownerSlug} />
-                </div>
-              </div>
-
-              <div className="space-y-6">
-                <div className="rounded-md border border-border p-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="font-semibold">Members</h3>
-                    <Link href={`/${ownerSlug}/people`}>
-                      <Button variant="ghost" size="sm">
-                        View all
-                      </Button>
-                    </Link>
-                  </div>
-                  <div className="space-y-2">
-                    {members.slice(0, 3).map((member: any) => (
-                      <Link
-                        key={member.id}
-                        href={`/${member.username}`}
-                        className="flex items-center gap-2 hover:text-[#2f81f7]"
-                      >
-                        <img
-                          src={member.avatarUrl}
-                          alt={member.username}
-                          className="w-6 h-6 rounded-full"
-                        />
-                        <span className="text-sm">{member.username}</span>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
+            <OrgOverview
+              organization={orgProfile}
+              members={members.map((m: any) => ({
+                id: m.id,
+                username: m.username,
+                avatarUrl: m.avatarUrl,
+              }))}
+              repositories={repos.map((r: any) => ({
+                id: r.id,
+                name: r.name,
+                description: r.description,
+                language: r.language,
+                visibility: r.visibility,
+              }))}
+              orgSlug={ownerSlug}
+              isMember={true}
+              isAdmin={true}
+              canViewPrivate={true}
+            />
           </div>
         </div>
       </div>
