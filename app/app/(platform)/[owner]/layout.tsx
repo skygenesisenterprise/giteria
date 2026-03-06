@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { authEngine } from "@/lib/auth/LocalAuthEngine";
+import { authEngine } from "@/lib/auth/IndexedDBAuthEngine";
 import { getOrganizationBySlug } from "@/lib/organizations/LocalOrgEngine";
 import { OwnerHeaderProvider } from "./_components/OwnerHeaderProvider";
 import { HeaderOwner } from "../_components/HeaderOwner";
@@ -42,7 +42,7 @@ export default function OwnerLayout({ children, params }: OwnerLayoutProps) {
 
       try {
         const user = await authEngine.getUserByUsername(ownerSlug);
-        const org = getOrganizationBySlug(ownerSlug);
+        const org = await getOrganizationBySlug(ownerSlug);
 
         const ownerType: "user" | "organization" = user ? "user" : org ? "organization" : "user";
 

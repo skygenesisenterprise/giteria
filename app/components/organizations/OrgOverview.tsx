@@ -376,110 +376,132 @@ ${organization.email ? `- [Email](mailto:${organization.email})` : ""}
 
           <div className="rounded-md border border-border p-3 mb-4">
             <div className="flex flex-col sm:flex-row gap-2">
-              <div className="relative flex-1">
+              <div className="relative flex-1 border rounded-md">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <input
                   type="text"
                   placeholder="Find a repository..."
                   value={repoSearch}
                   onChange={(e) => setRepoSearch(e.target.value)}
-                  className="w-full pl-9 pr-3 py-2 text-sm rounded-md border border-border bg-background focus:outline-none focus:ring-2 focus:ring-[#2f81f7] focus:border-transparent"
+                  className="w-full pl-9 pr-3 py-2 text-sm rounded-md bg-background focus:outline-none"
                 />
               </div>
 
-              <div className="relative">
+              <div className="relative border rounded-md">
                 <button
                   onClick={() => setShowTypeDropdown(!showTypeDropdown)}
-                  className="flex items-center gap-2 px-3 py-2 text-sm rounded-md border border-border bg-background hover:bg-muted transition-colors"
+                  className="flex items-center gap-2 px-3 py-2 text-sm rounded-md bg-background hover:bg-muted transition-colors"
                 >
                   <Filter className="w-4 h-4" />
                   {repoType === "all" ? "Type" : repoType}
                   <ChevronDown className="w-4 h-4" />
                 </button>
-                {showTypeDropdown && (
-                  <>
-                    <div
-                      className="fixed inset-0 z-10"
-                      onClick={() => setShowTypeDropdown(false)}
-                    />
-                    <div className="absolute right-0 mt-1 w-32 rounded-md border border-border bg-popover shadow-lg z-20">
-                      {(["all", "public", "private", "internal", "template"] as const).map(
-                        (type) => (
-                          <button
-                            key={type}
-                            onClick={() => {
-                              setRepoType(type);
-                              setShowTypeDropdown(false);
-                            }}
-                            className={`w-full px-3 py-2 text-left text-sm first:rounded-t-md last:rounded-b-md transition-colors ${
-                              repoType === type
-                                ? "bg-muted text-foreground"
-                                : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                            }`}
-                          >
-                            {type.charAt(0).toUpperCase() + type.slice(1)}
-                          </button>
-                        )
-                      )}
-                    </div>
-                  </>
-                )}
+                <AnimatePresence>
+                  {showTypeDropdown && (
+                    <>
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-10"
+                        onClick={() => setShowTypeDropdown(false)}
+                      />
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.15 }}
+                        className="absolute right-0 mt-1 w-32 rounded-md border border-border bg-popover shadow-lg z-20"
+                      >
+                        {(["all", "public", "private", "internal", "template"] as const).map(
+                          (type) => (
+                            <button
+                              key={type}
+                              onClick={() => {
+                                setRepoType(type);
+                                setShowTypeDropdown(false);
+                              }}
+                              className={`w-full px-3 py-2 text-left text-sm first:rounded-t-md last:rounded-b-md transition-colors ${
+                                repoType === type
+                                  ? "bg-muted text-foreground"
+                                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                              }`}
+                            >
+                              {type.charAt(0).toUpperCase() + type.slice(1)}
+                            </button>
+                          )
+                        )}
+                      </motion.div>
+                    </>
+                  )}
+                </AnimatePresence>
               </div>
 
-              <div className="relative">
+              <div className="relative border rounded-md">
                 <button
                   onClick={() => setShowLanguageDropdown(!showLanguageDropdown)}
-                  className="flex items-center gap-2 px-3 py-2 text-sm rounded-md border border-border bg-background hover:bg-muted transition-colors"
+                  className="flex items-center gap-2 px-3 py-2 text-sm rounded-md bg-background hover:bg-muted transition-colors"
                 >
                   <Code2 className="w-4 h-4" />
                   {repoLanguage || "Language"}
                   <ChevronDown className="w-4 h-4" />
                 </button>
-                {showLanguageDropdown && (
-                  <>
-                    <div
-                      className="fixed inset-0 z-10"
-                      onClick={() => setShowLanguageDropdown(false)}
-                    />
-                    <div className="absolute right-0 mt-1 w-40 rounded-md border border-border bg-popover shadow-lg z-20 max-h-64 overflow-y-auto">
-                      <button
-                        onClick={() => {
-                          setRepoLanguage("");
-                          setShowLanguageDropdown(false);
-                        }}
-                        className={`w-full px-3 py-2 text-left text-sm first:rounded-t-md transition-colors ${
-                          !repoLanguage
-                            ? "bg-muted text-foreground"
-                            : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                        }`}
+                <AnimatePresence>
+                  {showLanguageDropdown && (
+                    <>
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-10"
+                        onClick={() => setShowLanguageDropdown(false)}
+                      />
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.15 }}
+                        className="absolute right-0 mt-1 w-40 rounded-md border border-border bg-popover shadow-lg z-20 max-h-64 overflow-y-auto"
                       >
-                        All languages
-                      </button>
-                      {allLanguages.map((lang) => (
                         <button
-                          key={lang}
                           onClick={() => {
-                            setRepoLanguage(lang);
+                            setRepoLanguage("");
                             setShowLanguageDropdown(false);
                           }}
-                          className={`w-full px-3 py-2 text-left text-sm transition-colors ${
-                            repoLanguage === lang
+                          className={`w-full px-3 py-2 text-left text-sm first:rounded-t-md transition-colors ${
+                            !repoLanguage
                               ? "bg-muted text-foreground"
                               : "text-muted-foreground hover:bg-muted hover:text-foreground"
                           }`}
                         >
-                          {lang}
+                          All languages
                         </button>
-                      ))}
-                    </div>
-                  </>
-                )}
+                        {allLanguages.map((lang) => (
+                          <button
+                            key={lang}
+                            onClick={() => {
+                              setRepoLanguage(lang);
+                              setShowLanguageDropdown(false);
+                            }}
+                            className={`w-full px-3 py-2 text-left text-sm transition-colors ${
+                              repoLanguage === lang
+                                ? "bg-muted text-foreground"
+                                : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                            }`}
+                          >
+                            {lang}
+                          </button>
+                        ))}
+                      </motion.div>
+                    </>
+                  )}
+                </AnimatePresence>
               </div>
 
-              <div className="relative">
+              <div className="relative border rounded-md">
                 <button
                   onClick={() => setShowSortDropdown(!showSortDropdown)}
-                  className="flex items-center gap-2 px-3 py-2 text-sm rounded-md border border-border bg-background hover:bg-muted transition-colors"
+                  className="flex items-center gap-2 px-3 py-2 text-sm rounded-md bg-background hover:bg-muted transition-colors"
                 >
                   <ArrowUpDown className="w-4 h-4" />
                   {repoSort === "updated"
@@ -489,45 +511,58 @@ ${organization.email ? `- [Email](mailto:${organization.email})` : ""}
                       : "Stars"}
                   <ChevronDown className="w-4 h-4" />
                 </button>
-                {showSortDropdown && (
-                  <>
-                    <div
-                      className="fixed inset-0 z-10"
-                      onClick={() => setShowSortDropdown(false)}
-                    />
-                    <div className="absolute right-0 mt-1 w-44 rounded-md border border-border bg-popover shadow-lg z-20">
-                      {(
-                        [
-                          { value: "updated", label: "Recently updated" },
-                          { value: "name", label: "Name" },
-                          { value: "stars", label: "Stars" },
-                        ] as const
-                      ).map((sort) => (
-                        <button
-                          key={sort.value}
-                          onClick={() => {
-                            setRepoSort(sort.value);
-                            setShowSortDropdown(false);
-                          }}
-                          className={`w-full px-3 py-2 text-left text-sm first:rounded-t-md last:rounded-b-md transition-colors ${
-                            repoSort === sort.value
-                              ? "bg-muted text-foreground"
-                              : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                          }`}
-                        >
-                          {sort.label}
-                        </button>
-                      ))}
-                    </div>
-                  </>
-                )}
+                <AnimatePresence>
+                  {showSortDropdown && (
+                    <>
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-10"
+                        onClick={() => setShowSortDropdown(false)}
+                      />
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.15 }}
+                        className="absolute right-0 mt-1 w-44 rounded-md border border-border bg-popover shadow-lg z-20"
+                      >
+                        {(
+                          [
+                            { value: "updated", label: "Recently updated" },
+                            { value: "name", label: "Name" },
+                            { value: "stars", label: "Stars" },
+                          ] as const
+                        ).map((sort) => (
+                          <button
+                            key={sort.value}
+                            onClick={() => {
+                              setRepoSort(sort.value);
+                              setShowSortDropdown(false);
+                            }}
+                            className={`w-full px-3 py-2 text-left text-sm first:rounded-t-md last:rounded-b-md transition-colors ${
+                              repoSort === sort.value
+                                ? "bg-muted text-foreground"
+                                : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                            }`}
+                          >
+                            {sort.label}
+                          </button>
+                        ))}
+                      </motion.div>
+                    </>
+                  )}
+                </AnimatePresence>
               </div>
-              <Link href="/new/repo">
-                <Button className="bg-[#0969da] text-white hover:bg-[#0860ca]">
-                  <BookMarked className="w-4 h-4 mr-2" />
-                  New
-                </Button>
-              </Link>
+              <div className="border rounded-md">
+                <Link href="/new/repo">
+                  <Button className="bg-[#0969da] text-white hover:bg-[#0860ca]">
+                    <BookMarked className="w-4 h-4 mr-2" />
+                    New
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
 
@@ -539,32 +574,24 @@ ${organization.email ? `- [Email](mailto:${organization.email})` : ""}
                   className="rounded-md border border-border p-4 hover:bg-muted/50 transition-colors"
                 >
                   <div className="flex items-center justify-between">
-                    <Link
-                      href={`/${orgSlug}/${repo.name}`}
-                      className="flex items-center gap-2 font-semibold hover:underline"
-                    >
-                      <FileText className="w-4 h-4 text-muted-foreground" />
-                      <span className="text-[#2f81f7]">{repo.name}</span>
-                    </Link>
-                    <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                      {repo.isTemplate && (
-                        <span className="inline-flex items-center px-1.5 py-0.5 rounded-md bg-[#0969da]/10 text-[#0969da]">
-                          template
-                        </span>
-                      )}
-                      {repo.visibility === "private" && (
-                        <span className="inline-flex items-center gap-1">
-                          <Lock className="w-3 h-3" />
-                          Private
-                        </span>
-                      )}
-                      {repo.visibility === "public" && !repo.isTemplate && <span>Public</span>}
-                      {repo.visibility === "internal" && (
-                        <span className="inline-flex items-center gap-1">
-                          <Eye className="w-3 h-3" />
-                          Internal
-                        </span>
-                      )}
+                    <div className="flex items-center gap-2">
+                      <Link
+                        href={`/${orgSlug}/${repo.name}`}
+                        className="flex items-center gap-2 font-semibold hover:underline"
+                      >
+                        <FileText className="w-4 h-4 text-muted-foreground" />
+                        <span className="text-[#2f81f7]">{repo.name}</span>
+                      </Link>
+                      <span
+                        className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
+                          repo.visibility === "private"
+                            ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
+                            : "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                        }`}
+                      >
+                        {repo.visibility === "private" ? <Lock className="w-3 h-3 mr-1" /> : null}
+                        {repo.visibility === "public" ? "Public" : "Private"}
+                      </span>
                     </div>
                   </div>
                   {repo.description && (

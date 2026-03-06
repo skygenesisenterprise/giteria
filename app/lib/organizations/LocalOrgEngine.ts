@@ -1,43 +1,22 @@
 import type { Organization, CreateOrganizationInput } from "./api";
+import { db, STORES } from "../db";
 
-const STORAGE_KEY = "giteria:organizations";
-
-function getStorage(): Storage | null {
-  if (typeof window === "undefined") return null;
-  return window.localStorage;
+export async function getOrganizations(): Promise<Organization[]> {
+  const orgs = await db.getAll<Organization>(STORES.ORGANIZATIONS);
+  return orgs.map((org) => ({
+    ...org,
+    createdAt: new Date(org.createdAt),
+  }));
 }
 
-export function getOrganizations(): Organization[] {
-  const storage = getStorage();
-  if (!storage) return [];
-  const data = storage.getItem(STORAGE_KEY);
-  if (!data) return [];
-  try {
-    const orgs = JSON.parse(data);
-    return orgs.map((org: Organization) => ({
-      ...org,
-      createdAt: new Date(org.createdAt),
-    }));
-  } catch {
-    return [];
-  }
+export async function getOrganizationBySlug(slug: string): Promise<Organization | null> {
+  return db.getByIndex<Organization>(STORES.ORGANIZATIONS, "slug", slug);
 }
 
-export function saveOrganizations(orgs: Organization[]): void {
-  const storage = getStorage();
-  if (!storage) return;
-  storage.setItem(STORAGE_KEY, JSON.stringify(orgs));
-}
+export async function createOrgInStorage(input: CreateOrganizationInput): Promise<Organization> {
+  const existing = await db.getByIndex<Organization>(STORES.ORGANIZATIONS, "slug", input.slug);
 
-export function getOrganizationBySlug(slug: string): Organization | null {
-  const orgs = getOrganizations();
-  return orgs.find((o) => o.slug.toLowerCase() === slug.toLowerCase()) || null;
-}
-
-export function createOrgInStorage(input: CreateOrganizationInput): Organization {
-  const orgs = getOrganizations();
-
-  if (orgs.some((o) => o.slug.toLowerCase() === input.slug.toLowerCase())) {
+  if (existing) {
     throw new Error("Organization slug already exists");
   }
 
@@ -51,13 +30,11 @@ export function createOrgInStorage(input: CreateOrganizationInput): Organization
     createdAt: new Date(),
   };
 
-  orgs.push(organization);
-  saveOrganizations(orgs);
-
+  await db.add(STORES.ORGANIZATIONS, organization);
   return organization;
 }
 
-export function checkOrgSlugAvailability(slug: string): boolean {
-  const orgs = getOrganizations();
-  return !orgs.some((o) => o.slug.toLowerCase() === slug.toLowerCase());
+export async function checkOrgSlugAvailability(slug: string): Promise<boolean> {
+  const existing = await db.getByIndex<Organization>(STORES.ORGANIZATIONS, "slug", slug);
+  return !existing;
 }

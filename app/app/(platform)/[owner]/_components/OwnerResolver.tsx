@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { authEngine } from "@/lib/auth/LocalAuthEngine";
+import { authEngine } from "@/lib/auth/IndexedDBAuthEngine";
 import { getOrganizationBySlug } from "@/lib/organizations/LocalOrgEngine";
 
 interface OwnerData {
@@ -31,7 +31,7 @@ export function OwnerResolver({ username, children }: OwnerResolverProps) {
       setIsLoading(true);
       try {
         const user = await authEngine.getUserByUsername(username);
-        const org = getOrganizationBySlug(username);
+        const org = await getOrganizationBySlug(username);
 
         const ownerType = user ? "user" : org ? "organization" : "user";
 

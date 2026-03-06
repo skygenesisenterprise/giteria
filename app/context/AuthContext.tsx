@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { authEngine } from "@/lib/auth/LocalAuthEngine";
+import { authEngine } from "@/lib/auth/IndexedDBAuthEngine";
 import type { User } from "@/lib/auth/types";
 
 interface AuthContextType {

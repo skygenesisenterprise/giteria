@@ -3,31 +3,23 @@
 import * as React from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { authEngine } from "@/lib/auth/LocalAuthEngine";
-import {
-  getOrganizationBySlug,
-  getOrganizationMembers,
-  getPinnedRepositories,
-} from "@/lib/organizations/mockData";
+import { authEngine } from "@/lib/auth/IndexedDBAuthEngine";
+import { getOrganizationBySlug } from "@/lib/organizations/LocalOrgEngine";
+import { getRepositoriesByOwner } from "./_components/repositories/data";
 import { UserSidebar } from "./_components/UserSidebar";
 import { ProfileReadme } from "./_components/ProfileReadme";
-import { PinnedRepos } from "./_components/PinnedRepos";
 import { ContributionGraph } from "./_components/ContributionGraph";
 import { ActivityOverview } from "./_components/ActivityOverview";
 import { ContributionActivity } from "./_components/ContributionActivity";
-import { OrgHeader } from "@/components/organizations/OrgHeader";
 import {
   OrganizationDescription,
   mockOrganizationProfile,
   type OrganizationProfile,
 } from "@/components/organizations/OrganizationDescription";
-import { OrgMembersList } from "@/components/organizations/OrgMembersList";
-import { OrgRepositoriesList } from "@/components/organizations/OrgRepositoriesList";
 import { OrgOverview } from "@/components/organizations/OrgOverview";
 import type { Organization } from "@/lib/organizations/api";
-import type { OrgMember, OrgRepository } from "@/lib/organizations/mockData";
-import { Users, FolderGit2, Star, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import type { RepositoryData } from "./_components/repositories/data";
 
 export default function OwnerPage() {
   const params = useParams();
@@ -37,8 +29,7 @@ export default function OwnerPage() {
     null
   );
   const [orgData, setOrgData] = React.useState<Organization | null>(null);
-  const [members, setMembers] = React.useState<OrgMember[]>([]);
-  const [repos, setRepos] = React.useState<OrgRepository[]>([]);
+  const [repos, setRepos] = React.useState<RepositoryData[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -48,18 +39,19 @@ export default function OwnerPage() {
       setIsLoading(true);
       try {
         const user = await authEngine.getUserByUsername(ownerSlug);
-        const org = getOrganizationBySlug(ownerSlug);
+        const org = await getOrganizationBySlug(ownerSlug);
 
         if (user) {
           setOwnerType("user");
         } else if (org) {
           setOwnerType("organization");
           setOrgData(org);
-          setMembers(getOrganizationMembers(ownerSlug));
-          setRepos(getPinnedRepositories(ownerSlug));
         } else {
           setOwnerType("not-found");
         }
+
+        const dynamicRepos = await getRepositoriesByOwner(ownerSlug);
+        setRepos(dynamicRepos);
       } catch {
         setOwnerType("not-found");
       } finally {
@@ -112,7 +104,7 @@ export default function OwnerPage() {
           organizationType: "Organization",
           affiliation: "Parent Company Inc.",
           affiliationUrl: "https://parentcompany.com",
-          followers: members.length,
+          followers: repos.length,
           location: "Belgium",
           website: `https://${orgData.slug}.com`,
           twitter: `@${orgData.slug}`,
@@ -128,17 +120,16 @@ export default function OwnerPage() {
 
             <OrgOverview
               organization={orgProfile}
-              members={members.map((m: any) => ({
-                id: m.id,
-                username: m.username,
-                avatarUrl: m.avatarUrl,
-              }))}
-              repositories={repos.map((r: any) => ({
+              members={[]}
+              repositories={repos.map((r) => ({
                 id: r.id,
                 name: r.name,
                 description: r.description,
                 language: r.language,
                 visibility: r.visibility,
+                stars: r.stars,
+                forks: r.forks,
+                updatedAt: new Date(r.updatedAt).toISOString(),
               }))}
               orgSlug={ownerSlug}
               isMember={true}
@@ -161,7 +152,7 @@ export default function OwnerPage() {
 
           <div className="flex-1 min-w-0 space-y-6">
             <ProfileReadme username={ownerSlug} />
-            <PinnedRepos username={ownerSlug} />
+            <UserPinnedRepos repositories={repos} />
             <ContributionGraph username={ownerSlug} />
             <ActivityOverview username={ownerSlug} />
             <ContributionActivity username={ownerSlug} />
@@ -188,4 +179,41 @@ function UserSidebarWrapper({ username }: { username: string }) {
   }
 
   return <UserSidebar user={user} />;
+}
+
+function UserPinnedRepos({ repositories }: { repositories: RepositoryData[] }) {
+  const pinnedRepos = repositories.slice(0, 4);
+
+  if (pinnedRepos.length === 0) {
+    return null;
+  }
+
+  return (
+    <div>
+      <h2 className="text-xl font-semibold mb-4">Pinned</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {pinnedRepos.map((repo) => (
+          <Link
+            key={repo.id}
+            href={repo.url}
+            className="rounded-md border border-border p-4 hover:bg-muted/50 transition-colors"
+          >
+            <div className="font-semibold text-[#2f81f7]">{repo.name}</div>
+            {repo.description && (
+              <p className="text-sm text-muted-foreground mt-2 line-clamp-2">{repo.description}</p>
+            )}
+            {repo.language && (
+              <div className="flex items-center gap-2 mt-3 text-xs text-muted-foreground">
+                <span
+                  className="w-3 h-3 rounded-full"
+                  style={{ backgroundColor: repo.languageColor || "#6e7681" }}
+                />
+                {repo.language}
+              </div>
+            )}
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
 }
