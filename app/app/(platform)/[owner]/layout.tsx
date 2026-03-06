@@ -1,10 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, use, useMemo } from "react";
+import { usePathname } from "next/navigation";
 import { authEngine } from "@/lib/auth/IndexedDBAuthEngine";
 import { getOrganizationBySlug } from "@/lib/organizations/LocalOrgEngine";
 import { OwnerHeaderProvider } from "./_components/OwnerHeaderProvider";
 import { HeaderOwner } from "../_components/HeaderOwner";
+import { HeaderRepo } from "../_components/HeaderRepo";
 
 interface OwnerData {
   type: "user" | "organization";
@@ -28,6 +30,26 @@ export default function OwnerLayout({ children, params }: OwnerLayoutProps) {
   const [resolvedParams, setResolvedParams] = useState<{ owner: string } | null>(null);
   const [owner, setOwner] = useState<OwnerData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const pathname = usePathname();
+
+  const isRepoPage = useMemo(() => {
+    const segments = pathname.split("/").filter(Boolean);
+    if (segments.length < 2) return false;
+
+    const ownerLevelRoutes = [
+      "repos",
+      "discussions",
+      "insights",
+      "package",
+      "people",
+      "projects",
+      "settings",
+      "sponsors",
+      "teams",
+    ];
+    const secondSegment = segments[1];
+    return !ownerLevelRoutes.includes(secondSegment);
+  }, [pathname]);
 
   useEffect(() => {
     params.then(setResolvedParams);
@@ -90,7 +112,7 @@ export default function OwnerLayout({ children, params }: OwnerLayoutProps) {
   return (
     <>
       <OwnerHeaderProvider owner={owner} />
-      <HeaderOwner owner={owner} className="border-b border-border" />
+      {!isRepoPage && <HeaderOwner owner={owner} className="border-b border-border" />}
       {children}
     </>
   );

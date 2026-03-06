@@ -2,30 +2,80 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { motion, Reorder, AnimatePresence } from "framer-motion";
 import {
   Code2,
   Tag,
   Plus,
   ExternalLink,
-  FileText,
   Lock,
   Eye,
   ChevronDown,
   Pin,
   BookMarked,
-  GripVertical,
   Pencil,
-  Search,
-  ArrowUpDown,
-  Filter,
-  Star,
-  GitFork,
-  CircleDot,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { fetchOrganizationReadme, type ReadmeFile } from "@/lib/organizations/readme";
 import type { OrganizationProfile } from "./OrganizationDescription";
+import {
+  RepositorySearch,
+  RepositoryFilters,
+  RepositorySort,
+  RepositoryList,
+  RepositoryEmptyState,
+  type RepositoryType,
+  type RepositoryLanguage,
+  type RepositorySortOption,
+  type RepositoryData,
+} from "@/app/(platform)/[owner]/_components/repositories";
+
+interface OrgOverviewProps {
+  organization: OrganizationProfile;
+  members: Array<{
+    id: string;
+    username: string;
+    avatarUrl: string;
+  }>;
+  repositories: Array<{
+    id: string;
+    name: string;
+    description?: string;
+    language?: string;
+    visibility: "public" | "private" | "internal";
+    isTemplate?: boolean;
+    stars?: number;
+    forks?: number;
+    license?: string;
+    updatedAt?: string;
+  }>;
+  orgSlug: string;
+  isMember?: boolean;
+  isAdmin?: boolean;
+  canViewPrivate?: boolean;
+}
+
+function transformToRepositoryData(
+  repos: OrgOverviewProps["repositories"],
+  ownerSlug: string
+): RepositoryData[] {
+  return repos.map((repo) => ({
+    id: repo.id,
+    name: repo.name,
+    fullName: `${ownerSlug}/${repo.name}`,
+    description: repo.description,
+    visibility: repo.visibility === "internal" ? "private" : repo.visibility,
+    language: repo.language,
+    languageColor: undefined,
+    stars: repo.stars ?? 0,
+    forks: repo.forks ?? 0,
+    updatedAt: repo.updatedAt ? new Date(repo.updatedAt).getTime() : Date.now(),
+    url: `/${ownerSlug}/${repo.name}`,
+    isArchived: false,
+    isMirror: false,
+    isFork: false,
+    owner: ownerSlug,
+  }));
+}
 
 interface OrgOverviewProps {
   organization: OrganizationProfile;
@@ -153,37 +203,10 @@ export function OrgOverview({
     isAdmin ? "member" : "public"
   );
   const [showDropdown, setShowDropdown] = React.useState(false);
-  const [isCustomizing, setIsCustomizing] = React.useState(false);
-  const [pinnedRepos, setPinnedRepos] = React.useState(repositories.slice(0, 4));
-  const [repoSearch, setRepoSearch] = React.useState("");
-  const [repoType, setRepoType] = React.useState<
-    "all" | "public" | "private" | "internal" | "template"
-  >("all");
-  const [repoLanguage, setRepoLanguage] = React.useState<string>("");
-  const [repoSort, setRepoSort] = React.useState<"updated" | "name" | "stars">("updated");
-  const [showTypeDropdown, setShowTypeDropdown] = React.useState(false);
-  const [showLanguageDropdown, setShowLanguageDropdown] = React.useState(false);
-  const [showSortDropdown, setShowSortDropdown] = React.useState(false);
-
-  React.useEffect(() => {
-    setPinnedRepos(repositories.slice(0, 4));
-  }, [repositories]);
-
-  React.useEffect(() => {
-    async function loadReadme() {
-      setReadmeLoading(true);
-      try {
-        const readmeData = await fetchOrganizationReadme(orgSlug, viewMode === "member");
-        setReadme(readmeData);
-      } catch (error) {
-        console.error("Failed to load README:", error);
-      } finally {
-        setReadmeLoading(false);
-      }
-    }
-
-    loadReadme();
-  }, [orgSlug, viewMode]);
+  const [searchQuery, setSearchQuery] = React.useState("");
+  const [typeFilter, setTypeFilter] = React.useState<RepositoryType>("all");
+  const [languageFilter, setLanguageFilter] = React.useState<RepositoryLanguage>("all");
+  const [sortBy, setSortBy] = React.useState<RepositorySortOption>("updated");
 
   const defaultReadme = `# Welcome to ${organization.name}
 
@@ -214,25 +237,21 @@ ${organization.email ? `- [Email](mailto:${organization.email})` : ""}
     { name: "C", percentage: 5 },
   ];
 
-  const allLanguages = ["TypeScript", "JavaScript", "Python", "Go", "Rust", "Java", "C++", "C"];
+  React.useEffect(() => {
+    async function loadReadme() {
+      setReadmeLoading(true);
+      try {
+        const readmeData = await fetchOrganizationReadme(orgSlug, viewMode === "member");
+        setReadme(readmeData);
+      } catch (error) {
+        console.error("Failed to load README:", error);
+      } finally {
+        setReadmeLoading(false);
+      }
+    }
 
-  const filteredRepos = repositories
-    .filter((repo) => repo.name.toLowerCase().includes(repoSearch.toLowerCase()))
-    .filter((repo) => !repoLanguage || repo.language === repoLanguage)
-    .filter((repo) => {
-      if (repoType === "all") return true;
-      if (repoType === "template") return repo.isTemplate;
-      if (repoType === "internal") return repo.visibility === "internal";
-      return repo.visibility === repoType;
-    })
-    .sort((a, b) => {
-      if (repoSort === "name") return a.name.localeCompare(b.name);
-      if (repoSort === "stars") return (b.stars || 0) - (a.stars || 0);
-      return 0;
-    });
-
-  const displayRepos = filteredRepos.slice(0, 10);
-  const hasMoreRepos = filteredRepos.length > 10;
+    loadReadme();
+  }, [orgSlug, viewMode]);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
@@ -274,375 +293,34 @@ ${organization.email ? `- [Email](mailto:${organization.email})` : ""}
         </div>
 
         <div>
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <Pin className="w-5 h-5 text-muted-foreground" />
-              <h2 className="text-xl font-semibold">Pinned</h2>
-            </div>
-            {isAdmin && (
-              <button
-                onClick={() => setIsCustomizing(!isCustomizing)}
-                className="text-sm text-[#2f81f7] hover:underline"
-              >
-                {isCustomizing ? "Done" : "Customize your pins"}
-              </button>
-            )}
-          </div>
-          {isCustomizing && isAdmin ? (
-            <Reorder.Group
-              axis="y"
-              values={pinnedRepos}
-              onReorder={setPinnedRepos}
-              className="grid grid-cols-1 md:grid-cols-2 gap-4"
-            >
-              {pinnedRepos.map((repo) => (
-                <Reorder.Item
-                  key={repo.id}
-                  value={repo}
-                  className="rounded-md border border-border p-4 hover:bg-muted/50 transition-colors cursor-grab active:cursor-grabbing"
-                >
-                  <div className="flex items-center justify-between">
-                    <Link
-                      href={`/${orgSlug}/${repo.name}`}
-                      className="flex items-center gap-2 font-semibold hover:underline"
-                    >
-                      <BookMarked className="w-4 h-4 text-muted-foreground" />
-                      <span className="text-[#2f81f7]">{repo.name}</span>
-                    </Link>
-                    <GripVertical className="w-4 h-4 text-muted-foreground" />
-                  </div>
-                  {repo.description && (
-                    <p className="mt-2 text-sm text-muted-foreground line-clamp-2">
-                      {repo.description}
-                    </p>
-                  )}
-                  {repo.language && (
-                    <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
-                      <span
-                        className="w-3 h-3 rounded-full"
-                        style={{
-                          backgroundColor: languageColors[repo.language] || "#6e7681",
-                        }}
-                      />
-                      {repo.language}
-                    </div>
-                  )}
-                </Reorder.Item>
-              ))}
-            </Reorder.Group>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {pinnedRepos.map((repo) => (
-                <div
-                  key={repo.id}
-                  className="rounded-md border border-border p-4 hover:bg-muted/50 transition-colors"
-                >
-                  <div className="flex items-center justify-between">
-                    <Link
-                      href={`/${orgSlug}/${repo.name}`}
-                      className="flex items-center gap-2 font-semibold hover:underline"
-                    >
-                      <BookMarked className="w-4 h-4 text-muted-foreground" />
-                      <span className="text-[#2f81f7]">{repo.name}</span>
-                    </Link>
-                  </div>
-                  {repo.description && (
-                    <p className="mt-2 text-sm text-muted-foreground line-clamp-2">
-                      {repo.description}
-                    </p>
-                  )}
-                  {repo.language && (
-                    <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
-                      <span
-                        className="w-3 h-3 rounded-full"
-                        style={{
-                          backgroundColor: languageColors[repo.language] || "#6e7681",
-                        }}
-                      />
-                      {repo.language}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <div>
           <div className="flex items-center gap-2 mb-4">
             <BookMarked className="w-5 h-5 text-muted-foreground" />
             <h2 className="text-xl font-semibold">Repositories</h2>
           </div>
 
-          <div className="rounded-md border border-border p-3 mb-4">
-            <div className="flex flex-col sm:flex-row gap-2">
-              <div className="relative flex-1 border rounded-md">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <input
-                  type="text"
-                  placeholder="Find a repository..."
-                  value={repoSearch}
-                  onChange={(e) => setRepoSearch(e.target.value)}
-                  className="w-full pl-9 pr-3 py-2 text-sm rounded-md bg-background focus:outline-none"
-                />
-              </div>
-
-              <div className="relative border rounded-md">
-                <button
-                  onClick={() => setShowTypeDropdown(!showTypeDropdown)}
-                  className="flex items-center gap-2 px-3 py-2 text-sm rounded-md bg-background hover:bg-muted transition-colors"
-                >
-                  <Filter className="w-4 h-4" />
-                  {repoType === "all" ? "Type" : repoType}
-                  <ChevronDown className="w-4 h-4" />
-                </button>
-                <AnimatePresence>
-                  {showTypeDropdown && (
-                    <>
-                      <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-10"
-                        onClick={() => setShowTypeDropdown(false)}
-                      />
-                      <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        transition={{ duration: 0.15 }}
-                        className="absolute right-0 mt-1 w-32 rounded-md border border-border bg-popover shadow-lg z-20"
-                      >
-                        {(["all", "public", "private", "internal", "template"] as const).map(
-                          (type) => (
-                            <button
-                              key={type}
-                              onClick={() => {
-                                setRepoType(type);
-                                setShowTypeDropdown(false);
-                              }}
-                              className={`w-full px-3 py-2 text-left text-sm first:rounded-t-md last:rounded-b-md transition-colors ${
-                                repoType === type
-                                  ? "bg-muted text-foreground"
-                                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                              }`}
-                            >
-                              {type.charAt(0).toUpperCase() + type.slice(1)}
-                            </button>
-                          )
-                        )}
-                      </motion.div>
-                    </>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              <div className="relative border rounded-md">
-                <button
-                  onClick={() => setShowLanguageDropdown(!showLanguageDropdown)}
-                  className="flex items-center gap-2 px-3 py-2 text-sm rounded-md bg-background hover:bg-muted transition-colors"
-                >
-                  <Code2 className="w-4 h-4" />
-                  {repoLanguage || "Language"}
-                  <ChevronDown className="w-4 h-4" />
-                </button>
-                <AnimatePresence>
-                  {showLanguageDropdown && (
-                    <>
-                      <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-10"
-                        onClick={() => setShowLanguageDropdown(false)}
-                      />
-                      <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        transition={{ duration: 0.15 }}
-                        className="absolute right-0 mt-1 w-40 rounded-md border border-border bg-popover shadow-lg z-20 max-h-64 overflow-y-auto"
-                      >
-                        <button
-                          onClick={() => {
-                            setRepoLanguage("");
-                            setShowLanguageDropdown(false);
-                          }}
-                          className={`w-full px-3 py-2 text-left text-sm first:rounded-t-md transition-colors ${
-                            !repoLanguage
-                              ? "bg-muted text-foreground"
-                              : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                          }`}
-                        >
-                          All languages
-                        </button>
-                        {allLanguages.map((lang) => (
-                          <button
-                            key={lang}
-                            onClick={() => {
-                              setRepoLanguage(lang);
-                              setShowLanguageDropdown(false);
-                            }}
-                            className={`w-full px-3 py-2 text-left text-sm transition-colors ${
-                              repoLanguage === lang
-                                ? "bg-muted text-foreground"
-                                : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                            }`}
-                          >
-                            {lang}
-                          </button>
-                        ))}
-                      </motion.div>
-                    </>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              <div className="relative border rounded-md">
-                <button
-                  onClick={() => setShowSortDropdown(!showSortDropdown)}
-                  className="flex items-center gap-2 px-3 py-2 text-sm rounded-md bg-background hover:bg-muted transition-colors"
-                >
-                  <ArrowUpDown className="w-4 h-4" />
-                  {repoSort === "updated"
-                    ? "Recently updated"
-                    : repoSort === "name"
-                      ? "Name"
-                      : "Stars"}
-                  <ChevronDown className="w-4 h-4" />
-                </button>
-                <AnimatePresence>
-                  {showSortDropdown && (
-                    <>
-                      <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-10"
-                        onClick={() => setShowSortDropdown(false)}
-                      />
-                      <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        transition={{ duration: 0.15 }}
-                        className="absolute right-0 mt-1 w-44 rounded-md border border-border bg-popover shadow-lg z-20"
-                      >
-                        {(
-                          [
-                            { value: "updated", label: "Recently updated" },
-                            { value: "name", label: "Name" },
-                            { value: "stars", label: "Stars" },
-                          ] as const
-                        ).map((sort) => (
-                          <button
-                            key={sort.value}
-                            onClick={() => {
-                              setRepoSort(sort.value);
-                              setShowSortDropdown(false);
-                            }}
-                            className={`w-full px-3 py-2 text-left text-sm first:rounded-t-md last:rounded-b-md transition-colors ${
-                              repoSort === sort.value
-                                ? "bg-muted text-foreground"
-                                : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                            }`}
-                          >
-                            {sort.label}
-                          </button>
-                        ))}
-                      </motion.div>
-                    </>
-                  )}
-                </AnimatePresence>
-              </div>
-              <div className="border rounded-md">
-                <Link href="/new/repo">
-                  <Button className="bg-[#0969da] text-white hover:bg-[#0860ca]">
-                    <BookMarked className="w-4 h-4 mr-2" />
-                    New
-                  </Button>
-                </Link>
-              </div>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
+            <RepositorySearch value={searchQuery} onChange={setSearchQuery} />
+            <div className="flex items-center gap-2 flex-wrap">
+              <RepositoryFilters
+                type={typeFilter}
+                language={languageFilter}
+                onTypeChange={setTypeFilter}
+                onLanguageChange={setLanguageFilter}
+              />
+              <RepositorySort value={sortBy} onChange={setSortBy} />
+              <Link href="/new/repo">
+                <Button size="sm" className="border">
+                  <Plus className="w-4 h-4 mr-1" />
+                  New
+                </Button>
+              </Link>
             </div>
           </div>
 
-          <div className="space-y-2">
-            {displayRepos.length > 0 ? (
-              displayRepos.map((repo) => (
-                <div
-                  key={repo.id}
-                  className="rounded-md border border-border p-4 hover:bg-muted/50 transition-colors"
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <Link
-                        href={`/${orgSlug}/${repo.name}`}
-                        className="flex items-center gap-2 font-semibold hover:underline"
-                      >
-                        <FileText className="w-4 h-4 text-muted-foreground" />
-                        <span className="text-[#2f81f7]">{repo.name}</span>
-                      </Link>
-                      <span
-                        className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-                          repo.visibility === "private"
-                            ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
-                            : "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-                        }`}
-                      >
-                        {repo.visibility === "private" ? <Lock className="w-3 h-3 mr-1" /> : null}
-                        {repo.visibility === "public" ? "Public" : "Private"}
-                      </span>
-                    </div>
-                  </div>
-                  {repo.description && (
-                    <p className="mt-2 text-sm text-muted-foreground line-clamp-2">
-                      {repo.description}
-                    </p>
-                  )}
-                  <div className="mt-3 flex items-center justify-between">
-                    <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                      {repo.language && (
-                        <div className="flex items-center gap-1.5">
-                          <span
-                            className="w-3 h-3 rounded-full"
-                            style={{
-                              backgroundColor: languageColors[repo.language] || "#6e7681",
-                            }}
-                          />
-                          <span>{repo.language}</span>
-                        </div>
-                      )}
-                      <div className="flex items-center gap-1">
-                        <Star className="w-3.5 h-3.5" />
-                        <span>{repo.stars ?? 0}</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <GitFork className="w-3.5 h-3.5" />
-                        <span>{repo.forks ?? 0}</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <CircleDot className="w-3.5 h-3.5" />
-                        <span>{repo.license || "MIT"}</span>
-                      </div>
-                      <span>Updated {repo.updatedAt || "recently"}</span>
-                    </div>
-                    <CommitGraph />
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className="text-center py-8 text-muted-foreground">No repositories found</div>
-            )}
-          </div>
-
-          {hasMoreRepos && (
-            <Link
-              href={`/${orgSlug}?tab=repositories`}
-              className="mt-4 flex items-center justify-center gap-2 text-sm text-[#2f81f7] hover:underline"
-            >
-              View all repositories
-              <ExternalLink className="w-4 h-4" />
-            </Link>
+          {repositories.length > 0 ? (
+            <RepositoryList repositories={transformToRepositoryData(repositories, orgSlug)} />
+          ) : (
+            <RepositoryEmptyState owner={orgSlug} canCreate={isAdmin} />
           )}
         </div>
       </div>

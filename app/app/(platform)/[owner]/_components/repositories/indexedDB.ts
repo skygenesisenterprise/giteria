@@ -29,10 +29,13 @@ export async function createRepositoryInStorage(
     "id" | "url" | "stars" | "forks" | "updatedAt" | "isArchived" | "isMirror" | "isFork"
   >
 ): Promise<RepositoryData> {
+  const ownerLower = repo.owner.toLowerCase();
+  const fullNameLower = `${ownerLower}/${repo.name.toLowerCase()}`;
+
   const existing = await db.getByIndex<RepositoryData>(
     STORES.REPOSITORIES,
     "fullName",
-    `${repo.owner}/${repo.name}`
+    fullNameLower
   );
 
   if (existing) {
@@ -41,8 +44,11 @@ export async function createRepositoryInStorage(
 
   const newRepo: RepositoryData = {
     ...repo,
+    name: repo.name.toLowerCase(),
+    fullName: fullNameLower,
+    owner: ownerLower,
     id: crypto.randomUUID(),
-    url: `/${repo.owner}/${repo.name}`.toLowerCase(),
+    url: `/${ownerLower}/${repo.name.toLowerCase()}`,
     stars: 0,
     forks: 0,
     updatedAt: Date.now(),
