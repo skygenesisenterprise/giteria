@@ -1,33 +1,62 @@
 "use client";
 
 import * as React from "react";
+import { use, useEffect, useState } from "react";
+import { RepositoryCode } from "@/components/repository/RepositoryCode";
+import { RepositorySidebar } from "@/components/repository/RepositorySidebar";
+import { getRepository, type Repository } from "@/lib/repo/RepositoryData";
+import { RepoInfoBar } from "@/components/repository/RepoInfoBar";
 
-interface DashboardPageProps {
+interface RepoPageProps {
   params: Promise<{ owner: string; repo: string }>;
 }
 
-export default function DashboardPage({ params }: DashboardPageProps) {
-  const [resolvedParams, setResolvedParams] = React.useState<{
-    owner: string;
-    repo: string;
-  } | null>(null);
+export default function RepoPage({ params }: RepoPageProps) {
+  const resolvedParams = use(params);
+  const [repo, setRepo] = useState<Repository | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  React.useEffect(() => {
-    params.then(setResolvedParams);
-  }, [params]);
+  useEffect(() => {
+    async function fetchRepo() {
+      try {
+        const repository = await getRepository(resolvedParams.owner, resolvedParams.repo);
+        setRepo(repository);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchRepo();
+  }, [resolvedParams.owner, resolvedParams.repo]);
 
-  if (!resolvedParams) {
-    return null;
+  const { owner, repo: repoName } = resolvedParams;
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-foreground" />
+      </div>
+    );
   }
 
-  const { owner, repo } = resolvedParams;
-
   return (
-    <div className="flex flex-col items-center justify-center py-20">
-      <h1 className="text-4xl font-bold mb-4">{repo}</h1>
-      <p className="text-lg text-muted-foreground">
-        Welcome to the {owner}/{repo} repository!
-      </p>
+    <div className="bg-background">
+      <div className="max-w-5xl mx-auto px-4 py-6">
+        <RepoInfoBar owner={owner} repo={repoName} visibility={repo?.visibility} />
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mt-6">
+          <div className="lg:col-span-3 space-y-6">
+            <RepositoryCode owner={owner} repo={repoName} branch="main" />
+          </div>
+          <div className="lg:col-span-1">
+            {repo ? (
+              <RepositorySidebar repo={repo} />
+            ) : (
+              <div className="border border-border rounded-lg p-4 bg-card">
+                <p className="text-sm text-muted-foreground">Loading...</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

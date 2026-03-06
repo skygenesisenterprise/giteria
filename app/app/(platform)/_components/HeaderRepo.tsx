@@ -16,29 +16,32 @@ import {
   Shield,
   BarChart3,
   Settings,
+  Boxes,
 } from "lucide-react";
 
 interface HeaderRepoProps {
   owner: string;
   repo: string;
   activeTab?: string;
+  className?: string;
 }
 
 const tabs = [
   { id: "code", label: "Code", href: "", icon: Code },
   { id: "issues", label: "Issues", href: "/issues", icon: CircleDot },
-  { id: "pulls", label: "Pulls", href: "/pull", icon: GitPullRequest },
-  { id: "agents", label: "Agents", href: "/agents", icon: Bot },
+  { id: "pulls", label: "Pulls Requests", href: "/pull", icon: GitPullRequest },
   { id: "discussions", label: "Discussions", href: "/discussions", icon: MessageSquare },
   { id: "actions", label: "Actions", href: "/actions", icon: CirclePlay },
+  { id: "agents", label: "Agents", href: "/agents", icon: Bot },
   { id: "projects", label: "Projects", href: "/projects", icon: FolderKanban },
+  { id: "models", label: "Models", href: "/models", icon: Boxes },
   { id: "wiki", label: "Wiki", href: "/wiki", icon: BookOpen },
   { id: "security", label: "Security", href: "/security", icon: Shield },
   { id: "insights", label: "Insights", href: "/insights", icon: BarChart3 },
   { id: "settings", label: "Settings", href: "/settings", icon: Settings },
 ];
 
-export function HeaderRepo({ owner, repo, activeTab }: HeaderRepoProps) {
+export function HeaderRepo({ owner, repo, activeTab, className }: HeaderRepoProps) {
   const pathname = usePathname();
 
   const basePath = `/${owner}/${repo}`;
@@ -56,7 +59,9 @@ export function HeaderRepo({ owner, repo, activeTab }: HeaderRepoProps) {
   }, [currentPath, activeTab]);
 
   return (
-    <div className={cn("-mt-2.5 bg-background/95 backdrop-blur-sm")}>
+    <div
+      className={cn("-mt-2.5 bg-background/95 backdrop-blur-sm border-b border-border", className)}
+    >
       <div className="flex items-center justify-between h-14 px-4 max-w-450 mx-auto gap-6">
         <div className="flex items-center gap-1 overflow-x-auto">
           {tabs.map((tab) => {
