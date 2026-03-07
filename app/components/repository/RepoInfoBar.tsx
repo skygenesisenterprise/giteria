@@ -2,7 +2,17 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Bookmark, Lock, Globe, Heart, Pin, Eye, GitFork, Star, ChevronDown } from "lucide-react";
+import {
+  Bookmark,
+  Lock,
+  Globe,
+  Heart,
+  Pin,
+  Eye,
+  GitFork,
+  Star,
+  ChevronDown,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -19,6 +29,15 @@ export function RepoInfoBar({ owner, repo, visibility = "public" }: RepoInfoBarP
   const [stars, setStars] = React.useState(0);
   const [forks, setForks] = React.useState(0);
   const [watchers, setWatchers] = React.useState(0);
+  const [isCopied, setIsCopied] = React.useState(false);
+
+  const cloneUrl = `giteria.com/${owner}/${repo}.git`;
+
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(`git clone ${cloneUrl}`);
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 2000);
+  };
 
   const handleStar = () => {
     setIsStarred(!isStarred);

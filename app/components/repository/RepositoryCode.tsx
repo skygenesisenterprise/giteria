@@ -2,8 +2,10 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, File, Folder, FolderOpen } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { FileIcon } from "@/components/ui/file-icon";
+import { useFileIcon } from "@/components/repository/use-file-icon";
 import { cn } from "@/lib/utils";
 
 interface FileItem {
@@ -21,8 +23,8 @@ interface RepositoryCodeProps {
 }
 
 export function RepositoryCode({ owner, repo, branch = "main" }: RepositoryCodeProps) {
-  const [currentPath, setCurrentPath] = React.useState("");
-  const [files, setFiles] = React.useState<FileItem[]>([
+  const [currentPath] = React.useState("");
+  const [files] = React.useState<FileItem[]>([
     { name: ".github", path: ".github", type: "folder" },
     { name: "assets", path: "assets", type: "folder" },
     { name: "cmd", path: "cmd", type: "folder" },
@@ -39,9 +41,11 @@ export function RepositoryCode({ owner, repo, branch = "main" }: RepositoryCodeP
     { name: "Dockerfile", path: "Dockerfile", type: "file", size: 1633 },
     { name: "go.mod", path: "go.mod", type: "file", size: 14506 },
     { name: "go.sum", path: "go.sum", type: "file", size: 103701 },
+    { name: "LICENSE", path: "LICENSE", type: "file", size: 1079 },
     { name: "main.go", path: "main.go", type: "file", size: 1079 },
     { name: "README.md", path: "README.md", type: "file", size: 21699 },
   ]);
+  const { getIcon } = useFileIcon();
 
   const pathParts = currentPath.split("/").filter(Boolean);
 
@@ -124,35 +128,34 @@ export function RepositoryCode({ owner, repo, branch = "main" }: RepositoryCodeP
 
       <table className="w-full">
         <tbody>
-          {files.map((file) => (
-            <tr key={file.path} className="border-b border-border/50 hover:bg-muted/30">
-              <td className="py-2.5 px-3">
-                <div className="flex items-center gap-2">
-                  {file.type === "folder" ? (
-                    <FolderOpen className="w-4 h-4 text-blue-500" />
-                  ) : (
-                    <File className="w-4 h-4 text-muted-foreground" />
-                  )}
-                  <Link
-                    href={
-                      file.type === "folder"
-                        ? `/${owner}/${repo}/tree/${branch}/${file.path}`
-                        : `/${owner}/${repo}/blob/${branch}/${file.path}`
-                    }
-                    className="text-sm hover:text-blue-500 hover:underline"
-                  >
-                    {file.name}
-                  </Link>
-                </div>
-              </td>
-              <td className="py-2.5 px-3 text-right text-sm text-muted-foreground">
-                {file.type === "file" && file.modifiedAt && formatDate(file.modifiedAt)}
-              </td>
-              <td className="py-2.5 px-3 text-right text-sm text-muted-foreground">
-                {file.type === "file" && file.size && formatSize(file.size)}
-              </td>
-            </tr>
-          ))}
+          {files.map((file) => {
+            const { iconName, color } = getIcon(file);
+            return (
+              <tr key={file.path} className="border-b border-border/50 hover:bg-muted/30">
+                <td className="py-2.5 px-3">
+                  <div className="flex items-center gap-2">
+                    <FileIcon iconName={iconName} className={cn("w-4 h-4", color)} />
+                    <Link
+                      href={
+                        file.type === "folder"
+                          ? `/${owner}/${repo}/tree/${branch}/${file.path}`
+                          : `/${owner}/${repo}/blob/${branch}/${file.path}`
+                      }
+                      className="text-sm hover:text-blue-500 hover:underline"
+                    >
+                      {file.name}
+                    </Link>
+                  </div>
+                </td>
+                <td className="py-2.5 px-3 text-right text-sm text-muted-foreground">
+                  {file.type === "file" && file.modifiedAt && formatDate(file.modifiedAt)}
+                </td>
+                <td className="py-2.5 px-3 text-right text-sm text-muted-foreground">
+                  {file.type === "file" && file.size && formatSize(file.size)}
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>

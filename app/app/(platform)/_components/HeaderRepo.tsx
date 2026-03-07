@@ -17,6 +17,7 @@ import {
   BarChart3,
   Settings,
   Boxes,
+  Package,
 } from "lucide-react";
 
 interface HeaderRepoProps {
@@ -27,14 +28,15 @@ interface HeaderRepoProps {
 }
 
 const tabs = [
-  { id: "code", label: "Code", href: "", icon: Code },
+  { id: "code", label: "Code", href: "/", icon: Code },
   { id: "issues", label: "Issues", href: "/issues", icon: CircleDot },
-  { id: "pulls", label: "Pulls Requests", href: "/pull", icon: GitPullRequest },
+  { id: "pulls", label: "Pull Requests", href: "/pull", icon: GitPullRequest },
   { id: "discussions", label: "Discussions", href: "/discussions", icon: MessageSquare },
   { id: "actions", label: "Actions", href: "/actions", icon: CirclePlay },
   { id: "agents", label: "Agents", href: "/agents", icon: Bot },
-  { id: "projects", label: "Projects", href: "/projects", icon: FolderKanban },
   { id: "models", label: "Models", href: "/models", icon: Boxes },
+  { id: "packages", label: "Packages", href: "/packages", icon: Package },
+  { id: "projects", label: "Projects", href: "/projects", icon: FolderKanban },
   { id: "wiki", label: "Wiki", href: "/wiki", icon: BookOpen },
   { id: "security", label: "Security", href: "/security", icon: Shield },
   { id: "insights", label: "Insights", href: "/insights", icon: BarChart3 },

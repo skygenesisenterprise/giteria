@@ -16,6 +16,18 @@ export interface RepositoryData {
   isMirror: boolean;
   isFork: boolean;
   owner: string;
+  website?: string;
+  license?: string;
+  languages?: { name: string; color: string; percentage: number }[];
+  readme?: boolean;
+  codeOfConduct?: boolean;
+  contributing?: boolean;
+  securityPolicy?: boolean;
+  topics?: string[];
+  includeReleases?: boolean;
+  includeDeployments?: boolean;
+  includePackages?: boolean;
+  contributors?: string[];
 }
 
 export async function getRepositoriesByOwner(owner: string): Promise<RepositoryData[]> {
@@ -89,4 +101,35 @@ export async function updateRepository(
   return db.put(STORES.REPOSITORIES, updated);
 }
 
-async function seedDefaultRepositories(): Promise<void> {}
+async function seedDefaultRepositories(): Promise<void> {
+  const existing = await db.getAll<RepositoryData>(STORES.REPOSITORIES);
+  if (existing.length > 0) return;
+
+  const defaultRepo: RepositoryData = {
+    id: crypto.randomUUID(),
+    name: "test",
+    fullName: "giteria/test",
+    description:
+      "Painless self-hosted all-in-one software development service, including Git hosting, code review, team collaboration, package registry and CI/CD",
+    visibility: "public",
+    stars: 0,
+    forks: 0,
+    updatedAt: Date.now(),
+    url: "/giteria/test",
+    isArchived: false,
+    isMirror: false,
+    isFork: false,
+    owner: "giteria",
+    website: "https://giteria.com",
+    license: "MIT",
+    topics: ["git", "ci-cd", "devops"],
+    includeReleases: true,
+    includeDeployments: true,
+    includePackages: true,
+    contributors: ["liamvnastoria", "dependabot[bot]"],
+  };
+
+  await db.add(STORES.REPOSITORIES, defaultRepo);
+}
+
+seedDefaultRepositories();
