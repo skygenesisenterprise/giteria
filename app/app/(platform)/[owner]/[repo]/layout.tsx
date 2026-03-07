@@ -20,7 +20,7 @@ export default function RepoLayout({ children, params }: RepoLayoutProps) {
 
     if (currentPath === "" || currentPath === "/") return "code";
     if (currentPath.startsWith("/issues")) return "issues";
-    if (currentPath.startsWith("/pull")) return "pulls";
+    if (currentPath.startsWith("/pulls")) return "pulls";
     if (currentPath.startsWith("/agents")) return "agents";
     if (currentPath.startsWith("/discussions")) return "discussions";
     if (currentPath.startsWith("/actions")) return "actions";

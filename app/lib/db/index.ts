@@ -1,18 +1,26 @@
 const DB_NAME = "giteria-db";
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 
 const STORES = {
   REPOSITORIES: "repositories",
   USERS: "users",
   SESSIONS: "sessions",
   ORGANIZATIONS: "organizations",
+  ISSUES: "issues",
 } as const;
 
+let dbPromise: Promise<IDBDatabase> | null = null;
+
 function openDB(): Promise<IDBDatabase> {
-  return new Promise((resolve, reject) => {
+  if (dbPromise) return dbPromise;
+
+  dbPromise = new Promise((resolve, reject) => {
     const request = indexedDB.open(DB_NAME, DB_VERSION);
 
-    request.onerror = () => reject(request.error);
+    request.onerror = () => {
+      dbPromise = null;
+      reject(request.error);
+    };
 
     request.onsuccess = () => resolve(request.result);
 
@@ -39,8 +47,16 @@ function openDB(): Promise<IDBDatabase> {
         const orgStore = db.createObjectStore(STORES.ORGANIZATIONS, { keyPath: "id" });
         orgStore.createIndex("slug", "slug", { unique: true });
       }
+
+      if (!db.objectStoreNames.contains(STORES.ISSUES)) {
+        const issueStore = db.createObjectStore(STORES.ISSUES, { keyPath: "id" });
+        issueStore.createIndex("repoFullName", "repoFullName", { unique: false });
+        issueStore.createIndex("number", "number", { unique: false });
+      }
     };
   });
+
+  return dbPromise;
 }
 
 export const db = {
@@ -80,6 +96,9 @@ export const db = {
 
   async getAllByIndex<T>(storeName: string, indexName: string, value: string): Promise<T[]> {
     const database = await openDB();
+    if (!database.objectStoreNames.contains(storeName)) {
+      return [];
+    }
     return new Promise((resolve, reject) => {
       const transaction = database.transaction(storeName, "readonly");
       const store = transaction.objectStore(storeName);

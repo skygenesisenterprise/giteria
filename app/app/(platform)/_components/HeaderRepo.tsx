@@ -30,7 +30,7 @@ interface HeaderRepoProps {
 const tabs = [
   { id: "code", label: "Code", href: "/", icon: Code },
   { id: "issues", label: "Issues", href: "/issues", icon: CircleDot },
-  { id: "pulls", label: "Pull Requests", href: "/pull", icon: GitPullRequest },
+  { id: "pulls", label: "Pull Requests", href: "/pulls", icon: GitPullRequest },
   { id: "discussions", label: "Discussions", href: "/discussions", icon: MessageSquare },
   { id: "actions", label: "Actions", href: "/actions", icon: CirclePlay },
   { id: "agents", label: "Agents", href: "/agents", icon: Bot },

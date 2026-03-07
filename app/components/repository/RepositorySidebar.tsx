@@ -165,7 +165,7 @@ export function RepositorySidebar({ repo, owner, repoName, files }: RepositorySi
       </div>
 
       <Dialog open={isSettingsOpen} onOpenChange={setIsSettingsOpen}>
-        <DialogContent className="sm:max-w-[500px]">
+        <DialogContent className="sm:max-w-125">
           <DialogHeader>
             <DialogTitle>Edit repository details</DialogTitle>
           </DialogHeader>
