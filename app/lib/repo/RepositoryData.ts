@@ -15,11 +15,20 @@ export interface Repository {
   url: string;
   isArchived: boolean;
   isMirror: boolean;
+  mirrorFrom?: string;
   isFork: boolean;
   owner: string;
   website?: string;
   license?: string;
+  gitignore?: string;
   languages?: { name: string; color: string; percentage: number }[];
+  files?: {
+    name: string;
+    path: string;
+    type: "file" | "folder";
+    size?: number;
+    modifiedAt?: number;
+  }[];
   readme?: boolean;
   codeOfConduct?: boolean;
   contributing?: boolean;

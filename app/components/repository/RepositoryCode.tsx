@@ -20,34 +20,102 @@ interface RepositoryCodeProps {
   owner: string;
   repo: string;
   branch?: string;
+  files?: FileItem[];
+  isLoading?: boolean;
+  mirrorFrom?: string;
 }
 
-export function RepositoryCode({ owner, repo, branch = "main" }: RepositoryCodeProps) {
-  const [currentPath] = React.useState("");
-  const [files] = React.useState<FileItem[]>([
-    { name: ".github", path: ".github", type: "folder" },
-    { name: "assets", path: "assets", type: "folder" },
-    { name: "cmd", path: "cmd", type: "folder" },
-    { name: "contrib", path: "contrib", type: "folder" },
-    { name: "docs", path: "docs", type: "folder" },
-    { name: "infrastructure", path: "infrastructure", type: "folder" },
-    { name: "modules", path: "modules", type: "folder" },
-    { name: "options", path: "options", type: "folder" },
-    { name: "routers", path: "routers", type: "folder" },
-    { name: "services", path: "services", type: "folder" },
-    { name: "tests", path: "tests", type: "folder" },
-    { name: "tools", path: "tools", type: "folder" },
-    { name: ".gitignore", path: ".gitignore", type: "file", size: 595 },
-    { name: "Dockerfile", path: "Dockerfile", type: "file", size: 1633 },
-    { name: "go.mod", path: "go.mod", type: "file", size: 14506 },
-    { name: "go.sum", path: "go.sum", type: "file", size: 103701 },
-    { name: "LICENSE", path: "LICENSE", type: "file", size: 1079 },
-    { name: "main.go", path: "main.go", type: "file", size: 1079 },
-    { name: "README.md", path: "README.md", type: "file", size: 21699 },
-  ]);
+export function RepositoryCode({
+  owner,
+  repo,
+  branch = "main",
+  files,
+  isLoading,
+  mirrorFrom,
+}: RepositoryCodeProps) {
+  const [currentPath, setCurrentPath] = React.useState("");
+  const [subFiles, setSubFiles] = React.useState<FileItem[]>([]);
+  const [isLoadingSub, setIsLoadingSub] = React.useState(false);
   const { getIcon } = useFileIcon();
 
   const pathParts = currentPath.split("/").filter(Boolean);
+
+  React.useEffect(() => {
+    async function fetchSubContents() {
+      if (!mirrorFrom || !currentPath) {
+        setSubFiles([]);
+        return;
+      }
+
+      const githubMatch = mirrorFrom.match(/github\.com[/:]([^\/]+)\/([^\/]+)/);
+      if (!githubMatch) return;
+
+      const [, mirrorOwner, mirrorRepo] = githubMatch;
+      const repoName = mirrorRepo.replace(/\.git$/, "");
+
+      setIsLoadingSub(true);
+      try {
+        const response = await fetch(
+          `https://api.github.com/repos/${mirrorOwner}/${repoName}/contents/${currentPath}`,
+          {
+            headers: {
+              Accept: "application/vnd.github.v3+json",
+            },
+          }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          if (Array.isArray(data)) {
+            const items: FileItem[] = data.map(
+              (item: { name: string; path: string; type: string; size?: number }) => ({
+                name: item.name,
+                path: item.path,
+                type: item.type as "file" | "folder",
+                size: item.size,
+              })
+            );
+            setSubFiles(items);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch subdirectory:", err);
+      } finally {
+        setIsLoadingSub(false);
+      }
+    }
+
+    fetchSubContents();
+  }, [mirrorFrom, currentPath]);
+
+  const handleFolderClick = (path: string) => {
+    setCurrentPath(path);
+  };
+
+  const handleBreadcrumbClick = (index: number) => {
+    if (index === -1) {
+      setCurrentPath("");
+    } else {
+      setCurrentPath(pathParts.slice(0, index + 1).join("/"));
+    }
+  };
+
+  const displayFiles = currentPath && mirrorFrom ? subFiles : files || [];
+
+  const sortedFiles = React.useMemo(() => {
+    return [...displayFiles].sort((a, b) => {
+      if (a.type === "folder" && b.type !== "folder") return -1;
+      if (a.type !== "folder" && b.type === "folder") return 1;
+
+      const aStartsWithDot = a.name.startsWith(".");
+      const bStartsWithDot = b.name.startsWith(".");
+
+      if (aStartsWithDot && !bStartsWithDot) return -1;
+      if (!aStartsWithDot && bStartsWithDot) return 1;
+
+      return a.name.localeCompare(b.name);
+    });
+  }, [displayFiles]);
 
   const formatSize = (bytes: number) => {
     if (bytes < 1024) return `${bytes} B`;
@@ -64,10 +132,27 @@ export function RepositoryCode({ owner, repo, branch = "main" }: RepositoryCodeP
     });
   };
 
+  if (isLoading) {
+    return (
+      <div className="border border-border rounded-lg overflow-hidden bg-card">
+        <div className="flex items-center justify-center py-20">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-foreground" />
+          <span className="ml-3 text-muted-foreground">Loading repository contents...</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="border border-border rounded-lg overflow-hidden bg-card">
       <div className="flex items-center gap-2 px-3 py-2 border-b border-border bg-muted/30">
-        <Button variant="ghost" size="sm" className="gap-1" disabled={pathParts.length === 0}>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="gap-1"
+          disabled={pathParts.length === 0}
+          onClick={() => handleBreadcrumbClick(pathParts.length - 2)}
+        >
           <ChevronLeft className="w-4 h-4" />
           <ChevronRight className="w-4 h-4" />
         </Button>
@@ -89,73 +174,82 @@ export function RepositoryCode({ owner, repo, branch = "main" }: RepositoryCodeP
 
       <div className="p-3 border-b border-border bg-muted/20">
         <div className="flex items-center gap-2 text-sm">
-          {pathParts.length > 0 && (
-            <>
-              <Link
-                href={`/${owner}/${repo}/tree/${branch}`}
-                className="text-muted-foreground hover:text-foreground"
-              >
-                {repo}
-              </Link>
-              {pathParts.map((part, index) => {
-                const path = pathParts.slice(0, index + 1).join("/");
-                return (
-                  <React.Fragment key={path}>
-                    <span className="text-muted-foreground">/</span>
-                    <Link
-                      href={`/${owner}/${repo}/tree/${branch}/${path}`}
-                      className={cn(
-                        "hover:text-foreground",
-                        index === pathParts.length - 1
-                          ? "text-foreground font-medium"
-                          : "text-muted-foreground"
-                      )}
-                    >
-                      {part}
-                    </Link>
-                  </React.Fragment>
-                );
-              })}
-            </>
-          )}
-          {pathParts.length === 0 && (
-            <Link href={`/${owner}/${repo}/tree/${branch}`} className="text-foreground font-medium">
-              {repo}
-            </Link>
-          )}
+          <button
+            onClick={() => handleBreadcrumbClick(-1)}
+            className="text-muted-foreground hover:text-foreground"
+          >
+            {repo}
+          </button>
+          {pathParts.map((part, index) => {
+            const path = pathParts.slice(0, index + 1).join("/");
+            const isLast = index === pathParts.length - 1;
+            return (
+              <React.Fragment key={path}>
+                <span className="text-muted-foreground">/</span>
+                <button
+                  onClick={() => handleBreadcrumbClick(index)}
+                  className={cn(
+                    "hover:text-foreground",
+                    isLast ? "text-foreground font-medium" : "text-muted-foreground"
+                  )}
+                >
+                  {part}
+                </button>
+              </React.Fragment>
+            );
+          })}
         </div>
       </div>
 
       <table className="w-full">
         <tbody>
-          {files.map((file) => {
-            const { iconName, color } = getIcon(file);
-            return (
-              <tr key={file.path} className="border-b border-border/50 hover:bg-muted/30">
-                <td className="py-2.5 px-3">
-                  <div className="flex items-center gap-2">
-                    <FileIcon iconName={iconName} className={cn("w-4 h-4", color)} />
-                    <Link
-                      href={
-                        file.type === "folder"
-                          ? `/${owner}/${repo}/tree/${branch}/${file.path}`
-                          : `/${owner}/${repo}/blob/${branch}/${file.path}`
-                      }
-                      className="text-sm hover:text-blue-500 hover:underline"
-                    >
-                      {file.name}
-                    </Link>
-                  </div>
-                </td>
-                <td className="py-2.5 px-3 text-right text-sm text-muted-foreground">
-                  {file.type === "file" && file.modifiedAt && formatDate(file.modifiedAt)}
-                </td>
-                <td className="py-2.5 px-3 text-right text-sm text-muted-foreground">
-                  {file.type === "file" && file.size && formatSize(file.size)}
-                </td>
-              </tr>
-            );
-          })}
+          {displayFiles.length === 0 ? (
+            <tr>
+              <td colSpan={3} className="py-12 text-center text-muted-foreground">
+                {mirrorFrom
+                  ? "This repository is empty or could not be loaded."
+                  : "No files available."}
+              </td>
+            </tr>
+          ) : (
+            sortedFiles.map((file) => {
+              const { iconName, color } = getIcon(file);
+              return (
+                <tr key={file.path} className="border-b border-border/50 hover:bg-muted/30">
+                  <td className="py-2.5 px-3">
+                    <div className="flex items-center gap-2">
+                      <FileIcon iconName={iconName} className={cn("w-4 h-4", color)} />
+                      {file.type === "folder" && mirrorFrom ? (
+                        <button
+                          onClick={() => handleFolderClick(file.path)}
+                          className="text-sm hover:text-blue-500 hover:underline"
+                        >
+                          {file.name}
+                        </button>
+                      ) : (
+                        <Link
+                          href={
+                            file.type === "folder"
+                              ? `/${owner}/${repo}/tree/${branch}/${file.path}`
+                              : `/${owner}/${repo}/blob/${branch}/${file.path}`
+                          }
+                          className="text-sm hover:text-blue-500 hover:underline"
+                        >
+                          {file.name}
+                        </Link>
+                      )}
+                    </div>
+                  </td>
+                  <td className="py-2.5 px-3 text-right text-sm text-muted-foreground">
+                    {file.type === "file" && file.modifiedAt && formatDate(file.modifiedAt)}
+                  </td>
+                  <td className="py-2.5 px-3 text-right text-sm text-muted-foreground">
+                    {file.type === "file" && file.size && formatSize(file.size)}
+                  </td>
+                </tr>
+              );
+            })
+          )}
         </tbody>
       </table>
     </div>

@@ -6,14 +6,26 @@ export interface RepositoryData {
   visibility: "public" | "private";
   language?: string;
   languageColor?: string;
+  languages?: { name: string; color: string; percentage: number }[];
   stars: number;
   forks: number;
   updatedAt: number;
   url: string;
   isArchived: boolean;
   isMirror: boolean;
+  mirrorFrom?: string;
   isFork: boolean;
   owner: string;
+  license?: string;
+  gitignore?: string;
+  readme?: boolean;
+  files?: {
+    name: string;
+    path: string;
+    type: "file" | "folder";
+    size?: number;
+    modifiedAt?: number;
+  }[];
 }
 
 export async function getRepositoriesByOwner(owner: string): Promise<RepositoryData[]> {
@@ -26,7 +38,7 @@ export async function getRepositoriesByOwner(owner: string): Promise<RepositoryD
 export async function createRepositoryInStorage(
   repo: Omit<
     RepositoryData,
-    "id" | "url" | "stars" | "forks" | "updatedAt" | "isArchived" | "isMirror" | "isFork"
+    "id" | "url" | "stars" | "forks" | "updatedAt" | "isArchived" | "isFork"
   >
 ): Promise<RepositoryData> {
   const { createRepositoryInStorage: createRepo } = await import("./indexedDB");

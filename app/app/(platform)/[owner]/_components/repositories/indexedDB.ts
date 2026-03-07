@@ -14,12 +14,21 @@ export interface RepositoryData {
   url: string;
   isArchived: boolean;
   isMirror: boolean;
+  mirrorFrom?: string;
   isFork: boolean;
   owner: string;
   website?: string;
   license?: string;
-  languages?: { name: string; color: string; percentage: number }[];
+  gitignore?: string;
   readme?: boolean;
+  files?: {
+    name: string;
+    path: string;
+    type: "file" | "folder";
+    size?: number;
+    modifiedAt?: number;
+  }[];
+  languages?: { name: string; color: string; percentage: number }[];
   codeOfConduct?: boolean;
   contributing?: boolean;
   securityPolicy?: boolean;

@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, BookMarked, Eye, ChevronDown, Pin, Lock } from "lucide-react";
+import { Plus, BookMarked, Eye, ChevronDown, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { authEngine } from "@/lib/auth/IndexedDBAuthEngine";
 import { getOrganizationBySlug } from "@/lib/organizations/LocalOrgEngine";
@@ -72,10 +72,6 @@ export default function ReposPage({ params }: ReposPageProps) {
   const isOwner = currentUser?.toLowerCase() === owner.toLowerCase();
   const canViewPrivate = isOwner;
 
-  const pinnedRepositories = React.useMemo(() => {
-    return repositories.slice(0, 4);
-  }, [repositories]);
-
   const displayedRepositories = React.useMemo(() => {
     let result = [...repositories];
 
@@ -111,10 +107,6 @@ export default function ReposPage({ params }: ReposPageProps) {
 
     return result;
   }, [repositories, searchQuery, typeFilter, languageFilter, sortBy, viewMode, canViewPrivate]);
-
-  const nonPinnedRepositories = displayedRepositories.filter(
-    (repo) => !pinnedRepositories.find((p) => p.id === repo.id)
-  );
 
   return (
     <div className="min-h-screen bg-background">
@@ -218,65 +210,8 @@ export default function ReposPage({ params }: ReposPageProps) {
           </div>
         </div>
 
-        {pinnedRepositories.length > 0 &&
-          !searchQuery &&
-          typeFilter === "all" &&
-          languageFilter === "all" && (
-            <div className="mb-6">
-              <div className="flex items-center gap-2 mb-4">
-                <Pin className="w-5 h-5 text-muted-foreground" />
-                <h2 className="text-xl font-semibold">Pinned</h2>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {pinnedRepositories.map((repo) => (
-                  <div
-                    key={repo.id}
-                    className="rounded-md border border-border p-4 hover:bg-muted/50 transition-colors"
-                  >
-                    <div className="flex items-center gap-2 mb-2">
-                      <Link
-                        href={repo.url}
-                        className="font-semibold text-[#2f81f7] hover:underline"
-                      >
-                        {repo.name}
-                      </Link>
-                      <span
-                        className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-                          repo.visibility === "private"
-                            ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
-                            : "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-                        }`}
-                      >
-                        {repo.visibility === "private" ? <Lock className="w-3 h-3 mr-1" /> : null}
-                        {repo.visibility === "public" ? "Public" : "Private"}
-                      </span>
-                    </div>
-                    {repo.description && (
-                      <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
-                        {repo.description}
-                      </p>
-                    )}
-                    {repo.language && (
-                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                        <span
-                          className="w-3 h-3 rounded-full"
-                          style={{ backgroundColor: repo.languageColor || "#6e7681" }}
-                        />
-                        {repo.language}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
         {displayedRepositories.length > 0 ? (
-          <RepositoryList
-            repositories={
-              nonPinnedRepositories.length > 0 ? nonPinnedRepositories : displayedRepositories
-            }
-          />
+          <RepositoryList repositories={displayedRepositories} />
         ) : (
           <RepositoryEmptyState owner={owner} canCreate={isOwner} />
         )}

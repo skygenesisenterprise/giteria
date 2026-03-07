@@ -20,6 +20,7 @@ import { BookMarked, ArrowLeft, Lock, Globe, AlertCircle, Building2, User } from
 import { authEngine } from "@/lib/auth/IndexedDBAuthEngine";
 import { getOrganizations } from "@/lib/organizations/LocalOrgEngine";
 import { createRepositoryInStorage } from "@/app/(platform)/[owner]/_components/repositories";
+import { LANGUAGE_OPTIONS, LICENSE_OPTIONS, GITIGNORE_OPTIONS } from "@/lib/repoOptions";
 
 interface Owner {
   type: "user" | "organization";
@@ -46,6 +47,9 @@ export default function NewRepoPage() {
     isPrivate: false,
     isTemplate: false,
     language: "",
+    license: "",
+    gitignore: "",
+    includeReadme: true,
   });
 
   React.useEffect(() => {
@@ -123,6 +127,10 @@ export default function NewRepoPage() {
         language: formData.language || undefined,
         languageColor: undefined,
         owner: selectedOwner,
+        license: formData.license || undefined,
+        gitignore: formData.gitignore || undefined,
+        readme: formData.includeReadme,
+        isMirror: false,
       });
 
       router.push(repo.url);
@@ -137,20 +145,9 @@ export default function NewRepoPage() {
     }
   };
 
-  const languageOptions = [
-    { value: "typescript", label: "TypeScript" },
-    { value: "javascript", label: "JavaScript" },
-    { value: "python", label: "Python" },
-    { value: "go", label: "Go" },
-    { value: "rust", label: "Rust" },
-    { value: "java", label: "Java" },
-    { value: "csharp", label: "C#" },
-    { value: "cpp", label: "C++" },
-    { value: "ruby", label: "Ruby" },
-    { value: "php", label: "PHP" },
-    { value: "swift", label: "Swift" },
-    { value: "kotlin", label: "Kotlin" },
-  ];
+  const languageOptions = LANGUAGE_OPTIONS;
+  const licenseOptions = LICENSE_OPTIONS;
+  const gitignoreOptions = GITIGNORE_OPTIONS;
 
   if (!currentUser) {
     return (

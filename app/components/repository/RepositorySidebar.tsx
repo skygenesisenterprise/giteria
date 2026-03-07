@@ -32,14 +32,24 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import type { Repository } from "@/lib/repo/RepositoryData";
 import { updateRepositoryDetails } from "@/lib/repo/RepositoryData";
+import { detectLanguagesFromFiles, LANGUAGE_EXTENSIONS } from "@/lib/languages";
+
+interface FileItem {
+  name: string;
+  path: string;
+  type: "file" | "folder";
+  size?: number;
+  modifiedAt?: number;
+}
 
 interface RepositorySidebarProps {
   repo: Repository;
   owner?: string;
   repoName?: string;
+  files?: FileItem[];
 }
 
-export function RepositorySidebar({ repo, owner, repoName }: RepositorySidebarProps) {
+export function RepositorySidebar({ repo, owner, repoName, files }: RepositorySidebarProps) {
   const [isStarred, setIsStarred] = React.useState(false);
   const [stars, setStars] = React.useState(repo.stars);
   const [forks, setForks] = React.useState(repo.forks);
@@ -88,12 +98,17 @@ export function RepositorySidebar({ repo, owner, repoName }: RepositorySidebarPr
     setIncludePackages(repo.includePackages !== false);
   }, [repo]);
 
+  const fileNames = files ? files.map((f: FileItem) => f.name) : [];
+  const detectedLanguages = fileNames.length > 0 ? detectLanguagesFromFiles(fileNames) : [];
+
   const languages =
     repo.languages && repo.languages.length > 0
       ? repo.languages
-      : repo.language
-        ? [{ name: repo.language, color: repo.languageColor || "#ededed", percentage: 100 }]
-        : [];
+      : detectedLanguages.length > 0
+        ? detectedLanguages
+        : repo.language
+          ? [{ name: repo.language, color: repo.languageColor || "#ededed", percentage: 100 }]
+          : [];
 
   const handleStar = () => {
     setIsStarred(!isStarred);
@@ -158,7 +173,7 @@ export function RepositorySidebar({ repo, owner, repoName }: RepositorySidebarPr
             <div className="space-y-2">
               <label className="text-sm font-medium">Description</label>
               <Textarea
-                placeholder="Painless self-hosted all-in-one software development service, including Git hosting, code review, team collaboration, package registry and CI/CD"
+                placeholder="A brief description of your project"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={3}

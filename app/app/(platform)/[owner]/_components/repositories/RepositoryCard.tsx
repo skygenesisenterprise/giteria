@@ -2,28 +2,13 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Star, GitFork, Archive, RefreshCw, Code } from "lucide-react";
+import { Star, GitFork, Archive, RefreshCw, Code, ExternalLink } from "lucide-react";
 import type { RepositoryData } from "./data";
 import { Badge } from "@/components/ui/badge";
+import { getPrimaryLanguageWithDefault, LANGUAGE_EXTENSIONS } from "@/lib/languages";
 
 interface RepositoryCardProps {
   repo: RepositoryData;
-}
-
-const languageColors: Record<string, string> = {
-  TypeScript: "#3178c6",
-  JavaScript: "#f1e05a",
-  Python: "#3572A5",
-  Go: "#00ADD8",
-  Rust: "#dea584",
-  Java: "#b07219",
-  Ruby: "#701516",
-  PHP: "#4F5D95",
-};
-
-function getLanguageColor(language?: string): string {
-  if (!language) return "#8b949e";
-  return languageColors[language] || "#8b949e";
 }
 
 function formatDate(timestamp: number): string {
@@ -41,12 +26,24 @@ function formatDate(timestamp: number): string {
 }
 
 export function RepositoryCard({ repo }: RepositoryCardProps) {
-  const languageColor = repo.languageColor || getLanguageColor(repo.language);
+  const primaryLanguage = getPrimaryLanguageWithDefault(repo.languages);
+
+  const languageColor =
+    primaryLanguage?.color ||
+    LANGUAGE_EXTENSIONS[repo.language?.toLowerCase() || ""]?.color ||
+    "#8b949e";
+  const languageName = primaryLanguage?.name || repo.language;
 
   return (
-    <div className="p-4 rounded-lg hover:bg-muted/30 transition-colors group border border-transparent">
+    <div className="p-4 rounded-lg border border-border bg-card hover:bg-muted/30 transition-colors group">
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1 min-w-0">
+          {repo.isMirror && repo.mirrorFrom && (
+            <div className="flex items-center gap-1 text-xs text-muted-foreground mb-1">
+              <ExternalLink className="w-3 h-3" />
+              <span>Mirror from {repo.mirrorFrom.replace(/^https?:\/\//, "")}</span>
+            </div>
+          )}
           <div className="flex items-center gap-2 flex-wrap">
             <Link
               href={repo.url}
@@ -83,10 +80,10 @@ export function RepositoryCard({ repo }: RepositoryCardProps) {
           )}
 
           <div className="flex items-center gap-4 mt-3 text-xs text-muted-foreground">
-            {repo.language && (
+            {languageName && (
               <div className="flex items-center gap-1.5">
                 <span className="w-3 h-3 rounded-full" style={{ backgroundColor: languageColor }} />
-                <span>{repo.language}</span>
+                <span>{languageName}</span>
               </div>
             )}
 

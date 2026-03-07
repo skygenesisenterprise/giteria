@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { FileText, Shield, HandHeart, Scale, Lock, Pencil } from "lucide-react";
+import { FileText, Shield, HandHeart, Scale, Lock, Pencil, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -16,6 +16,7 @@ interface RepoDocsCodeProps {
   owner: string;
   repo: string;
   branch?: string;
+  mirrorFrom?: string;
 }
 
 const DOC_CONFIG: Array<{
@@ -38,21 +39,80 @@ const DOC_FILE_PATHS: Record<DocFile["type"], string> = {
   security: "SECURITY.md",
 };
 
-export function RepoDocsCode({ owner, repo, branch = "main" }: RepoDocsCodeProps) {
+export function RepoDocsCode({ owner, repo, branch = "main", mirrorFrom }: RepoDocsCodeProps) {
   const [selectedDoc, setSelectedDoc] = React.useState<DocFile["type"]>("readme");
-  const [files] = React.useState<DocFile[]>([
-    {
-      name: "README.md",
-      path: "README.md",
-      type: "readme",
-      content:
-        "# Welcome to the project\n\nThis is a sample README file content.\n\n## Installation\n\n```bash\nnpm install\n```\n\n## Usage\n\n```bash\nnpm run dev\n```",
-    },
-    { name: "CODE_OF_CONDUCT.md", path: "CODE_OF_CONDUCT.md", type: "code_of_conduct" },
-    { name: "CONTRIBUTING.md", path: "CONTRIBUTING.md", type: "contributing" },
-    { name: "LICENSE", path: "LICENSE", type: "license" },
-    { name: "SECURITY.md", path: "SECURITY.md", type: "security" },
-  ]);
+  const [files, setFiles] = React.useState<DocFile[]>([]);
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  React.useEffect(() => {
+    async function fetchDocs() {
+      if (!mirrorFrom) return;
+
+      setIsLoading(true);
+      try {
+        const githubMatch = mirrorFrom.match(/github\.com[/:]([^\/]+)\/([^\/]+)/);
+        if (!githubMatch) return;
+
+        const [, mirrorOwner, mirrorRepo] = githubMatch;
+        const repoName = mirrorRepo.replace(/\.git$/, "");
+
+        const docs: DocFile[] = [];
+
+        for (const docType of DOC_CONFIG) {
+          const filePath = DOC_FILE_PATHS[docType.type];
+          try {
+            const response = await fetch(
+              `https://api.github.com/repos/${mirrorOwner}/${repoName}/contents/${filePath}`,
+              {
+                headers: {
+                  Accept: "application/vnd.github.v3+json",
+                },
+              }
+            );
+
+            if (response.ok) {
+              const data = await response.json();
+              if (data.content) {
+                const content = atob(data.content);
+                docs.push({
+                  name: data.name,
+                  path: data.path,
+                  type: docType.type,
+                  content,
+                });
+              } else {
+                docs.push({
+                  name: data.name,
+                  path: data.path,
+                  type: docType.type,
+                });
+              }
+            } else {
+              docs.push({
+                name: filePath,
+                path: filePath,
+                type: docType.type,
+              });
+            }
+          } catch {
+            docs.push({
+              name: filePath,
+              path: filePath,
+              type: docType.type,
+            });
+          }
+        }
+
+        setFiles(docs);
+      } catch (err) {
+        console.error("Failed to fetch docs:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchDocs();
+  }, [mirrorFrom]);
 
   const selectedFile = files.find((f) => f.type === selectedDoc);
 
@@ -88,7 +148,24 @@ export function RepoDocsCode({ owner, repo, branch = "main" }: RepoDocsCodeProps
       </div>
 
       <div className="p-4">
-        {selectedFile?.content ? (
+        {isLoading ? (
+          <div className="flex items-center justify-center py-12">
+            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-foreground" />
+            <span className="ml-3 text-muted-foreground">Loading documentation...</span>
+          </div>
+        ) : files.length === 0 && !mirrorFrom ? (
+          <div className="text-center py-12">
+            <p className="text-sm text-muted-foreground mb-4">No documentation available.</p>
+            <Button variant="outline" size="sm">
+              <FileText className="w-4 h-4 mr-2" />
+              Add a README
+            </Button>
+          </div>
+        ) : files.length === 0 ? (
+          <div className="text-center py-12 text-muted-foreground">
+            <p className="text-sm">No documentation available.</p>
+          </div>
+        ) : selectedFile?.content ? (
           <pre className="whitespace-pre-wrap font-mono text-sm bg-muted p-4 rounded-lg overflow-auto">
             {selectedFile.content}
           </pre>
