@@ -1,5 +1,5 @@
 const DB_NAME = "giteria-db";
-const DB_VERSION = 2;
+const DB_VERSION = 3;
 
 const STORES = {
   REPOSITORIES: "repositories",
@@ -7,6 +7,8 @@ const STORES = {
   SESSIONS: "sessions",
   ORGANIZATIONS: "organizations",
   ISSUES: "issues",
+  SETTINGS: "settings",
+  AGENTS: "agents",
 } as const;
 
 let dbPromise: Promise<IDBDatabase> | null = null;
@@ -52,6 +54,17 @@ function openDB(): Promise<IDBDatabase> {
         const issueStore = db.createObjectStore(STORES.ISSUES, { keyPath: "id" });
         issueStore.createIndex("repoFullName", "repoFullName", { unique: false });
         issueStore.createIndex("number", "number", { unique: false });
+      }
+
+      if (!db.objectStoreNames.contains(STORES.SETTINGS)) {
+        db.createObjectStore(STORES.SETTINGS, { keyPath: "id" });
+      }
+
+      if (!db.objectStoreNames.contains(STORES.AGENTS)) {
+        const agentStore = db.createObjectStore(STORES.AGENTS, { keyPath: "id" });
+        agentStore.createIndex("repoFullName", "repoFullName", { unique: false });
+        agentStore.createIndex("status", "status", { unique: false });
+        agentStore.createIndex("type", "type", { unique: false });
       }
     };
   });

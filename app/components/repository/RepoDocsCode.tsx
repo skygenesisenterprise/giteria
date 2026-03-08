@@ -4,6 +4,10 @@ import * as React from "react";
 import { FileText, Shield, HandHeart, Scale, Lock, Pencil, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { getGitHubToken } from "@/lib/github-token";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
 
 export interface DocFile {
   name: string;
@@ -31,12 +35,24 @@ const DOC_CONFIG: Array<{
   { type: "security", label: "Security", icon: Lock },
 ];
 
-const DOC_FILE_PATHS: Record<DocFile["type"], string> = {
-  readme: "README.md",
-  code_of_conduct: "CODE_OF_CONDUCT.md",
-  contributing: "CONTRIBUTING.md",
-  license: "LICENSE",
-  security: "SECURITY.md",
+const DOC_FILE_PATHS: Record<DocFile["type"], string[]> = {
+  readme: ["README.md", "readme.md", "Readme.md"],
+  code_of_conduct: [
+    "CODE_OF_CONDUCT.md",
+    "CODE_OF_CONDUCT.md",
+    "code_of_conduct.md",
+    ".github/CODE_OF_CONDUCT.md",
+  ],
+  contributing: [
+    "CONTRIBUTING.md",
+    "contributing.md",
+    "Contributing.md",
+    "CONTRIBUTING",
+    "contributing",
+    ".github/CONTRIBUTING.md",
+  ],
+  license: ["LICENSE", "LICENSE.md", "license.md", "License", ".github/LICENSE"],
+  security: ["SECURITY.md", "security.md", "Security.md", ".github/SECURITY.md"],
 };
 
 export function RepoDocsCode({ owner, repo, branch = "main", mirrorFrom }: RepoDocsCodeProps) {
@@ -56,48 +72,57 @@ export function RepoDocsCode({ owner, repo, branch = "main", mirrorFrom }: RepoD
         const [, mirrorOwner, mirrorRepo] = githubMatch;
         const repoName = mirrorRepo.replace(/\.git$/, "");
 
+        const token = await getGitHubToken();
+        const headers: HeadersInit = {
+          Accept: "application/vnd.github.v3+json",
+        };
+        if (token) {
+          headers.Authorization = `Bearer ${token}`;
+        }
+
         const docs: DocFile[] = [];
 
         for (const docType of DOC_CONFIG) {
-          const filePath = DOC_FILE_PATHS[docType.type];
-          try {
-            const response = await fetch(
-              `https://api.github.com/repos/${mirrorOwner}/${repoName}/contents/${filePath}`,
-              {
-                headers: {
-                  Accept: "application/vnd.github.v3+json",
-                },
-              }
-            );
+          const filePaths = DOC_FILE_PATHS[docType.type];
+          let foundDoc: { name: string; path: string; content?: string } | null = null;
 
-            if (response.ok) {
-              const data = await response.json();
-              if (data.content) {
-                const content = atob(data.content);
-                docs.push({
+          for (const filePath of filePaths) {
+            try {
+              const response = await fetch(
+                `https://api.github.com/repos/${mirrorOwner}/${repoName}/contents/${filePath}`,
+                { headers }
+              );
+
+              if (response.ok) {
+                const data = await response.json();
+                const decodedContent = data.content
+                  ? new TextDecoder().decode(
+                      Uint8Array.from(atob(data.content), (c) => c.charCodeAt(0))
+                    )
+                  : undefined;
+                foundDoc = {
                   name: data.name,
                   path: data.path,
-                  type: docType.type,
-                  content,
-                });
-              } else {
-                docs.push({
-                  name: data.name,
-                  path: data.path,
-                  type: docType.type,
-                });
+                  content: decodedContent,
+                };
+                break;
               }
-            } else {
-              docs.push({
-                name: filePath,
-                path: filePath,
-                type: docType.type,
-              });
+            } catch {
+              continue;
             }
-          } catch {
+          }
+
+          if (foundDoc) {
             docs.push({
-              name: filePath,
-              path: filePath,
+              name: foundDoc.name,
+              path: foundDoc.path,
+              type: docType.type,
+              content: foundDoc.content,
+            });
+          } else {
+            docs.push({
+              name: filePaths[0],
+              path: filePaths[0],
               type: docType.type,
             });
           }
@@ -166,9 +191,11 @@ export function RepoDocsCode({ owner, repo, branch = "main", mirrorFrom }: RepoD
             <p className="text-sm">No documentation available.</p>
           </div>
         ) : selectedFile?.content ? (
-          <pre className="whitespace-pre-wrap font-mono text-sm bg-muted p-4 rounded-lg overflow-auto">
-            {selectedFile.content}
-          </pre>
+          <div className="prose prose-sm dark:prose-invert max-w-none">
+            <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]} skipHtml={false}>
+              {selectedFile.content}
+            </ReactMarkdown>
+          </div>
         ) : (
           <div className="text-center py-12 text-muted-foreground">
             <p className="text-sm">This file is empty or not available.</p>

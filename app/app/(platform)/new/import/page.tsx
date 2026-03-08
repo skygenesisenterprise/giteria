@@ -40,6 +40,7 @@ import {
 import { authEngine } from "@/lib/auth/IndexedDBAuthEngine";
 import { getOrganizations } from "@/lib/organizations/LocalOrgEngine";
 import { createRepositoryInStorage } from "@/app/(platform)/[owner]/_components/repositories";
+import { getGitHubToken, setGitHubToken } from "@/lib/github-token";
 
 interface Owner {
   type: "user" | "organization";
@@ -103,6 +104,17 @@ export default function ImportRepoPage() {
   const [isLoadingRepos, setIsLoadingRepos] = React.useState(false);
   const [importedCount, setImportedCount] = React.useState(0);
   const [failedRepos, setFailedRepos] = React.useState<string[]>([]);
+  const [githubToken, setGithubToken] = React.useState("");
+
+  React.useEffect(() => {
+    async function loadToken() {
+      const token = await getGitHubToken();
+      if (token) {
+        setGithubToken(token);
+      }
+    }
+    loadToken();
+  }, []);
 
   React.useEffect(() => {
     async function loadData() {
@@ -174,13 +186,16 @@ export default function ImportRepoPage() {
         orgName = githubMatch[1];
       }
 
+      const headers: HeadersInit = {
+        Accept: "application/vnd.github.v3+json",
+      };
+      if (githubToken) {
+        headers.Authorization = `Bearer ${githubToken}`;
+      }
+
       const response = await fetch(
         `https://api.github.com/orgs/${orgName}/repos?per_page=100&sort=full_name`,
-        {
-          headers: {
-            Accept: "application/vnd.github.v3+json",
-          },
-        }
+        { headers }
       );
 
       if (!response.ok) {
@@ -419,6 +434,32 @@ export default function ImportRepoPage() {
             Import from Organization
           </Button>
         </div>
+
+        <Card className="mb-6">
+          <CardHeader className="py-3">
+            <CardTitle className="text-sm">GitHub Settings (optional)</CardTitle>
+          </CardHeader>
+          <CardContent className="py-3">
+            <div className="space-y-2">
+              <Label htmlFor="githubToken">Personal Access Token</Label>
+              <Input
+                id="githubToken"
+                type="password"
+                placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
+                value={githubToken}
+                onChange={(e) => setGithubToken(e.target.value)}
+                onBlur={async () => {
+                  if (githubToken) {
+                    await setGitHubToken(githubToken);
+                  }
+                }}
+              />
+              <p className="text-sm text-muted-foreground">
+                Enter a GitHub token to avoid API rate limits
+              </p>
+            </div>
+          </CardContent>
+        </Card>
 
         {importMode === "single" ? (
           <form onSubmit={handleSubmit}>

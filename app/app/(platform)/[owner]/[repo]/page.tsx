@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { use, useEffect, useState } from "react";
+import { use, useEffect, useState, useCallback } from "react";
 import { RepositoryCode } from "@/components/repository/RepositoryCode";
 import { RepoDocsCode } from "@/components/repository/RepoDocsCode";
 import { RepositorySidebar } from "@/components/repository/RepositorySidebar";
@@ -9,6 +9,7 @@ import { RepoActionBar } from "@/components/repository/RepoActionBar";
 import { RepoGitBar } from "@/components/repository/RepoGitBar";
 import { getRepository, type Repository } from "@/lib/repo/RepositoryData";
 import { RepoInfoBar } from "@/components/repository/RepoInfoBar";
+import { getGitHubToken } from "@/lib/github-token";
 
 interface RepoPageProps {
   params: Promise<{ owner: string; repo: string }>;
@@ -29,6 +30,51 @@ export default function RepoPage({ params }: RepoPageProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingFiles, setIsLoadingFiles] = useState(false);
 
+  const fetchMirrorFiles = useCallback(async () => {
+    if (!repo?.mirrorFrom) return;
+
+    const mirrorUrl = repo.mirrorFrom;
+    let apiUrl = "";
+
+    const githubMatch = mirrorUrl.match(/github\.com[/:]([^\/]+)\/([^\/]+)/);
+    if (githubMatch) {
+      const [, owner, repoName] = githubMatch;
+      apiUrl = `https://api.github.com/repos/${owner}/${repoName.replace(/\.git$/, "")}/contents`;
+    }
+
+    if (apiUrl) {
+      setIsLoadingFiles(true);
+      try {
+        const token = await getGitHubToken();
+        const headers: HeadersInit = {
+          Accept: "application/vnd.github.v3+json",
+        };
+        if (token) {
+          headers.Authorization = `Bearer ${token}`;
+        }
+
+        const response = await fetch(apiUrl, { headers });
+
+        if (response.ok) {
+          const data = await response.json();
+          const fileList: FileItem[] = Array.isArray(data)
+            ? data.map((item: { name: string; path: string; type: string; size?: number }) => ({
+                name: item.name,
+                path: item.path,
+                type: item.type === "dir" ? "folder" : "file",
+                size: item.size,
+              }))
+            : [];
+          setFiles(fileList);
+        }
+      } catch (err) {
+        console.error("Failed to fetch mirror content:", err);
+      } finally {
+        setIsLoadingFiles(false);
+      }
+    }
+  }, [repo?.mirrorFrom]);
+
   useEffect(() => {
     async function fetchRepo() {
       try {
@@ -36,51 +82,27 @@ export default function RepoPage({ params }: RepoPageProps) {
         setRepo(repository);
 
         if (repository?.mirrorFrom) {
-          setIsLoadingFiles(true);
-          try {
-            const mirrorUrl = repository.mirrorFrom;
-            let apiUrl = "";
-
-            const githubMatch = mirrorUrl.match(/github\.com[/:]([^\/]+)\/([^\/]+)/);
-            if (githubMatch) {
-              const [, owner, repoName] = githubMatch;
-              apiUrl = `https://api.github.com/repos/${owner}/${repoName.replace(/\.git$/, "")}/contents`;
-            }
-
-            if (apiUrl) {
-              const response = await fetch(apiUrl, {
-                headers: {
-                  Accept: "application/vnd.github.v3+json",
-                },
-              });
-
-              if (response.ok) {
-                const data = await response.json();
-                const fileList: FileItem[] = Array.isArray(data)
-                  ? data.map(
-                      (item: { name: string; path: string; type: string; size?: number }) => ({
-                        name: item.name,
-                        path: item.path,
-                        type: item.type as "file" | "folder",
-                        size: item.size,
-                      })
-                    )
-                  : [];
-                setFiles(fileList);
-              }
-            }
-          } catch (err) {
-            console.error("Failed to fetch mirror content:", err);
-          } finally {
-            setIsLoadingFiles(false);
-          }
+          await fetchMirrorFiles();
         }
       } finally {
         setIsLoading(false);
       }
     }
     fetchRepo();
-  }, [resolvedParams.owner, resolvedParams.repo]);
+  }, [resolvedParams.owner, resolvedParams.repo, fetchMirrorFiles]);
+
+  useEffect(() => {
+    if (!repo?.mirrorFrom) return;
+
+    const interval = setInterval(
+      () => {
+        fetchMirrorFiles();
+      },
+      5 * 60 * 1000
+    );
+
+    return () => clearInterval(interval);
+  }, [repo?.mirrorFrom, fetchMirrorFiles]);
 
   const { owner, repo: repoName } = resolvedParams;
 
@@ -92,7 +114,7 @@ export default function RepoPage({ params }: RepoPageProps) {
     );
   }
 
-  const displayFiles = repo?.mirrorFrom ? (files.length > 0 ? files : undefined) : undefined;
+  const displayFiles = repo?.mirrorFrom ? files : undefined;
 
   return (
     <div className="bg-background">

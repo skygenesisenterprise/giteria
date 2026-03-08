@@ -43,6 +43,7 @@ const ICON_COLORS: Record<string, string> = {
   "folder-tools": "text-gray-500",
   "folder-resource": "text-green-500",
   "folder-terraform": "text-purple-500",
+  "folder-server": "text-gray-500",
   go: "text-cyan-500",
   golang: "text-cyan-500",
   typescript: "text-blue-500",
@@ -115,8 +116,14 @@ export function getFolderIcon(folderName: string): FileIconResult {
     contrib: "folder-resource",
     contribution: "folder-resource",
     contributions: "folder-resource",
-    infrastructure: "folder-terraform",
-    infra: "folder-terraform",
+    infrastructure: "folder-server",
+    infra: "folder-server",
+    server: "folder-server",
+    servers: "folder-server",
+    giteria: "folder-git",
+    ".giteria": "folder-git",
+    github: "folder-github",
+    ".github": "folder-github",
   };
 
   if (customFolderIcons[lowerName]) {
@@ -218,9 +225,23 @@ export function getSpecialFileIcon(fileName: string): FileIconResult | null {
     };
   }
 
+  if (
+    lowerName === ".ignore" ||
+    lowerName === ".dockerignore" ||
+    lowerName === ".prettierignore" ||
+    lowerName === ".eslintignore" ||
+    lowerName === ".npmignore" ||
+    lowerName === ".gitmodules"
+  ) {
+    return {
+      iconName: "docker",
+      color: ICON_COLORS.gitignore,
+    };
+  }
+
   if (lowerName === "changelog" || lowerName === "changelog.md" || lowerName === "history") {
     return {
-      iconName: "changelog",
+      iconName: "history",
       color: ICON_COLORS.changelog,
     };
   }
@@ -234,14 +255,14 @@ export function getSpecialFileIcon(fileName: string): FileIconResult | null {
 
   if (lowerName.includes("code_of_conduct") || lowerName.includes("codeofconduct")) {
     return {
-      iconName: "code_of_conduct",
+      iconName: "conduct",
       color: ICON_COLORS.code_of_conduct,
     };
   }
 
   if (lowerName.includes("security")) {
     return {
-      iconName: "security",
+      iconName: "lock",
       color: ICON_COLORS.security,
     };
   }
@@ -278,6 +299,44 @@ export function getSpecialFileIcon(fileName: string): FileIconResult | null {
     return {
       iconName: "go-mod",
       color: ICON_COLORS.golang,
+    };
+  }
+
+  if (
+    lowerName.startsWith(".prettierrc") ||
+    lowerName === "prettier.config.js" ||
+    lowerName === "prettier.config.ts" ||
+    lowerName.startsWith("prettier.config.")
+  ) {
+    return {
+      iconName: "prettier",
+      color: ICON_COLORS.env,
+    };
+  }
+
+  if (
+    lowerName.startsWith(".eslintrc") ||
+    lowerName === "eslint.config.js" ||
+    lowerName === "eslint.config.mjs" ||
+    lowerName === "eslint.config.ts"
+  ) {
+    return {
+      iconName: "eslint",
+      color: ICON_COLORS.env,
+    };
+  }
+
+  if (lowerName.startsWith(".vscode") || lowerName === "settings.json") {
+    return {
+      iconName: "vscode",
+      color: ICON_COLORS.env,
+    };
+  }
+
+  if (lowerName.endsWith(".md")) {
+    return {
+      iconName: "markdown",
+      color: ICON_COLORS.env,
     };
   }
 
@@ -322,7 +381,7 @@ export function getSpecialFileIcon(fileName: string): FileIconResult | null {
 
   if (lowerName === ".env" || lowerName === ".env.example" || lowerName === ".env.local") {
     return {
-      iconName: "env",
+      iconName: "tune",
       color: ICON_COLORS.env,
     };
   }

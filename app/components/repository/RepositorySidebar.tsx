@@ -33,6 +33,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import type { Repository } from "@/lib/repo/RepositoryData";
 import { updateRepositoryDetails } from "@/lib/repo/RepositoryData";
 import { detectLanguagesFromFiles, LANGUAGE_EXTENSIONS } from "@/lib/languages";
+import { getGitHubToken } from "@/lib/github-token";
 
 interface FileItem {
   name: string;
@@ -68,6 +69,79 @@ export function RepositorySidebar({ repo, owner, repoName, files }: RepositorySi
     repo.includeDeployments !== false
   );
   const [includePackages, setIncludePackages] = React.useState(repo.includePackages !== false);
+  const [githubMeta, setGithubMeta] = React.useState<{
+    description?: string;
+    topics?: string[];
+    stargazers_count?: number;
+    forks_count?: number;
+    watchers_count?: number;
+    license?: { name: string };
+    homepage?: string;
+    hasWiki?: boolean;
+  } | null>(null);
+  const [githubFiles, setGithubFiles] = React.useState<string[]>([]);
+  const [githubLanguages, setGithubLanguages] = React.useState<Record<string, number>>({});
+  const [githubContributors, setGithubContributors] = React.useState<
+    { login: string; avatar_url: string; contributions: number }[]
+  >([]);
+
+  React.useEffect(() => {
+    async function fetchGithubMeta() {
+      if (!repo.mirrorFrom) return;
+
+      const githubMatch = repo.mirrorFrom.match(/github\.com[/:]([^\/]+)\/([^\/]+)/);
+      if (!githubMatch) return;
+
+      const [, owner, repoName] = githubMatch;
+      const name = repoName.replace(/\.git$/, "");
+
+      try {
+        const token = await getGitHubToken();
+        const headers: HeadersInit = {
+          Accept: "application/vnd.github.v3+json",
+        };
+        if (token) {
+          headers.Authorization = `Bearer ${token}`;
+        }
+
+        const [metaResponse, languagesResponse, contributorsResponse, contentsResponse] =
+          await Promise.all([
+            fetch(`https://api.github.com/repos/${owner}/${name}`, { headers }),
+            fetch(`https://api.github.com/repos/${owner}/${name}/languages`, { headers }),
+            fetch(`https://api.github.com/repos/${owner}/${name}/contributors?per_page=10`, {
+              headers,
+            }),
+            fetch(`https://api.github.com/repos/${owner}/${name}/contents`, { headers }),
+          ]);
+
+        if (metaResponse.ok) {
+          const metaData = await metaResponse.json();
+          setGithubMeta(metaData);
+        }
+
+        if (languagesResponse.ok) {
+          const languagesData = await languagesResponse.json();
+          setGithubLanguages(languagesData);
+        }
+
+        if (contributorsResponse.ok) {
+          const contributorsData = await contributorsResponse.json();
+          setGithubContributors(contributorsData);
+        }
+
+        if (contentsResponse.ok) {
+          const contentsData = await contentsResponse.json();
+          if (Array.isArray(contentsData)) {
+            setGithubFiles(contentsData.map((f: { name: string }) => f.name.toLowerCase()));
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch GitHub data:", err);
+      }
+    }
+
+    fetchGithubMeta();
+  }, [repo.mirrorFrom]);
 
   const handleSave = async () => {
     const normalizedWebsite = normalizeUrl(website);
@@ -98,17 +172,52 @@ export function RepositorySidebar({ repo, owner, repoName, files }: RepositorySi
     setIncludePackages(repo.includePackages !== false);
   }, [repo]);
 
+  React.useEffect(() => {
+    if (githubMeta) {
+      if (githubMeta.description && !displayedDescription) {
+        setDisplayedDescription(githubMeta.description);
+      }
+      if (githubMeta.homepage && !displayedWebsite) {
+        setDisplayedWebsite(githubMeta.homepage);
+      }
+      if (githubMeta.topics?.length && displayedTopics.length === 0) {
+        setDisplayedTopics(githubMeta.topics);
+      }
+    }
+  }, [githubMeta]);
+
   const fileNames = files ? files.map((f: FileItem) => f.name) : [];
   const detectedLanguages = fileNames.length > 0 ? detectLanguagesFromFiles(fileNames) : [];
 
-  const languages =
-    repo.languages && repo.languages.length > 0
-      ? repo.languages
-      : detectedLanguages.length > 0
-        ? detectedLanguages
-        : repo.language
-          ? [{ name: repo.language, color: repo.languageColor || "#ededed", percentage: 100 }]
-          : [];
+  const languages = React.useMemo(() => {
+    if (githubLanguages && Object.keys(githubLanguages).length > 0) {
+      const totalBytes = Object.values(githubLanguages).reduce((sum, bytes) => sum + bytes, 0);
+      return Object.entries(githubLanguages)
+        .map(([langName, bytes]) => {
+          const langInfo = LANGUAGE_EXTENSIONS[langName.toLowerCase()];
+          return {
+            name: langInfo?.name || langName,
+            color: langInfo?.color || "#ededed",
+            percentage: Math.round((bytes / totalBytes) * 100),
+          };
+        })
+        .sort((a, b) => b.percentage - a.percentage);
+    }
+
+    if (repo.languages && repo.languages.length > 0) {
+      return repo.languages;
+    }
+
+    if (detectedLanguages.length > 0) {
+      return detectedLanguages;
+    }
+
+    if (repo.language) {
+      return [{ name: repo.language, color: repo.languageColor || "#ededed", percentage: 100 }];
+    }
+
+    return [];
+  }, [githubLanguages, repo.languages, detectedLanguages, repo.language, repo.languageColor]);
 
   const handleStar = () => {
     setIsStarred(!isStarred);
@@ -123,6 +232,20 @@ export function RepositorySidebar({ repo, owner, repoName, files }: RepositorySi
     return `https://${url}`;
   };
 
+  const effectiveDescription = githubMeta?.description || displayedDescription;
+  const effectiveTopics = githubMeta?.topics?.length ? githubMeta.topics : displayedTopics;
+  const effectiveStars =
+    githubMeta?.stargazers_count !== undefined ? githubMeta.stargazers_count : stars;
+  const effectiveForks = githubMeta?.forks_count !== undefined ? githubMeta.forks_count : forks;
+  const effectiveWatchers =
+    githubMeta?.watchers_count !== undefined ? githubMeta.watchers_count : watchers;
+  const effectiveLicense = githubMeta?.license?.name || repo.license;
+  const effectiveWebsite = githubMeta?.homepage || displayedWebsite;
+  const hasCodeOfConduct = githubFiles.some(
+    (f) => f === "code_of_conduct.md" || f === "code_of_conduct"
+  );
+  const hasSecurityPolicy = githubFiles.some((f) => f === "security.md" || f === "security");
+
   return (
     <div className="space-y-6">
       <div className="border-b border-border pb-4">
@@ -131,31 +254,34 @@ export function RepositorySidebar({ repo, owner, repoName, files }: RepositorySi
           <Settings
             className="w-4 h-4 text-muted-foreground cursor-pointer hover:text-foreground"
             onClick={() => {
-              setDescription(displayedDescription);
-              setWebsite(displayedWebsite);
-              setTopics(displayedTopics.join(" "));
+              setDescription(effectiveDescription);
+              setWebsite(effectiveWebsite);
+              setTopics(effectiveTopics.join(" "));
               setIsSettingsOpen(true);
             }}
           />
         </div>
-        {displayedDescription ? (
-          <p className="text-sm text-muted-foreground mb-3">{displayedDescription}</p>
+        {effectiveDescription ? (
+          <p className="text-sm text-muted-foreground mb-3">{effectiveDescription}</p>
         ) : (
           <p className="text-sm text-muted-italic mb-3">
             No description, website, or topics provided.
           </p>
         )}
-        {displayedWebsite && (
+        {effectiveWebsite && (
           <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
             <ExternalLink className="w-4 h-4" />
-            <a href={displayedWebsite} className="hover:text-foreground hover:underline">
-              {displayedWebsite.replace(/^https?:\/\//, "")}
+            <a
+              href={normalizeUrl(effectiveWebsite)}
+              className="hover:text-foreground hover:underline"
+            >
+              {effectiveWebsite.replace(/^https?:\/\//, "")}
             </a>
           </div>
         )}
-        {displayedTopics.length > 0 && (
+        {effectiveTopics.length > 0 && (
           <div className="flex flex-wrap gap-1">
-            {displayedTopics.map((topic) => (
+            {effectiveTopics.map((topic) => (
               <Badge key={topic} variant="outline" className="text-xs">
                 {topic}
               </Badge>
@@ -252,16 +378,16 @@ export function RepositorySidebar({ repo, owner, repoName, files }: RepositorySi
               <span>Readme</span>
             </Link>
           )}
-          {repo.license && (
+          {effectiveLicense && (
             <Link
               href={owner && repoName ? `/${owner}/${repoName}/blob/main/LICENSE` : "#"}
               className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
             >
               <Scale className="w-4 h-4" />
-              <span>{repo.license} license</span>
+              <span>{effectiveLicense}</span>
             </Link>
           )}
-          {repo.codeOfConduct && (
+          {(hasCodeOfConduct || repo.codeOfConduct) && (
             <Link
               href={owner && repoName ? `/${owner}/${repoName}/blob/main/CODE_OF_CONDUCT.md` : "#"}
               className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
@@ -279,7 +405,7 @@ export function RepositorySidebar({ repo, owner, repoName, files }: RepositorySi
               <span>Contributing</span>
             </Link>
           )}
-          {repo.securityPolicy && (
+          {(hasSecurityPolicy || repo.securityPolicy) && (
             <Link
               href={owner && repoName ? `/${owner}/${repoName}/blob/main/SECURITY.md` : "#"}
               className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
@@ -303,15 +429,15 @@ export function RepositorySidebar({ repo, owner, repoName, files }: RepositorySi
             onClick={handleStar}
           >
             <Star className={`w-4 h-4 ${isStarred ? "fill-yellow-500 text-yellow-500" : ""}`} />
-            <span>{stars} stars</span>
+            <span>{effectiveStars} stars</span>
           </div>
           <div className="flex items-center gap-2 text-muted-foreground">
             <Eye className="w-4 h-4" />
-            <span>{watchers} watching</span>
+            <span>{effectiveWatchers} watching</span>
           </div>
           <div className="flex items-center gap-2 text-muted-foreground">
             <GitFork className="w-4 h-4" />
-            <span>{forks} forks</span>
+            <span>{effectiveForks} forks</span>
           </div>
           <div className="flex items-center gap-2 text-muted-foreground">
             <History className="w-4 h-4" />
@@ -378,7 +504,25 @@ export function RepositorySidebar({ repo, owner, repoName, files }: RepositorySi
       <div className="border-b border-border pb-4">
         <h3 className="font-semibold text-sm mb-3">Contributors</h3>
         <div className="space-y-2">
-          {repo.contributors && repo.contributors.length > 0 ? (
+          {githubContributors.length > 0 ? (
+            <div className="flex flex-wrap gap-1">
+              {githubContributors.map((contributor) => (
+                <Link
+                  key={contributor.login}
+                  href={`/${contributor.login}`}
+                  className="flex items-center gap-2 text-sm hover:text-foreground"
+                  title={`${contributor.contributions} contributions`}
+                >
+                  <img
+                    src={contributor.avatar_url}
+                    alt={contributor.login}
+                    className="w-6 h-6 rounded-full"
+                  />
+                  <span>{contributor.login}</span>
+                </Link>
+              ))}
+            </div>
+          ) : repo.contributors && repo.contributors.length > 0 ? (
             repo.contributors.map((contributor) => (
               <Link
                 key={contributor}
