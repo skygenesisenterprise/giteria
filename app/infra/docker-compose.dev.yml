@@ -1,9 +1,9 @@
 services:
-  identity-frontend-dev:
+  giteria-frontend-dev:
     build:
       context: ..
       dockerfile: infra/Dockerfile.dev
-    container_name: identity-frontend-dev
+    container_name: giteria-frontend-dev
 
     # Le port est uniquement visible dans le réseau Docker
     expose:
@@ -35,16 +35,16 @@ services:
     # 🔑 Indexation par Traefik (l’infra décide de l’exposition)
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.identity-frontend-dev.rule=Host(`localhost`) || Host(`identity.local`)"
-      - "traefik.http.routers.identity-frontend-dev.entrypoints=web"
-      - "traefik.http.services.identity-frontend-dev.loadbalancer.server.port=3001"
-      - "traefik.http.routers.identity-frontend-dev.priority=1"
+      - "traefik.http.routers.giteria-frontend-dev.rule=Host(`localhost`) || Host(`giteria.local`)"
+      - "traefik.http.routers.giteria-frontend-dev.entrypoints=web"
+      - "traefik.http.services.giteria-frontend-dev.loadbalancer.server.port=3001"
+      - "traefik.http.routers.giteria-frontend-dev.priority=1"
 
     networks:
-      - identity-network-dev
+      - giteria-network-dev
 
 networks:
-  identity-network-dev:
+  giteria-network-dev:
     name: aether-network-dev
     driver: bridge
 
