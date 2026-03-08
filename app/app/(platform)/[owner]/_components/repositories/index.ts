@@ -10,6 +10,7 @@ export { RepositoryList } from "./RepositoryList";
 export { RepositoryEmptyState } from "./RepositoryEmptyState";
 export {
   getRepositoriesByOwner,
+  getAllRepositories,
   createRepositoryInStorage,
   isOwnerOfRepositor,
   type RepositoryData,

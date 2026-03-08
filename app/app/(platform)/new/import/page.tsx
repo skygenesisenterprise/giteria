@@ -39,7 +39,10 @@ import {
 } from "lucide-react";
 import { authEngine } from "@/lib/auth/IndexedDBAuthEngine";
 import { getOrganizations } from "@/lib/organizations/LocalOrgEngine";
-import { createRepositoryInStorage } from "@/app/(platform)/[owner]/_components/repositories";
+import {
+  createRepositoryInStorage,
+  getAllRepositories,
+} from "@/app/(platform)/[owner]/_components/repositories";
 import { getGitHubToken, setGitHubToken } from "@/lib/github-token";
 
 interface Owner {
@@ -60,6 +63,7 @@ interface ExternalRepo {
   description: string | null;
   url: string;
   selected: boolean;
+  exists: boolean;
 }
 
 const PLATFORMS: Platform[] = [
@@ -105,6 +109,17 @@ export default function ImportRepoPage() {
   const [importedCount, setImportedCount] = React.useState(0);
   const [failedRepos, setFailedRepos] = React.useState<string[]>([]);
   const [githubToken, setGithubToken] = React.useState("");
+  const [hasImported, setHasImported] = React.useState(false);
+  const existingRepoUrlsRef = React.useRef<Set<string>>(new Set());
+
+  React.useEffect(() => {
+    async function loadExistingRepos() {
+      const repos = await getAllRepositories();
+      const urls = new Set(repos.map((r) => r.mirrorFrom || r.url));
+      existingRepoUrlsRef.current = urls;
+    }
+    loadExistingRepos();
+  }, []);
 
   React.useEffect(() => {
     async function loadToken() {
@@ -115,6 +130,11 @@ export default function ImportRepoPage() {
     }
     loadToken();
   }, []);
+
+  const refreshExistingRepos = async () => {
+    const repos = await getAllRepositories();
+    existingRepoUrlsRef.current = new Set(repos.map((r) => r.mirrorFrom || r.url));
+  };
 
   React.useEffect(() => {
     async function loadData() {
@@ -193,39 +213,61 @@ export default function ImportRepoPage() {
         headers.Authorization = `Bearer ${githubToken}`;
       }
 
-      const response = await fetch(
-        `https://api.github.com/orgs/${orgName}/repos?per_page=100&sort=full_name`,
-        { headers }
-      );
+      const allRepos: ExternalRepo[] = [];
+      let page = 1;
+      const maxPages = 10;
 
-      if (!response.ok) {
-        if (response.status === 404) {
-          throw new Error("Organization not found");
+      while (page <= maxPages) {
+        const response = await fetch(
+          `https://api.github.com/orgs/${orgName}/repos?per_page=100&page=${page}&sort=full_name&type=all`,
+          { headers }
+        );
+
+        if (!response.ok) {
+          if (response.status === 404) {
+            throw new Error("Organization not found");
+          }
+          if (response.status === 403) {
+            throw new Error("API rate limit exceeded. Please try again later.");
+          }
+          throw new Error("Failed to fetch repositories");
         }
-        if (response.status === 403) {
-          throw new Error("API rate limit exceeded. Please try again later.");
+
+        const data = await response.json();
+
+        if (data.length === 0) {
+          break;
+        } else {
+          const currentExistingUrls = existingRepoUrlsRef.current;
+          const repos: ExternalRepo[] = data.map(
+            (repo: {
+              name: string;
+              full_name: string;
+              description: string | null;
+              html_url: string;
+            }) => {
+              const repoUrl = repo.html_url;
+              const exists = currentExistingUrls.has(repoUrl);
+              return {
+                name: repo.name,
+                fullName: repo.full_name,
+                description: repo.description,
+                url: repoUrl,
+                selected: !exists,
+                exists,
+              };
+            }
+          );
+          allRepos.push(...repos);
+
+          if (data.length < 100) {
+            break;
+          }
+          page++;
         }
-        throw new Error("Failed to fetch repositories");
       }
 
-      const data = await response.json();
-
-      const repos: ExternalRepo[] = data.map(
-        (repo: {
-          name: string;
-          full_name: string;
-          description: string | null;
-          html_url: string;
-        }) => ({
-          name: repo.name,
-          fullName: repo.full_name,
-          description: repo.description,
-          url: repo.html_url,
-          selected: true,
-        })
-      );
-
-      setExternalRepos(repos);
+      setExternalRepos(allRepos);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to fetch repositories");
     } finally {
@@ -242,14 +284,18 @@ export default function ImportRepoPage() {
   };
 
   const toggleAllRepos = (selected: boolean) => {
-    setExternalRepos((prev) => prev.map((repo) => ({ ...repo, selected })));
+    setExternalRepos((prev) =>
+      prev.map((repo) => ({ ...repo, selected: repo.exists ? false : selected }))
+    );
   };
 
   const handleImportOrganization = async () => {
-    const selectedRepos = externalRepos.filter((repo) => repo.selected);
+    await refreshExistingRepos();
+
+    const selectedRepos = externalRepos.filter((repo) => repo.selected && !repo.exists);
 
     if (selectedRepos.length === 0) {
-      setError("Please select at least one repository to import");
+      setError("No new repositories to import. All selected repositories already exist.");
       return;
     }
 
@@ -262,6 +308,7 @@ export default function ImportRepoPage() {
 
     let imported = 0;
     const failed: string[] = [];
+    const errorDetails: { repo: string; error: string }[] = [];
 
     for (const repo of selectedRepos) {
       setImportProgress(`Importing ${imported + 1}/${selectedRepos.length}: ${repo.name}...`);
@@ -272,6 +319,10 @@ export default function ImportRepoPage() {
           .replace(/[^a-z0-9._-]/g, "-")
           .replace(/-+/g, "-")
           .replace(/^-|-$/g, "");
+
+        if (!repoName) {
+          throw new Error("Invalid repository name after normalization");
+        }
 
         await createRepositoryInStorage({
           name: repoName,
@@ -288,9 +339,19 @@ export default function ImportRepoPage() {
 
         imported++;
         setImportedCount(imported);
+        existingRepoUrlsRef.current.add(repo.url);
+
+        setExternalRepos((prev) =>
+          prev.map((r) =>
+            r.fullName === repo.fullName ? { ...r, exists: true, selected: false } : r
+          )
+        );
       } catch (err) {
+        const errorMsg = err instanceof Error ? err.message : "Unknown error";
+        errorDetails.push({ repo: repo.name, error: errorMsg });
         failed.push(repo.name);
         setFailedRepos([...failed]);
+        console.error(`Failed to import ${repo.name}:`, err);
       }
     }
 
@@ -298,9 +359,13 @@ export default function ImportRepoPage() {
     setSuccess(`Successfully imported ${imported} repository(ies)!`);
     setIsSubmitting(false);
     setIsImporting(false);
+    setHasImported(true);
 
     if (failed.length > 0) {
-      setError(`Failed to import ${failed.length} repository(ies): ${failed.join(", ")}`);
+      const uniqueErrors = [...new Set(errorDetails.map((e) => e.error))];
+      setError(
+        `Failed to import ${failed.length} repository(ies). Errors: ${uniqueErrors.join(", ")}`
+      );
     }
   };
 
@@ -630,6 +695,44 @@ export default function ImportRepoPage() {
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-2">
+                <Label htmlFor="owner">Owner</Label>
+                <Select value={selectedOwner} onValueChange={setSelectedOwner}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select owner" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {owners.map((owner) => (
+                      <SelectItem key={owner.slug} value={owner.slug}>
+                        <div className="flex items-center gap-2">
+                          {owner.type === "organization" ? (
+                            <Building2 className="w-4 h-4 text-muted-foreground" />
+                          ) : (
+                            <User className="w-4 h-4 text-muted-foreground" />
+                          )}
+                          <span>{owner.name}</span>
+                          <span className="text-muted-foreground text-sm">({owner.slug})</span>
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <p className="text-sm text-muted-foreground">
+                  Select where to import the repositories
+                </p>
+              </div>
+
+              {hasImported && (
+                <div className="flex justify-end">
+                  <Link href={`/${selectedOwner}`}>
+                    <Button variant="outline">
+                      <Building2 className="w-4 h-4 mr-2" />
+                      Go to {selectedOwner}
+                    </Button>
+                  </Link>
+                </div>
+              )}
+
+              <div className="space-y-2">
                 <Label htmlFor="orgName">Organization name or URL</Label>
                 <div className="flex gap-2">
                   <Input
@@ -657,7 +760,9 @@ export default function ImportRepoPage() {
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <Label>
-                      {selectedCount} of {externalRepos.length} repositories selected
+                      {selectedCount} of {externalRepos.filter((r) => !r.exists).length} new
+                      repositories selected ({externalRepos.filter((r) => r.exists).length} already
+                      imported)
                     </Label>
                     <div className="flex gap-2">
                       <Button variant="outline" size="sm" onClick={() => toggleAllRepos(true)}>
@@ -677,6 +782,7 @@ export default function ImportRepoPage() {
                             <td className="py-2 px-3">
                               <Checkbox
                                 checked={repo.selected}
+                                disabled={repo.exists}
                                 onCheckedChange={() => toggleRepoSelection(repo.fullName)}
                               />
                             </td>
@@ -684,6 +790,11 @@ export default function ImportRepoPage() {
                               <div className="flex items-center gap-2">
                                 <GitBranch className="w-4 h-4 text-muted-foreground" />
                                 <span className="font-medium">{repo.name}</span>
+                                {repo.exists && (
+                                  <span className="text-xs text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
+                                    Already imported
+                                  </span>
+                                )}
                               </div>
                               {repo.description && (
                                 <p className="text-sm text-muted-foreground truncate">

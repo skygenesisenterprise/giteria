@@ -47,7 +47,7 @@ export async function getRepositoriesByOwner(owner: string): Promise<RepositoryD
 export async function createRepositoryInStorage(
   repo: Omit<
     RepositoryData,
-    "id" | "url" | "stars" | "forks" | "updatedAt" | "isArchived" | "isMirror" | "isFork"
+    "id" | "url" | "stars" | "forks" | "updatedAt" | "isArchived" | "isFork"
   >
 ): Promise<RepositoryData> {
   const ownerLower = repo.owner.toLowerCase();
@@ -74,7 +74,7 @@ export async function createRepositoryInStorage(
     forks: 0,
     updatedAt: Date.now(),
     isArchived: false,
-    isMirror: false,
+    isMirror: repo.isMirror,
     isFork: false,
   };
 

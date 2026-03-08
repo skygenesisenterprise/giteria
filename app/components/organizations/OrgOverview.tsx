@@ -17,12 +17,14 @@ import {
 import { Button } from "@/components/ui/button";
 import { fetchOrganizationReadme, type ReadmeFile } from "@/lib/organizations/readme";
 import type { OrganizationProfile } from "./OrganizationDescription";
+import { getGitHubToken } from "@/lib/github-token";
 import {
   RepositorySearch,
   RepositoryFilters,
   RepositorySort,
   RepositoryList,
   RepositoryEmptyState,
+  getAllRepositories,
   type RepositoryType,
   type RepositoryLanguage,
   type RepositorySortOption,
@@ -207,6 +209,93 @@ export function OrgOverview({
   const [typeFilter, setTypeFilter] = React.useState<RepositoryType>("all");
   const [languageFilter, setLanguageFilter] = React.useState<RepositoryLanguage>("all");
   const [sortBy, setSortBy] = React.useState<RepositorySortOption>("updated");
+  const [allRepos, setAllRepos] = React.useState<RepositoryData[]>([]);
+  const [githubToken, setGithubToken] = React.useState<string>("");
+
+  React.useEffect(() => {
+    async function loadRepos() {
+      const repos = await getAllRepositories();
+      setAllRepos(repos);
+    }
+    loadRepos();
+  }, []);
+
+  React.useEffect(() => {
+    async function loadToken() {
+      const token = await getGitHubToken();
+      if (token) {
+        setGithubToken(token);
+      }
+    }
+    loadToken();
+  }, []);
+
+  const fetchLatestCommitDate = async (repoName: string): Promise<number> => {
+    const repo = allRepos.find((r) => r.name === repoName && r.isMirror && r.mirrorFrom);
+    if (!repo || !repo.mirrorFrom) return 0;
+
+    const githubMatch = repo.mirrorFrom.match(/github\.com[/:]([^\/]+)\/([^\/]+)/);
+    if (!githubMatch) return 0;
+
+    const [, owner, name] = githubMatch;
+    const repoNameClean = name.replace(/\.git$/, "");
+
+    try {
+      const headers: HeadersInit = {
+        Accept: "application/vnd.github.v3+json",
+      };
+      if (githubToken) {
+        headers.Authorization = `Bearer ${githubToken}`;
+      }
+
+      const response = await fetch(
+        `https://api.github.com/repos/${owner}/${repoNameClean}/commits?per_page=1`,
+        { headers }
+      );
+
+      if (!response.ok) return 0;
+
+      const data = await response.json();
+      if (data.length > 0 && data[0].commit?.author?.date) {
+        return new Date(data[0].commit.author.date).getTime();
+      }
+    } catch (error) {
+      console.error("Failed to fetch latest commit:", error);
+    }
+    return 0;
+  };
+
+  const [repoDates, setRepoDates] = React.useState<Record<string, number>>({});
+  const [datesLoading, setDatesLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    async function loadRepoDates() {
+      setDatesLoading(true);
+      const dates: Record<string, number> = {};
+
+      for (const repo of repositories) {
+        const repoData = allRepos.find((r) => r.name === repo.name && r.isMirror && r.mirrorFrom);
+        if (repoData?.isMirror && repoData?.mirrorFrom) {
+          const date = await fetchLatestCommitDate(repo.name);
+          dates[repo.name] = date;
+        }
+      }
+
+      setRepoDates(dates);
+      setDatesLoading(false);
+    }
+
+    if (allRepos.length > 0) {
+      loadRepoDates();
+    }
+  }, [allRepos, repositories]);
+
+  const getUpdatedAt = (repo: OrgOverviewProps["repositories"][0]): number => {
+    if (repoDates[repo.name]) {
+      return repoDates[repo.name];
+    }
+    return repo.updatedAt ? new Date(repo.updatedAt).getTime() : 0;
+  };
 
   const defaultReadme = `# Welcome to ${organization.name}
 
@@ -318,7 +407,29 @@ ${organization.email ? `- [Email](mailto:${organization.email})` : ""}
           </div>
 
           {repositories.length > 0 ? (
-            <RepositoryList repositories={transformToRepositoryData(repositories, orgSlug)} />
+            <>
+              <RepositoryList
+                repositories={transformToRepositoryData(
+                  [...repositories]
+                    .sort((a, b) => {
+                      const dateA = getUpdatedAt(a);
+                      const dateB = getUpdatedAt(b);
+                      return dateB - dateA;
+                    })
+                    .slice(0, 6),
+                  orgSlug
+                )}
+              />
+              {repositories.length > 6 && (
+                <div className="mt-4 flex justify-center">
+                  <Link href={`/${orgSlug}/repos`}>
+                    <Button variant="outline">
+                      {datesLoading ? "Loading..." : `View all ${repositories.length} repositories`}
+                    </Button>
+                  </Link>
+                </div>
+              )}
+            </>
           ) : (
             <RepositoryEmptyState owner={orgSlug} canCreate={isAdmin} />
           )}

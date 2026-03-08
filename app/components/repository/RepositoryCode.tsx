@@ -365,6 +365,9 @@ export function RepositoryCode({
             <code className="text-xs text-muted-foreground font-mono shrink-0">
               {latestCommit.sha.substring(0, 7)}
             </code>
+            <span className="text-xs text-muted-foreground shrink-0">
+              {timeAgo(latestCommit.commit.author.date)}
+            </span>
             <Button
               variant="ghost"
               size="sm"
