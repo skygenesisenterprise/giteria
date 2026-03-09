@@ -334,7 +334,13 @@ export function RepositoryCode({
   }
 
   return (
-    <div className="border border-border rounded-lg overflow-hidden bg-card">
+    <div
+      className="border border-border rounded-lg overflow-hidden bg-card"
+      style={{
+        fontFamily:
+          '"Mona Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"',
+      }}
+    >
       {latestCommit && (
         <div className="border-b border-border bg-muted/30">
           <div className="flex items-center gap-2 px-3 py-2">

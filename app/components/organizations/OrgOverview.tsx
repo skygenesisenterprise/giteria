@@ -343,7 +343,13 @@ ${organization.email ? `- [Email](mailto:${organization.email})` : ""}
   }, [orgSlug, viewMode]);
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+    <div
+      className="grid grid-cols-1 lg:grid-cols-4 gap-6"
+      style={{
+        fontFamily:
+          '"Mona Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"',
+      }}
+    >
       <div className="lg:col-span-3 space-y-6">
         <div className="rounded-md border border-border bg-card">
           <div className="p-4 border-b border-border flex items-center justify-between">

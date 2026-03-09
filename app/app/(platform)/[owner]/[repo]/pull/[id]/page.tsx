@@ -1,0 +1,468 @@
+"use client";
+
+import * as React from "react";
+import { use, useEffect, useState } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  GitPullRequest,
+  GitMerge,
+  MessageSquare,
+  GitBranch,
+  GitCommit,
+  FileText,
+  ChevronLeft,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+import { db, STORES } from "@/lib/db";
+import { getGitHubToken } from "@/lib/github-token";
+
+interface PullRequest {
+  id: string;
+  number: number;
+  title: string;
+  body: string;
+  state: "open" | "closed" | "merged";
+  repoFullName: string;
+  author: string;
+  authorAvatar?: string;
+  baseBranch: string;
+  headBranch: string;
+  isDraft: boolean;
+  createdAt: number;
+  updatedAt: number;
+  commentsCount: number;
+  commitsCount: number;
+  additions: number;
+  deletions: number;
+}
+
+interface PullRequestDetailProps {
+  params: Promise<{ owner: string; repo: string; id: string }>;
+}
+
+interface RepoData {
+  mirrorFrom?: string;
+}
+
+interface PRFile {
+  filename: string;
+  status: "added" | "removed" | "modified" | "renamed";
+  additions: number;
+  deletions: number;
+  patch?: string;
+}
+
+interface PRCommit {
+  sha: string;
+  message: string;
+  author: string;
+  date: string;
+}
+
+export default function PullRequestDetailPage({ params }: PullRequestDetailProps) {
+  const resolvedParams = use(params);
+  const [pr, setPR] = useState<PullRequest | null>(null);
+  const [githubPR, setGithubPR] = useState<PullRequest | null>(null);
+  const [repoData, setRepoData] = useState<RepoData | null>(null);
+  const [files, setFiles] = useState<PRFile[]>([]);
+  const [commits, setCommits] = useState<PRCommit[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const repoFullName = `${resolvedParams.owner}/${resolvedParams.repo}`;
+  const prNumber = parseInt(resolvedParams.id, 10);
+
+  useEffect(() => {
+    loadPR();
+    loadRepoData();
+  }, [repoFullName, prNumber]);
+
+  useEffect(() => {
+    if (repoData?.mirrorFrom) {
+      loadGithubPR();
+    }
+  }, [repoData?.mirrorFrom]);
+
+  async function loadRepoData() {
+    try {
+      const repos = await db.getAll<{ name: string; mirrorFrom?: string }>(STORES.REPOSITORIES);
+      const repo = repos.find((r) => r.name === resolvedParams.repo);
+      if (repo) {
+        setRepoData(repo);
+      }
+    } catch (error) {
+      console.error("Failed to load repo data:", error);
+    }
+  }
+
+  async function loadGithubPR() {
+    if (!repoData?.mirrorFrom) return;
+
+    const githubMatch = repoData.mirrorFrom.match(/github\.com[/:]([^\/]+)\/([^\/]+)/);
+    if (!githubMatch) return;
+
+    const [, mirrorOwner, mirrorRepo] = githubMatch;
+    const repoName = mirrorRepo.replace(/\.git$/, "");
+
+    try {
+      const token = await getGitHubToken();
+      const headers: HeadersInit = {
+        Accept: "application/vnd.github.v3+json",
+      };
+      if (token) {
+        headers.Authorization = `Bearer ${token}`;
+      }
+
+      const [prResponse, filesResponse, commitsResponse] = await Promise.all([
+        fetch(`https://api.github.com/repos/${mirrorOwner}/${repoName}/pulls/${prNumber}`, {
+          headers,
+        }),
+        fetch(`https://api.github.com/repos/${mirrorOwner}/${repoName}/pulls/${prNumber}/files`, {
+          headers,
+        }),
+        fetch(`https://api.github.com/repos/${mirrorOwner}/${repoName}/pulls/${prNumber}/commits`, {
+          headers,
+        }),
+      ]);
+
+      if (prResponse.ok) {
+        const prData = await prResponse.json();
+        setGithubPR({
+          id: `gh-${prData.number}`,
+          number: prData.number,
+          title: prData.title,
+          body: prData.body || "",
+          state: prData.merged ? "merged" : prData.state === "open" ? "open" : "closed",
+          repoFullName,
+          author: prData.user.login,
+          authorAvatar: prData.user.avatar_url,
+          baseBranch: prData.base.ref,
+          headBranch: prData.head.ref,
+          isDraft: prData.draft || false,
+          createdAt: new Date(prData.created_at).getTime(),
+          updatedAt: new Date(prData.updated_at).getTime(),
+          commentsCount: prData.comments,
+          commitsCount: prData.commits,
+          additions: prData.additions || 0,
+          deletions: prData.deletions || 0,
+        });
+      }
+
+      if (filesResponse.ok) {
+        const filesData = await filesResponse.json();
+        const prFiles: PRFile[] = filesData.map(
+          (f: {
+            filename: string;
+            status: string;
+            additions: number;
+            deletions: number;
+            patch?: string;
+          }) => ({
+            filename: f.filename,
+            status: f.status as PRFile["status"],
+            additions: f.additions,
+            deletions: f.deletions,
+            patch: f.patch,
+          })
+        );
+        setFiles(prFiles);
+      }
+
+      if (commitsResponse.ok) {
+        const commitsData = await commitsResponse.json();
+        const prCommits: PRCommit[] = commitsData.map(
+          (c: {
+            sha: string;
+            commit: { message: string; author: { date: string } };
+            author: { login: string } | null;
+          }) => ({
+            sha: c.sha,
+            message: c.commit.message,
+            author: c.author?.login || "unknown",
+            date: c.commit.author.date,
+          })
+        );
+        setCommits(prCommits);
+      }
+    } catch (error) {
+      console.error("Failed to load GitHub PR:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function loadPR() {
+    setIsLoading(true);
+    try {
+      const allPulls = await db.getAllByIndex<PullRequest>(
+        STORES.PULLS,
+        "repoFullName",
+        repoFullName
+      );
+      const foundPR = allPulls.find((p) => p.number === prNumber);
+      if (foundPR) {
+        setPR(foundPR);
+      }
+    } catch (error) {
+      console.error("Failed to load PR:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  const currentPR = pr || githubPR;
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-foreground" />
+      </div>
+    );
+  }
+
+  if (!currentPR) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20">
+        <GitPullRequest className="w-16 h-16 text-muted-foreground mb-4" />
+        <h1 className="text-xl font-semibold mb-2">Pull request not found</h1>
+        <p className="text-muted-foreground mb-4">
+          The pull request #{prNumber} could not be found.
+        </p>
+        <Link href={`/${repoFullName}/pulls`}>
+          <Button variant="outline">Back to pull requests</Button>
+        </Link>
+      </div>
+    );
+  }
+
+  const timeAgo = (dateString: number) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+    const intervals = [
+      { label: "year", seconds: 31536000 },
+      { label: "month", seconds: 2592000 },
+      { label: "week", seconds: 604800 },
+      { label: "day", seconds: 86400 },
+      { label: "hour", seconds: 3600 },
+      { label: "minute", seconds: 60 },
+    ];
+
+    for (const interval of intervals) {
+      const count = Math.floor(seconds / interval.seconds);
+      if (count >= 1) {
+        return `${count} ${interval.label}${count > 1 ? "s" : ""} ago`;
+      }
+    }
+    return "just now";
+  };
+
+  const totalAdditions = files.reduce((sum, f) => sum + f.additions, 0);
+  const totalDeletions = files.reduce((sum, f) => sum + f.deletions, 0);
+
+  return (
+    <div className="bg-background min-h-screen">
+      <div className="max-w-5xl mx-auto px-4 py-6 space-y-6">
+        <div>
+          <Link
+            href={`/${repoFullName}/pulls`}
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <ChevronLeft className="w-4 h-4" />
+            Back to pull requests
+          </Link>
+        </div>
+
+        <div className="border border-border rounded-lg bg-card overflow-hidden">
+          <div className="p-4">
+            <div className="flex items-start gap-3">
+              <div className="mt-1">
+                {currentPR.state === "open" ? (
+                  <GitPullRequest className="w-5 h-5 text-green-600" />
+                ) : currentPR.state === "merged" ? (
+                  <GitMerge className="w-5 h-5 text-purple-600" />
+                ) : (
+                  <GitPullRequest className="w-5 h-5 text-red-600" />
+                )}
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1 flex-wrap">
+                  <h1 className="text-xl font-semibold">{currentPR.title}</h1>
+                  {currentPR.isDraft && <Badge variant="secondary">Draft</Badge>}
+                </div>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground flex-wrap">
+                  <span>
+                    {currentPR.state === "open"
+                      ? "Open"
+                      : currentPR.state === "merged"
+                        ? "Merged"
+                        : "Closed"}
+                  </span>
+                  <span>•</span>
+                  <span>#{currentPR.number}</span>
+                  <span>•</span>
+                  <span>{timeAgo(currentPR.createdAt)}</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-4 flex items-center gap-2 text-sm bg-muted/50 rounded-md p-2">
+              <GitBranch className="w-4 h-4 text-muted-foreground" />
+              <span className="font-mono text-blue-600">{currentPR.headBranch}</span>
+              <span className="text-muted-foreground">→</span>
+              <span className="font-mono text-blue-600">{currentPR.baseBranch}</span>
+            </div>
+
+            {currentPR.authorAvatar && (
+              <div className="mt-4 flex items-center gap-2">
+                <img
+                  src={currentPR.authorAvatar}
+                  alt={currentPR.author}
+                  className="w-5 h-5 rounded-full"
+                />
+                <span className="text-sm text-muted-foreground">
+                  <span className="font-medium text-foreground">{currentPR.author}</span> wants to
+                  merge <span className="font-mono text-blue-600">{currentPR.headBranch}</span> into{" "}
+                  <span className="font-mono text-blue-600">{currentPR.baseBranch}</span>
+                </span>
+              </div>
+            )}
+
+            {currentPR.body && (
+              <div className="mt-4 border border-border rounded-lg p-4">
+                <p className="whitespace-pre-wrap text-sm">{currentPR.body}</p>
+              </div>
+            )}
+
+            <div className="mt-4 flex items-center gap-4">
+              <Button variant="outline" size="sm">
+                <MessageSquare className="w-4 h-4 mr-2" />
+                {currentPR.commentsCount} comment{currentPR.commentsCount !== 1 ? "s" : ""}
+              </Button>
+              <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                <GitCommit className="w-4 h-4" />
+                <span>
+                  {commits.length || currentPR.commitsCount} commit
+                  {(commits.length || currentPR.commitsCount) !== 1 ? "s" : ""}
+                </span>
+              </div>
+              <div className="flex items-center gap-1 text-sm">
+                <span className="text-green-600">+{totalAdditions || currentPR.additions}</span>
+                <span className="text-red-600">-{totalDeletions || currentPR.deletions}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <Tabs defaultValue="conversation" className="w-full">
+          <TabsList>
+            <TabsTrigger value="conversation">Conversation</TabsTrigger>
+            <TabsTrigger value="commits">
+              Commits ({commits.length || currentPR.commitsCount})
+            </TabsTrigger>
+            <TabsTrigger value="files">Files changed ({files.length})</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="conversation" className="mt-4">
+            <div className="border border-border rounded-lg p-8 text-center text-muted-foreground">
+              <MessageSquare className="w-12 h-12 mx-auto mb-4 opacity-50" />
+              <p>No comments yet.</p>
+              <p className="text-sm">Start a conversation about this pull request.</p>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="commits" className="mt-4">
+            <div className="border border-border rounded-lg">
+              {commits.length === 0 ? (
+                <div className="p-8 text-center text-muted-foreground">
+                  <GitCommit className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                  <p>No commits yet.</p>
+                </div>
+              ) : (
+                <div className="divide-y divide-border">
+                  {commits.map((commit) => (
+                    <div key={commit.sha} className="p-4 flex items-start gap-3">
+                      <GitCommit className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1 flex-wrap">
+                          <span className="font-mono text-sm text-blue-600">
+                            {commit.sha.slice(0, 7)}
+                          </span>
+                          <span className="text-sm text-muted-foreground">{commit.author}</span>
+                          <span className="text-sm text-muted-foreground">•</span>
+                          <span className="text-sm text-muted-foreground">
+                            {timeAgo(new Date(commit.date).getTime())}
+                          </span>
+                        </div>
+                        <p className="text-sm truncate">{commit.message.split("\n")[0]}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="files" className="mt-4">
+            <div className="border border-border rounded-lg">
+              {files.length === 0 ? (
+                <div className="p-8 text-center text-muted-foreground">
+                  <FileText className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                  <p>No files changed.</p>
+                </div>
+              ) : (
+                <div className="divide-y divide-border">
+                  {files.map((file) => (
+                    <div key={file.filename} className="p-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <FileText className="w-4 h-4 text-muted-foreground shrink-0" />
+                          <span className="font-mono text-sm truncate">{file.filename}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-sm shrink-0">
+                          <Badge
+                            variant="outline"
+                            className={cn(
+                              "text-xs",
+                              file.status === "added" && "text-green-600 border-green-600",
+                              file.status === "removed" && "text-red-600 border-red-600",
+                              file.status === "modified" && "text-yellow-600 border-yellow-600",
+                              file.status === "renamed" && "text-blue-600 border-blue-600"
+                            )}
+                          >
+                            {file.status}
+                          </Badge>
+                          <span className="text-green-600">+{file.additions}</span>
+                          <span className="text-red-600">-{file.deletions}</span>
+                        </div>
+                      </div>
+                      {file.patch && (
+                        <pre className="bg-muted/50 rounded p-2 text-xs font-mono overflow-x-auto">
+                          {file.patch.split("\n").map((line, i) => (
+                            <div
+                              key={i}
+                              className={cn(
+                                "whitespace-pre-wrap",
+                                line.startsWith("+") && "text-green-600 bg-green-600/10",
+                                line.startsWith("-") && "text-red-600 bg-red-600/10"
+                              )}
+                            >
+                              {line}
+                            </div>
+                          ))}
+                        </pre>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
+    </div>
+  );
+}

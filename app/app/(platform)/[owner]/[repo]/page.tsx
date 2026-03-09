@@ -123,7 +123,12 @@ export default function RepoPage({ params }: RepoPageProps) {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mt-6">
           <div className="lg:col-span-3 space-y-4">
             <RepoGitBar mirrorFrom={repo?.mirrorFrom} />
-            <RepoActionBar owner={owner} repo={repoName} branch="main" />
+            <RepoActionBar
+              owner={owner}
+              repo={repoName}
+              branch="main"
+              mirrorFrom={repo?.mirrorFrom}
+            />
             <RepositoryCode
               owner={owner}
               repo={repoName}

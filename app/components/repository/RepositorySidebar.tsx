@@ -278,7 +278,13 @@ export function RepositorySidebar({ repo, owner, repoName, files }: RepositorySi
   const hasSecurityPolicy = githubFiles.some((f) => f === "security.md" || f === "security");
 
   return (
-    <div className="space-y-6">
+    <div
+      className="space-y-6"
+      style={{
+        fontFamily:
+          '"Mona Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"',
+      }}
+    >
       <div className="border-b border-border pb-4">
         <div className="flex items-center justify-between mb-3">
           <h3 className="font-semibold text-sm">About</h3>
@@ -311,7 +317,7 @@ export function RepositorySidebar({ repo, owner, repoName, files }: RepositorySi
           </div>
         )}
         {effectiveTopics.length > 0 && (
-          <div className="flex flex-wrap gap-1">
+          <div className="flex flex-wrap gap-1 mb-4">
             {effectiveTopics.map((topic) => (
               <Badge key={topic} variant="outline" className="text-xs">
                 {topic}
@@ -319,87 +325,8 @@ export function RepositorySidebar({ repo, owner, repoName, files }: RepositorySi
             ))}
           </div>
         )}
-      </div>
 
-      <Dialog open={isSettingsOpen} onOpenChange={setIsSettingsOpen}>
-        <DialogContent className="sm:max-w-125">
-          <DialogHeader>
-            <DialogTitle>Edit repository details</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Description</label>
-              <Textarea
-                placeholder="A brief description of your project"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                rows={3}
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Website</label>
-              <Input
-                placeholder="https://giteria.com"
-                value={website}
-                onChange={(e) => setWebsite(e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Topics (separate with spaces)</label>
-              <Input
-                placeholder="git ci-cd devops"
-                value={topics}
-                onChange={(e) => setTopics(e.target.value)}
-              />
-            </div>
-            <div className="space-y-3 pt-2">
-              <label className="text-sm font-medium">Include in the home page</label>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="releases"
-                    checked={includeReleases}
-                    onCheckedChange={(checked) => setIncludeReleases(checked as boolean)}
-                  />
-                  <label htmlFor="releases" className="text-sm cursor-pointer">
-                    Releases
-                  </label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="deployments"
-                    checked={includeDeployments}
-                    onCheckedChange={(checked) => setIncludeDeployments(checked as boolean)}
-                  />
-                  <label htmlFor="deployments" className="text-sm cursor-pointer">
-                    Deployments
-                  </label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Checkbox
-                    id="packages"
-                    checked={includePackages}
-                    onCheckedChange={(checked) => setIncludePackages(checked as boolean)}
-                  />
-                  <label htmlFor="packages" className="text-sm cursor-pointer">
-                    Packages
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div className="flex justify-end gap-2 pt-4">
-              <Button variant="outline" onClick={() => setIsSettingsOpen(false)}>
-                Cancel
-              </Button>
-              <Button onClick={handleSave}>Save changes</Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      <div className="border-b border-border pb-4">
-        <h3 className="font-semibold text-sm mb-3">Activity</h3>
-        <div className="space-y-2 text-sm">
+        <div className="space-y-2 text-sm pt-3">
           {repo.readme !== false && (
             <Link
               href={owner && repoName ? `/${owner}/${repoName}` : "#"}

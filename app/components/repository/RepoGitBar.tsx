@@ -19,6 +19,10 @@ export function RepoGitBar({ mirrorFrom, className }: RepoGitBarProps) {
         "flex items-center gap-2 px-3 py-2 rounded-md bg-muted/50 text-sm text-muted-foreground",
         className
       )}
+      style={{
+        fontFamily:
+          '"Mona Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"',
+      }}
     >
       <GitFork className="w-4 h-4 text-blue-500" />
       <span>
