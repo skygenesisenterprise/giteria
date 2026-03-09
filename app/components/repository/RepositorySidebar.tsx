@@ -84,6 +84,19 @@ export function RepositorySidebar({ repo, owner, repoName, files }: RepositorySi
   const [githubContributors, setGithubContributors] = React.useState<
     { login: string; avatar_url: string; contributions: number }[]
   >([]);
+  const [githubReleases, setGithubReleases] = React.useState<
+    {
+      id: number;
+      name: string;
+      tag_name: string;
+      published_at: string;
+      html_url: string;
+      author: { login: string; avatar_url: string };
+    }[]
+  >([]);
+  const [githubPackages, setGithubPackages] = React.useState<
+    { id: number; name: string; package_type: string; html_url: string; owner: { login: string } }[]
+  >([]);
 
   React.useEffect(() => {
     async function fetchGithubMeta() {
@@ -104,15 +117,23 @@ export function RepositorySidebar({ repo, owner, repoName, files }: RepositorySi
           headers.Authorization = `Bearer ${token}`;
         }
 
-        const [metaResponse, languagesResponse, contributorsResponse, contentsResponse] =
-          await Promise.all([
-            fetch(`https://api.github.com/repos/${owner}/${name}`, { headers }),
-            fetch(`https://api.github.com/repos/${owner}/${name}/languages`, { headers }),
-            fetch(`https://api.github.com/repos/${owner}/${name}/contributors?per_page=10`, {
-              headers,
-            }),
-            fetch(`https://api.github.com/repos/${owner}/${name}/contents`, { headers }),
-          ]);
+        const [
+          metaResponse,
+          languagesResponse,
+          contributorsResponse,
+          contentsResponse,
+          releasesResponse,
+          packagesResponse,
+        ] = await Promise.all([
+          fetch(`https://api.github.com/repos/${owner}/${name}`, { headers }),
+          fetch(`https://api.github.com/repos/${owner}/${name}/languages`, { headers }),
+          fetch(`https://api.github.com/repos/${owner}/${name}/contributors?per_page=10`, {
+            headers,
+          }),
+          fetch(`https://api.github.com/repos/${owner}/${name}/contents`, { headers }),
+          fetch(`https://api.github.com/repos/${owner}/${name}/releases?per_page=5`, { headers }),
+          fetch(`https://api.github.com/users/${owner}/packages?per_page=5`, { headers }),
+        ]);
 
         if (metaResponse.ok) {
           const metaData = await metaResponse.json();
@@ -135,13 +156,23 @@ export function RepositorySidebar({ repo, owner, repoName, files }: RepositorySi
             setGithubFiles(contentsData.map((f: { name: string }) => f.name.toLowerCase()));
           }
         }
+
+        if (releasesResponse.ok) {
+          const releasesData = await releasesResponse.json();
+          setGithubReleases(releasesData);
+        }
+
+        if (packagesResponse.ok) {
+          const packagesData = await packagesResponse.json();
+          setGithubPackages(packagesData);
+        }
       } catch (err) {
         console.error("Failed to fetch GitHub data:", err);
       }
     }
 
     fetchGithubMeta();
-  }, [repo.mirrorFrom]);
+  }, [repo.mirrorFrom, includeReleases, includePackages]);
 
   const handleSave = async () => {
     const normalizedWebsite = normalizeUrl(website);
@@ -455,10 +486,26 @@ export function RepositorySidebar({ repo, owner, repoName, files }: RepositorySi
       {includeReleases && (
         <div className="border-b border-border pb-4">
           <h3 className="font-semibold text-sm mb-3">Releases</h3>
-          <div className="flex items-center gap-2 text-sm">
-            <Tags className="w-4 h-4 text-muted-foreground" />
-            <span className="text-muted-foreground">No releases published</span>
-          </div>
+          {githubReleases.length > 0 ? (
+            <div className="space-y-2">
+              {githubReleases.map((release) => (
+                <Link
+                  key={release.id}
+                  href={release.html_url}
+                  target="_blank"
+                  className="flex items-center gap-2 text-sm hover:text-foreground"
+                >
+                  <Tags className="w-4 h-4 text-muted-foreground" />
+                  <span className="truncate">{release.name || release.tag_name}</span>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="flex items-center gap-2 text-sm">
+              <Tags className="w-4 h-4 text-muted-foreground" />
+              <span className="text-muted-foreground">No releases published</span>
+            </div>
+          )}
           <Button variant="ghost" size="sm" className="mt-2 px-0">
             Create a new release
           </Button>
@@ -478,10 +525,26 @@ export function RepositorySidebar({ repo, owner, repoName, files }: RepositorySi
       {includePackages && (
         <div className="border-b border-border pb-4">
           <h3 className="font-semibold text-sm mb-3">Packages</h3>
-          <div className="flex items-center gap-2 text-sm">
-            <Package className="w-4 h-4 text-muted-foreground" />
-            <span className="text-muted-foreground">No packages published</span>
-          </div>
+          {githubPackages.length > 0 ? (
+            <div className="space-y-2">
+              {githubPackages.map((pkg) => (
+                <Link
+                  key={pkg.id}
+                  href={pkg.html_url}
+                  target="_blank"
+                  className="flex items-center gap-2 text-sm hover:text-foreground"
+                >
+                  <Package className="w-4 h-4 text-muted-foreground" />
+                  <span className="truncate">{pkg.name}</span>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="flex items-center gap-2 text-sm">
+              <Package className="w-4 h-4 text-muted-foreground" />
+              <span className="text-muted-foreground">No packages published</span>
+            </div>
+          )}
           <Button variant="ghost" size="sm" className="mt-2 px-0">
             Publish your first package
           </Button>

@@ -192,6 +192,7 @@ export function getFileIcon(fileName: string): FileIconResult {
 
 export function getSpecialFileIcon(fileName: string): FileIconResult | null {
   const lowerName = fileName.toLowerCase();
+  console.log("getSpecialFileIcon called with:", lowerName);
 
   if (
     lowerName === "readme.md" ||
@@ -226,16 +227,51 @@ export function getSpecialFileIcon(fileName: string): FileIconResult | null {
   }
 
   if (
+    lowerName === ".golangci.yml" ||
+    lowerName === ".golangci.yaml" ||
+    lowerName.includes("golangci")
+  ) {
+    return {
+      iconName: "go",
+      color: ICON_COLORS.golang,
+    };
+  }
+
+  if (
     lowerName === ".ignore" ||
-    lowerName === ".dockerignore" ||
-    lowerName === ".prettierignore" ||
     lowerName === ".eslintignore" ||
     lowerName === ".npmignore" ||
     lowerName === ".gitmodules"
   ) {
     return {
+      iconName: "settings",
+      color: ICON_COLORS.settings,
+    };
+  }
+
+  if (lowerName === ".dockerignore") {
+    return {
       iconName: "docker",
       color: ICON_COLORS.gitignore,
+    };
+  }
+
+  if (lowerName === ".prettierignore") {
+    return {
+      iconName: "prettier",
+      color: ICON_COLORS.env,
+    };
+  }
+
+  if (
+    lowerName.startsWith("docker-compose") ||
+    lowerName === "compose.yml" ||
+    lowerName === "compose.yaml" ||
+    lowerName.startsWith("compose.")
+  ) {
+    return {
+      iconName: "docker",
+      color: ICON_COLORS.docker,
     };
   }
 

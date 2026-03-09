@@ -352,7 +352,12 @@ export function RepositoryCode({
                   <span className="shrink-0">/</span>
                 </>
               )}
-              <span className="truncate">{commitTitle}</span>
+              <Link
+                href={`/${owner}/${repo}/commit/${latestCommit.sha}`}
+                className="truncate hover:text-blue-500 hover:underline"
+              >
+                {commitTitle}
+              </Link>
               {hasCommitDescription && (
                 <button
                   onClick={() => setShowCommitDetails(!showCommitDetails)}
@@ -362,9 +367,12 @@ export function RepositoryCode({
                 </button>
               )}
             </div>
-            <code className="text-xs text-muted-foreground font-mono shrink-0">
+            <Link
+              href={`/${owner}/${repo}/commit/${latestCommit.sha}`}
+              className="text-xs text-muted-foreground hover:text-blue-500 font-mono shrink-0"
+            >
               {latestCommit.sha.substring(0, 7)}
-            </code>
+            </Link>
             <span className="text-xs text-muted-foreground shrink-0">
               {timeAgo(latestCommit.commit.author.date)}
             </span>
@@ -412,8 +420,9 @@ export function RepositoryCode({
                 const time = timeAgo(commit.commit.author.date);
 
                 return (
-                  <div
+                  <Link
                     key={commit.sha}
+                    href={`/${owner}/${repo}/commit/${commit.sha}`}
                     className="flex items-center gap-3 p-2 rounded-md hover:bg-muted/50"
                   >
                     {commit.author ? (
@@ -430,11 +439,11 @@ export function RepositoryCode({
                     </span>
                     <span className="text-muted-foreground">/</span>
                     <span className="flex-1 truncate text-foreground text-sm">{message}</span>
-                    <code className="text-muted-foreground font-mono text-xs shrink-0">
+                    <span className="text-muted-foreground font-mono text-xs shrink-0">
                       {shortSha}
-                    </code>
+                    </span>
                     <span className="text-muted-foreground text-xs shrink-0">{time}</span>
-                  </div>
+                  </Link>
                 );
               })}
             </div>
@@ -460,20 +469,16 @@ export function RepositoryCode({
                       <td className="py-2.5 px-3">
                         <div className="flex items-center gap-2">
                           <FileIcon iconName={iconName} className={cn("w-4 h-4", color)} />
-                          {file.type === "folder" && mirrorFrom ? (
-                            <button
-                              onClick={() => handleFolderClick(file.path)}
+                          {file.type === "folder" ? (
+                            <Link
+                              href={`/${owner}/${repo}/tree/blob/${file.path}`}
                               className="text-sm hover:text-blue-500 hover:underline"
                             >
                               {file.name}
-                            </button>
+                            </Link>
                           ) : (
                             <Link
-                              href={
-                                file.type === "folder"
-                                  ? `/${owner}/${repo}/tree/${branch}/${file.path}`
-                                  : `/${owner}/${repo}/blob/${branch}/${file.path}`
-                              }
+                              href={`/${owner}/${repo}/tree/blob/${file.path}`}
                               className="text-sm hover:text-blue-500 hover:underline"
                             >
                               {file.name}
@@ -483,9 +488,12 @@ export function RepositoryCode({
                       </td>
                       <td className="py-2.5 px-3">
                         {file.lastCommit && (
-                          <div className="flex items-center gap-1 text-xs text-muted-foreground max-w-xs">
+                          <Link
+                            href={`/${owner}/${repo}/commit/${file.lastCommit.sha}`}
+                            className="flex items-center gap-1 text-xs text-muted-foreground max-w-xs hover:text-blue-500 hover:underline"
+                          >
                             <span className="truncate">{file.lastCommit.message}</span>
-                          </div>
+                          </Link>
                         )}
                       </td>
                       <td className="py-2.5 px-3 text-right text-xs text-muted-foreground whitespace-nowrap">
