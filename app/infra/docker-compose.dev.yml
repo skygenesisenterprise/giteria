@@ -7,7 +7,7 @@ services:
 
     # Mapping flexible du port : host_port par défaut = 3001, conteneur toujours 3000
     ports:
-      - "${HOST_PORT:-3001}:3000"
+      - "3001:3000" # Accès via localhost:3001
 
     environment:
       NODE_ENV: development
