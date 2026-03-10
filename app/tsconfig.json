@@ -26,7 +26,8 @@
       "@/lib/*": ["./lib/*"],
       "@/styles/*": ["./styles/*"],
       "@/hook/*": ["./hook"],
-      "@/services/*": ["./services"]
+      "@/services/*": ["./services"],
+      "@/options/*": ["./options/*"]
     },
     "types": ["next", "node"],
     "allowImportingTsExtensions": true

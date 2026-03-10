@@ -2,10 +2,7 @@
 
 import * as React from "react";
 
-const iconSvgs = require("../../options/fileicon/material-icon-rules.json") as Record<
-  string,
-  string
->;
+const iconSvgs = require("@/options/fileicon/material-icon-svgs.json") as Record<string, string>;
 
 interface FileIconProps {
   iconName: string;
