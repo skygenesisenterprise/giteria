@@ -15,10 +15,16 @@ import {
   GitCommit,
   FileText,
   ChevronLeft,
+  CheckCircle2,
+  XCircle,
+  Circle,
+  Loader2,
+  Clock,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { db, STORES } from "@/lib/db";
 import { getGitHubToken } from "@/lib/github-token";
+import { WorkflowRun } from "@/lib/actions-data";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
@@ -87,6 +93,9 @@ export default function PullRequestDetailPage({ params }: PullRequestDetailProps
   const [newComment, setNewComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [workflowRuns, setWorkflowRuns] = useState<WorkflowRun[]>([]);
+  const [isMerging, setIsMerging] = useState(false);
+  const [prBranch, setPrBranch] = useState<string>("");
 
   const repoFullName = `${resolvedParams.owner}/${resolvedParams.repo}`;
   const prNumber = parseInt(resolvedParams.id, 10);
@@ -95,6 +104,100 @@ export default function PullRequestDetailPage({ params }: PullRequestDetailProps
     loadPR();
     loadRepoData();
   }, [repoFullName, prNumber]);
+
+  useEffect(() => {
+    if (repoData?.mirrorFrom && prBranch) {
+      loadWorkflowRunsForPR();
+    }
+  }, [repoData?.mirrorFrom, prBranch]);
+
+  async function loadWorkflowRunsForPR() {
+    if (!repoData?.mirrorFrom || !prBranch) return;
+
+    const githubMatch = repoData.mirrorFrom.match(/github\.com[/:]([^\/]+)\/([^\/]+)/);
+    if (!githubMatch) return;
+
+    const [, mirrorOwner, mirrorRepo] = githubMatch;
+    const repoName = mirrorRepo.replace(/\.git$/, "");
+
+    try {
+      const token = await getGitHubToken();
+      const headers: HeadersInit = {
+        Accept: "application/vnd.github.v3+json",
+      };
+      if (token) {
+        headers.Authorization = `Bearer ${token}`;
+      }
+
+      const response = await fetch(
+        `https://api.github.com/repos/${mirrorOwner}/${repoName}/actions/runs?branch=${prBranch}&per_page=10`,
+        { headers }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.workflow_runs) {
+          const runs: WorkflowRun[] = data.workflow_runs.map(
+            (run: {
+              id: number;
+              name: string;
+              workflow_id: number;
+              head_sha: string;
+              head_branch: string;
+              status: string;
+              conclusion: string | null;
+              created_at: string;
+              updated_at: string;
+              run_started_at: string;
+              html_url: string;
+            }) => ({
+              id: String(run.id),
+              workflowId: String(run.workflow_id),
+              workflowName: run.name || "Unknown",
+              repoFullName,
+              commit: run.head_sha,
+              branch: run.head_branch,
+              status: mapStatus(run.status, run.conclusion),
+              conclusion: run.conclusion,
+              duration: calculateDuration(run.run_started_at, run.updated_at),
+              createdAt: run.created_at,
+              updatedAt: run.updated_at,
+              url: run.html_url,
+            })
+          );
+          setWorkflowRuns(runs);
+        }
+      }
+    } catch (error) {
+      console.error("Failed to load workflow runs for PR:", error);
+    }
+  }
+
+  function mapStatus(status: string, conclusion: string | null): WorkflowRun["status"] {
+    if (status === "queued" || status === "pending") return "queued";
+    if (status === "in_progress") return "running";
+    if (status === "completed") {
+      if (conclusion === "success") return "success";
+      if (conclusion === "failure") return "failed";
+      if (conclusion === "cancelled") return "cancelled";
+    }
+    if (status === "cancelled") return "cancelled";
+    return "pending";
+  }
+
+  function calculateDuration(startedAt: string, updatedAt: string): string {
+    if (!startedAt || !updatedAt) return "-";
+    const start = new Date(startedAt);
+    const end = new Date(updatedAt);
+    const seconds = Math.floor((end.getTime() - start.getTime()) / 1000);
+    if (seconds < 60) return `${seconds}s`;
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    if (minutes < 60) return `${minutes}m ${remainingSeconds}s`;
+    const hours = Math.floor(minutes / 60);
+    const remainingMinutes = minutes % 60;
+    return `${hours}h ${remainingMinutes}m`;
+  }
 
   useEffect(() => {
     if (repoData?.mirrorFrom) {
@@ -194,6 +297,7 @@ export default function PullRequestDetailPage({ params }: PullRequestDetailProps
           additions: prData.additions || 0,
           deletions: prData.deletions || 0,
         });
+        setPrBranch(prData.head.ref);
       }
 
       if (filesResponse.ok) {
@@ -347,6 +451,53 @@ export default function PullRequestDetailPage({ params }: PullRequestDetailProps
       console.error("Failed to submit comment:", error);
     } finally {
       setIsSubmitting(false);
+    }
+  }
+
+  async function mergePullRequest() {
+    if (!repoData?.mirrorFrom || !currentPR || currentPR.state !== "open" || currentPR.isDraft) {
+      return;
+    }
+
+    const githubMatch = repoData.mirrorFrom.match(/github\.com[/:]([^\/]+)\/([^\/]+)/);
+    if (!githubMatch) return;
+
+    const [, mirrorOwner, mirrorRepo] = githubMatch;
+    const repoName = mirrorRepo.replace(/\.git$/, "");
+
+    setIsMerging(true);
+    try {
+      const token = await getGitHubToken();
+      const headers: HeadersInit = {
+        Accept: "application/vnd.github.v3+json",
+        "Content-Type": "application/json",
+      };
+      if (token) {
+        headers.Authorization = `Bearer ${token}`;
+      }
+
+      const response = await fetch(
+        `https://api.github.com/repos/${mirrorOwner}/${repoName}/pulls/${prNumber}/merge`,
+        {
+          method: "PUT",
+          headers,
+          body: JSON.stringify({
+            merge_method: "merge",
+          }),
+        }
+      );
+
+      if (response.ok) {
+        setPR({ ...currentPR, state: "merged" });
+      } else {
+        const errorData = await response.json();
+        console.error("Failed to merge PR:", errorData);
+        alert(`Failed to merge: ${errorData.message || "Unknown error"}`);
+      }
+    } catch (error) {
+      console.error("Failed to merge PR:", error);
+    } finally {
+      setIsMerging(false);
     }
   }
 
@@ -519,11 +670,44 @@ export default function PullRequestDetailPage({ params }: PullRequestDetailProps
               <TabsTrigger value="commits">
                 Commits ({commits.length || currentPR.commitsCount})
               </TabsTrigger>
+              <TabsTrigger value="checks">Checks ({workflowRuns.length})</TabsTrigger>
               <TabsTrigger value="files">Files changed ({files.length})</TabsTrigger>
             </TabsList>
 
             <TabsContent value="conversation" className="mt-4">
               <div className="border border-border rounded-lg">
+                {currentPR.state === "open" && !currentPR.isDraft && repoData?.mirrorFrom && (
+                  <div className="p-4 border-b border-border bg-muted/30">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2 text-sm">
+                        <GitMerge className="w-4 h-4 text-green-600" />
+                        <span className="text-muted-foreground">
+                          This branch is up to date with{" "}
+                          <span className="font-mono text-blue-600">{currentPR.baseBranch}</span>
+                        </span>
+                      </div>
+                      <Button
+                        onClick={mergePullRequest}
+                        disabled={isMerging}
+                        size="sm"
+                        className="bg-green-600 hover:bg-green-700"
+                      >
+                        {isMerging ? (
+                          <>
+                            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                            Merging...
+                          </>
+                        ) : (
+                          <>
+                            <GitMerge className="w-4 h-4 mr-2" />
+                            Merge pull request
+                          </>
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                )}
+
                 {repoData?.mirrorFrom && (
                   <div className="p-4 border-b border-border">
                     <Textarea
@@ -627,6 +811,78 @@ export default function PullRequestDetailPage({ params }: PullRequestDetailProps
                               </span>
                             </div>
                             <p className="text-sm truncate">{commit.message.split("\n")[0]}</p>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </AnimatePresence>
+                  </div>
+                )}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="checks" className="mt-4">
+              <div className="border border-border rounded-lg">
+                {!repoData?.mirrorFrom ? (
+                  <div className="p-8 text-center text-muted-foreground">
+                    <GitBranch className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                    <p>No checks available.</p>
+                    <p className="text-sm">Checks are only available for mirrored repositories.</p>
+                  </div>
+                ) : workflowRuns.length === 0 ? (
+                  <div className="p-8 text-center text-muted-foreground">
+                    <GitBranch className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                    <p>No checks running on this branch.</p>
+                  </div>
+                ) : (
+                  <div className="divide-y divide-border">
+                    <AnimatePresence>
+                      {workflowRuns.map((run, index) => (
+                        <motion.div
+                          key={run.id}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.03 }}
+                          className="p-4 flex items-start gap-3"
+                        >
+                          {run.status === "success" ? (
+                            <CheckCircle2 className="w-5 h-5 text-green-600 mt-0.5 shrink-0" />
+                          ) : run.status === "failed" ? (
+                            <XCircle className="w-5 h-5 text-red-600 mt-0.5 shrink-0" />
+                          ) : run.status === "running" ? (
+                            <Loader2 className="w-5 h-5 text-blue-600 mt-0.5 shrink-0 animate-spin" />
+                          ) : (
+                            <Circle className="w-5 h-5 text-yellow-600 mt-0.5 shrink-0" />
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-1 flex-wrap">
+                              <span className="font-medium text-sm">{run.workflowName}</span>
+                              <Badge
+                                variant="outline"
+                                className={cn(
+                                  "text-xs",
+                                  run.status === "success" && "text-green-600 border-green-600",
+                                  run.status === "failed" && "text-red-600 border-red-600",
+                                  run.status === "running" && "text-blue-600 border-blue-600",
+                                  (run.status === "queued" || run.status === "pending") &&
+                                    "text-yellow-600 border-yellow-600",
+                                  run.status === "cancelled" && "text-gray-600 border-gray-600"
+                                )}
+                              >
+                                {run.status}
+                              </Badge>
+                            </div>
+                            <div className="flex items-center gap-2 text-sm text-muted-foreground flex-wrap">
+                              <span className="font-mono text-xs">{run.commit.slice(0, 7)}</span>
+                              <span>•</span>
+                              <span>{run.branch}</span>
+                              <span>•</span>
+                              <span className="flex items-center gap-1">
+                                <Clock className="w-3 h-3" />
+                                {run.duration}
+                              </span>
+                              <span>•</span>
+                              <span>{timeAgo(new Date(run.createdAt).getTime())}</span>
+                            </div>
                           </div>
                         </motion.div>
                       ))}

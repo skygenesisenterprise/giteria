@@ -35,6 +35,25 @@ import { updateRepositoryDetails } from "@/lib/repo/RepositoryData";
 import { detectLanguagesFromFiles, LANGUAGE_EXTENSIONS } from "@/lib/languages";
 import { getGitHubToken } from "@/lib/github-token";
 
+interface FundingPlatform {
+  name: string;
+  url: string;
+  label: string;
+}
+
+interface GithubFunding {
+  patreon?: string;
+  open_collective?: string;
+  ko_fi?: string;
+  tidelift?: string;
+  community_bridge?: string;
+  liberapay?: string;
+  issuehunt?: string;
+  otechie?: string;
+  lfx_crowdfunding?: string;
+  custom?: string[];
+}
+
 interface FileItem {
   name: string;
   path: string;
@@ -48,6 +67,70 @@ interface RepositorySidebarProps {
   owner?: string;
   repoName?: string;
   files?: FileItem[];
+}
+
+function parseFundingYaml(content: string): FundingPlatform[] {
+  const platforms: FundingPlatform[] = [];
+  const lines = content.split("\n");
+  let currentKey = "";
+  let currentValue = "";
+
+  for (const line of lines) {
+    const trimmedLine = line.trim();
+    if (!trimmedLine || trimmedLine.startsWith("#")) continue;
+
+    const colonIndex = trimmedLine.indexOf(":");
+    if (colonIndex > -1) {
+      if (currentKey) {
+        if (currentValue) {
+          platforms.push(createFundingPlatform(currentKey.trim(), currentValue.trim()));
+        }
+      }
+      currentKey = trimmedLine.substring(0, colonIndex).trim();
+      currentValue = trimmedLine.substring(colonIndex + 1).trim();
+    } else if (trimmedLine.startsWith("-") && currentKey === "custom") {
+      const value = trimmedLine.substring(1).trim();
+      if (value) {
+        platforms.push({ name: "custom", url: value, label: value });
+      }
+    }
+  }
+
+  if (currentKey && currentValue) {
+    platforms.push(createFundingPlatform(currentKey.trim(), currentValue.trim()));
+  }
+
+  return platforms;
+}
+
+function createFundingPlatform(key: string, value: string): FundingPlatform {
+  const platformConfigs: Record<string, { urlTemplate: (v: string) => string; label: string }> = {
+    patreon: { urlTemplate: (v) => `https://www.patreon.com/${v}`, label: "Patreon" },
+    open_collective: {
+      urlTemplate: (v) => `https://opencollective.com/${v}`,
+      label: "Open Collective",
+    },
+    ko_fi: { urlTemplate: (v) => `https://ko-fi.com/${v}`, label: "Ko-fi" },
+    tidelift: { urlTemplate: (v) => `https://tidelift.com/funding/${v}`, label: "Tidelift" },
+    community_bridge: {
+      urlTemplate: (v) => `https://communitybridge.org/${v}`,
+      label: "Community Bridge",
+    },
+    liberapay: { urlTemplate: (v) => `https://liberapay.com/${v}`, label: "Liberapay" },
+    issuehunt: { urlTemplate: (v) => `https://issuehunt.io/${v}`, label: "IssueHunt" },
+    otechie: { urlTemplate: (v) => `https://otechie.com/${v}`, label: "Otechie" },
+    lfx_crowdfunding: {
+      urlTemplate: (v) => `https://crowdfunding.lfx.linuxfoundation.org/${v}`,
+      label: "LFX Crowdfunding",
+    },
+  };
+
+  const config = platformConfigs[key];
+  if (config && value) {
+    return { name: key, url: config.urlTemplate(value), label: config.label };
+  }
+
+  return { name: key, url: value, label: value };
 }
 
 export function RepositorySidebar({ repo, owner, repoName, files }: RepositorySidebarProps) {
@@ -97,6 +180,7 @@ export function RepositorySidebar({ repo, owner, repoName, files }: RepositorySi
   const [githubPackages, setGithubPackages] = React.useState<
     { id: number; name: string; package_type: string; html_url: string; owner: { login: string } }[]
   >([]);
+  const [githubFunding, setGithubFunding] = React.useState<FundingPlatform[]>([]);
 
   React.useEffect(() => {
     async function fetchGithubMeta() {
@@ -124,6 +208,7 @@ export function RepositorySidebar({ repo, owner, repoName, files }: RepositorySi
           contentsResponse,
           releasesResponse,
           packagesResponse,
+          fundingResponse,
         ] = await Promise.all([
           fetch(`https://api.github.com/repos/${owner}/${name}`, { headers }),
           fetch(`https://api.github.com/repos/${owner}/${name}/languages`, { headers }),
@@ -133,6 +218,9 @@ export function RepositorySidebar({ repo, owner, repoName, files }: RepositorySi
           fetch(`https://api.github.com/repos/${owner}/${name}/contents`, { headers }),
           fetch(`https://api.github.com/repos/${owner}/${name}/releases?per_page=5`, { headers }),
           fetch(`https://api.github.com/users/${owner}/packages?per_page=5`, { headers }),
+          fetch(`https://api.github.com/repos/${owner}/${name}/contents/.github/FUNDING.yml`, {
+            headers,
+          }),
         ]);
 
         if (metaResponse.ok) {
@@ -165,6 +253,15 @@ export function RepositorySidebar({ repo, owner, repoName, files }: RepositorySi
         if (packagesResponse.ok) {
           const packagesData = await packagesResponse.json();
           setGithubPackages(packagesData);
+        }
+
+        if (fundingResponse.ok) {
+          const fundingData = await fundingResponse.json();
+          if (fundingData.content) {
+            const decodedContent = atob(fundingData.content);
+            const funding = parseFundingYaml(decodedContent);
+            setGithubFunding(funding);
+          }
         }
       } catch (err) {
         console.error("Failed to fetch GitHub data:", err);
@@ -439,15 +536,35 @@ export function RepositorySidebar({ repo, owner, repoName, files }: RepositorySi
         </div>
       )}
 
-      <div className="border-b border-border pb-4">
-        <h3 className="font-semibold text-sm mb-3 flex items-center gap-2">
-          <Heart className="w-4 h-4 text-red-500" />
-          Sponsor this project
-        </h3>
-        <Button variant="outline" size="sm" className="w-full">
-          open_collective.com/skygenesisenterprise
-        </Button>
-      </div>
+      {githubFunding.length > 0 ? (
+        <div className="border-b border-border pb-4">
+          <h3 className="font-semibold text-sm mb-3 flex items-center gap-2">
+            <Heart className="w-4 h-4 text-red-500" />
+            Sponsor this project
+          </h3>
+          <div className="space-y-2">
+            {githubFunding
+              .filter((funding) => funding.name === "open_collective")
+              .map((funding, index) => (
+                <Button key={index} variant="outline" size="sm" className="w-full" asChild>
+                  <a href={funding.url} target="_blank" rel="noopener noreferrer">
+                    {funding.label}
+                  </a>
+                </Button>
+              ))}
+          </div>
+        </div>
+      ) : (
+        <div className="border-b border-border pb-4">
+          <h3 className="font-semibold text-sm mb-3 flex items-center gap-2">
+            <Heart className="w-4 h-4 text-red-500" />
+            Sponsor this project
+          </h3>
+          <Button variant="outline" size="sm" className="w-full" disabled>
+            No sponsor links available
+          </Button>
+        </div>
+      )}
 
       {includePackages && (
         <div className="border-b border-border pb-4">
