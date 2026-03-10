@@ -149,6 +149,9 @@ export default function RepoLayout({ children, params }: RepoLayoutProps) {
     if (currentPath.startsWith("/security")) return "security";
     if (currentPath.startsWith("/insights")) return "insights";
     if (currentPath.startsWith("/settings")) return "settings";
+    if (currentPath.startsWith("/packages")) return "packages";
+    if (currentPath.startsWith("/settings")) return "settings";
+    if (currentPath.startsWith("/models")) return "models";
 
     return "code";
   }, [pathname, resolvedParams.owner, resolvedParams.repo]);
