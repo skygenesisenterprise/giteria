@@ -10,16 +10,13 @@ const nextConfig: NextConfig = {
     output: "standalone",
   }),
 
+  basePath: process.env.BASE_PATH || "",
+
   images: {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "sso.skygenesisenterprise.com",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "sso.skygenesisenterprise.net",
+        hostname: "giteria.com",
         pathname: "/**",
       },
       {
