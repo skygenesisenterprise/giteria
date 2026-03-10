@@ -1,4 +1,4 @@
-const iconRulesData = require("../../options/fileicon/material-icon-rules.json") as {
+const iconRulesData = require("../options/fileicon/material-icon-rules.json") as {
   folderNames: Record<string, string>;
   folderNamesExpanded: Record<string, string>;
   fileExtensions: Record<string, string>;
