@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import { Header } from "./_components/Header";
 import { Footer } from "./_components/Footer";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 export const metadata: Metadata = {
   title: "Giteria - The code platform for everyone",
@@ -15,10 +16,12 @@ export default function PlatformLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <DashboardLayout>
-      <Header />
-      <div className="flex-1">{children}</div>
-      <Footer />
-    </DashboardLayout>
+    <ProtectedRoute>
+      <DashboardLayout>
+        <Header />
+        <div className="flex-1">{children}</div>
+        <Footer />
+      </DashboardLayout>
+    </ProtectedRoute>
   );
 }
