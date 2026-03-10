@@ -3,6 +3,7 @@
 FROM docker.io/library/golang:1.25-alpine3.22 AS build-env
 
 ARG GOPROXY=direct
+ENV GOPROXY=$GOPROXY
 
 ARG GITEA_VERSION
 ARG TAGS="sqlite sqlite_unlock_notify"
@@ -12,24 +13,31 @@ ARG CGO_EXTRA_CFLAGS
 # Build deps
 RUN apk --no-cache add \
     build-base \
-    git \
-    nodejs \
-    pnpm
+    git
 
 WORKDIR ${GOPATH}/src/github.com/skygenesisenterprise/giteria
+
+# Download Go module dependencies explicitly (better cache and reproducibility).
+COPY go.mod go.sum* ./
+RUN --mount=type=cache,target=/go/pkg/mod \
+    go mod download
+
 COPY --exclude=node_modules/ . .
 
 RUN --mount=type=cache,target=/go/pkg/mod \
     --mount=type=cache,target="/root/.cache/go-build" \
-    --mount=type=cache,target=/root/.local/share/pnpm/store \
-    make
+    go generate -tags bindata ./...
+
+RUN --mount=type=cache,target=/go/pkg/mod \
+    --mount=type=cache,target="/root/.cache/go-build" \
+    go build -tags "$TAGS" -o giteria .
 
 COPY docker/root /tmp/local
 
 # Set permissions for builds that made under windows which strips the executable bit from file
 RUN chmod 755 /tmp/local/usr/bin/entrypoint \
               /tmp/local/usr/local/bin/* \
-              /tmp/local/etc/s6/gitea/* \
+              /tmp/local/etc/s6/giteria/* \
               /tmp/local/etc/s6/openssh/* \
               /tmp/local/etc/s6/.s6-svscan/* \
               /go/src/github.com/skygenesisenterprise/giteria/giteria

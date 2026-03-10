@@ -1,7 +1,80 @@
-version: "3.9"
-
 services:
+  # Dev-like environment (similar to `pnpm dev`): backend + Next.js dev + reverse proxy.
+  proxy:
+    image: nginx:1.27-alpine
+    container_name: giteria-proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/all-in-one/nginx.dev.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - backend
+      - frontend
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    networks:
+      - giteria-network
+
+  frontend:
+    build:
+      context: ./app
+      dockerfile: infra/Dockerfile.dev
+    container_name: giteria-frontend
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+      - HOSTNAME=0.0.0.0
+      - NEXT_PUBLIC_API_URL=http://localhost
+    volumes:
+      - ./app:/app
+      - /app/node_modules
+      - /app/.next
+    expose:
+      - "3001"
+    networks:
+      - giteria-network
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: giteria-backend
+    restart: unless-stopped
+    ports:
+      - "2222:22"
+    environment:
+      - USER=git
+      - GITEA_CUSTOM=/data/giteria
+      - GITEA_APP_INI=/data/giteria/conf/app.ini
+      - ROOT_URL=http://localhost
+      - HTTP_PORT=3000
+      - SSH_PORT=22
+      - DISABLE_SSH=false
+      - DB_TYPE=sqlite3
+      - INSTALL_LOCK=true
+    volumes:
+      - giteria_data:/data
+      - giteria_git:/data/git
+    expose:
+      - "3000"
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    networks:
+      - giteria-network
+
+  # Production-style single container (reverse proxy + backend + Next.js standalone)
   giteria:
+    profiles: ["prod"]
     build:
       context: .
       dockerfile: Dockerfile.all-in-one
@@ -16,6 +89,7 @@ services:
       - DOMAIN=localhost
       - SSH_DOMAIN=localhost
       - HTTP_PORT=3000
+      - PORT=3001
       - ROOT_URL=http://localhost:80
       - DISABLE_SSH=false
       - SSH_PORT=22

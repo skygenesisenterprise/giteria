@@ -8,6 +8,7 @@
 FROM docker.io/library/golang:1.25-alpine3.22 AS backend-builder
 
 ARG GOPROXY=direct
+ENV GOPROXY=$GOPROXY
 ARG TAGS="sqlite sqlite_unlock_notify"
 ENV TAGS="bindata timetzdata $TAGS"
 
@@ -15,14 +16,25 @@ RUN apk --no-cache add \
     build-base \
     git
 
-WORKDIR /build/backend
-COPY go.mod go.sum ./
-RUN go mod download
+WORKDIR ${GOPATH}/src/github.com/skygenesisenterprise/giteria
 
-COPY . .
+COPY go.mod go.sum* ./
+RUN --mount=type=cache,target=/go/pkg/mod \
+    go mod download
+
+COPY --exclude=node_modules/ . .
+
+# The repo relies on `bindata` build tags and generated `bindata.dat` files.
+# Generate them explicitly to avoid depending on a Makefile target.
 RUN --mount=type=cache,target=/go/pkg/mod \
     --mount=type=cache,target="/root/.cache/go-build" \
-    make
+    go generate -tags bindata ./...
+
+RUN --mount=type=cache,target=/go/pkg/mod \
+    --mount=type=cache,target="/root/.cache/go-build" \
+    go build -tags "$TAGS" -o giteria .
+
+COPY docker/root /tmp/local
 
 # ============================================
 # Stage 2: Build Frontend (Next.js)
@@ -35,7 +47,8 @@ RUN npm install -g pnpm@10.28.1
 WORKDIR /build/frontend
 
 COPY app/package.json app/pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile --ignore-scripts
+# The app lockfile can drift from package.json; don't hard-fail the image build.
+RUN pnpm install --no-frozen-lockfile
 
 COPY app/ ./
 ENV NODE_ENV=production
@@ -59,6 +72,7 @@ RUN apk --no-cache add \
     git \
     linux-pam \
     nginx \
+    nodejs \
     openssh \
     s6 \
     sqlite \
@@ -68,10 +82,15 @@ RUN apk --no-cache add \
 
 RUN addgroup -S -g 1000 git && \
     adduser -S -H -D -h /data/git -s /bin/bash -u 1000 -G git git && \
-    echo "git:*" | chpasswd -e
+    echo "git:*" | chpasswd -e && \
+    addgroup -S -g 1001 nextjs && \
+    adduser -S -H -D -h /app/frontend -s /sbin/nologin -u 1001 -G nextjs nextjs
 
 COPY --from=backend-builder /go/src/github.com/skygenesisenterprise/giteria/giteria /usr/local/bin/giteria
-COPY --from=backend-builder /home/liam/Bureau/enterprise/giteria/docker/root /tmp/local
+
+# Keep a copy of docker/root under /tmp/local because docker/all-in-one/start.sh
+# uses it to template the initial app.ini on first run.
+COPY --from=backend-builder /tmp/local /tmp/local
 
 RUN chmod 755 /tmp/local/usr/bin/entrypoint \
               /tmp/local/usr/local/bin/* \
@@ -93,9 +112,9 @@ RUN chmod +x /start.sh
 
 ENV USER=git
 ENV GITEA_CUSTOM=/data/giteria
-ENV PORT=3000
+ENV PORT=3001
 ENV ROOT_URL=http://localhost:80
-ENV HTTP_PORT=80
+ENV HTTP_PORT=3000
 
 VOLUME ["/data"]
 

@@ -63,6 +63,7 @@ sleep 3
 # Start Next.js frontend
 echo "Starting Next.js frontend on port 3001..."
 cd /app/frontend
+chown -R nextjs:nextjs /app/frontend
 su-exec nextjs node server.js &
 
 # Wait for all background processes

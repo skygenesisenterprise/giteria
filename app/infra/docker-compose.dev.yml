@@ -5,22 +5,24 @@ services:
       dockerfile: infra/Dockerfile.dev
     container_name: giteria-frontend-dev
 
-    # Le port est uniquement visible dans le réseau Docker
-    expose:
-      - "3001"
+    # Expose le front sur l'hote (accessible depuis le reseau de la machine hote selon la config Docker).
+    ports:
+      - "3001:3001"
 
     environment:
       NODE_ENV: development
       PORT: 3001
       HOSTNAME: 0.0.0.0
       CHOKIDAR_USEPOLLING: "true"
+      NEXT_TELEMETRY_DISABLED: "1"
 
     working_dir: /app
     user: root
 
     volumes:
       - ..:/app:cached
-      # Note: node_modules n'est pas monté car il est installé dans l'image Docker
+      # Le bind-mount ecrase /app, donc on masque node_modules pour garder celui du conteneur.
+      - /app/node_modules
       - app_next:/app/.next
 
     restart: unless-stopped
@@ -31,22 +33,6 @@ services:
       timeout: 5s
       retries: 3
       start_period: 30s
-
-    # 🔑 Indexation par Traefik (l’infra décide de l’exposition)
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.giteria-frontend-dev.rule=Host(`localhost`) || Host(`giteria.local`)"
-      - "traefik.http.routers.giteria-frontend-dev.entrypoints=web"
-      - "traefik.http.services.giteria-frontend-dev.loadbalancer.server.port=3001"
-      - "traefik.http.routers.giteria-frontend-dev.priority=1"
-
-    networks:
-      - giteria-network-dev
-
-networks:
-  giteria-network-dev:
-    name: aether-network-dev
-    driver: bridge
 
 volumes:
   app_next:
