@@ -27,11 +27,10 @@ interface FileItem {
 interface FileViewerProps {
   owner: string;
   repo: string;
-  branch?: string;
   mirrorFrom?: string;
 }
 
-export function FileViewer({ owner, repo, branch = "main", mirrorFrom }: FileViewerProps) {
+export function FileViewer({ owner, repo, mirrorFrom }: FileViewerProps) {
   const pathname = usePathname();
   const [fileContent, setFileContent] = React.useState<string>("");
   const [folderContents, setFolderContents] = React.useState<FileItem[]>([]);
@@ -41,12 +40,21 @@ export function FileViewer({ owner, repo, branch = "main", mirrorFrom }: FileVie
   const [isFile, setIsFile] = React.useState(false);
   const { getIcon } = useFileIcon();
 
-  const currentPath = React.useMemo(() => {
-    const match = pathname.match(/tree\/blob\/(.*)/);
+  const { branch, currentPath } = React.useMemo(() => {
+    const match = pathname.match(/\/tree\/blob\/([^\/]+)\/(.+)/);
     if (match && match[1]) {
-      return match[1];
+      return { branch: match[1], currentPath: match[2] || "" };
     }
-    return "";
+    const simpleMatch = pathname.match(/\/tree\/blob\/([^\/]+)\/?$/);
+    if (simpleMatch && simpleMatch[1]) {
+      return { branch: simpleMatch[1], currentPath: "" };
+    }
+    const noBranchMatch = pathname.match(/\/tree\/blob\/(.+)/);
+    if (noBranchMatch && noBranchMatch[1]) {
+      const pathWithoutBranch = noBranchMatch[1];
+      return { branch: "main", currentPath: pathWithoutBranch };
+    }
+    return { branch: "main", currentPath: "" };
   }, [pathname]);
 
   const isRoot = currentPath === "";
@@ -211,20 +219,20 @@ export function FileViewer({ owner, repo, branch = "main", mirrorFrom }: FileVie
     return [
       { name: repo, href: `/${owner}/${repo}` },
       { name: "tree", href: null },
-      { name: "blob", href: `/${owner}/${repo}/tree/blob` },
+      { name: "blob", href: `/${owner}/${repo}/tree/blob/${branch}` },
       ...parts.map((part, index) => ({
         name: part,
         href:
           index === parts.length - 1
             ? null
-            : `/${owner}/${repo}/tree/blob/${parts.slice(0, index + 1).join("/")}`,
+            : `/${owner}/${repo}/tree/blob/${branch}/${parts.slice(0, index + 1).join("/")}`,
       })),
     ];
-  }, [owner, repo, currentPath]);
+  }, [owner, repo, branch, currentPath]);
 
   if (isLoading) {
     return (
-      <div className="flex-1 flex items-center justify-center">
+      <div className="h-full flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-foreground" />
       </div>
     );
@@ -232,7 +240,7 @@ export function FileViewer({ owner, repo, branch = "main", mirrorFrom }: FileVie
 
   if (!mirrorFrom) {
     return (
-      <div className="flex-1 flex items-center justify-center text-muted-foreground">
+      <div className="h-full flex items-center justify-center text-muted-foreground">
         <div className="text-center">
           <p>Select a file to view</p>
           <p className="text-xs mt-2">No mirror URL configured for this repository</p>
@@ -243,7 +251,7 @@ export function FileViewer({ owner, repo, branch = "main", mirrorFrom }: FileVie
 
   if (!isFile && folderContents.length === 0 && !error) {
     return (
-      <div className="flex-1 flex items-center justify-center text-muted-foreground">
+      <div className="h-full flex items-center justify-center text-muted-foreground">
         <div className="text-center">
           <p>Select a file to view</p>
           <p className="text-xs mt-2">path: {currentPath || "(root)"}</p>
@@ -255,7 +263,7 @@ export function FileViewer({ owner, repo, branch = "main", mirrorFrom }: FileVie
   if (isFile) {
     const lines = fileContent.split("\n");
     return (
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="h-full flex flex-col min-w-0">
         <div className="border-b border-border px-4 py-2">
           <div className="flex items-center gap-1 text-sm">
             {breadcrumbs.map((crumb, index) => (
@@ -307,7 +315,7 @@ export function FileViewer({ owner, repo, branch = "main", mirrorFrom }: FileVie
   }
 
   return (
-    <div className="flex-1 flex flex-col min-w-0">
+    <div className="h-full flex flex-col min-w-0">
       <div className="border-b border-border px-4 py-2">
         <div className="flex items-center gap-1 text-sm">
           {breadcrumbs.map((crumb, index) => (
@@ -349,7 +357,7 @@ export function FileViewer({ owner, repo, branch = "main", mirrorFrom }: FileVie
                           <FileIcon iconName={iconName} className={cn("w-4 h-4", color)} />
                         )}
                         <Link
-                          href={`/${owner}/${repo}/tree/blob/${file.path}`}
+                          href={`/${owner}/${repo}/tree/blob/${branch}/${file.path}`}
                           className="text-sm hover:text-blue-500 hover:underline"
                         >
                           {file.name}

@@ -5,6 +5,7 @@ import { use, useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   GitPullRequest,
@@ -18,6 +19,10 @@ import {
 import { cn } from "@/lib/utils";
 import { db, STORES } from "@/lib/db";
 import { getGitHubToken } from "@/lib/github-token";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface PullRequest {
   id: string;
@@ -62,6 +67,15 @@ interface PRCommit {
   date: string;
 }
 
+interface PRComment {
+  id: number;
+  body: string;
+  author: string;
+  authorAvatar: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export default function PullRequestDetailPage({ params }: PullRequestDetailProps) {
   const resolvedParams = use(params);
   const [pr, setPR] = useState<PullRequest | null>(null);
@@ -69,6 +83,9 @@ export default function PullRequestDetailPage({ params }: PullRequestDetailProps
   const [repoData, setRepoData] = useState<RepoData | null>(null);
   const [files, setFiles] = useState<PRFile[]>([]);
   const [commits, setCommits] = useState<PRCommit[]>([]);
+  const [comments, setComments] = useState<PRComment[]>([]);
+  const [newComment, setNewComment] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   const repoFullName = `${resolvedParams.owner}/${resolvedParams.repo}`;
@@ -82,8 +99,31 @@ export default function PullRequestDetailPage({ params }: PullRequestDetailProps
   useEffect(() => {
     if (repoData?.mirrorFrom) {
       loadGithubPR();
+    } else if (repoData) {
+      loadLocalComments();
     }
   }, [repoData?.mirrorFrom]);
+
+  async function loadLocalComments() {
+    try {
+      const allComments = await db.getAllByIndex<
+        PRComment & { prId: string; repoFullName: string }
+      >(STORES.PR_COMMENTS, "repoFullName", repoFullName);
+      const prComments = allComments
+        .filter((c) => c.prId === prNumber.toString())
+        .map((c) => ({
+          id: c.id,
+          body: c.body,
+          author: c.author,
+          authorAvatar: c.authorAvatar,
+          createdAt: c.createdAt,
+          updatedAt: c.updatedAt,
+        }));
+      setComments(prComments);
+    } catch (error) {
+      console.error("Failed to load local comments:", error);
+    }
+  }
 
   async function loadRepoData() {
     try {
@@ -115,7 +155,7 @@ export default function PullRequestDetailPage({ params }: PullRequestDetailProps
         headers.Authorization = `Bearer ${token}`;
       }
 
-      const [prResponse, filesResponse, commitsResponse] = await Promise.all([
+      const [prResponse, filesResponse, commitsResponse, commentsResponse] = await Promise.all([
         fetch(`https://api.github.com/repos/${mirrorOwner}/${repoName}/pulls/${prNumber}`, {
           headers,
         }),
@@ -125,6 +165,12 @@ export default function PullRequestDetailPage({ params }: PullRequestDetailProps
         fetch(`https://api.github.com/repos/${mirrorOwner}/${repoName}/pulls/${prNumber}/commits`, {
           headers,
         }),
+        fetch(
+          `https://api.github.com/repos/${mirrorOwner}/${repoName}/issues/${prNumber}/comments`,
+          {
+            headers,
+          }
+        ),
       ]);
 
       if (prResponse.ok) {
@@ -186,6 +232,27 @@ export default function PullRequestDetailPage({ params }: PullRequestDetailProps
         );
         setCommits(prCommits);
       }
+
+      if (commentsResponse.ok) {
+        const commentsData = await commentsResponse.json();
+        const prComments: PRComment[] = commentsData.map(
+          (c: {
+            id: number;
+            body: string;
+            user: { login: string; avatar_url: string };
+            created_at: string;
+            updated_at: string;
+          }) => ({
+            id: c.id,
+            body: c.body,
+            author: c.user.login,
+            authorAvatar: c.user.avatar_url,
+            createdAt: c.created_at,
+            updatedAt: c.updated_at,
+          })
+        );
+        setComments(prComments);
+      }
     } catch (error) {
       console.error("Failed to load GitHub PR:", error);
     } finally {
@@ -209,6 +276,77 @@ export default function PullRequestDetailPage({ params }: PullRequestDetailProps
       console.error("Failed to load PR:", error);
     } finally {
       setIsLoading(false);
+    }
+  }
+
+  async function submitComment() {
+    if (!newComment.trim()) return;
+
+    setIsSubmitting(true);
+    try {
+      if (repoData?.mirrorFrom) {
+        const githubMatch = repoData.mirrorFrom.match(/github\.com[/:]([^\/]+)\/([^\/]+)/);
+        if (!githubMatch) return;
+
+        const [, mirrorOwner, mirrorRepo] = githubMatch;
+        const repoName = mirrorRepo.replace(/\.git$/, "");
+
+        const token = await getGitHubToken();
+        const headers: HeadersInit = {
+          Accept: "application/vnd.github.v3+json",
+          "Content-Type": "application/json",
+        };
+        if (token) {
+          headers.Authorization = `Bearer ${token}`;
+        }
+
+        const response = await fetch(
+          `https://api.github.com/repos/${mirrorOwner}/${repoName}/issues/${prNumber}/comments`,
+          {
+            method: "POST",
+            headers,
+            body: JSON.stringify({ body: newComment }),
+          }
+        );
+
+        if (response.ok) {
+          const commentData = await response.json();
+          setComments([
+            ...comments,
+            {
+              id: commentData.id,
+              body: commentData.body,
+              author: commentData.user.login,
+              authorAvatar: commentData.user.avatar_url,
+              createdAt: commentData.created_at,
+              updatedAt: commentData.updated_at,
+            },
+          ]);
+          setNewComment("");
+        }
+      } else {
+        const newCommentObj: PRComment = {
+          id: Date.now(),
+          body: newComment,
+          author: "You",
+          authorAvatar: "",
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        };
+
+        await db.add(STORES.PR_COMMENTS, {
+          ...newCommentObj,
+          prId: prNumber.toString(),
+          repoFullName,
+        });
+
+        setComments([...comments, newCommentObj]);
+        setNewComment("");
+      }
+    } catch (error) {
+      console.error("Failed to submit comment:", error);
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
@@ -266,7 +404,11 @@ export default function PullRequestDetailPage({ params }: PullRequestDetailProps
   return (
     <div className="bg-background min-h-screen">
       <div className="max-w-5xl mx-auto px-4 py-6 space-y-6">
-        <div>
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.2 }}
+        >
           <Link
             href={`/${repoFullName}/pulls`}
             className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -274,9 +416,14 @@ export default function PullRequestDetailPage({ params }: PullRequestDetailProps
             <ChevronLeft className="w-4 h-4" />
             Back to pull requests
           </Link>
-        </div>
+        </motion.div>
 
-        <div className="border border-border rounded-lg bg-card overflow-hidden">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.1 }}
+          className="border border-border rounded-lg bg-card overflow-hidden"
+        >
           <div className="p-4">
             <div className="flex items-start gap-3">
               <div className="mt-1">
@@ -333,7 +480,11 @@ export default function PullRequestDetailPage({ params }: PullRequestDetailProps
 
             {currentPR.body && (
               <div className="mt-4 border border-border rounded-lg p-4">
-                <p className="whitespace-pre-wrap text-sm">{currentPR.body}</p>
+                <div className="prose prose-sm dark:prose-invert max-w-none">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
+                    {currentPR.body}
+                  </ReactMarkdown>
+                </div>
               </div>
             )}
 
@@ -355,113 +506,201 @@ export default function PullRequestDetailPage({ params }: PullRequestDetailProps
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <Tabs defaultValue="conversation" className="w-full">
-          <TabsList>
-            <TabsTrigger value="conversation">Conversation</TabsTrigger>
-            <TabsTrigger value="commits">
-              Commits ({commits.length || currentPR.commitsCount})
-            </TabsTrigger>
-            <TabsTrigger value="files">Files changed ({files.length})</TabsTrigger>
-          </TabsList>
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.2 }}
+        >
+          <Tabs defaultValue="conversation" className="w-full">
+            <TabsList>
+              <TabsTrigger value="conversation">Conversation</TabsTrigger>
+              <TabsTrigger value="commits">
+                Commits ({commits.length || currentPR.commitsCount})
+              </TabsTrigger>
+              <TabsTrigger value="files">Files changed ({files.length})</TabsTrigger>
+            </TabsList>
 
-          <TabsContent value="conversation" className="mt-4">
-            <div className="border border-border rounded-lg p-8 text-center text-muted-foreground">
-              <MessageSquare className="w-12 h-12 mx-auto mb-4 opacity-50" />
-              <p>No comments yet.</p>
-              <p className="text-sm">Start a conversation about this pull request.</p>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="commits" className="mt-4">
-            <div className="border border-border rounded-lg">
-              {commits.length === 0 ? (
-                <div className="p-8 text-center text-muted-foreground">
-                  <GitCommit className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                  <p>No commits yet.</p>
-                </div>
-              ) : (
-                <div className="divide-y divide-border">
-                  {commits.map((commit) => (
-                    <div key={commit.sha} className="p-4 flex items-start gap-3">
-                      <GitCommit className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-1 flex-wrap">
-                          <span className="font-mono text-sm text-blue-600">
-                            {commit.sha.slice(0, 7)}
-                          </span>
-                          <span className="text-sm text-muted-foreground">{commit.author}</span>
-                          <span className="text-sm text-muted-foreground">•</span>
-                          <span className="text-sm text-muted-foreground">
-                            {timeAgo(new Date(commit.date).getTime())}
-                          </span>
-                        </div>
-                        <p className="text-sm truncate">{commit.message.split("\n")[0]}</p>
-                      </div>
+            <TabsContent value="conversation" className="mt-4">
+              <div className="border border-border rounded-lg">
+                {repoData?.mirrorFrom && (
+                  <div className="p-4 border-b border-border">
+                    <Textarea
+                      placeholder="Write a comment..."
+                      value={newComment}
+                      onChange={(e) => setNewComment(e.target.value)}
+                      rows={3}
+                      className="mb-2"
+                    />
+                    <div className="flex justify-end">
+                      <Button
+                        onClick={submitComment}
+                        disabled={!newComment.trim() || isSubmitting}
+                        size="sm"
+                      >
+                        {isSubmitting ? "Posting..." : "Comment"}
+                      </Button>
                     </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </TabsContent>
+                  </div>
+                )}
 
-          <TabsContent value="files" className="mt-4">
-            <div className="border border-border rounded-lg">
-              {files.length === 0 ? (
-                <div className="p-8 text-center text-muted-foreground">
-                  <FileText className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                  <p>No files changed.</p>
-                </div>
-              ) : (
-                <div className="divide-y divide-border">
-                  {files.map((file) => (
-                    <div key={file.filename} className="p-4">
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center gap-2 min-w-0">
-                          <FileText className="w-4 h-4 text-muted-foreground shrink-0" />
-                          <span className="font-mono text-sm truncate">{file.filename}</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-sm shrink-0">
-                          <Badge
-                            variant="outline"
-                            className={cn(
-                              "text-xs",
-                              file.status === "added" && "text-green-600 border-green-600",
-                              file.status === "removed" && "text-red-600 border-red-600",
-                              file.status === "modified" && "text-yellow-600 border-yellow-600",
-                              file.status === "renamed" && "text-blue-600 border-blue-600"
+                {comments.length === 0 && !repoData?.mirrorFrom ? (
+                  <div className="p-8 text-center text-muted-foreground">
+                    <MessageSquare className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                    <p>No comments yet.</p>
+                    <p className="text-sm">Start a conversation about this pull request.</p>
+                  </div>
+                ) : comments.length === 0 ? (
+                  <div className="p-8 text-center text-muted-foreground">
+                    <MessageSquare className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                    <p>No comments yet.</p>
+                    <p className="text-sm">Be the first to comment!</p>
+                  </div>
+                ) : (
+                  <div className="divide-y divide-border">
+                    <AnimatePresence>
+                      {comments.map((comment, index) => (
+                        <motion.div
+                          key={comment.id}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: index * 0.05 }}
+                          className="p-4"
+                        >
+                          <div className="flex items-start gap-3">
+                            {comment.authorAvatar ? (
+                              <img
+                                src={comment.authorAvatar}
+                                alt={comment.author}
+                                className="w-8 h-8 rounded-full shrink-0"
+                              />
+                            ) : (
+                              <div className="w-8 h-8 rounded-full bg-muted shrink-0" />
                             )}
-                          >
-                            {file.status}
-                          </Badge>
-                          <span className="text-green-600">+{file.additions}</span>
-                          <span className="text-red-600">-{file.deletions}</span>
-                        </div>
-                      </div>
-                      {file.patch && (
-                        <pre className="bg-muted/50 rounded p-2 text-xs font-mono overflow-x-auto">
-                          {file.patch.split("\n").map((line, i) => (
-                            <div
-                              key={i}
-                              className={cn(
-                                "whitespace-pre-wrap",
-                                line.startsWith("+") && "text-green-600 bg-green-600/10",
-                                line.startsWith("-") && "text-red-600 bg-red-600/10"
-                              )}
-                            >
-                              {line}
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2 mb-1 flex-wrap">
+                                <span className="font-medium text-sm">{comment.author}</span>
+                                <span className="text-sm text-muted-foreground">
+                                  commented {timeAgo(new Date(comment.createdAt).getTime())}
+                                </span>
+                              </div>
+                              <div className="mt-2 text-sm whitespace-pre-wrap">{comment.body}</div>
                             </div>
-                          ))}
-                        </pre>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </TabsContent>
-        </Tabs>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </AnimatePresence>
+                  </div>
+                )}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="commits" className="mt-4">
+              <div className="border border-border rounded-lg">
+                {commits.length === 0 ? (
+                  <div className="p-8 text-center text-muted-foreground">
+                    <GitCommit className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                    <p>No commits yet.</p>
+                  </div>
+                ) : (
+                  <div className="divide-y divide-border">
+                    <AnimatePresence>
+                      {commits.map((commit, index) => (
+                        <motion.div
+                          key={commit.sha}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.03 }}
+                          className="p-4 flex items-start gap-3"
+                        >
+                          <GitCommit className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-1 flex-wrap">
+                              <span className="font-mono text-sm text-blue-600">
+                                {commit.sha.slice(0, 7)}
+                              </span>
+                              <span className="text-sm text-muted-foreground">{commit.author}</span>
+                              <span className="text-sm text-muted-foreground">•</span>
+                              <span className="text-sm text-muted-foreground">
+                                {timeAgo(new Date(commit.date).getTime())}
+                              </span>
+                            </div>
+                            <p className="text-sm truncate">{commit.message.split("\n")[0]}</p>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </AnimatePresence>
+                  </div>
+                )}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="files" className="mt-4">
+              <div className="border border-border rounded-lg">
+                {files.length === 0 ? (
+                  <div className="p-8 text-center text-muted-foreground">
+                    <FileText className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                    <p>No files changed.</p>
+                  </div>
+                ) : (
+                  <div className="divide-y divide-border">
+                    <AnimatePresence>
+                      {files.map((file, index) => (
+                        <motion.div
+                          key={file.filename}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.02 }}
+                          className="p-4"
+                        >
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-2 min-w-0">
+                              <FileText className="w-4 h-4 text-muted-foreground shrink-0" />
+                              <span className="font-mono text-sm truncate">{file.filename}</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-sm shrink-0">
+                              <Badge
+                                variant="outline"
+                                className={cn(
+                                  "text-xs",
+                                  file.status === "added" && "text-green-600 border-green-600",
+                                  file.status === "removed" && "text-red-600 border-red-600",
+                                  file.status === "modified" && "text-yellow-600 border-yellow-600",
+                                  file.status === "renamed" && "text-blue-600 border-blue-600"
+                                )}
+                              >
+                                {file.status}
+                              </Badge>
+                              <span className="text-green-600">+{file.additions}</span>
+                              <span className="text-red-600">-{file.deletions}</span>
+                            </div>
+                          </div>
+                          {file.patch && (
+                            <pre className="bg-muted/50 rounded p-2 text-xs font-mono overflow-x-auto">
+                              {file.patch.split("\n").map((line, i) => (
+                                <div
+                                  key={i}
+                                  className={cn(
+                                    "whitespace-pre-wrap",
+                                    line.startsWith("+") && "text-green-600 bg-green-600/10",
+                                    line.startsWith("-") && "text-red-600 bg-red-600/10"
+                                  )}
+                                >
+                                  {line}
+                                </div>
+                              ))}
+                            </pre>
+                          )}
+                        </motion.div>
+                      ))}
+                    </AnimatePresence>
+                  </div>
+                )}
+              </div>
+            </TabsContent>
+          </Tabs>
+        </motion.div>
       </div>
     </div>
   );

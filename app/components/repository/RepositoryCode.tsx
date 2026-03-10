@@ -477,14 +477,14 @@ export function RepositoryCode({
                           <FileIcon iconName={iconName} className={cn("w-4 h-4", color)} />
                           {file.type === "folder" ? (
                             <Link
-                              href={`/${owner}/${repo}/tree/blob/${file.path}`}
+                              href={`/${owner}/${repo}/tree/blob/${branch}/${file.path}`}
                               className="text-sm hover:text-blue-500 hover:underline"
                             >
                               {file.name}
                             </Link>
                           ) : (
                             <Link
-                              href={`/${owner}/${repo}/tree/blob/${file.path}`}
+                              href={`/${owner}/${repo}/tree/blob/${branch}/${file.path}`}
                               className="text-sm hover:text-blue-500 hover:underline"
                             >
                               {file.name}

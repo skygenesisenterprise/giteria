@@ -1,5 +1,5 @@
 const DB_NAME = "giteria-db";
-const DB_VERSION = 5;
+const DB_VERSION = 6;
 
 const STORES = {
   REPOSITORIES: "repositories",
@@ -13,6 +13,7 @@ const STORES = {
   WORKFLOWS: "workflows",
   WORKFLOW_RUNS: "workflow_runs",
   BRANCHES: "branches",
+  PR_COMMENTS: "pr_comments",
 } as const;
 
 let dbPromise: Promise<IDBDatabase> | null = null;
@@ -95,6 +96,13 @@ function openDB(): Promise<IDBDatabase> {
         runStore.createIndex("workflowId", "workflowId", { unique: false });
         runStore.createIndex("status", "status", { unique: false });
         runStore.createIndex("createdAt", "createdAt", { unique: false });
+      }
+
+      if (!db.objectStoreNames.contains(STORES.PR_COMMENTS)) {
+        const prCommentStore = db.createObjectStore(STORES.PR_COMMENTS, { keyPath: "id" });
+        prCommentStore.createIndex("prId", "prId", { unique: false });
+        prCommentStore.createIndex("repoFullName", "repoFullName", { unique: false });
+        prCommentStore.createIndex("createdAt", "createdAt", { unique: false });
       }
     };
   });

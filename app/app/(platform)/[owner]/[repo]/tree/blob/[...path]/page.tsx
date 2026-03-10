@@ -17,7 +17,7 @@ interface TreeBlobPageProps {
 export default function TreeBlobPage({ params }: TreeBlobPageProps) {
   const resolvedParams = use(params);
   const [repo, setRepo] = React.useState<Repository | null>(null);
-  const [isLoadingRepo, setIsLoadingRepo] = React.useState(true);
+  const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
     async function fetchRepo() {
@@ -27,36 +27,40 @@ export default function TreeBlobPage({ params }: TreeBlobPageProps) {
       } catch (err) {
         console.error("Failed to fetch repo:", err);
       } finally {
-        setIsLoadingRepo(false);
+        setIsLoading(false);
       }
     }
     fetchRepo();
   }, [resolvedParams.owner, resolvedParams.repo]);
 
-  if (isLoadingRepo) {
+  if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-64">
+      <div className="flex items-center justify-center py-20">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-foreground" />
       </div>
     );
   }
 
   return (
-    <div className="flex h-[calc(100vh-120px)]">
-      <div className="w-64 shrink-0 border-r border-border pr-2">
-        <RepositoryTreeExplorer
-          owner={resolvedParams.owner}
-          repo={resolvedParams.repo}
-          branch="main"
-          mirrorFrom={repo?.mirrorFrom}
-        />
+    <div className="bg-background">
+      <div className="max-w-6xl mx-auto px-4 py-6">
+        <div className="flex gap-6">
+          <div className="w-64 shrink-0">
+            <RepositoryTreeExplorer
+              owner={resolvedParams.owner}
+              repo={resolvedParams.repo}
+              mirrorFrom={repo?.mirrorFrom}
+            />
+          </div>
+          <div className="flex-1 min-w-0">
+            <FileViewer
+              owner={resolvedParams.owner}
+              repo={resolvedParams.repo}
+              mirrorFrom={repo?.mirrorFrom}
+            />
+          </div>
+        </div>
       </div>
-      <FileViewer
-        owner={resolvedParams.owner}
-        repo={resolvedParams.repo}
-        branch="main"
-        mirrorFrom={repo?.mirrorFrom}
-      />
     </div>
   );
 }
