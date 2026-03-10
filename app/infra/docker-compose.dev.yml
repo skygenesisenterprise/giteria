@@ -7,11 +7,11 @@ services:
 
     # Expose le front sur l'hote (accessible depuis le reseau de la machine hote selon la config Docker).
     ports:
-      - "3001:3001"
+      - "3000:3000"
 
     environment:
       NODE_ENV: development
-      PORT: 3001
+      PORT: 3000
       HOSTNAME: 0.0.0.0
       CHOKIDAR_USEPOLLING: "true"
       NEXT_TELEMETRY_DISABLED: "1"
@@ -28,7 +28,7 @@ services:
     restart: unless-stopped
 
     healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3001"]
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000"]
       interval: 20s
       timeout: 5s
       retries: 3
