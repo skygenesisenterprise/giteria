@@ -7,7 +7,9 @@ services:
 
     # Expose le front sur l'hote (accessible depuis le reseau de la machine hote selon la config Docker).
     ports:
-      - "3000:3000"
+      # Permet d'eviter les conflits (ex: port 3000 deja pris sur Dokploy).
+      # Usage: HOST_PORT=3001 docker compose -f app/infra/docker-compose.dev.yml up
+      - "${HOST_PORT:-3000}:3000"
 
     environment:
       NODE_ENV: development
