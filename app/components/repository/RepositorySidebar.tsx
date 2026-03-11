@@ -134,7 +134,6 @@ function createFundingPlatform(key: string, value: string): FundingPlatform {
 }
 
 export function RepositorySidebar({ repo, owner, repoName, files }: RepositorySidebarProps) {
-  const [isStarred, setIsStarred] = React.useState(false);
   const [stars, setStars] = React.useState(repo.stars);
   const [forks, setForks] = React.useState(repo.forks);
   const [watchers, setWatchers] = React.useState(repo.watchers);
@@ -347,11 +346,6 @@ export function RepositorySidebar({ repo, owner, repoName, files }: RepositorySi
     return [];
   }, [githubLanguages, repo.languages, detectedLanguages, repo.language, repo.languageColor]);
 
-  const handleStar = () => {
-    setIsStarred(!isStarred);
-    setStars(isStarred ? stars - 1 : stars + 1);
-  };
-
   const normalizeUrl = (url: string) => {
     if (!url) return "";
     if (url.startsWith("http://") || url.startsWith("https://")) {
@@ -479,21 +473,27 @@ export function RepositorySidebar({ repo, owner, repoName, files }: RepositorySi
               Custom properties
             </span>
           </div>
-          <div
-            className="flex items-center gap-2 text-muted-foreground cursor-pointer hover:text-foreground"
-            onClick={handleStar}
+          <Link
+            href={owner && repoName ? `/${owner}/${repoName}/stars` : "#"}
+            className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
           >
-            <Star className={`w-4 h-4 ${isStarred ? "fill-yellow-500 text-yellow-500" : ""}`} />
+            <Star className="w-4 h-4" />
             <span>{effectiveStars} stars</span>
-          </div>
-          <div className="flex items-center gap-2 text-muted-foreground">
+          </Link>
+          <Link
+            href={owner && repoName ? `/${owner}/${repoName}/watcher` : "#"}
+            className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
+          >
             <Eye className="w-4 h-4" />
             <span>{effectiveWatchers} watching</span>
-          </div>
-          <div className="flex items-center gap-2 text-muted-foreground">
+          </Link>
+          <Link
+            href={owner && repoName ? `/${owner}/${repoName}/forks` : "#"}
+            className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
+          >
             <GitFork className="w-4 h-4" />
             <span>{effectiveForks} forks</span>
-          </div>
+          </Link>
           <div className="flex items-center gap-2 text-muted-foreground">
             <History className="w-4 h-4" />
             <span className="hover:text-foreground hover:underline cursor-pointer">Audit log</span>

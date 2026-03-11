@@ -1,5 +1,5 @@
 const DB_NAME = "giteria-db";
-const DB_VERSION = 7;
+const DB_VERSION = 8;
 
 const STORES = {
   REPOSITORIES: "repositories",
@@ -16,6 +16,7 @@ const STORES = {
   PR_COMMENTS: "pr_comments",
   DISCUSSIONS: "discussions",
   DISCUSSION_COMMENTS: "discussion_comments",
+  TAGS: "tags",
 } as const;
 
 let dbPromise: Promise<IDBDatabase> | null = null;
@@ -119,6 +120,12 @@ function openDB(): Promise<IDBDatabase> {
         });
         discussionCommentStore.createIndex("discussionId", "discussionId", { unique: false });
         discussionCommentStore.createIndex("repoFullName", "repoFullName", { unique: false });
+      }
+
+      if (!db.objectStoreNames.contains(STORES.TAGS)) {
+        const tagStore = db.createObjectStore(STORES.TAGS, { keyPath: "id" });
+        tagStore.createIndex("repoFullName", "repoFullName", { unique: false });
+        tagStore.createIndex("name", "name", { unique: false });
       }
     };
   });

@@ -11,9 +11,6 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubTrigger,
-  DropdownMenuSubContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { db, STORES } from "@/lib/db";
@@ -169,7 +166,7 @@ export function RepoActionBar({
               <ChevronDown className="w-3 h-3 text-muted-foreground" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="w-64 p-0">
+          <DropdownMenuContent align="start" className="w-80 p-0">
             <div className="p-2 border-b border-border">
               <Input
                 placeholder="Find or create a branch..."
@@ -179,55 +176,61 @@ export function RepoActionBar({
               />
             </div>
 
-            <div className="py-1 max-h-80 overflow-y-auto">
-              <div className="px-2 py-1 text-xs font-semibold text-muted-foreground">
-                Switch branches/tags
-              </div>
+            <div className="py-1 max-h-96 overflow-hidden">
+              <div className="grid grid-cols-2 divide-x divide-border">
+                <div className="flex flex-col">
+                  <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground flex items-center gap-1">
+                    <GitBranch className="w-3 h-3" />
+                    Branches
+                  </div>
+                  <div className="max-h-64 overflow-y-auto flex-1">
+                    {branches
+                      .filter((b) => b.name.toLowerCase().includes(searchQuery.toLowerCase()))
+                      .map((b) => (
+                        <DropdownMenuItem
+                          key={b.id}
+                          onClick={() => setCurrentBranch(b.name)}
+                          className={`flex items-center gap-2 ${b.name === currentBranch ? "bg-accent font-medium" : ""}`}
+                        >
+                          <GitBranch className="w-4 h-4" />
+                          <span className="flex-1 truncate">{b.name}</span>
+                          {b.name === currentBranch && <Check className="w-4 h-4" />}
+                        </DropdownMenuItem>
+                      ))}
+                  </div>
+                </div>
 
-              <div className="max-h-48 overflow-y-auto">
-                {branches
-                  .filter((b) => b.name.toLowerCase().includes(searchQuery.toLowerCase()))
-                  .map((b) => (
-                    <DropdownMenuItem
-                      key={b.id}
-                      onClick={() => setCurrentBranch(b.name)}
-                      className={`flex items-center gap-2 ${b.name === currentBranch ? "bg-accent font-medium" : ""}`}
-                    >
-                      <GitBranch className="w-4 h-4" />
-                      <span className="flex-1">{b.name}</span>
-                      {b.name === currentBranch && <Check className="w-4 h-4" />}
-                      {b.isDefault && !b.name.startsWith(currentBranch) && (
-                        <span className="text-xs text-muted-foreground">default</span>
-                      )}
-                    </DropdownMenuItem>
-                  ))}
-              </div>
-
-              {tags.filter((t) => t.name.toLowerCase().includes(searchQuery.toLowerCase())).length >
-                0 && (
-                <>
-                  <div className="border-t border-border my-1" />
-                  <div className="px-2 py-1 text-xs font-semibold text-muted-foreground">Tags</div>
-                  <div className="max-h-32 overflow-y-auto">
+                <div className="flex flex-col">
+                  <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground flex items-center gap-1">
+                    <Tags className="w-3 h-3" />
+                    Tags
+                  </div>
+                  <div className="max-h-64 overflow-y-auto flex-1">
                     {tags
                       .filter((t) => t.name.toLowerCase().includes(searchQuery.toLowerCase()))
                       .map((tag) => (
                         <DropdownMenuItem key={tag.id} className="flex items-center gap-2">
                           <Tags className="w-4 h-4" />
-                          <span className="flex-1">{tag.name}</span>
+                          <span className="flex-1 truncate">{tag.name}</span>
                         </DropdownMenuItem>
                       ))}
                   </div>
-                </>
-              )}
+                </div>
+              </div>
             </div>
 
-            <div className="border-t border-border p-2 flex gap-2">
+            <div className="border-t border-border p-2 grid grid-cols-2 gap-2">
               <Link
                 href={`/${owner}/${repo}/branches`}
-                className="flex-1 text-center text-xs text-muted-foreground hover:text-foreground py-1"
+                className="text-center text-xs text-muted-foreground hover:text-foreground py-1.5 border border-border rounded hover:bg-accent"
               >
                 View all branches
+              </Link>
+              <Link
+                href={`/${owner}/${repo}/tags`}
+                className="text-center text-xs text-muted-foreground hover:text-foreground py-1.5 border border-border rounded hover:bg-accent"
+              >
+                View all tags
               </Link>
             </div>
           </DropdownMenuContent>

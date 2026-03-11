@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { FileText, Shield, HandHeart, Scale, Lock, Pencil, ExternalLink } from "lucide-react";
+import { FileText, Shield, HandHeart, Scale, Lock, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { getGitHubToken } from "@/lib/github-token";
