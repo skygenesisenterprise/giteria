@@ -49,7 +49,11 @@ interface SettingsPageProps {
 export default function SettingsPage({ params }: SettingsPageProps) {
   const resolvedParams = use(params);
   const { owner, repo } = resolvedParams;
-  const { updateFeatures, features: contextFeatures } = useRepoFeatures();
+  const {
+    updateFeatures,
+    features: contextFeatures,
+    isLoading: isContextLoading,
+  } = useRepoFeatures();
 
   const [repository, setRepository] = React.useState<Repository | null>(null);
   const [isLoading, setIsLoading] = React.useState(true);
@@ -58,25 +62,6 @@ export default function SettingsPage({ params }: SettingsPageProps) {
   const [description, setDescription] = React.useState("");
   const [website, setWebsite] = React.useState("");
   const [isSaving, setIsSaving] = React.useState(false);
-
-  const [features, setFeatures] = React.useState({
-    hasWiki: false,
-    hasIssues: true,
-    hasProjects: false,
-    hasDiscussions: false,
-    hasSponsorships: false,
-    hasPullRequests: true,
-    hasActions: true,
-    hasAgents: false,
-    hasModels: false,
-    hasPackages: true,
-    hasSecurity: true,
-    hasInsights: true,
-    isTemplate: false,
-    isArchived: false,
-    includeReleases: true,
-    includeDeployments: true,
-  });
 
   const [mergeOptions, setMergeOptions] = React.useState({
     allowMergeCommits: true,
@@ -101,6 +86,28 @@ export default function SettingsPage({ params }: SettingsPageProps) {
     includeGitLFS: false,
   });
 
+  const features = React.useMemo(
+    () => ({
+      hasWiki: contextFeatures.hasWiki ?? false,
+      hasIssues: contextFeatures.hasIssues ?? true,
+      hasProjects: contextFeatures.hasProjects ?? false,
+      hasDiscussions: contextFeatures.hasDiscussions ?? false,
+      hasSponsorships: false,
+      hasPullRequests: true,
+      hasActions: contextFeatures.hasActions ?? true,
+      hasAgents: contextFeatures.hasAgents ?? false,
+      hasModels: contextFeatures.hasModels ?? false,
+      hasPackages: contextFeatures.hasPackages ?? true,
+      hasSecurity: contextFeatures.hasSecurity ?? true,
+      hasInsights: contextFeatures.hasInsights ?? true,
+      isTemplate: false,
+      isArchived: false,
+      includeReleases: true,
+      includeDeployments: true,
+    }),
+    [contextFeatures]
+  );
+
   React.useEffect(() => {
     async function loadRepository() {
       const repoData = await getRepository(owner, repo);
@@ -109,64 +116,6 @@ export default function SettingsPage({ params }: SettingsPageProps) {
         setRepoName(repoData.name);
         setDescription(repoData.description || "");
         setWebsite(repoData.website || "");
-
-        const hasContextValues = Object.keys(contextFeatures).length > 0;
-
-        setFeatures((prev) => ({
-          ...prev,
-          hasWiki: hasContextValues
-            ? (contextFeatures.hasWiki ?? prev.hasWiki)
-            : (repoData.hasWiki ?? prev.hasWiki),
-          hasIssues: hasContextValues
-            ? (contextFeatures.hasIssues ?? prev.hasIssues)
-            : (repoData.hasIssues ?? prev.hasIssues),
-          hasProjects: hasContextValues
-            ? (contextFeatures.hasProjects ?? prev.hasProjects)
-            : (repoData.hasProjects ?? prev.hasProjects),
-          hasDiscussions: hasContextValues
-            ? (contextFeatures.hasDiscussions ?? prev.hasDiscussions)
-            : (repoData.hasDiscussions ?? prev.hasDiscussions),
-          hasSponsorships: repoData.includeReleases ?? false,
-          hasPullRequests: true,
-          hasActions: hasContextValues
-            ? (contextFeatures.hasActions ?? prev.hasActions)
-            : (repoData.hasActions ?? prev.hasActions),
-          hasAgents: hasContextValues
-            ? (contextFeatures.hasAgents ?? prev.hasAgents)
-            : (repoData.hasAgents ?? prev.hasAgents),
-          hasModels: hasContextValues
-            ? (contextFeatures.hasModels ?? prev.hasModels)
-            : (repoData.hasModels ?? prev.hasModels),
-          hasPackages: hasContextValues
-            ? (contextFeatures.hasPackages ?? prev.hasPackages)
-            : (repoData.hasPackages ?? prev.hasPackages),
-          hasSecurity: hasContextValues
-            ? (contextFeatures.hasSecurity ?? prev.hasSecurity)
-            : (repoData.hasSecurity ?? prev.hasSecurity),
-          hasInsights: hasContextValues
-            ? (contextFeatures.hasInsights ?? prev.hasInsights)
-            : (repoData.hasInsights ?? prev.hasInsights),
-          isTemplate: repoData.isFork ?? false,
-          isArchived: repoData.isArchived ?? false,
-          includeReleases: repoData.includeReleases ?? true,
-          includeDeployments: repoData.includeDeployments ?? true,
-        }));
-
-        if (!hasContextValues) {
-          updateFeatures({
-            hasWiki: repoData.hasWiki ?? false,
-            hasIssues: repoData.hasIssues ?? true,
-            hasProjects: repoData.hasProjects ?? false,
-            hasDiscussions: repoData.hasDiscussions ?? false,
-            hasActions: repoData.hasActions ?? true,
-            hasAgents: repoData.hasAgents ?? false,
-            hasModels: repoData.hasModels ?? false,
-            hasPackages: repoData.hasPackages ?? true,
-            hasSecurity: repoData.hasSecurity ?? true,
-            hasInsights: repoData.hasInsights ?? true,
-          });
-        }
-
         setArchiveSettings((prev) => ({
           ...prev,
           includeGitLFS: repoData.includePackages ?? false,
@@ -418,7 +367,6 @@ export default function SettingsPage({ params }: SettingsPageProps) {
                           <Switch
                             checked={features.hasWiki}
                             onCheckedChange={(checked) => {
-                              setFeatures((prev) => ({ ...prev, hasWiki: checked }));
                               updateFeatures({ hasWiki: checked });
                             }}
                           />
@@ -452,7 +400,6 @@ export default function SettingsPage({ params }: SettingsPageProps) {
                           <Switch
                             checked={features.hasIssues}
                             onCheckedChange={(checked) => {
-                              setFeatures((prev) => ({ ...prev, hasIssues: checked }));
                               updateFeatures({ hasIssues: checked });
                             }}
                           />
@@ -488,7 +435,7 @@ export default function SettingsPage({ params }: SettingsPageProps) {
                           <Switch
                             checked={features.hasSponsorships}
                             onCheckedChange={(checked) => {
-                              setFeatures((prev) => ({ ...prev, hasSponsorships: checked }));
+                              updateFeatures({ hasSponsorships: checked });
                             }}
                           />
                         </div>
@@ -546,7 +493,6 @@ export default function SettingsPage({ params }: SettingsPageProps) {
                           <Switch
                             checked={features.hasDiscussions}
                             onCheckedChange={(checked) => {
-                              setFeatures((prev) => ({ ...prev, hasDiscussions: checked }));
                               updateFeatures({ hasDiscussions: checked });
                             }}
                           />
@@ -595,7 +541,6 @@ export default function SettingsPage({ params }: SettingsPageProps) {
                           <Switch
                             checked={features.hasProjects}
                             onCheckedChange={(checked) => {
-                              setFeatures((prev) => ({ ...prev, hasProjects: checked }));
                               updateFeatures({ hasProjects: checked });
                             }}
                           />
@@ -614,7 +559,6 @@ export default function SettingsPage({ params }: SettingsPageProps) {
                           <Switch
                             checked={features.hasActions}
                             onCheckedChange={(checked) => {
-                              setFeatures((prev) => ({ ...prev, hasActions: checked }));
                               updateFeatures({ hasActions: checked });
                             }}
                           />
@@ -645,7 +589,6 @@ export default function SettingsPage({ params }: SettingsPageProps) {
                           <Switch
                             checked={features.hasAgents}
                             onCheckedChange={(checked) => {
-                              setFeatures((prev) => ({ ...prev, hasAgents: checked }));
                               updateFeatures({ hasAgents: checked });
                             }}
                           />
@@ -676,7 +619,6 @@ export default function SettingsPage({ params }: SettingsPageProps) {
                           <Switch
                             checked={features.hasModels}
                             onCheckedChange={(checked) => {
-                              setFeatures((prev) => ({ ...prev, hasModels: checked }));
                               updateFeatures({ hasModels: checked });
                             }}
                           />
@@ -695,7 +637,6 @@ export default function SettingsPage({ params }: SettingsPageProps) {
                           <Switch
                             checked={features.hasPackages}
                             onCheckedChange={(checked) => {
-                              setFeatures((prev) => ({ ...prev, hasPackages: checked }));
                               updateFeatures({ hasPackages: checked });
                             }}
                           />
@@ -715,7 +656,6 @@ export default function SettingsPage({ params }: SettingsPageProps) {
                           <Switch
                             checked={features.hasSecurity}
                             onCheckedChange={(checked) => {
-                              setFeatures((prev) => ({ ...prev, hasSecurity: checked }));
                               updateFeatures({ hasSecurity: checked });
                             }}
                           />
@@ -734,7 +674,6 @@ export default function SettingsPage({ params }: SettingsPageProps) {
                           <Switch
                             checked={features.hasInsights}
                             onCheckedChange={(checked) => {
-                              setFeatures((prev) => ({ ...prev, hasInsights: checked }));
                               updateFeatures({ hasInsights: checked });
                             }}
                           />
@@ -775,9 +714,9 @@ export default function SettingsPage({ params }: SettingsPageProps) {
                         </div>
                         <Switch
                           checked={mergeOptions.allowMergeCommits}
-                          onCheckedChange={(checked) =>
-                            setMergeOptions((prev) => ({ ...prev, allowMergeCommits: checked }))
-                          }
+                          onCheckedChange={(checked) => {
+                            updateFeatures({ hasProjects: checked });
+                          }}
                         />
                       </div>
 
@@ -794,9 +733,9 @@ export default function SettingsPage({ params }: SettingsPageProps) {
                         </div>
                         <Switch
                           checked={mergeOptions.allowSquashMerging}
-                          onCheckedChange={(checked) =>
-                            setMergeOptions((prev) => ({ ...prev, allowSquashMerging: checked }))
-                          }
+                          onCheckedChange={(checked) => {
+                            updateFeatures({ hasActions: checked });
+                          }}
                         />
                       </div>
 
@@ -813,9 +752,9 @@ export default function SettingsPage({ params }: SettingsPageProps) {
                         </div>
                         <Switch
                           checked={mergeOptions.allowRebaseMerging}
-                          onCheckedChange={(checked) =>
-                            setMergeOptions((prev) => ({ ...prev, allowRebaseMerging: checked }))
-                          }
+                          onCheckedChange={(checked) => {
+                            updateFeatures({ hasModels: checked });
+                          }}
                         />
                       </div>
 
@@ -852,9 +791,9 @@ export default function SettingsPage({ params }: SettingsPageProps) {
                         </div>
                         <Switch
                           checked={mergeOptions.allowAutoMerge}
-                          onCheckedChange={(checked) =>
-                            setMergeOptions((prev) => ({ ...prev, allowAutoMerge: checked }))
-                          }
+                          onCheckedChange={(checked) => {
+                            updateFeatures({ hasDiscussions: checked });
+                          }}
                         />
                       </div>
 
@@ -894,9 +833,9 @@ export default function SettingsPage({ params }: SettingsPageProps) {
                         </div>
                         <Switch
                           checked={pushSettings.requireSignedCommits}
-                          onCheckedChange={(checked) =>
-                            setPushSettings((prev) => ({ ...prev, requireSignedCommits: checked }))
-                          }
+                          onCheckedChange={(checked) => {
+                            updateFeatures({ hasPackages: checked });
+                          }}
                         />
                       </div>
                     </div>
@@ -925,9 +864,9 @@ export default function SettingsPage({ params }: SettingsPageProps) {
                         </div>
                         <Switch
                           checked={archiveSettings.includeGitLFS}
-                          onCheckedChange={(checked) =>
-                            setArchiveSettings((prev) => ({ ...prev, includeGitLFS: checked }))
-                          }
+                          onCheckedChange={(checked) => {
+                            updateFeatures({ hasAgents: checked });
+                          }}
                         />
                       </div>
 
@@ -979,9 +918,9 @@ export default function SettingsPage({ params }: SettingsPageProps) {
                         </div>
                         <Switch
                           checked={issueSettings.autoCloseIssues}
-                          onCheckedChange={(checked) =>
-                            setIssueSettings((prev) => ({ ...prev, autoCloseIssues: checked }))
-                          }
+                          onCheckedChange={(checked) => {
+                            updateFeatures({ hasIssues: checked });
+                          }}
                         />
                       </div>
                     </div>

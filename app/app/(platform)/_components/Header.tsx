@@ -530,6 +530,7 @@ export function Header({ className }: { className?: string }) {
 
           <Link href="/dashboard" className="flex items-center gap-2">
             <GitBranch className="w-8 h-8 text-foreground" />
+            <span className="font-semibold text-lg text-foreground">Giteria</span>
           </Link>
         </div>
 

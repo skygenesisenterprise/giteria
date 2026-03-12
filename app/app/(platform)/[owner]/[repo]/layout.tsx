@@ -169,20 +169,7 @@ export default function RepoLayout({ children, params }: RepoLayoutProps) {
   );
 
   return (
-    <RepoFeaturesProvider
-      initialFeatures={{
-        hasWiki: repo?.hasWiki,
-        hasIssues: repo?.hasIssues,
-        hasDiscussions: repo?.hasDiscussions,
-        hasProjects: repo?.hasProjects,
-        hasActions: repo?.hasActions,
-        hasAgents: repo?.hasAgents,
-        hasModels: repo?.hasModels,
-        hasPackages: repo?.hasPackages,
-        hasSecurity: repo?.hasSecurity,
-        hasInsights: repo?.hasInsights,
-      }}
-    >
+    <RepoFeaturesProvider owner={resolvedParams.owner} repo={resolvedParams.repo}>
       <RepoCountsContext.Provider value={{ setCounts: handleSetCounts }}>
         <HeaderRepo
           owner={resolvedParams.owner}
