@@ -20,6 +20,7 @@ import {
   Package,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { useRepoFeatures } from "@/components/repository/RepoFeaturesContext";
 
 interface HeaderRepoProps {
   owner: string;
@@ -57,6 +58,18 @@ export function HeaderRepo({
   discussionsCount,
 }: HeaderRepoProps) {
   const pathname = usePathname();
+  const { features } = useRepoFeatures();
+
+  const hasWiki = features.hasWiki ?? false;
+  const hasIssues = features.hasIssues ?? true;
+  const hasDiscussions = features.hasDiscussions ?? false;
+  const hasProjects = features.hasProjects ?? false;
+  const hasActions = features.hasActions ?? true;
+  const hasAgents = features.hasAgents ?? false;
+  const hasModels = features.hasModels ?? false;
+  const hasPackages = features.hasPackages ?? true;
+  const hasSecurity = features.hasSecurity ?? true;
+  const hasInsights = features.hasInsights ?? true;
 
   const basePath = `/${owner}/${repo}`;
   const currentPath = pathname.slice(basePath.length).split("?")[0];
@@ -72,6 +85,46 @@ export function HeaderRepo({
     return matchedTab?.id || "code";
   }, [currentPath, activeTab]);
 
+  const visibleTabs = React.useMemo(() => {
+    return tabs.filter((tab) => {
+      switch (tab.id) {
+        case "wiki":
+          return hasWiki;
+        case "issues":
+          return hasIssues;
+        case "discussions":
+          return hasDiscussions;
+        case "projects":
+          return hasProjects;
+        case "actions":
+          return hasActions;
+        case "agents":
+          return hasAgents;
+        case "models":
+          return hasModels;
+        case "packages":
+          return hasPackages;
+        case "security":
+          return hasSecurity;
+        case "insights":
+          return hasInsights;
+        default:
+          return true;
+      }
+    });
+  }, [
+    hasWiki,
+    hasIssues,
+    hasDiscussions,
+    hasProjects,
+    hasActions,
+    hasAgents,
+    hasModels,
+    hasPackages,
+    hasSecurity,
+    hasInsights,
+  ]);
+
   return (
     <div
       className={cn("-mt-2.5 bg-background/95 backdrop-blur-sm border-b border-border", className)}
@@ -82,7 +135,7 @@ export function HeaderRepo({
     >
       <div className="flex items-center justify-between h-14 px-4 max-w-450 mx-auto gap-6">
         <div className="flex items-center gap-1 overflow-x-auto">
-          {tabs.map((tab) => {
+          {visibleTabs.map((tab) => {
             const isActive = activeTabId === tab.id;
             const href = `${basePath}${tab.href}`;
 

@@ -4,6 +4,7 @@ import * as React from "react";
 import { use, useMemo, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { HeaderRepo } from "../../_components/HeaderRepo";
+import { RepoFeaturesProvider } from "@/components/repository/RepoFeaturesContext";
 import { db, STORES } from "@/lib/db";
 import { getGitHubToken } from "@/lib/github-token";
 import { getRepository, type Repository } from "@/lib/repo/RepositoryData";
@@ -168,16 +169,31 @@ export default function RepoLayout({ children, params }: RepoLayoutProps) {
   );
 
   return (
-    <RepoCountsContext.Provider value={{ setCounts: handleSetCounts }}>
-      <HeaderRepo
-        owner={resolvedParams.owner}
-        repo={resolvedParams.repo}
-        activeTab={activeTab}
-        issuesCount={counts.issues}
-        pullsCount={counts.pulls}
-        discussionsCount={counts.discussions}
-      />
-      {children}
-    </RepoCountsContext.Provider>
+    <RepoFeaturesProvider
+      initialFeatures={{
+        hasWiki: repo?.hasWiki,
+        hasIssues: repo?.hasIssues,
+        hasDiscussions: repo?.hasDiscussions,
+        hasProjects: repo?.hasProjects,
+        hasActions: repo?.hasActions,
+        hasAgents: repo?.hasAgents,
+        hasModels: repo?.hasModels,
+        hasPackages: repo?.hasPackages,
+        hasSecurity: repo?.hasSecurity,
+        hasInsights: repo?.hasInsights,
+      }}
+    >
+      <RepoCountsContext.Provider value={{ setCounts: handleSetCounts }}>
+        <HeaderRepo
+          owner={resolvedParams.owner}
+          repo={resolvedParams.repo}
+          activeTab={activeTab}
+          issuesCount={counts.issues}
+          pullsCount={counts.pulls}
+          discussionsCount={counts.discussions}
+        />
+        {children}
+      </RepoCountsContext.Provider>
+    </RepoFeaturesProvider>
   );
 }

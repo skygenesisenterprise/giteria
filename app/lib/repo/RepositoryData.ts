@@ -38,6 +38,16 @@ export interface Repository {
   includeDeployments?: boolean;
   includePackages?: boolean;
   contributors?: string[];
+  hasWiki?: boolean;
+  hasIssues?: boolean;
+  hasDiscussions?: boolean;
+  hasProjects?: boolean;
+  hasActions?: boolean;
+  hasAgents?: boolean;
+  hasModels?: boolean;
+  hasPackages?: boolean;
+  hasSecurity?: boolean;
+  hasInsights?: boolean;
 }
 
 export async function getRepository(owner: string, repo: string): Promise<Repository | null> {
@@ -75,6 +85,16 @@ export interface UpdateRepositoryDetailsInput {
   includeReleases?: boolean;
   includeDeployments?: boolean;
   includePackages?: boolean;
+  hasWiki?: boolean;
+  hasIssues?: boolean;
+  hasDiscussions?: boolean;
+  hasProjects?: boolean;
+  hasActions?: boolean;
+  hasAgents?: boolean;
+  hasModels?: boolean;
+  hasPackages?: boolean;
+  hasSecurity?: boolean;
+  hasInsights?: boolean;
 }
 
 export async function updateRepositoryDetails(
