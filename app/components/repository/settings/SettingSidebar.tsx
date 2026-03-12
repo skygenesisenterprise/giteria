@@ -122,7 +122,7 @@ const settingsSections: {
     icon: Puzzle,
     items: [
       { label: "Giteria Apps", href: "integrations/apps", icon: AppWindow },
-      { label: "Scheduled reminders", href: "integrations/notifications", icon: Bell },
+      { label: "Notifications", href: "integrations/notifications", icon: Bell },
     ],
   },
   {
@@ -131,7 +131,7 @@ const settingsSections: {
     icon: Shield,
     items: [
       { label: "Advanced security", href: "security/advanced_security", icon: ShieldAlert },
-      { label: "Code scanning", href: "security/code_quality", icon: ShieldCheck },
+      { label: "Code Quality", href: "security/code_quality", icon: ShieldCheck },
       { label: "Deploy keys", href: "security/deploy_keys", icon: Key },
       {
         label: "Secrets",
