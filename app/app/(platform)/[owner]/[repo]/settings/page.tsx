@@ -19,12 +19,9 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  Settings,
   Globe,
-  Lock,
   AlertTriangle,
   Upload,
-  Info,
   Shield,
   Archive,
   Trash2,
@@ -33,11 +30,9 @@ import {
   FileText,
   Users,
   HandHeart,
-  Radio,
   FolderKanban,
   GitPullRequest,
   ArchiveIcon,
-  KeyRound,
   CirclePlay,
   Bot,
   Boxes,
@@ -54,7 +49,7 @@ interface SettingsPageProps {
 export default function SettingsPage({ params }: SettingsPageProps) {
   const resolvedParams = use(params);
   const { owner, repo } = resolvedParams;
-  const { updateFeatures } = useRepoFeatures();
+  const { updateFeatures, features: contextFeatures } = useRepoFeatures();
 
   const [repository, setRepository] = React.useState<Repository | null>(null);
   const [isLoading, setIsLoading] = React.useState(true);
@@ -114,25 +109,64 @@ export default function SettingsPage({ params }: SettingsPageProps) {
         setRepoName(repoData.name);
         setDescription(repoData.description || "");
         setWebsite(repoData.website || "");
+
+        const hasContextValues = Object.keys(contextFeatures).length > 0;
+
         setFeatures((prev) => ({
           ...prev,
-          hasWiki: repoData.hasWiki ?? false,
-          hasIssues: repoData.hasIssues ?? true,
-          hasProjects: repoData.hasProjects ?? false,
-          hasDiscussions: repoData.hasDiscussions ?? false,
+          hasWiki: hasContextValues
+            ? (contextFeatures.hasWiki ?? prev.hasWiki)
+            : (repoData.hasWiki ?? prev.hasWiki),
+          hasIssues: hasContextValues
+            ? (contextFeatures.hasIssues ?? prev.hasIssues)
+            : (repoData.hasIssues ?? prev.hasIssues),
+          hasProjects: hasContextValues
+            ? (contextFeatures.hasProjects ?? prev.hasProjects)
+            : (repoData.hasProjects ?? prev.hasProjects),
+          hasDiscussions: hasContextValues
+            ? (contextFeatures.hasDiscussions ?? prev.hasDiscussions)
+            : (repoData.hasDiscussions ?? prev.hasDiscussions),
           hasSponsorships: repoData.includeReleases ?? false,
           hasPullRequests: true,
-          hasActions: repoData.hasActions ?? true,
-          hasAgents: repoData.hasAgents ?? false,
-          hasModels: repoData.hasModels ?? false,
-          hasPackages: repoData.hasPackages ?? true,
-          hasSecurity: repoData.hasSecurity ?? true,
-          hasInsights: repoData.hasInsights ?? true,
+          hasActions: hasContextValues
+            ? (contextFeatures.hasActions ?? prev.hasActions)
+            : (repoData.hasActions ?? prev.hasActions),
+          hasAgents: hasContextValues
+            ? (contextFeatures.hasAgents ?? prev.hasAgents)
+            : (repoData.hasAgents ?? prev.hasAgents),
+          hasModels: hasContextValues
+            ? (contextFeatures.hasModels ?? prev.hasModels)
+            : (repoData.hasModels ?? prev.hasModels),
+          hasPackages: hasContextValues
+            ? (contextFeatures.hasPackages ?? prev.hasPackages)
+            : (repoData.hasPackages ?? prev.hasPackages),
+          hasSecurity: hasContextValues
+            ? (contextFeatures.hasSecurity ?? prev.hasSecurity)
+            : (repoData.hasSecurity ?? prev.hasSecurity),
+          hasInsights: hasContextValues
+            ? (contextFeatures.hasInsights ?? prev.hasInsights)
+            : (repoData.hasInsights ?? prev.hasInsights),
           isTemplate: repoData.isFork ?? false,
           isArchived: repoData.isArchived ?? false,
           includeReleases: repoData.includeReleases ?? true,
           includeDeployments: repoData.includeDeployments ?? true,
         }));
+
+        if (!hasContextValues) {
+          updateFeatures({
+            hasWiki: repoData.hasWiki ?? false,
+            hasIssues: repoData.hasIssues ?? true,
+            hasProjects: repoData.hasProjects ?? false,
+            hasDiscussions: repoData.hasDiscussions ?? false,
+            hasActions: repoData.hasActions ?? true,
+            hasAgents: repoData.hasAgents ?? false,
+            hasModels: repoData.hasModels ?? false,
+            hasPackages: repoData.hasPackages ?? true,
+            hasSecurity: repoData.hasSecurity ?? true,
+            hasInsights: repoData.hasInsights ?? true,
+          });
+        }
+
         setArchiveSettings((prev) => ({
           ...prev,
           includeGitLFS: repoData.includePackages ?? false,

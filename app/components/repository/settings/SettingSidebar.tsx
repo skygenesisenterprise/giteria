@@ -31,6 +31,8 @@ import {
   ChevronRight,
   Container,
   FolderSearch,
+  Search,
+  Sparkles,
 } from "lucide-react";
 
 interface SettingSidebarProps {
@@ -74,10 +76,21 @@ const settingsSections: {
     ],
   },
   {
-    title: "Code",
+    title: "Code and automation",
     href: "code",
     icon: Code,
     items: [
+      { label: "Branches", href: "code/branches", icon: GitBranch },
+      { label: "Tags", href: "code/tags", icon: Tags },
+      {
+        label: "Rules",
+        href: "code/rules",
+        icon: ShieldCheck,
+        subItems: [
+          { label: "Rulesets", href: "code/rules/rulesets", icon: ShieldCheck },
+          { label: "Insights", href: "code/rules/insights", icon: FileText },
+        ],
+      },
       {
         label: "Actions",
         href: "code/actions",
@@ -87,23 +100,20 @@ const settingsSections: {
           { label: "Runners", href: "code/actions/runners", icon: Bot },
         ],
       },
-      { label: "Branches", href: "code/branches", icon: GitBranch },
-      { label: "Copilot", href: "code/copilot", icon: Bot },
-      { label: "Custom properties", href: "code/custom-propreties", icon: Settings2 },
-      { label: "Environments", href: "code/environments", icon: Rocket },
       { label: "Models", href: "code/models", icon: Database },
-      { label: "Pages", href: "code/pages", icon: FileText },
+      { label: "Webhooks", href: "code/webhooks", icon: Webhook },
       {
-        label: "Rules",
-        href: "code/rules",
-        icon: ShieldCheck,
+        label: "Copilot",
+        href: "code/copilot",
+        icon: Bot,
         subItems: [
-          { label: "Insights", href: "code/rules/insights", icon: FileText },
-          { label: "Rule sets", href: "code/rules/rulesets", icon: ShieldCheck },
+          { label: "Code review", href: "code/copilot/code_review", icon: Search },
+          { label: "Coding agent", href: "code/copilot/coding_agent", icon: Sparkles },
         ],
       },
-      { label: "Tags", href: "code/tags", icon: Tags },
-      { label: "Webhooks", href: "code/webhooks", icon: Webhook },
+      { label: "Environments", href: "code/environments", icon: Rocket },
+      { label: "Pages", href: "code/pages", icon: FileText },
+      { label: "Custom properties", href: "code/custom-propreties", icon: Settings2 },
     ],
   },
   {
