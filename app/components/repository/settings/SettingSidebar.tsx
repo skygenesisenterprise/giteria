@@ -216,13 +216,10 @@ export function SettingSidebar({ owner, repo }: SettingSidebarProps) {
           </Link>
 
           {settingsSections.map((section) => {
-            const Icon = section.icon;
-
             return (
               <div key={section.href}>
                 <div className="border-t border-border mb-2" />
-                <div className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-foreground">
-                  <Icon className="w-4 h-4" />
+                <div className="px-3 py-2 rounded-lg text-sm font-medium text-foreground">
                   {section.title}
                 </div>
 

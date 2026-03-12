@@ -41,6 +41,7 @@ import {
 } from "lucide-react";
 import { getRepository, updateRepositoryDetails, type Repository } from "@/lib/repo/RepositoryData";
 import { useRepoFeatures } from "@/components/repository/RepoFeaturesContext";
+import { getGitHubToken } from "@/lib/github-token";
 
 interface SettingsPageProps {
   params: Promise<{ owner: string; repo: string }>;
@@ -62,6 +63,10 @@ export default function SettingsPage({ params }: SettingsPageProps) {
   const [description, setDescription] = React.useState("");
   const [website, setWebsite] = React.useState("");
   const [isSaving, setIsSaving] = React.useState(false);
+  const [githubMeta, setGithubMeta] = React.useState<{
+    description?: string;
+    homepage?: string;
+  } | null>(null);
 
   const [mergeOptions, setMergeOptions] = React.useState({
     allowMergeCommits: true,
@@ -114,8 +119,46 @@ export default function SettingsPage({ params }: SettingsPageProps) {
       if (repoData) {
         setRepository(repoData);
         setRepoName(repoData.name);
-        setDescription(repoData.description || "");
-        setWebsite(repoData.website || "");
+
+        let fetchedDescription = repoData.description || "";
+        let fetchedWebsite = repoData.website || "";
+
+        if (repoData.mirrorFrom) {
+          const githubMatch = repoData.mirrorFrom.match(/github\.com[/:]([^\/]+)\/([^\/]+)/);
+          if (githubMatch) {
+            const [, ghOwner, ghRepo] = githubMatch;
+            const name = ghRepo.replace(/\.git$/, "");
+
+            try {
+              const token = await getGitHubToken();
+              const headers: HeadersInit = {
+                Accept: "application/vnd.github.v3+json",
+              };
+              if (token) {
+                headers.Authorization = `Bearer ${token}`;
+              }
+
+              const response = await fetch(`https://api.github.com/repos/${ghOwner}/${name}`, {
+                headers,
+              });
+              if (response.ok) {
+                const metaData = await response.json();
+                setGithubMeta(metaData);
+                if (!fetchedDescription && metaData.description) {
+                  fetchedDescription = metaData.description;
+                }
+                if (!fetchedWebsite && metaData.homepage) {
+                  fetchedWebsite = metaData.homepage;
+                }
+              }
+            } catch (err) {
+              console.error("Failed to fetch GitHub metadata:", err);
+            }
+          }
+        }
+
+        setDescription(fetchedDescription);
+        setWebsite(fetchedWebsite);
         setArchiveSettings((prev) => ({
           ...prev,
           includeGitLFS: repoData.includePackages ?? false,
