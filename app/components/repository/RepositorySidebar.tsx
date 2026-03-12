@@ -380,12 +380,24 @@ export function RepositorySidebar({ repo, owner, repoName, files }: RepositorySi
         <div className="flex items-center justify-between mb-3">
           <h3 className="font-semibold text-sm">About</h3>
           <Settings
+            role="button"
+            tabIndex={0}
+            aria-label="Repository settings"
             className="w-4 h-4 text-muted-foreground cursor-pointer hover:text-foreground"
             onClick={() => {
               setDescription(effectiveDescription);
               setWebsite(effectiveWebsite);
               setTopics(effectiveTopics.join(" "));
               setIsSettingsOpen(true);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                setDescription(effectiveDescription);
+                setWebsite(effectiveWebsite);
+                setTopics(effectiveTopics.join(" "));
+                setIsSettingsOpen(true);
+              }
             }}
           />
         </div>
