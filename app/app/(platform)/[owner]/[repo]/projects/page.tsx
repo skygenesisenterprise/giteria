@@ -1,28 +1,10 @@
 "use client";
 
 import * as React from "react";
-import { use, useEffect, useMemo, useState } from "react";
+import { use } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -32,11 +14,25 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Progress } from "@/components/ui/progress";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Table,
   TableBody,
@@ -45,7 +41,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import { db, STORES } from "@/lib/db";
 
@@ -271,32 +266,38 @@ const automations = [
   },
 ];
 
+const viewLabels: Record<"board" | "roadmap" | "table", string> = {
+  board: "Board",
+  roadmap: "Roadmap",
+  table: "Tableau",
+};
+
 export default function ProjectsPage({ params }: ProjectsPageProps) {
   const resolvedParams = use(params);
-  const [projects, setProjects] = useState<Project[]>(initialProjects);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState<"all" | Project["status"]>("all");
-  const [activeView, setActiveView] = useState<"board" | "roadmap" | "table">("board");
-  const [selectedProjectId, setSelectedProjectId] = useState(initialProjects[0]?.id ?? "");
-  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-  const [newProject, setNewProject] = useState({
+  const [projects, setProjects] = React.useState<Project[]>(initialProjects);
+  const [searchQuery, setSearchQuery] = React.useState("");
+  const [statusFilter, setStatusFilter] = React.useState<"all" | Project["status"]>("all");
+  const [activeView, setActiveView] = React.useState<"board" | "roadmap" | "table">("board");
+  const [selectedProjectId, setSelectedProjectId] = React.useState(initialProjects[0]?.id ?? "");
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = React.useState(false);
+  const [newProject, setNewProject] = React.useState({
     name: "",
     description: "",
     visibility: "private" as Project["visibility"],
   });
-  const [linkedItems, setLinkedItems] = useState<LinkedItem[]>([]);
-  const [metrics, setMetrics] = useState<ProjectMetrics>({
+  const [linkedItems, setLinkedItems] = React.useState<LinkedItem[]>([]);
+  const [metrics, setMetrics] = React.useState<ProjectMetrics>({
     openItems: 0,
     mergedPulls: 0,
     closedIssues: 0,
     activeMilestones: 0,
   });
-  const [isLoadingItems, setIsLoadingItems] = useState(true);
-  const [itemsError, setItemsError] = useState<string | null>(null);
+  const [isLoadingItems, setIsLoadingItems] = React.useState(true);
+  const [itemsError, setItemsError] = React.useState<string | null>(null);
 
   const repoFullName = `${resolvedParams.owner}/${resolvedParams.repo}`;
 
-  const activeProject = useMemo(
+  const activeProject = React.useMemo(
     () => projects.find((project) => project.id === selectedProjectId) ?? projects[0],
     [projects, selectedProjectId]
   );
@@ -304,7 +305,7 @@ export default function ProjectsPage({ params }: ProjectsPageProps) {
     ? `${activeProject.id}:${activeProject.roadmap.length}`
     : "none";
 
-  const filteredProjects = useMemo(() => {
+  const filteredProjects = React.useMemo(() => {
     return projects.filter((project) => {
       const matchesQuery =
         project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -314,7 +315,7 @@ export default function ProjectsPage({ params }: ProjectsPageProps) {
     });
   }, [projects, searchQuery, statusFilter]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     let isMounted = true;
 
     async function loadLinkedItems() {
@@ -417,8 +418,7 @@ export default function ProjectsPage({ params }: ProjectsPageProps) {
   };
 
   const statusBadge = (status: Project["status"]) => {
-    const label =
-      status === "active" ? "Actif" : status === "paused" ? "En pause" : "Terminé";
+    const label = status === "active" ? "Actif" : status === "paused" ? "En pause" : "Terminé";
 
     return (
       <Badge
@@ -426,7 +426,8 @@ export default function ProjectsPage({ params }: ProjectsPageProps) {
         className={cn(
           "uppercase tracking-wide",
           status === "paused" && "bg-muted text-muted-foreground",
-          status === "completed" && "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20"
+          status === "completed" &&
+            "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20"
         )}
       >
         {label}
@@ -477,161 +478,204 @@ export default function ProjectsPage({ params }: ProjectsPageProps) {
   }
 
   return (
-    <div className="bg-background min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 py-6 space-y-6">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-          <div>
-            <p className="text-sm text-muted-foreground">{repoFullName}</p>
-            <h1 className="text-2xl font-bold">Projets</h1>
-            <p className="text-muted-foreground">
-              Centralisez la planification, les issues et les pull requests des contributeurs.
-            </p>
-          </div>
-          <div className="flex flex-wrap items-center gap-2">
-            <Button variant="outline" asChild>
-              <Link href={`/${resolvedParams.owner}/${resolvedParams.repo}/issues`}>
-                Voir les issues
-              </Link>
-            </Button>
-            <Button variant="outline" asChild>
-              <Link href={`/${resolvedParams.owner}/${resolvedParams.repo}/pulls`}>
-                Voir les pull requests
-              </Link>
-            </Button>
-            <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-              <DialogTrigger asChild>
-                <Button>Créer un projet</Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[520px]">
-                <DialogHeader>
-                  <DialogTitle>Nouveau projet</DialogTitle>
-                  <DialogDescription>
-                    Définissez un projet pour orchestrer les contributions et la roadmap.
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Nom du projet</label>
-                    <Input
-                      value={newProject.name}
-                      onChange={(event) =>
-                        setNewProject((prev) => ({ ...prev, name: event.target.value }))
-                      }
-                      placeholder="Ex: Roadmap Q2"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Description</label>
-                    <Textarea
-                      value={newProject.description}
-                      onChange={(event) =>
-                        setNewProject((prev) => ({ ...prev, description: event.target.value }))
-                      }
-                      placeholder="Objectifs, contexte et périmètre."
-                      rows={4}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Visibilité</label>
-                    <Select
-                      value={newProject.visibility}
-                      onValueChange={(value) =>
-                        setNewProject((prev) => ({
-                          ...prev,
-                          visibility: value as Project["visibility"],
-                        }))
-                      }
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Choisir" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="public">Public</SelectItem>
-                        <SelectItem value="private">Privé</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
+    <div className="min-h-screen bg-background">
+      <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-6">
+        <header className="rounded-2xl border bg-muted/20 px-4 py-5">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+            <div className="space-y-2">
+              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                {repoFullName}
+              </p>
+              <div className="flex flex-wrap items-center gap-3">
+                <div className="flex h-9 w-9 items-center justify-center rounded-lg border bg-background text-sm font-semibold">
+                  GP
                 </div>
-                <DialogFooter className="mt-4">
-                  <Button variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
-                    Annuler
-                  </Button>
-                  <Button onClick={handleCreateProject}>Créer</Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
+                <div>
+                  <h1 className="text-2xl font-semibold">Projets</h1>
+                  <p className="text-sm text-muted-foreground">
+                    Espace de pilotage inspiré GitHub, avec flexibilité Notion pour vos vues.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
+              <Button variant="outline" asChild>
+                <Link href={`/${resolvedParams.owner}/${resolvedParams.repo}/issues`}>
+                  Voir les issues
+                </Link>
+              </Button>
+              <Button variant="outline" asChild>
+                <Link href={`/${resolvedParams.owner}/${resolvedParams.repo}/pulls`}>
+                  Voir les pull requests
+                </Link>
+              </Button>
+              <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button>Créer un projet</Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-130">
+                  <DialogHeader>
+                    <DialogTitle>Nouveau projet</DialogTitle>
+                    <DialogDescription>
+                      Définissez un projet pour orchestrer les contributions et la roadmap.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Nom du projet</label>
+                      <Input
+                        value={newProject.name}
+                        onChange={(event) =>
+                          setNewProject((prev) => ({ ...prev, name: event.target.value }))
+                        }
+                        placeholder="Ex: Roadmap Q2"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Description</label>
+                      <Textarea
+                        value={newProject.description}
+                        onChange={(event) =>
+                          setNewProject((prev) => ({ ...prev, description: event.target.value }))
+                        }
+                        placeholder="Objectifs, contexte et périmètre."
+                        rows={4}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Visibilité</label>
+                      <Select
+                        value={newProject.visibility}
+                        onValueChange={(value) =>
+                          setNewProject((prev) => ({
+                            ...prev,
+                            visibility: value as Project["visibility"],
+                          }))
+                        }
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Choisir" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="public">Public</SelectItem>
+                          <SelectItem value="private">Privé</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                  <DialogFooter className="mt-4">
+                    <Button variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
+                      Annuler
+                    </Button>
+                    <Button onClick={handleCreateProject}>Créer</Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            </div>
           </div>
-        </div>
 
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          <Card className="bg-muted/30">
-            <CardHeader>
-              <CardDescription>Items ouverts</CardDescription>
-              <CardTitle className="text-3xl">{metrics.openItems}</CardTitle>
-            </CardHeader>
-          </Card>
-          <Card className="bg-muted/30">
-            <CardHeader>
-              <CardDescription>PR mergées</CardDescription>
-              <CardTitle className="text-3xl">{metrics.mergedPulls}</CardTitle>
-            </CardHeader>
-          </Card>
-          <Card className="bg-muted/30">
-            <CardHeader>
-              <CardDescription>Issues fermées</CardDescription>
-              <CardTitle className="text-3xl">{metrics.closedIssues}</CardTitle>
-            </CardHeader>
-          </Card>
-          <Card className="bg-muted/30">
-            <CardHeader>
-              <CardDescription>Milestones actives</CardDescription>
-              <CardTitle className="text-3xl">{metrics.activeMilestones}</CardTitle>
-            </CardHeader>
-          </Card>
-        </div>
-
-        <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex flex-1 flex-wrap items-center gap-2">
-            <Input
-              value={searchQuery}
-              onChange={(event) => setSearchQuery(event.target.value)}
-              placeholder="Rechercher un projet"
-              className="max-w-sm"
-            />
-            <Select
-              value={statusFilter}
-              onValueChange={(value) => setStatusFilter(value as typeof statusFilter)}
+          <div className="mt-5 flex flex-col gap-3 rounded-xl border bg-background/60 p-3 lg:flex-row lg:items-center lg:justify-between">
+            <div className="flex flex-1 flex-wrap items-center gap-2">
+              <Input
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                placeholder="Rechercher un projet"
+                className="max-w-sm"
+              />
+              <Select
+                value={statusFilter}
+                onValueChange={(value) => setStatusFilter(value as typeof statusFilter)}
+              >
+                <SelectTrigger className="w-45">
+                  <SelectValue placeholder="Statut" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Tous les statuts</SelectItem>
+                  <SelectItem value="active">Actif</SelectItem>
+                  <SelectItem value="paused">En pause</SelectItem>
+                  <SelectItem value="completed">Terminé</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <Tabs
+              value={activeView}
+              onValueChange={(value) => setActiveView(value as typeof activeView)}
             >
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Statut" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Tous les statuts</SelectItem>
-                <SelectItem value="active">Actif</SelectItem>
-                <SelectItem value="paused">En pause</SelectItem>
-                <SelectItem value="completed">Terminé</SelectItem>
-              </SelectContent>
-            </Select>
+              <TabsList>
+                <TabsTrigger value="board">Board</TabsTrigger>
+                <TabsTrigger value="roadmap">Roadmap</TabsTrigger>
+                <TabsTrigger value="table">Tableau</TabsTrigger>
+              </TabsList>
+            </Tabs>
           </div>
-          <Tabs value={activeView} onValueChange={(value) => setActiveView(value as typeof activeView)}>
-            <TabsList>
-              <TabsTrigger value="board">Board</TabsTrigger>
-              <TabsTrigger value="roadmap">Roadmap</TabsTrigger>
-              <TabsTrigger value="table">Tableau</TabsTrigger>
-            </TabsList>
-          </Tabs>
-        </div>
+        </header>
 
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
-          <div className="space-y-6">
+        <div className="grid gap-6 lg:grid-cols-[240px_minmax(0,1fr)_320px]">
+          <aside className="hidden space-y-4 lg:block">
+            <div className="rounded-xl border bg-muted/20 p-3">
+              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                Vues
+              </p>
+              <div className="mt-3 space-y-2 text-sm">
+                {Object.entries(viewLabels).map(([key, label]) => (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => setActiveView(key as keyof typeof viewLabels)}
+                    className={cn(
+                      "flex w-full items-center justify-between rounded-md px-2 py-1.5 text-left transition",
+                      activeView === key
+                        ? "bg-background font-medium shadow-sm"
+                        : "text-muted-foreground hover:bg-muted/40"
+                    )}
+                  >
+                    <span>{label}</span>
+                    <Badge variant="outline" className="text-[10px]">
+                      {key === "board" ? "Kanban" : key === "roadmap" ? "Timeline" : "Table"}
+                    </Badge>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-xl border bg-background p-3">
+              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                Collections
+              </p>
+              <div className="mt-3 space-y-2 text-sm text-muted-foreground">
+                <div className="flex items-center justify-between">
+                  <span>Milestones</span>
+                  <span>{activeProject.roadmap.length}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span>Colonnes</span>
+                  <span>{activeProject.columns.length}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span>Items</span>
+                  <span>{activeProject.columns.reduce((acc, col) => acc + col.items, 0)}</span>
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          <main className="space-y-6">
             <Card>
               <CardHeader className="space-y-2">
-                <CardTitle>Vos projets</CardTitle>
-                <CardDescription>
-                  Suivez l'avancement des objectifs, la vélocité et les initiatives clés.
-                </CardDescription>
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div>
+                    <CardTitle>Vue repository</CardTitle>
+                    <CardDescription>
+                      Travaillez comme sur GitHub, composez vos vues comme dans Notion.
+                    </CardDescription>
+                  </div>
+                  <Badge variant="secondary" className="text-xs">
+                    {filteredProjects.length} projet
+                    {filteredProjects.length > 1 ? "s" : ""}
+                  </Badge>
+                </div>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-3">
                 {filteredProjects.length === 0 ? (
                   <div className="rounded-lg border border-dashed p-6 text-center">
                     <p className="font-medium">Aucun projet ne correspond aux filtres.</p>
@@ -644,20 +688,27 @@ export default function ProjectsPage({ params }: ProjectsPageProps) {
                     <div
                       key={project.id}
                       className={cn(
-                        "rounded-xl border p-4 transition",
+                        "rounded-xl border px-4 py-3 transition hover:border-primary/40",
                         project.id === activeProject.id && "border-primary/40 bg-muted/30"
                       )}
                     >
                       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                         <div className="space-y-2">
                           <div className="flex flex-wrap items-center gap-2">
-                            <p className="text-lg font-semibold">{project.name}</p>
+                            <p className="text-base font-semibold">{project.name}</p>
                             {statusBadge(project.status)}
                             <Badge variant="outline" className="text-xs">
                               {project.visibility === "public" ? "Public" : "Privé"}
                             </Badge>
                           </div>
                           <p className="text-sm text-muted-foreground">{project.description}</p>
+                          <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+                            <span>Lead: {project.lead}</span>
+                            <span>Maj: {project.updatedAt}</span>
+                            <span>
+                              {project.columns.reduce((acc, col) => acc + col.items, 0)} items
+                            </span>
+                          </div>
                         </div>
                         <div className="flex flex-wrap gap-2">
                           <Button
@@ -672,18 +723,12 @@ export default function ProjectsPage({ params }: ProjectsPageProps) {
                           </Button>
                         </div>
                       </div>
-                      <div className="mt-4 grid gap-3 sm:grid-cols-[1fr_auto] sm:items-center">
-                        <div className="space-y-2">
-                          <div className="flex items-center justify-between text-xs text-muted-foreground">
-                            <span>Progression</span>
-                            <span>{project.progress}%</span>
-                          </div>
-                          <Progress value={project.progress} />
+                      <div className="mt-4 space-y-2">
+                        <div className="flex items-center justify-between text-xs text-muted-foreground">
+                          <span>Progression</span>
+                          <span>{project.progress}%</span>
                         </div>
-                        <div className="space-y-1 text-xs text-muted-foreground">
-                          <p>Lead: {project.lead}</p>
-                          <p>Mise à jour: {project.updatedAt}</p>
-                        </div>
+                        <Progress value={project.progress} />
                       </div>
                     </div>
                   ))
@@ -693,10 +738,18 @@ export default function ProjectsPage({ params }: ProjectsPageProps) {
 
             <Card>
               <CardHeader className="space-y-2">
-                <CardTitle>Vue projet</CardTitle>
-                <CardDescription>
-                  Pilotez un projet comme sur GitHub, avec une vue board, roadmap ou tableau.
-                </CardDescription>
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div>
+                    <CardTitle>Espace de travail</CardTitle>
+                    <CardDescription>
+                      Composez votre vue active ({viewLabels[activeView].toLowerCase()}) et gardez
+                      le rythme.
+                    </CardDescription>
+                  </div>
+                  <Badge variant="outline" className="text-xs">
+                    {activeProject.columns.reduce((acc, col) => acc + col.items, 0)} items
+                  </Badge>
+                </div>
               </CardHeader>
               <CardContent>
                 <div className="flex flex-wrap items-center gap-2 mb-4">
@@ -704,7 +757,7 @@ export default function ProjectsPage({ params }: ProjectsPageProps) {
                     value={activeProject.id}
                     onValueChange={(value) => setSelectedProjectId(value)}
                   >
-                    <SelectTrigger className="w-[240px]">
+                    <SelectTrigger className="w-60">
                       <SelectValue placeholder="Choisir un projet" />
                     </SelectTrigger>
                     <SelectContent>
@@ -716,20 +769,22 @@ export default function ProjectsPage({ params }: ProjectsPageProps) {
                     </SelectContent>
                   </Select>
                   <Badge variant="secondary" className="text-xs">
-                    {activeProject.columns.reduce((acc, col) => acc + col.items, 0)} items
+                    {activeProject.roadmap.length} milestones
                   </Badge>
                 </div>
 
-                <Tabs value={activeView} onValueChange={(value) => setActiveView(value as typeof activeView)}>
+                <Tabs
+                  value={activeView}
+                  onValueChange={(value) => setActiveView(value as typeof activeView)}
+                >
                   <TabsContent value="board" className="space-y-4">
                     <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
                       {activeProject.columns.map((column) => (
                         <div
                           key={column.id}
                           className={cn(
-                            "rounded-lg border bg-muted/20 p-3",
-                            column.emphasis === "highlight" &&
-                              "border-primary/40 bg-primary/5"
+                            "rounded-lg border bg-muted/10 p-3",
+                            column.emphasis === "highlight" && "border-primary/40 bg-primary/5"
                           )}
                         >
                           <div className="flex items-center justify-between">
@@ -809,9 +864,41 @@ export default function ProjectsPage({ params }: ProjectsPageProps) {
                 </Tabs>
               </CardContent>
             </Card>
-          </div>
+          </main>
 
-          <div className="space-y-6">
+          <aside className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Insights</CardTitle>
+                <CardDescription>Vue synthèse des contributions et milestones.</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <div className="rounded-lg border bg-muted/20 px-3 py-2">
+                    <p className="text-xs text-muted-foreground">Items ouverts</p>
+                    <p className="text-2xl font-semibold">{metrics.openItems}</p>
+                  </div>
+                  <div className="rounded-lg border bg-muted/20 px-3 py-2">
+                    <p className="text-xs text-muted-foreground">PR mergées</p>
+                    <p className="text-2xl font-semibold">{metrics.mergedPulls}</p>
+                  </div>
+                  <div className="rounded-lg border bg-muted/20 px-3 py-2">
+                    <p className="text-xs text-muted-foreground">Issues fermées</p>
+                    <p className="text-2xl font-semibold">{metrics.closedIssues}</p>
+                  </div>
+                  <div className="rounded-lg border bg-muted/20 px-3 py-2">
+                    <p className="text-xs text-muted-foreground">Milestones actives</p>
+                    <p className="text-2xl font-semibold">{metrics.activeMilestones}</p>
+                  </div>
+                </div>
+              </CardContent>
+              <CardFooter className="justify-end">
+                <Button variant="outline" size="sm">
+                  Exporter
+                </Button>
+              </CardFooter>
+            </Card>
+
             <Card>
               <CardHeader>
                 <CardTitle>Contributions récentes</CardTitle>
@@ -839,13 +926,15 @@ export default function ProjectsPage({ params }: ProjectsPageProps) {
             <Card>
               <CardHeader>
                 <CardTitle>Automatisations</CardTitle>
-                <CardDescription>Gardez le projet synchronisé avec les contributions.</CardDescription>
+                <CardDescription>
+                  Gardez le projet synchronisé avec les contributions.
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
                 {automations.map((automation) => (
                   <div key={automation.id} className="rounded-lg border p-3">
                     <div className="flex items-center justify-between">
-                      <p className="font-medium text-sm">{automation.title}</p>
+                      <p className="text-sm font-medium">{automation.title}</p>
                       <Badge
                         variant={automation.status === "active" ? "default" : "secondary"}
                         className="text-xs"
@@ -853,7 +942,7 @@ export default function ProjectsPage({ params }: ProjectsPageProps) {
                         {automation.status === "active" ? "Actif" : "Pause"}
                       </Badge>
                     </div>
-                    <p className="text-xs text-muted-foreground mt-1">{automation.detail}</p>
+                    <p className="mt-1 text-xs text-muted-foreground">{automation.detail}</p>
                   </div>
                 ))}
               </CardContent>
@@ -873,7 +962,7 @@ export default function ProjectsPage({ params }: ProjectsPageProps) {
                 {templates.map((template) => (
                   <div key={template.id} className="rounded-lg border p-3">
                     <p className="text-sm font-medium">{template.title}</p>
-                    <p className="text-xs text-muted-foreground mt-1">{template.description}</p>
+                    <p className="mt-1 text-xs text-muted-foreground">{template.description}</p>
                   </div>
                 ))}
               </CardContent>
@@ -883,7 +972,7 @@ export default function ProjectsPage({ params }: ProjectsPageProps) {
                 </Button>
               </CardFooter>
             </Card>
-          </div>
+          </aside>
         </div>
       </div>
     </div>
