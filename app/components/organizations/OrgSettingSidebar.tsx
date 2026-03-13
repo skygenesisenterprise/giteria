@@ -72,6 +72,27 @@ interface SettingSection {
 
 const settingsSections: SettingSection[] = [
   {
+    title: "Overview",
+    href: "overview",
+    icon: Settings,
+    items: [
+      {
+        label: "General",
+        href: "",
+        icon: Settings,
+      },
+      {
+        label: "Policies",
+        href: "policies",
+        icon: Gavel,
+        subItems: [
+          { label: "General", href: "policies", icon: Settings },
+          { label: "Repositories", href: "policies/repos", icon: GitBranch },
+        ],
+      },
+    ],
+  },
+  {
     title: "Access",
     href: "access",
     icon: Users,
@@ -88,12 +109,6 @@ const settingsSections: SettingSection[] = [
           { label: "Interaction limits", href: "moderator/interaction_limits", icon: UserCog },
         ],
       },
-      {
-        label: "Policies",
-        href: "policies",
-        icon: Gavel,
-        subItems: [{ label: "Repositories", href: "policies/repos", icon: GitBranch }],
-      },
     ],
   },
   {
@@ -101,6 +116,41 @@ const settingsSections: SettingSection[] = [
     href: "code",
     icon: Code,
     items: [
+      {
+        label: "Repositories",
+        href: "repos",
+        icon: GitBranch,
+        subItems: [
+          { label: "Custom properties", href: "repos/custom-properties", icon: Settings2 },
+          { label: "Insights", href: "repos/insights", icon: BarChart3 },
+          { label: "Rulesets", href: "repos/rulesets", icon: ShieldCheck },
+          { label: "Topics", href: "repos/topics", icon: Tags },
+        ],
+      },
+      {
+        label: "Codespaces",
+        href: "codespaces",
+        icon: Container,
+        subItems: [{ label: "General", href: "codespaces", icon: Settings }],
+      },
+      {
+        label: "Planning",
+        href: "planning",
+        icon: FolderKanban,
+        subItems: [
+          { label: "Issue types", href: "planning/issue-types", icon: ListTodo },
+          { label: "Projects", href: "planning/projects", icon: FolderKanban },
+        ],
+      },
+      {
+        label: "Copilot",
+        href: "copilot",
+        icon: Bot,
+        subItems: [
+          { label: "Access", href: "copilot/access", icon: UserCheck },
+          { label: "Coding agent", href: "copilot/coding_agent", icon: Sparkles },
+        ],
+      },
       {
         label: "Actions",
         href: "actions",
@@ -113,16 +163,6 @@ const settingsSections: SettingSection[] = [
           { label: "Runner groups", href: "actions/runner-groups", icon: Users },
         ],
       },
-      { label: "Codespaces", href: "codespaces", icon: Container },
-      {
-        label: "Copilot",
-        href: "copilot",
-        icon: Bot,
-        subItems: [
-          { label: "Access", href: "copilot/access", icon: UserCheck },
-          { label: "Coding agent", href: "copilot/coding_agent", icon: Sparkles },
-        ],
-      },
       {
         label: "Models",
         href: "models",
@@ -132,49 +172,10 @@ const settingsSections: SettingSection[] = [
           { label: "Development", href: "models/development", icon: Settings },
         ],
       },
+      { label: "Webhooks", href: "webhooks", icon: Puzzle },
+      { label: "Discussions", href: "discussions", icon: FileText },
       { label: "Packages", href: "packages", icon: Package },
       { label: "Pages", href: "pages", icon: FileText },
-      {
-        label: "Repositories",
-        href: "repos",
-        icon: GitBranch,
-        subItems: [
-          { label: "Custom properties", href: "repos/custom-properties", icon: Settings2 },
-          { label: "Insights", href: "repos/insights", icon: BarChart3 },
-          { label: "Rulesets", href: "repos/rulesets", icon: ShieldCheck },
-          { label: "Topics", href: "repos/topics", icon: Tags },
-        ],
-      },
-      { label: "Webhooks", href: "webhooks", icon: Puzzle },
-      { label: "Import/export", href: "import-export", icon: ArrowLeftRight },
-      {
-        label: "Developer",
-        href: "developer",
-        icon: AppWindow,
-        subItems: [
-          { label: "Apps", href: "developer/apps", icon: AppWindow },
-          { label: "OAuth Apps", href: "developer/oauth", icon: Key },
-          { label: "Publisher", href: "developer/publisher", icon: Megaphone },
-        ],
-      },
-    ],
-  },
-  {
-    title: "Planning and community",
-    href: "planning",
-    icon: KanbanSquare,
-    items: [
-      {
-        label: "Planning",
-        href: "planning",
-        icon: FolderKanban,
-        subItems: [
-          { label: "Issue types", href: "planning/issue-types", icon: ListTodo },
-          { label: "Projects", href: "planning/projects", icon: FolderKanban },
-        ],
-      },
-      { label: "Discussions", href: "discussions", icon: FileText },
-      { label: "Reminders", href: "reminders", icon: Bell },
     ],
   },
   {
@@ -183,19 +184,21 @@ const settingsSections: SettingSection[] = [
     icon: Shield,
     items: [
       {
-        label: "Security overview",
-        href: "security",
-        icon: Shield,
-        subItems: [
-          { label: "Analysis", href: "security/analysis", icon: ShieldCheck },
-          { label: "Compliance", href: "security/compliance", icon: BadgeCheck },
-          { label: "Configuration", href: "security/configuration", icon: Settings },
-          { label: "Deploy keys", href: "security/deploy_keys", icon: Key },
-          { label: "Domains", href: "security/domains", icon: Globe },
-        ],
+        label: "Authentication Security",
+        href: "authentication-security",
+        icon: Key,
       },
       {
-        label: "Secrets",
+        label: "Advanced Security",
+        href: "advanced-security",
+        icon: ShieldCheck,
+        subItems: [{ label: "Overview", href: "advanced-security", icon: ShieldCheck }],
+      },
+      { label: "Deploy Keys", href: "deploy-keys", icon: Key },
+      { label: "Compliance", href: "compliance", icon: BadgeCheck },
+      { label: "Verified Domains", href: "domains", icon: Globe },
+      {
+        label: "Secrets and Variables",
         href: "secrets",
         icon: Lock,
         subItems: [
@@ -237,8 +240,8 @@ const settingsSections: SettingSection[] = [
         href: "logs",
         icon: ClipboardList,
         subItems: [
-          { label: "Audit log", href: "logs/audit", icon: Search },
-          { label: "Sponsor log", href: "logs/sponsor", icon: Heart },
+          { label: "General", href: "policies", icon: Settings },
+          { label: "Repositories", href: "policies/repos", icon: GitBranch },
         ],
       },
       { label: "Deleted repositories", href: "deleted_repos", icon: Trash2 },
@@ -273,17 +276,15 @@ export function OrgSettingSidebar({ owner }: OrgSettingSidebarProps) {
     });
   };
 
-  const isGeneralActive = () => {
-    const segments = pathname.split("/");
-    const settingsIndex = segments.indexOf("settings");
-    return settingsIndex !== -1 && segments.length === settingsIndex + 1;
-  };
-
   const isSubItemActive = (href: string) => {
+    if (href === "") {
+      return currentSubItem === null || currentSubItem === "";
+    }
     return currentSubItem === href;
   };
 
   const isParentActive = (href: string) => {
+    if (href === "") return false;
     return currentSubItem?.startsWith(href);
   };
 
@@ -301,23 +302,10 @@ export function OrgSettingSidebar({ owner }: OrgSettingSidebarProps) {
     >
       <div className="sticky top-0">
         <nav className="space-y-6">
-          <Link
-            href={`/${owner}/settings`}
-            className={cn(
-              "flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors",
-              isGeneralActive()
-                ? "bg-primary/10 text-primary font-medium"
-                : "hover:bg-muted text-muted-foreground hover:text-foreground"
-            )}
-          >
-            <Settings className="w-4 h-4" />
-            General
-          </Link>
-
-          {settingsSections.map((section) => {
+          {settingsSections.map((section, index) => {
             return (
               <div key={section.href}>
-                <div className="border-t border-border mb-2" />
+                {index > 0 && <div className="border-t border-border mb-2" />}
                 <div className="px-3 py-2 rounded-lg text-sm font-medium text-foreground">
                   {section.title}
                 </div>
