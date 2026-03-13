@@ -6,7 +6,6 @@ import { authEngine } from "@/lib/auth/IndexedDBAuthEngine";
 import { getOrganizationBySlug } from "@/lib/organizations/LocalOrgEngine";
 import { OwnerHeaderProvider } from "./_components/OwnerHeaderProvider";
 import { HeaderOwner } from "../_components/HeaderOwner";
-import { HeaderRepo } from "../_components/HeaderRepo";
 
 interface OwnerData {
   type: "user" | "organization";
