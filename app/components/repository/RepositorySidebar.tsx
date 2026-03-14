@@ -521,7 +521,12 @@ export function RepositorySidebar({ repo, owner, repoName, files }: RepositorySi
 
       {includeReleases && (
         <div className="border-b border-border pb-4">
-          <h3 className="font-semibold text-sm mb-3">Releases</h3>
+          <Link
+            href={owner && repoName ? `/${owner}/${repoName}/releases` : "#"}
+            className="font-semibold text-sm mb-3 block hover:text-foreground"
+          >
+            Releases
+          </Link>
           {githubReleases.length > 0 ? (
             <div className="space-y-2">
               {githubReleases.map((release) => (
