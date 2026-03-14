@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import {
-  Archive,
   BadgeCheck,
   BarChart3,
   Bot,
@@ -27,7 +26,6 @@ import {
   Lock,
   Package,
   Puzzle,
-  Receipt,
   Rocket,
   Server,
   Settings,
@@ -255,7 +253,7 @@ const settingsSections: SettingSection[] = [
     title: "Integrations",
     href: "integrations",
     icon: Puzzle,
-    items: [{ label: "Scheduled reminders", href: "scheduled-reminders", icon: Clock }],
+    items: [{ label: "Scheduled reminders", href: "reminders", icon: Clock }],
   },
   {
     title: "Archives and logs",
@@ -284,11 +282,11 @@ const settingsSections: SettingSection[] = [
         href: "developer",
         icon: Settings,
         subItems: [
-          { label: "OAuth Apps", href: "developer/oauth-apps", icon: Key },
-          { label: "Giteria Apps", href: "developer/giteria-apps", icon: Puzzle },
+          { label: "OAuth Apps", href: "developer/oauth", icon: Key },
+          { label: "Giteria Apps", href: "developer/apps", icon: Puzzle },
           {
             label: "Publisher Verification",
-            href: "developer/publisher-verification",
+            href: "developer/publisher",
             icon: BadgeCheck,
           },
         ],
