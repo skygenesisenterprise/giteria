@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import {
+  Archive,
   BadgeCheck,
   BarChart3,
   Bot,
@@ -90,6 +91,34 @@ const settingsSections: SettingSection[] = [
     href: "access",
     icon: Users,
     items: [
+      {
+        label: "Billing and licensing",
+        href: "billing",
+        icon: CreditCard,
+        subItems: [
+          { label: "Billing", href: "billing", icon: CreditCard },
+          { label: "Licensing", href: "billing/licensing", icon: BadgeCheck },
+          { label: "Plans", href: "billing/plans", icon: Rocket },
+        ],
+      },
+      {
+        label: "Organization roles",
+        href: "org-roles",
+        icon: UserCog,
+        subItems: [
+          { label: "Overview", href: "org-roles", icon: UserCog },
+          { label: "Custom roles", href: "org-roles/custom", icon: Settings2 },
+        ],
+      },
+      {
+        label: "Repository roles",
+        href: "repo-roles",
+        icon: GitBranch,
+        subItems: [
+          { label: "Overview", href: "repo-roles", icon: GitBranch },
+          { label: "Custom roles", href: "repo-roles/custom", icon: Settings2 },
+        ],
+      },
       { label: "Member privileges", href: "member_privileges", icon: UserCheck },
       { label: "Roles", href: "roles", icon: UserCog },
       {
@@ -204,28 +233,33 @@ const settingsSections: SettingSection[] = [
     ],
   },
   {
-    title: "Billing",
-    href: "billing",
-    icon: CreditCard,
+    title: "Third-party Access",
+    href: "third-party-access",
+    icon: Key,
     items: [
+      { label: "Giteria Apps", href: "giteria-apps", icon: Puzzle },
+      { label: "OAuth app policy", href: "oauth-policy", icon: ShieldCheck },
       {
-        label: "Billing",
-        href: "billing",
-        icon: CreditCard,
+        label: "Personal Access Tokens",
+        href: "tokens",
+        icon: Key,
         subItems: [
-          { label: "Budgets", href: "billing/budgets", icon: Receipt },
-          { label: "History", href: "billing/history", icon: Clock },
-          { label: "Licensing", href: "billing/licensing", icon: BadgeCheck },
-          { label: "Payment information", href: "billing/payment_information", icon: CreditCard },
-          { label: "Subscription", href: "billing/subscription", icon: Receipt },
-          { label: "Usage", href: "billing/usage", icon: BarChart3 },
+          { label: "Settings", href: "tokens/settings", icon: Settings },
+          { label: "Active tokens", href: "tokens/active", icon: BadgeCheck },
+          { label: "Pending requests", href: "tokens/pending", icon: Clock },
         ],
       },
     ],
   },
   {
-    title: "Activity",
-    href: "activity",
+    title: "Integrations",
+    href: "integrations",
+    icon: Puzzle,
+    items: [{ label: "Scheduled reminders", href: "scheduled-reminders", icon: Clock }],
+  },
+  {
+    title: "Archives and logs",
+    href: "archives-logs",
     icon: ClipboardList,
     items: [
       {
@@ -238,6 +272,27 @@ const settingsSections: SettingSection[] = [
         ],
       },
       { label: "Deleted repositories", href: "deleted_repos", icon: Trash2 },
+    ],
+  },
+  {
+    title: "Developer",
+    href: "developer",
+    icon: Code,
+    items: [
+      {
+        label: "Developer settings",
+        href: "developer",
+        icon: Settings,
+        subItems: [
+          { label: "OAuth Apps", href: "developer/oauth-apps", icon: Key },
+          { label: "Giteria Apps", href: "developer/giteria-apps", icon: Puzzle },
+          {
+            label: "Publisher Verification",
+            href: "developer/publisher-verification",
+            icon: BadgeCheck,
+          },
+        ],
+      },
     ],
   },
 ];

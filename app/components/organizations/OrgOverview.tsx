@@ -6,11 +6,9 @@ import {
   Code2,
   Tag,
   Plus,
-  ExternalLink,
   Lock,
   Eye,
   ChevronDown,
-  Pin,
   BookMarked,
   Pencil,
 } from "lucide-react";

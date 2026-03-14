@@ -1,5 +1,5 @@
 const DB_NAME = "giteria-db";
-const DB_VERSION = 8;
+const DB_VERSION = 9;
 
 const STORES = {
   REPOSITORIES: "repositories",
@@ -77,7 +77,8 @@ function openDB(): Promise<IDBDatabase> {
       }
 
       if (!db.objectStoreNames.contains(STORES.SETTINGS)) {
-        db.createObjectStore(STORES.SETTINGS, { keyPath: "id" });
+        const settingsStore = db.createObjectStore(STORES.SETTINGS, { keyPath: "id" });
+        settingsStore.createIndex("slug", "slug", { unique: true });
       }
 
       if (!db.objectStoreNames.contains(STORES.AGENTS)) {

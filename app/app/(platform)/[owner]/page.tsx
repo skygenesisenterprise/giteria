@@ -18,6 +18,7 @@ import {
 } from "@/components/organizations/OrganizationDescription";
 import { OrgOverview } from "@/components/organizations/OrgOverview";
 import type { Organization } from "@/lib/organizations/api";
+import { getOrganizationSettings } from "@/lib/organizations/OrgSettingsEngine";
 import { Button } from "@/components/ui/button";
 import type { RepositoryData } from "./_components/repositories/data";
 
@@ -90,56 +91,7 @@ export default function OwnerPage() {
   }
 
   if (ownerType === "organization") {
-    const orgProfile: OrganizationProfile = orgData
-      ? {
-          name: orgData.name,
-          slug: orgData.slug,
-          description: orgData.description,
-          avatarUrl: orgData.avatarUrl,
-          verified: true,
-          verifiedDomain: `${orgData.slug}.com`,
-          sponsor: false,
-          sponsors: true,
-          sponsorsCount: Math.floor(Math.random() * 20) + 1,
-          organizationType: "Organization",
-          affiliation: "Parent Company Inc.",
-          affiliationUrl: "https://parentcompany.com",
-          followers: repos.length,
-          location: "Belgium",
-          website: `https://${orgData.slug}.com`,
-          twitter: `@${orgData.slug}`,
-          email: `github@${orgData.slug}.com`,
-        }
-      : mockOrganizationProfile;
-
-    return (
-      <div className="min-h-screen bg-background">
-        <div className="max-w-7xl mx-auto px-4 py-8">
-          <div className="space-y-8">
-            <OrganizationDescription organization={orgProfile} />
-
-            <OrgOverview
-              organization={orgProfile}
-              members={[]}
-              repositories={repos.map((r) => ({
-                id: r.id,
-                name: r.name,
-                description: r.description,
-                language: r.language,
-                visibility: r.visibility,
-                stars: r.stars,
-                forks: r.forks,
-                updatedAt: new Date(r.updatedAt).toISOString(),
-              }))}
-              orgSlug={ownerSlug}
-              isMember={true}
-              isAdmin={true}
-              canViewPrivate={true}
-            />
-          </div>
-        </div>
-      </div>
-    );
+    return <OrganizationPageContent ownerSlug={ownerSlug} orgData={orgData} repos={repos} />;
   }
 
   return (
@@ -157,6 +109,81 @@ export default function OwnerPage() {
             <ActivityOverview username={ownerSlug} />
             <ContributionActivity username={ownerSlug} />
           </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function OrganizationPageContent({
+  ownerSlug,
+  orgData,
+  repos,
+}: {
+  ownerSlug: string;
+  orgData: Organization | null;
+  repos: RepositoryData[];
+}) {
+  const [settings, setSettings] = React.useState<Awaited<
+    ReturnType<typeof getOrganizationSettings>
+  > | null>(null);
+
+  React.useEffect(() => {
+    async function loadSettings() {
+      const orgSettings = await getOrganizationSettings(ownerSlug);
+      setSettings(orgSettings);
+    }
+    loadSettings();
+  }, [ownerSlug]);
+
+  const orgProfile: OrganizationProfile = orgData
+    ? {
+        name: settings?.displayName || orgData.name,
+        slug: orgData.slug,
+        description: settings?.description || orgData.description,
+        avatarUrl: orgData.avatarUrl,
+        verified: true,
+        verifiedDomain: `${orgData.slug}.com`,
+        sponsor: false,
+        sponsors: true,
+        sponsorsCount: Math.floor(Math.random() * 20) + 1,
+        organizationType: "Organization",
+        affiliation: settings?.affiliation || "Parent Company Inc.",
+        affiliationUrl: settings?.affiliationUrl || "https://parentcompany.com",
+        followers: repos.length,
+        location: settings?.location || "Belgium",
+        website: settings?.url || `https://${orgData.slug}.com`,
+        twitter: settings?.social1
+          ? settings.social1.replace(/^https?:\/\/(www\.)?/, "").replace(/^@/, "")
+          : `@${orgData.slug}`,
+        email: settings?.email || `github@${orgData.slug}.com`,
+      }
+    : mockOrganizationProfile;
+
+  return (
+    <div className="min-h-screen bg-background">
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="space-y-8">
+          <OrganizationDescription organization={orgProfile} />
+
+          <OrgOverview
+            organization={orgProfile}
+            members={[]}
+            repositories={repos.map((r) => ({
+              id: r.id,
+              name: r.name,
+              description: r.description,
+              language: r.language,
+              visibility: r.visibility,
+              stars: r.stars,
+              forks: r.forks,
+              updatedAt: new Date(r.updatedAt).toISOString(),
+            }))}
+            orgSlug={ownerSlug}
+            isMember={true}
+            isAdmin={true}
+            canViewPrivate={true}
+          />
         </div>
       </div>
     </div>
