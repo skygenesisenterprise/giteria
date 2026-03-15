@@ -13,7 +13,16 @@ import {
   CheckCircle,
   Heart,
   X,
+  UserPlus,
+  UserMinus,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { db, STORES } from "@/lib/db";
+
+interface OrgFollower {
+  orgSlug: string;
+  followedAt: number;
+}
 
 export interface OrganizationProfile {
   name: string;
@@ -209,6 +218,41 @@ function AffiliationTooltip({
 export function OrganizationDescription({ organization }: OrganizationDescriptionProps) {
   const [showVerifiedTooltip, setShowVerifiedTooltip] = React.useState(false);
   const [showAffiliationTooltip, setShowAffiliationTooltip] = React.useState(false);
+  const [isFollowing, setIsFollowing] = React.useState(false);
+  const [followersCount, setFollowersCount] = React.useState(0);
+
+  React.useEffect(() => {
+    async function loadFollowState() {
+      try {
+        const followData = await db.get<OrgFollower>(STORES.ORG_FOLLOWERS, organization.slug);
+        if (followData) {
+          setIsFollowing(true);
+        }
+      } catch (error) {
+        console.error("Failed to load follow state:", error);
+      }
+    }
+    loadFollowState();
+  }, [organization.slug]);
+
+  const handleFollowToggle = async () => {
+    try {
+      if (isFollowing) {
+        await db.delete(STORES.ORG_FOLLOWERS, organization.slug);
+        setFollowersCount((prev) => prev - 1);
+      } else {
+        const followerData: OrgFollower = {
+          orgSlug: organization.slug,
+          followedAt: Date.now(),
+        };
+        await db.put(STORES.ORG_FOLLOWERS, followerData);
+        setFollowersCount((prev) => prev + 1);
+      }
+      setIsFollowing(!isFollowing);
+    } catch (error) {
+      console.error("Failed to update follow state:", error);
+    }
+  };
 
   return (
     <div className="pb-6 border-b border-border">
@@ -226,13 +270,35 @@ export function OrganizationDescription({ organization }: OrganizationDescriptio
         )}
 
         <div className="flex-1 min-w-0">
-          <h1 className="text-2xl font-bold text-foreground">{organization.name}</h1>
+          <div className="flex items-start justify-between">
+            <div>
+              <h1 className="text-2xl font-bold text-foreground">{organization.name}</h1>
 
-          {organization.description ? (
-            <p className="mt-3 text-base text-foreground">{organization.description}</p>
-          ) : (
-            <p className="mt-3 text-base text-muted-foreground italic">No description</p>
-          )}
+              {organization.description ? (
+                <p className="mt-3 text-base text-foreground">{organization.description}</p>
+              ) : (
+                <p className="mt-3 text-base text-muted-foreground italic">No description</p>
+              )}
+            </div>
+            <Button
+              variant={isFollowing ? "outline" : "default"}
+              size="sm"
+              onClick={handleFollowToggle}
+              className="ml-4 shrink-0"
+            >
+              {isFollowing ? (
+                <>
+                  <UserMinus className="w-4 h-4 mr-1" />
+                  Unfollow
+                </>
+              ) : (
+                <>
+                  <UserPlus className="w-4 h-4 mr-1" />
+                  Follow
+                </>
+              )}
+            </Button>
+          </div>
 
           <div className="mt-3 flex items-center gap-2 flex-wrap relative">
             {organization.verified && (
@@ -282,13 +348,11 @@ export function OrganizationDescription({ organization }: OrganizationDescriptio
           </div>
 
           <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
-            {organization.followers !== undefined && (
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Users className="w-4 h-4" />
-                <span className="font-semibold text-foreground">{organization.followers}</span>
-                <span>followers</span>
-              </div>
-            )}
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Users className="w-4 h-4" />
+              <span className="font-semibold text-foreground">{followersCount}</span>
+              <span>followers</span>
+            </div>
             {organization.location && (
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <MapPin className="w-4 h-4" />

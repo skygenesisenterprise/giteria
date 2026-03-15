@@ -1,11 +1,12 @@
 const DB_NAME = "giteria-db";
-const DB_VERSION = 9;
+const DB_VERSION = 11;
 
 const STORES = {
   REPOSITORIES: "repositories",
   USERS: "users",
   SESSIONS: "sessions",
   ORGANIZATIONS: "organizations",
+  ORG_FOLLOWERS: "org_followers",
   ISSUES: "issues",
   PULLS: "pulls",
   SETTINGS: "settings",
@@ -56,6 +57,13 @@ function openDB(): Promise<IDBDatabase> {
       if (!db.objectStoreNames.contains(STORES.ORGANIZATIONS)) {
         const orgStore = db.createObjectStore(STORES.ORGANIZATIONS, { keyPath: "id" });
         orgStore.createIndex("slug", "slug", { unique: true });
+      }
+
+      if (!db.objectStoreNames.contains(STORES.ORG_FOLLOWERS)) {
+        const orgFollowersStore = db.createObjectStore(STORES.ORG_FOLLOWERS, {
+          keyPath: "orgSlug",
+        });
+        orgFollowersStore.createIndex("followedAt", "followedAt", { unique: false });
       }
 
       if (!db.objectStoreNames.contains(STORES.ISSUES)) {
@@ -148,6 +156,9 @@ export const db = {
 
   async get<T>(storeName: string, id: string): Promise<T | null> {
     const database = await openDB();
+    if (!database.objectStoreNames.contains(storeName)) {
+      return null;
+    }
     return new Promise((resolve, reject) => {
       const transaction = database.transaction(storeName, "readonly");
       const store = transaction.objectStore(storeName);
@@ -197,6 +208,10 @@ export const db = {
 
   async put<T>(storeName: string, item: T): Promise<T> {
     const database = await openDB();
+    if (!database.objectStoreNames.contains(storeName)) {
+      console.warn(`Store ${storeName} does not exist in database`);
+      return item;
+    }
     return new Promise((resolve, reject) => {
       const transaction = database.transaction(storeName, "readwrite");
       const store = transaction.objectStore(storeName);
@@ -208,6 +223,9 @@ export const db = {
 
   async delete(storeName: string, id: string): Promise<boolean> {
     const database = await openDB();
+    if (!database.objectStoreNames.contains(storeName)) {
+      return false;
+    }
     return new Promise((resolve, reject) => {
       const transaction = database.transaction(storeName, "readwrite");
       const store = transaction.objectStore(storeName);

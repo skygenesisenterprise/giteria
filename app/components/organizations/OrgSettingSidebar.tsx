@@ -41,8 +41,11 @@ import {
   Users,
   ChevronDown,
   ChevronRight,
+  Download,
+  RefreshCw,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useLicense } from "@/context/LicenseContext";
 
 interface OrgSettingSidebarProps {
   owner: string;
@@ -295,8 +298,27 @@ const settingsSections: SettingSection[] = [
   },
 ];
 
+const administrationSection: SettingSection = {
+  title: "Administration",
+  href: "admin",
+  icon: Settings,
+  items: [
+    {
+      label: "Instance Updates",
+      href: "admin/updates",
+      icon: RefreshCw,
+    },
+    {
+      label: "Backup & Restore",
+      href: "admin/backup",
+      icon: Download,
+    },
+  ],
+};
+
 export function OrgSettingSidebar({ owner }: OrgSettingSidebarProps) {
   const pathname = usePathname();
+  const { isSelfHosted } = useLicense();
   const [expandedItems, setExpandedItems] = React.useState<Set<string>>(new Set());
 
   const getCurrentSubItem = () => {
@@ -338,6 +360,10 @@ export function OrgSettingSidebar({ owner }: OrgSettingSidebarProps) {
     return expandedItems.has(href) || isParentActive(href);
   };
 
+  const allSections = isSelfHosted
+    ? [...settingsSections, administrationSection]
+    : settingsSections;
+
   return (
     <div
       className="w-64 shrink-0"
@@ -348,7 +374,7 @@ export function OrgSettingSidebar({ owner }: OrgSettingSidebarProps) {
     >
       <div className="sticky top-0">
         <nav className="space-y-6">
-          {settingsSections.map((section, index) => {
+          {allSections.map((section, index) => {
             return (
               <div key={section.href}>
                 {index > 0 && <div className="border-t border-border mb-2" />}
