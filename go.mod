@@ -298,6 +298,20 @@ ignore (
 
 replace github.com/jaytaylor/html2text => github.com/Necoro/html2text v0.0.0-20250804200300-7bf1ce1c7347
 
+replace github.com/skygenesisenterprise/giteria/modules/db => ./models/db
+replace github.com/skygenesisenterprise/giteria/modules/repo => ./models/repo
+replace github.com/skygenesisenterprise/giteria/modules/unit => ./models/unit
+replace github.com/skygenesisenterprise/giteria/modules/user => ./models/user
+replace github.com/skygenesisenterprise/giteria/modules/auth => ./models/auth
+replace github.com/skygenesisenterprise/giteria/modules/asymkey => ./models/asymkey
+replace github.com/skygenesisenterprise/giteria/modules/perm => ./models/perm
+replace github.com/skygenesisenterprise/giteria/modules/organization => ./models/organization
+replace github.com/skygenesisenterprise/giteria/modules/project => ./models/project
+replace github.com/skygenesisenterprise/giteria/modules/avatars => ./models/avatars
+replace github.com/skygenesisenterprise/giteria/modules/pull => ./models/pull
+replace github.com/skygenesisenterprise/giteria/modules/shared => ./models/shared
+replace github.com/skygenesisenterprise/giteria/modules/issues => ./models/issues
+
 replace github.com/hashicorp/go-version => github.com/6543/go-version v1.3.1
 
 replace github.com/nektos/act => gitea.com/gitea/act v0.261.7-0.20251003180512-ac6e4b751763
