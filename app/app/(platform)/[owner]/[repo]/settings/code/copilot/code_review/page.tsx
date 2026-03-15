@@ -521,7 +521,7 @@ export default function SettingsCopilotCodeReviewPage({
                         </p>
                         <Button variant="link" className="p-0 h-auto" asChild>
                           <a
-                            href="https://docs.giteria.com/copilot/code-review"
+                            href="https://docs.skygenesisenterprise.com/giteria/copilot/code-review"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center gap-1"

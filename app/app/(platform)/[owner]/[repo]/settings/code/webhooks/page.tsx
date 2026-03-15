@@ -540,7 +540,7 @@ export default function SettingsWebhooksPage({ params }: SettingsWebhooksPagePro
                         </ul>
                         <Button variant="link" className="p-0 h-auto" asChild>
                           <a
-                            href="https://docs.giteria.com/webhooks"
+                            href="https://docs.skygenesisenterprise.com/giteria/webhooks"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center gap-1"

@@ -218,7 +218,7 @@ export default function IssuesPage() {
                   </Button>
                 </Link>
                 <Link
-                  href="https://docs.giteria.com/issues"
+                  href="https://docs.skygenesisenterprise.com/giteria/issues"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

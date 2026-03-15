@@ -223,7 +223,7 @@ export default function AdvancedSecurityPage() {
                   </Button>
                 </Link>
                 <Link
-                  href="https://docs.giteria.com/security"
+                  href="https://docs.skygenesisenterprise.com/giteria/security"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

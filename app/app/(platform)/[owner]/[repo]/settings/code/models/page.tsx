@@ -607,7 +607,7 @@ export default function SettingsModelsPage({ params }: SettingsModelsPageProps) 
                         </p>
                         <Button variant="link" className="p-0 h-auto" asChild>
                           <a
-                            href="https://docs.giteria.com/models"
+                            href="https://docs.skygenesisenterprise.com/giteria/models"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center gap-1"

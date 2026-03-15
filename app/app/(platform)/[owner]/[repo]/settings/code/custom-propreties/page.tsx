@@ -450,7 +450,7 @@ export default function SettingsCustomPropertiesPage({
                         </p>
                         <Button variant="link" className="p-0 h-auto" asChild>
                           <a
-                            href="https://docs.giteria.com/custom-properties"
+                            href="https://docs.skygenesisenterprise.com/giteria/custom-properties"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center gap-1"

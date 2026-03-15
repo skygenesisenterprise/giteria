@@ -219,7 +219,7 @@ export default function CodespacesPage() {
                   </Button>
                 </Link>
                 <Link
-                  href="https://docs.giteria.com/codespaces"
+                  href="https://docs.skygenesisenterprise.com/giteria/codespaces"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

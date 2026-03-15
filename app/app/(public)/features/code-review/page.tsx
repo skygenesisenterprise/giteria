@@ -229,7 +229,7 @@ export default function CodeReviewPage() {
                   </Button>
                 </Link>
                 <Link
-                  href="https://docs.giteria.com/code-review"
+                  href="https://docs.skygenesisenterprise.com/giteria/code-review"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

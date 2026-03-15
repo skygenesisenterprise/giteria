@@ -180,7 +180,7 @@ export default function CopilotPage() {
                     <ArrowRight className="w-5 h-5 ml-2" />
                   </Button>
                 </Link>
-                <Link href="https://docs.giteria.com/copilot" target="_blank" rel="noopener noreferrer">
+                <Link href="https://docs.skygenesisenterprise.com/giteria/copilot" target="_blank" rel="noopener noreferrer">
                   <Button
                     size="lg"
                     variant="outline"

@@ -22,7 +22,7 @@ const (
 	description      = "Package Description"
 	projectURL       = "https://giteria.com"
 	repositoryURL    = "https://giteria.com/giteria/giteria"
-	documentationURL = "https://docs.giteria.com"
+	documentationURL = "https://docs.skygenesisenterprise.com"
 )
 
 func TestParsePackage(t *testing.T) {

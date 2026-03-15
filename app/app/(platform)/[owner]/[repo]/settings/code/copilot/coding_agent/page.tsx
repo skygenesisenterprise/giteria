@@ -565,7 +565,7 @@ export default function SettingsCopilotCodingAgentPage({
                         </p>
                         <Button variant="link" className="p-0 h-auto" asChild>
                           <a
-                            href="https://docs.giteria.com/copilot/coding-agents"
+                            href="https://docs.skygenesisenterprise.com/giteria/copilot/coding-agents"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center gap-1"

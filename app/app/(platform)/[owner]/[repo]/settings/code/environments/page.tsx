@@ -512,7 +512,7 @@ export default function SettingsEnvironmentsPage({ params }: SettingsEnvironment
                         </ul>
                         <Button variant="link" className="p-0 h-auto" asChild>
                           <a
-                            href="https://docs.giteria.com/environments"
+                            href="https://docs.skygenesisenterprise.com/giteria/environments"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center gap-1"

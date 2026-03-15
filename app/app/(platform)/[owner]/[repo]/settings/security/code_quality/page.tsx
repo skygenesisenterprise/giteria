@@ -442,7 +442,7 @@ export default function SettingsCodeQualityPage({ params }: SettingsCodeQualityP
                         </p>
                         <Button variant="link" className="p-0 h-auto" asChild>
                           <a
-                            href="https://docs.giteria.com/en/code-security/code-quality"
+                            href="https://docs.skygenesisenterprise.com/giteria/code-security/code-quality"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center gap-1"

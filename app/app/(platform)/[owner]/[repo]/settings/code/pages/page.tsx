@@ -402,7 +402,7 @@ export default function SettingsPagesPage({ params }: SettingsPagesPageProps) {
                         </p>
                         <Button variant="link" className="p-0 h-auto" asChild>
                           <a
-                            href="https://docs.giteria.com/en/pages"
+                            href="https://docs.skygenesisenterprise.com/giteria/pages"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center gap-1"

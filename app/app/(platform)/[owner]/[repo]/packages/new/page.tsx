@@ -72,7 +72,7 @@ export default function RepoPackagesNewPage({ params }: RepoPackagesNewPageProps
 
           <div className="mt-6 flex flex-wrap gap-2">
             <Button asChild>
-              <Link href="https://docs.giteria.com/packages" className="flex items-center gap-1">
+              <Link href="https://docs.skygenesisenterprise.com/giteria/packages" className="flex items-center gap-1">
                 Open publishing guide
                 <ExternalLink className="h-4 w-4" />
               </Link>

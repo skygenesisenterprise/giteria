@@ -416,7 +416,7 @@ export default function SettingsSecretsCodespacesPage({
                         </ul>
                         <Button variant="link" className="p-0 h-auto" asChild>
                           <a
-                            href="https://docs.giteria.com/en/codespaces/managing-your-codespaces/managing-encrypted-secrets-for-your-codespaces"
+                            href="https://docs.skygenesisenterprise.com/giteria/codespaces/managing-your-codespaces/managing-encrypted-secrets-for-your-codespaces"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center gap-1"

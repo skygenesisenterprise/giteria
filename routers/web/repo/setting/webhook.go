@@ -45,7 +45,7 @@ func Webhooks(ctx *context.Context) {
 	ctx.Data["PageIsSettingsHooks"] = true
 	ctx.Data["BaseLink"] = ctx.Repo.RepoLink + "/settings/hooks"
 	ctx.Data["BaseLinkNew"] = ctx.Repo.RepoLink + "/settings/hooks"
-	ctx.Data["Description"] = ctx.Tr("repo.settings.hooks_desc", "https://docs.giteria.com/usage/webhooks")
+	ctx.Data["Description"] = ctx.Tr("repo.settings.hooks_desc", "https://docs.skygenesisenterprise.com/giteria/usage/webhooks")
 
 	ws, err := db.Find[webhook.Webhook](ctx, webhook.ListWebhookOptions{RepoID: ctx.Repo.Repository.ID})
 	if err != nil {

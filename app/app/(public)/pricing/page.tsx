@@ -213,7 +213,7 @@ export default function PricingPage() {
                 </Button>
               </Link>
               <Link
-                href="https://docs.giteria.com/self-hosted"
+                href="https://docs.skygenesisenterprise.com/giteria/self-hosted"
                 target="_blank"
                 rel="noopener noreferrer"
               >

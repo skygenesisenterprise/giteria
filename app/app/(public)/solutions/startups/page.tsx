@@ -186,7 +186,7 @@ export default function StartupsPage() {
                     <ArrowRight className="w-5 h-5 ml-2" />
                   </Button>
                 </Link>
-                <Link href="https://docs.giteria.com/getting-started/demo" target="_blank" rel="noopener noreferrer">
+                <Link href="https://docs.skygenesisenterprise.com/giteria/getting-started/demo" target="_blank" rel="noopener noreferrer">
                   <Button
                     size="lg"
                     variant="outline"
