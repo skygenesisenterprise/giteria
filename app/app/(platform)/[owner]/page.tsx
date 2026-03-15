@@ -4,6 +4,7 @@ import * as React from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { authEngine } from "@/lib/auth/IndexedDBAuthEngine";
+import { User } from "@/lib/auth/types";
 import { getOrganizationBySlug } from "@/lib/organizations/LocalOrgEngine";
 import { getRepositoriesByOwner } from "./_components/repositories/data";
 import { UserSidebar } from "./_components/UserSidebar";
@@ -79,7 +80,7 @@ export default function OwnerPage() {
             <h1 className="text-6xl font-bold text-foreground">404</h1>
             <p className="mt-4 text-xl text-muted-foreground">This profile does not exist</p>
             <p className="mt-2 text-sm text-muted-foreground">
-              The user or organization "{ownerSlug}" does not exist on Giteria.
+              The user or organization &quot;{ownerSlug}&quot; does not exist on Giteria.
             </p>
             <Link href="/">
               <Button className="mt-8">Go back home</Button>
@@ -146,7 +147,7 @@ function OrganizationPageContent({
         verifiedDomain: `${orgData.slug}.com`,
         sponsor: false,
         sponsors: true,
-        sponsorsCount: Math.floor(Math.random() * 20) + 1,
+        sponsorsCount: repos.length > 0 ? repos.length * 3 : 5,
         organizationType: "Organization",
         affiliation: settings?.affiliation || "Parent Company Inc.",
         affiliationUrl: settings?.affiliationUrl || "https://parentcompany.com",
@@ -191,7 +192,7 @@ function OrganizationPageContent({
 }
 
 function UserSidebarWrapper({ username }: { username: string }) {
-  const [user, setUser] = React.useState<any>(null);
+  const [user, setUser] = React.useState<User | null>(null);
 
   React.useEffect(() => {
     authEngine.getUserByUsername(username).then(setUser);

@@ -29,7 +29,7 @@ export default function RepoLayout({ children, params }: RepoLayoutProps) {
   const pathname = usePathname();
   const [repo, setRepo] = useState<Repository | null>(null);
   const [counts, setCounts] = useState({ issues: 0, pulls: 0, discussions: 0 });
-  const [isLoadingCounts, setIsLoadingCounts] = useState(true);
+  const [_isLoadingCounts, setIsLoadingCounts] = useState(true);
 
   const repoFullName = `${resolvedParams.owner}/${resolvedParams.repo}`;
 

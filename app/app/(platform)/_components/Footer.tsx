@@ -15,7 +15,7 @@ export function Footer({ className }: FooterProps) {
     { label: "Security", href: "/security" },
     { label: "Status", href: "/status" },
     { label: "Community", href: "/community" },
-    { label: "Docs", href: "/docs" },
+    { label: "Docs", href: "https://docs.skygenesisenterprise.com/giteria" },
     { label: "Contact", href: "/contact" },
     { label: "Manage cookies", href: "/cookies" },
     { label: "Do not share my personal information", href: "/privacy#do-not-share" },
