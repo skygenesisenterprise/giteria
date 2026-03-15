@@ -237,15 +237,17 @@ export function getSpecialFileIcon(fileName: string): FileIconResult | null {
     };
   }
 
-  if (
-    lowerName === ".ignore" ||
-    lowerName === ".eslintignore" ||
-    lowerName === ".npmignore" ||
-    lowerName === ".gitmodules"
-  ) {
+  if (lowerName === ".ignore" || lowerName === ".eslintignore" || lowerName === ".npmignore") {
     return {
       iconName: "settings",
       color: ICON_COLORS.settings,
+    };
+  }
+
+  if (lowerName === ".gitmodules") {
+    return {
+      iconName: "git",
+      color: ICON_COLORS.git,
     };
   }
 

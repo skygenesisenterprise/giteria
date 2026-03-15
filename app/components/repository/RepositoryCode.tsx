@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { GitCommit, Ellipsis } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -22,6 +23,16 @@ interface FileItem {
     author: string;
     date: string;
   };
+  isSubmodule?: boolean;
+  submoduleUrl?: string;
+  submoduleSha?: string;
+}
+
+interface SubmoduleItem {
+  path: string;
+  name: string;
+  url: string;
+  sha?: string;
 }
 
 interface CommitItem {
@@ -59,13 +70,13 @@ export function RepositoryCode({
 }: RepositoryCodeProps) {
   const [currentPath, setCurrentPath] = React.useState("");
   const [subFiles, setSubFiles] = React.useState<FileItem[]>([]);
-  const [isLoadingSub, setIsLoadingSub] = React.useState(false);
   const [viewMode, setViewMode] = React.useState<"code" | "commits">("code");
   const [commits, setCommits] = React.useState<CommitItem[]>([]);
   const [isLoadingCommits, setIsLoadingCommits] = React.useState(false);
   const [latestCommit, setLatestCommit] = React.useState<CommitItem | null>(null);
   const [showCommitDetails, setShowCommitDetails] = React.useState(false);
   const [commitCount, setCommitCount] = React.useState(0);
+  const [submodules, setSubmodules] = React.useState<SubmoduleItem[]>([]);
   const { getIcon } = useFileIcon();
 
   const commitMessage = latestCommit?.commit.message || "";
@@ -87,7 +98,6 @@ export function RepositoryCode({
     const [, mirrorOwner, mirrorRepo] = githubMatch;
     const repoName = mirrorRepo.replace(/\.git$/, "");
 
-    setIsLoadingSub(true);
     try {
       const token = await getGitHubToken();
       const headers: HeadersInit = {
@@ -175,14 +185,88 @@ export function RepositoryCode({
       }
     } catch (err) {
       console.error("Failed to fetch subdirectory:", err);
-    } finally {
-      setIsLoadingSub(false);
     }
-  }, [mirrorFrom, currentPath]);
+  }, [mirrorFrom, currentPath, branch]);
 
   React.useEffect(() => {
     fetchContents();
   }, [fetchContents]);
+
+  const fetchSubmodules = React.useCallback(async () => {
+    if (!mirrorFrom) {
+      setSubmodules([]);
+      return;
+    }
+
+    const githubMatch = mirrorFrom.match(/github\.com[/:]([^\/]+)\/([^\/]+)/);
+    if (!githubMatch) return;
+
+    const [, mirrorOwner, mirrorRepo] = githubMatch;
+    const repoName = mirrorRepo.replace(/\.git$/, "");
+
+    try {
+      const token = await getGitHubToken();
+      const headers: HeadersInit = {
+        Accept: "application/vnd.github.v3+json",
+      };
+      if (token) {
+        headers.Authorization = `Bearer ${token}`;
+      }
+
+      const response = await fetch(
+        `https://api.github.com/repos/${mirrorOwner}/${repoName}/contents/.gitmodules`,
+        { headers }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.content) {
+          const content = atob(data.content);
+          const parsedSubmodules: SubmoduleItem[] = [];
+          const submoduleRegex =
+            /\[submodule\s+"([^"]+)"\][\s\S]*?path\s*=\s*([^\n]+)[\s\S]*?url\s*=\s*([^\n]+)/g;
+
+          let match;
+          while ((match = submoduleRegex.exec(content)) !== null) {
+            const submodulePath = match[2].trim();
+            parsedSubmodules.push({
+              path: submodulePath,
+              name: match[1],
+              url: match[3].trim(),
+            });
+          }
+
+          for (const sub of parsedSubmodules) {
+            try {
+              const shaResponse = await fetch(
+                `https://api.github.com/repos/${mirrorOwner}/${repoName}/contents/${sub.path}`,
+                { headers }
+              );
+              if (shaResponse.ok) {
+                const shaData = await shaResponse.json();
+                if (shaData.sha) {
+                  sub.sha = shaData.sha;
+                }
+              }
+            } catch {
+              // Ignore errors for individual submodule fetch
+            }
+          }
+
+          setSubmodules(parsedSubmodules);
+        }
+      } else {
+        setSubmodules([]);
+      }
+    } catch (err) {
+      console.error("Failed to fetch submodules:", err);
+      setSubmodules([]);
+    }
+  }, [mirrorFrom]);
+
+  React.useEffect(() => {
+    fetchSubmodules();
+  }, [fetchSubmodules]);
 
   const fetchCommits = React.useCallback(async () => {
     if (!mirrorFrom) {
@@ -242,7 +326,7 @@ export function RepositoryCode({
     } finally {
       setIsLoadingCommits(false);
     }
-  }, [mirrorFrom, viewMode]);
+  }, [mirrorFrom, branch, viewMode]);
 
   React.useEffect(() => {
     if (viewMode === "commits" && mirrorFrom) {
@@ -267,23 +351,30 @@ export function RepositoryCode({
     return () => clearInterval(interval);
   }, [mirrorFrom, viewMode, fetchContents, fetchCommits]);
 
-  const handleFolderClick = (path: string) => {
-    setCurrentPath(path);
-  };
-
-  const handleBreadcrumbClick = (index: number) => {
-    if (index === -1) {
-      setCurrentPath("");
-    } else {
-      setCurrentPath(pathParts.slice(0, index + 1).join("/"));
-    }
-  };
-
-  const displayFiles = mirrorFrom ? (subFiles.length > 0 ? subFiles : files || []) : files || [];
+  const displayFiles = React.useMemo(
+    () => (mirrorFrom ? (subFiles.length > 0 ? subFiles : files || []) : files || []),
+    [mirrorFrom, subFiles, files]
+  );
 
   const sortedFiles = React.useMemo(() => {
-    const folders = displayFiles.filter((f) => f.type === "folder");
-    const files = displayFiles.filter((f) => f.type === "file");
+    const submoduleMap = new Map(submodules.map((s) => [s.path, { url: s.url, sha: s.sha }]));
+
+    const convertedFiles = displayFiles.map((f) => {
+      const subData = submoduleMap.get(f.path);
+      if (subData) {
+        return {
+          ...f,
+          type: "folder" as const,
+          isSubmodule: true,
+          submoduleUrl: subData.url,
+          submoduleSha: subData.sha,
+        };
+      }
+      return f;
+    });
+
+    const folders = convertedFiles.filter((f) => f.type === "folder");
+    const files = convertedFiles.filter((f) => f.type === "file");
 
     const sortByDotFirst = (items: FileItem[]) =>
       [...items].sort((a, b) => {
@@ -297,7 +388,7 @@ export function RepositoryCode({
       });
 
     return [...sortByDotFirst(folders), ...sortByDotFirst(files)];
-  }, [displayFiles]);
+  }, [displayFiles, submodules]);
 
   const timeAgo = (dateString: string) => {
     const date = new Date(dateString);
@@ -347,9 +438,11 @@ export function RepositoryCode({
             <div className="flex items-center gap-2 text-xs text-muted-foreground flex-1 min-w-0">
               {latestCommit.author && (
                 <>
-                  <img
+                  <Image
                     src={latestCommit.author.avatar_url}
                     alt={latestCommit.author.login}
+                    width={20}
+                    height={20}
                     className="w-5 h-5 rounded-full shrink-0"
                   />
                   <span className="text-foreground font-medium shrink-0">
@@ -432,9 +525,11 @@ export function RepositoryCode({
                     className="flex items-center gap-3 p-2 rounded-md hover:bg-muted/50"
                   >
                     {commit.author ? (
-                      <img
+                      <Image
                         src={commit.author.avatar_url}
                         alt={authorName}
+                        width={20}
+                        height={20}
                         className="w-5 h-5 rounded-full shrink-0"
                       />
                     ) : (
@@ -459,7 +554,7 @@ export function RepositoryCode({
         <>
           <table className="w-full">
             <tbody>
-              {displayFiles.length === 0 ? (
+              {displayFiles.length === 0 && submodules.length === 0 ? (
                 <tr>
                   <td colSpan={3} className="py-12 text-center text-muted-foreground">
                     {mirrorFrom
@@ -481,6 +576,11 @@ export function RepositoryCode({
                               className="text-sm hover:text-blue-500 hover:underline"
                             >
                               {file.name}
+                              {file.isSubmodule && file.submoduleSha && (
+                                <span className="text-muted-foreground ml-1">
+                                  @ {file.submoduleSha.substring(0, 7)}
+                                </span>
+                              )}
                             </Link>
                           ) : (
                             <Link

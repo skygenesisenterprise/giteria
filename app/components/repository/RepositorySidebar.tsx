@@ -32,7 +32,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import type { Repository } from "@/lib/repo/RepositoryData";
 import { updateRepositoryDetails } from "@/lib/repo/RepositoryData";
-import { detectLanguagesFromFiles, LANGUAGE_EXTENSIONS } from "@/lib/languages";
+import { detectLanguagesFromFiles, getLanguageInfo } from "@/lib/languages";
 import { getGitHubToken } from "@/lib/github-token";
 
 interface FundingPlatform {
@@ -317,14 +317,18 @@ export function RepositorySidebar({ repo, owner, repoName, files }: RepositorySi
   const detectedLanguages = fileNames.length > 0 ? detectLanguagesFromFiles(fileNames) : [];
 
   const languages = React.useMemo(() => {
+    if (detectedLanguages.length > 0) {
+      return detectedLanguages;
+    }
+
     if (githubLanguages && Object.keys(githubLanguages).length > 0) {
       const totalBytes = Object.values(githubLanguages).reduce((sum, bytes) => sum + bytes, 0);
       return Object.entries(githubLanguages)
         .map(([langName, bytes]) => {
-          const langInfo = LANGUAGE_EXTENSIONS[langName.toLowerCase()];
+          const langInfo = getLanguageInfo(langName);
           return {
-            name: langInfo?.name || langName,
-            color: langInfo?.color || "#ededed",
+            name: langInfo.name,
+            color: langInfo.color,
             percentage: Math.round((bytes / totalBytes) * 100),
           };
         })
@@ -332,15 +336,21 @@ export function RepositorySidebar({ repo, owner, repoName, files }: RepositorySi
     }
 
     if (repo.languages && repo.languages.length > 0) {
-      return repo.languages;
-    }
-
-    if (detectedLanguages.length > 0) {
-      return detectedLanguages;
+      return repo.languages.map((lang) => {
+        const langInfo = getLanguageInfo(lang.name);
+        return {
+          name: langInfo.name,
+          color: lang.color || langInfo.color,
+          percentage: lang.percentage,
+        };
+      });
     }
 
     if (repo.language) {
-      return [{ name: repo.language, color: repo.languageColor || "#ededed", percentage: 100 }];
+      const langInfo = getLanguageInfo(repo.language);
+      return [
+        { name: langInfo.name, color: repo.languageColor || langInfo.color, percentage: 100 },
+      ];
     }
 
     return [];
@@ -668,22 +678,36 @@ export function RepositorySidebar({ repo, owner, repoName, files }: RepositorySi
 
       <div>
         <h3 className="font-semibold text-sm mb-3">Languages</h3>
-        <div className="space-y-2">
-          {languages.length > 0 ? (
-            languages.map((lang) => (
-              <div key={lang.name} className="flex items-center gap-2">
-                <span
-                  className="w-3 h-3 rounded-full shrink-0"
-                  style={{ backgroundColor: lang.color }}
+        {languages.length > 0 ? (
+          <>
+            <div className="flex h-2 rounded-full overflow-hidden mb-3">
+              {languages.map((lang) => (
+                <div
+                  key={lang.name}
+                  className="h-full"
+                  style={{
+                    width: `${lang.percentage}%`,
+                    backgroundColor: lang.color,
+                  }}
                 />
-                <span className="text-sm flex-1">{lang.name}</span>
-                <span className="text-sm text-muted-foreground">{lang.percentage}%</span>
-              </div>
-            ))
-          ) : (
-            <span className="text-sm text-muted-foreground">No languages</span>
-          )}
-        </div>
+              ))}
+            </div>
+            <div className="space-y-2">
+              {languages.map((lang) => (
+                <div key={lang.name} className="flex items-center gap-2">
+                  <span
+                    className="w-3 h-3 rounded-full shrink-0"
+                    style={{ backgroundColor: lang.color }}
+                  />
+                  <span className="text-sm flex-1">{lang.name}</span>
+                  <span className="text-sm text-muted-foreground">{lang.percentage}%</span>
+                </div>
+              ))}
+            </div>
+          </>
+        ) : (
+          <span className="text-sm text-muted-foreground">No languages</span>
+        )}
       </div>
     </div>
   );

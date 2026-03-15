@@ -14,6 +14,8 @@ interface FileItem {
   type: "file" | "folder";
   size?: number;
   modifiedAt?: number;
+  isSubmodule?: boolean;
+  submoduleUrl?: string;
 }
 
 export function useFileIcon() {

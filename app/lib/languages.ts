@@ -37,6 +37,46 @@ export const LANGUAGE_EXTENSIONS: Record<string, LanguageInfo> = {
   xml: { name: "XML", color: "#0060AC" },
 };
 
+export const LANGUAGE_NAMES: Record<string, LanguageInfo> = {
+  Go: { name: "Go", color: "#00ADD8" },
+  Rust: { name: "Rust", color: "#DEA584" },
+  TypeScript: { name: "TypeScript", color: "#3178C6" },
+  JavaScript: { name: "JavaScript", color: "#F7DF1E" },
+  Python: { name: "Python", color: "#3572A5" },
+  Java: { name: "Java", color: "#B07219" },
+  Kotlin: { name: "Kotlin", color: "#A97BFF" },
+  Swift: { name: "Swift", color: "#F05138" },
+  C: { name: "C", color: "#555555" },
+  "C++": { name: "C++", color: "#F34B7D" },
+  "C#": { name: "C#", color: "#178600" },
+  Ruby: { name: "Ruby", color: "#701516" },
+  PHP: { name: "PHP", color: "#4F5D95" },
+  HTML: { name: "HTML", color: "#E34C26" },
+  CSS: { name: "CSS", color: "#563D7C" },
+  SCSS: { name: "SCSS", color: "#C6538C" },
+  Vue: { name: "Vue", color: "#41B883" },
+  Svelte: { name: "Svelte", color: "#FF3E00" },
+  Markdown: { name: "Markdown", color: "#083FA1" },
+  YAML: { name: "YAML", color: "#CB171E" },
+  JSON: { name: "JSON", color: "#292929" },
+  TOML: { name: "TOML", color: "#9C4121" },
+  SQL: { name: "SQL", color: "#E38C00" },
+  Shell: { name: "Shell", color: "#89E051" },
+  Dockerfile: { name: "Dockerfile", color: "#384D54" },
+  Makefile: { name: "Makefile", color: "#427819" },
+  XML: { name: "XML", color: "#0060AC" },
+};
+
+export function getLanguageInfo(langName: string): LanguageInfo {
+  return (
+    LANGUAGE_NAMES[langName] ||
+    LANGUAGE_EXTENSIONS[langName.toLowerCase()] || {
+      name: langName,
+      color: "#ededed",
+    }
+  );
+}
+
 export interface DetectedLanguage {
   name: string;
   color: string;
@@ -70,11 +110,14 @@ export function detectLanguagesFromFiles(files: string[]): DetectedLanguage[] {
   }
 
   return Object.entries(languageCounts)
-    .map(([name, count]) => ({
-      name,
-      color: LANGUAGE_EXTENSIONS[name.toLowerCase()]?.color || "#ededed",
-      percentage: Math.round((count / totalFiles) * 100),
-    }))
+    .map(([name, count]) => {
+      const langInfo = getLanguageInfo(name);
+      return {
+        name: langInfo.name,
+        color: langInfo.color,
+        percentage: Math.round((count / totalFiles) * 100),
+      };
+    })
     .sort((a, b) => b.percentage - a.percentage);
 }
 
