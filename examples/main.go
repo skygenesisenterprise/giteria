@@ -1,4 +1,4 @@
-package main
+/*package main
 
 import (
 	"fmt"
@@ -159,3 +159,4 @@ func main() {
 		log.Fatal(err)
 	}
 }
+*/

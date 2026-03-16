@@ -12,7 +12,7 @@ import (
 	code_indexer "github.com/skygenesisenterprise/giteria/modules/indexer/code"
 	"github.com/skygenesisenterprise/giteria/modules/setting"
 	"github.com/skygenesisenterprise/giteria/modules/templates"
-	"github.com/skygenesisenterprise/giteria/routers/common"
+	"github.com/skygenesisenterprise/giteria/server/common"
 	"github.com/skygenesisenterprise/giteria/services/context"
 )
 
