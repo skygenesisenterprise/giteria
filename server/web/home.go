@@ -18,8 +18,8 @@ import (
 	"github.com/skygenesisenterprise/giteria/modules/structs"
 	"github.com/skygenesisenterprise/giteria/modules/templates"
 	"github.com/skygenesisenterprise/giteria/modules/web/middleware"
-	"github.com/skygenesisenterprise/giteria/server/src/controllers/web/auth"
-	"github.com/skygenesisenterprise/giteria/server/src/controllers/web/user"
+	"github.com/skygenesisenterprise/giteria/server/web/auth"
+	"github.com/skygenesisenterprise/giteria/server/web/user"
 	"github.com/skygenesisenterprise/giteria/services/context"
 )
 

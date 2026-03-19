@@ -7,7 +7,7 @@ import (
 	"net/http"
 
 	issues_model "github.com/skygenesisenterprise/giteria/models/issues"
-	"github.com/skygenesisenterprise/giteria/server/src/controllers/api/v1/utils"
+	"github.com/skygenesisenterprise/giteria/server/api/v1/utils"
 	"github.com/skygenesisenterprise/giteria/services/context"
 	"github.com/skygenesisenterprise/giteria/services/convert"
 )

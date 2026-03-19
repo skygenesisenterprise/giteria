@@ -16,7 +16,7 @@ import (
 	user_model "github.com/skygenesisenterprise/giteria/models/user"
 	"github.com/skygenesisenterprise/giteria/modules/container"
 	"github.com/skygenesisenterprise/giteria/modules/optional"
-	shared_user "github.com/skygenesisenterprise/giteria/server/src/controllers/web/shared/user"
+	shared_user "github.com/skygenesisenterprise/giteria/server/web/shared/user"
 	"github.com/skygenesisenterprise/giteria/services/context"
 	issue_service "github.com/skygenesisenterprise/giteria/services/issue"
 	pull_service "github.com/skygenesisenterprise/giteria/services/pull"

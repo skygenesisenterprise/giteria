@@ -20,7 +20,7 @@ import (
 	chef_module "github.com/skygenesisenterprise/giteria/modules/packages/chef"
 	"github.com/skygenesisenterprise/giteria/modules/setting"
 	"github.com/skygenesisenterprise/giteria/modules/util"
-	"github.com/skygenesisenterprise/giteria/server/src/controllers/api/packages/helper"
+	"github.com/skygenesisenterprise/giteria/server/api/packages/helper"
 	"github.com/skygenesisenterprise/giteria/services/context"
 	packages_service "github.com/skygenesisenterprise/giteria/services/packages"
 )

@@ -11,7 +11,7 @@ import (
 	"github.com/skygenesisenterprise/giteria/modules/log"
 	"github.com/skygenesisenterprise/giteria/modules/setting"
 	"github.com/skygenesisenterprise/giteria/modules/util"
-	"github.com/skygenesisenterprise/giteria/routers/utils"
+	"github.com/skygenesisenterprise/giteria/server/utils"
 	context_service "github.com/skygenesisenterprise/giteria/services/context"
 	files_service "github.com/skygenesisenterprise/giteria/services/repository/files"
 )

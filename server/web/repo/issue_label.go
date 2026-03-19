@@ -16,7 +16,7 @@ import (
 	"github.com/skygenesisenterprise/giteria/modules/templates"
 	"github.com/skygenesisenterprise/giteria/modules/util"
 	"github.com/skygenesisenterprise/giteria/modules/web"
-	shared_label "github.com/skygenesisenterprise/giteria/server/src/controllers/web/shared/label"
+	shared_label "github.com/skygenesisenterprise/giteria/server/web/shared/label"
 	"github.com/skygenesisenterprise/giteria/services/context"
 	"github.com/skygenesisenterprise/giteria/services/forms"
 	issue_service "github.com/skygenesisenterprise/giteria/services/issue"

@@ -25,7 +25,7 @@ import (
 	packages_module "github.com/skygenesisenterprise/giteria/modules/packages"
 	maven_module "github.com/skygenesisenterprise/giteria/modules/packages/maven"
 	"github.com/skygenesisenterprise/giteria/modules/util"
-	"github.com/skygenesisenterprise/giteria/server/src/controllers/api/packages/helper"
+	"github.com/skygenesisenterprise/giteria/server/api/packages/helper"
 	"github.com/skygenesisenterprise/giteria/services/context"
 	packages_service "github.com/skygenesisenterprise/giteria/services/packages"
 )

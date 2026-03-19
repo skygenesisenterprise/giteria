@@ -23,7 +23,7 @@ import (
 	"github.com/skygenesisenterprise/giteria/modules/setting"
 	"github.com/skygenesisenterprise/giteria/modules/templates"
 	"github.com/skygenesisenterprise/giteria/modules/web"
-	shared_user "github.com/skygenesisenterprise/giteria/server/src/controllers/web/shared/user"
+	shared_user "github.com/skygenesisenterprise/giteria/server/web/shared/user"
 	"github.com/skygenesisenterprise/giteria/services/context"
 	"github.com/skygenesisenterprise/giteria/services/convert"
 	"github.com/skygenesisenterprise/giteria/services/forms"

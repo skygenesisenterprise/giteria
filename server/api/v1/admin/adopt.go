@@ -9,7 +9,7 @@ import (
 	repo_model "github.com/skygenesisenterprise/giteria/models/repo"
 	user_model "github.com/skygenesisenterprise/giteria/models/user"
 	"github.com/skygenesisenterprise/giteria/modules/util"
-	"github.com/skygenesisenterprise/giteria/server/src/controllers/api/v1/utils"
+	"github.com/skygenesisenterprise/giteria/server/api/v1/utils"
 	"github.com/skygenesisenterprise/giteria/services/context"
 	repo_service "github.com/skygenesisenterprise/giteria/services/repository"
 )

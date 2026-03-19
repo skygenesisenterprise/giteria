@@ -16,7 +16,7 @@ import (
 	packages_module "github.com/skygenesisenterprise/giteria/modules/packages"
 	debian_module "github.com/skygenesisenterprise/giteria/modules/packages/debian"
 	"github.com/skygenesisenterprise/giteria/modules/util"
-	"github.com/skygenesisenterprise/giteria/server/src/controllers/api/packages/helper"
+	"github.com/skygenesisenterprise/giteria/server/api/packages/helper"
 	"github.com/skygenesisenterprise/giteria/services/context"
 	notify_service "github.com/skygenesisenterprise/giteria/services/notify"
 	packages_service "github.com/skygenesisenterprise/giteria/services/packages"

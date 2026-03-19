@@ -17,7 +17,7 @@ import (
 	packages_module "github.com/skygenesisenterprise/giteria/modules/packages"
 	arch_module "github.com/skygenesisenterprise/giteria/modules/packages/arch"
 	"github.com/skygenesisenterprise/giteria/modules/util"
-	"github.com/skygenesisenterprise/giteria/server/src/controllers/api/packages/helper"
+	"github.com/skygenesisenterprise/giteria/server/api/packages/helper"
 	"github.com/skygenesisenterprise/giteria/services/context"
 	packages_service "github.com/skygenesisenterprise/giteria/services/packages"
 	arch_service "github.com/skygenesisenterprise/giteria/services/packages/arch"

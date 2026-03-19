@@ -38,7 +38,7 @@ import (
 	"github.com/skygenesisenterprise/giteria/modules/templates"
 	"github.com/skygenesisenterprise/giteria/modules/typesniffer"
 	"github.com/skygenesisenterprise/giteria/modules/util"
-	"github.com/skygenesisenterprise/giteria/routers/common"
+	"github.com/skygenesisenterprise/giteria/server/common"
 	"github.com/skygenesisenterprise/giteria/services/context"
 	"github.com/skygenesisenterprise/giteria/services/context/upload"
 	"github.com/skygenesisenterprise/giteria/services/gitdiff"

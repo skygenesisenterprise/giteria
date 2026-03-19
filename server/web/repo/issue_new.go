@@ -29,7 +29,7 @@ import (
 	api "github.com/skygenesisenterprise/giteria/modules/structs"
 	"github.com/skygenesisenterprise/giteria/modules/util"
 	"github.com/skygenesisenterprise/giteria/modules/web"
-	"github.com/skygenesisenterprise/giteria/routers/utils"
+	"github.com/skygenesisenterprise/giteria/server/utils"
 	"github.com/skygenesisenterprise/giteria/services/context"
 	"github.com/skygenesisenterprise/giteria/services/context/upload"
 	"github.com/skygenesisenterprise/giteria/services/forms"

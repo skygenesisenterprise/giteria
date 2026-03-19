@@ -12,8 +12,8 @@ import (
 	code_indexer "github.com/skygenesisenterprise/giteria/modules/indexer/code"
 	"github.com/skygenesisenterprise/giteria/modules/setting"
 	"github.com/skygenesisenterprise/giteria/modules/templates"
-	"github.com/skygenesisenterprise/giteria/routers/common"
-	shared_user "github.com/skygenesisenterprise/giteria/server/src/controllers/web/shared/user"
+	"github.com/skygenesisenterprise/giteria/server/common"
+	shared_user "github.com/skygenesisenterprise/giteria/server/web/shared/user"
 	"github.com/skygenesisenterprise/giteria/services/context"
 )
 

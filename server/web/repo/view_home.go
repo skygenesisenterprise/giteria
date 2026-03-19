@@ -25,7 +25,7 @@ import (
 	"github.com/skygenesisenterprise/giteria/modules/setting"
 	"github.com/skygenesisenterprise/giteria/modules/svg"
 	"github.com/skygenesisenterprise/giteria/modules/util"
-	"github.com/skygenesisenterprise/giteria/server/src/controllers/web/feed"
+	"github.com/skygenesisenterprise/giteria/server/web/feed"
 	"github.com/skygenesisenterprise/giteria/services/context"
 	repo_service "github.com/skygenesisenterprise/giteria/services/repository"
 )

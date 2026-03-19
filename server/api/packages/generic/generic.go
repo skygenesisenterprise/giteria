@@ -12,7 +12,7 @@ import (
 
 	packages_model "github.com/skygenesisenterprise/giteria/models/packages"
 	packages_module "github.com/skygenesisenterprise/giteria/modules/packages"
-	"github.com/skygenesisenterprise/giteria/server/src/controllers/api/packages/helper"
+	"github.com/skygenesisenterprise/giteria/server/api/packages/helper"
 	"github.com/skygenesisenterprise/giteria/services/context"
 	packages_service "github.com/skygenesisenterprise/giteria/services/packages"
 )

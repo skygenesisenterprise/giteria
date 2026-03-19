@@ -23,9 +23,9 @@ import (
 	"github.com/skygenesisenterprise/giteria/modules/setting"
 	"github.com/skygenesisenterprise/giteria/modules/templates"
 	"github.com/skygenesisenterprise/giteria/modules/util"
-	"github.com/skygenesisenterprise/giteria/server/src/controllers/web/feed"
-	"github.com/skygenesisenterprise/giteria/server/src/controllers/web/org"
-	shared_user "github.com/skygenesisenterprise/giteria/server/src/controllers/web/shared/user"
+	"github.com/skygenesisenterprise/giteria/server/web/feed"
+	"github.com/skygenesisenterprise/giteria/server/web/org"
+	shared_user "github.com/skygenesisenterprise/giteria/server/web/shared/user"
 	"github.com/skygenesisenterprise/giteria/services/context"
 	feed_service "github.com/skygenesisenterprise/giteria/services/feed"
 )

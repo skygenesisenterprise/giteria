@@ -20,7 +20,7 @@ import (
 	api "github.com/skygenesisenterprise/giteria/modules/structs"
 	"github.com/skygenesisenterprise/giteria/modules/util"
 	"github.com/skygenesisenterprise/giteria/modules/web"
-	"github.com/skygenesisenterprise/giteria/server/src/controllers/api/v1/utils"
+	"github.com/skygenesisenterprise/giteria/server/api/v1/utils"
 	"github.com/skygenesisenterprise/giteria/services/context"
 	"github.com/skygenesisenterprise/giteria/services/convert"
 	pull_service "github.com/skygenesisenterprise/giteria/services/pull"

@@ -22,7 +22,7 @@ import (
 	packages_module "github.com/skygenesisenterprise/giteria/modules/packages"
 	conan_module "github.com/skygenesisenterprise/giteria/modules/packages/conan"
 	"github.com/skygenesisenterprise/giteria/modules/setting"
-	"github.com/skygenesisenterprise/giteria/server/src/controllers/api/packages/helper"
+	"github.com/skygenesisenterprise/giteria/server/api/packages/helper"
 	auth_service "github.com/skygenesisenterprise/giteria/services/auth"
 	"github.com/skygenesisenterprise/giteria/services/context"
 	notify_service "github.com/skygenesisenterprise/giteria/services/notify"

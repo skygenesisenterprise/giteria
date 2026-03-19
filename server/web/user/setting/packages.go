@@ -12,7 +12,7 @@ import (
 	"github.com/skygenesisenterprise/giteria/modules/setting"
 	"github.com/skygenesisenterprise/giteria/modules/templates"
 	"github.com/skygenesisenterprise/giteria/modules/util"
-	shared "github.com/skygenesisenterprise/giteria/server/src/controllers/web/shared/packages"
+	shared "github.com/skygenesisenterprise/giteria/server/web/shared/packages"
 	"github.com/skygenesisenterprise/giteria/services/context"
 )
 

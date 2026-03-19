@@ -31,7 +31,7 @@ import (
 	apiv1 "github.com/skygenesisenterprise/giteria/server/api/v1"
 	"github.com/skygenesisenterprise/giteria/server/private"
 	web_routers "github.com/skygenesisenterprise/giteria/server/web"
-	common "github.com/skygenesisenterprise/giteria/server/src/middleware"
+	common "github.com/skygenesisenterprise/giteria/server/common"
 	actions_service "github.com/skygenesisenterprise/giteria/services/actions"
 	asymkey_service "github.com/skygenesisenterprise/giteria/services/asymkey"
 	"github.com/skygenesisenterprise/giteria/services/auth"

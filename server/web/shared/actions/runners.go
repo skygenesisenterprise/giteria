@@ -15,7 +15,7 @@ import (
 	"github.com/skygenesisenterprise/giteria/modules/templates"
 	"github.com/skygenesisenterprise/giteria/modules/util"
 	"github.com/skygenesisenterprise/giteria/modules/web"
-	shared_user "github.com/skygenesisenterprise/giteria/server/src/controllers/web/shared/user"
+	shared_user "github.com/skygenesisenterprise/giteria/server/web/shared/user"
 	"github.com/skygenesisenterprise/giteria/services/context"
 	"github.com/skygenesisenterprise/giteria/services/forms"
 )

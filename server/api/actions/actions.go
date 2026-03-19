@@ -7,8 +7,8 @@ import (
 	"net/http"
 
 	"github.com/skygenesisenterprise/giteria/modules/web"
-	"github.com/skygenesisenterprise/giteria/server/src/controllers/api/actions/ping"
-	"github.com/skygenesisenterprise/giteria/server/src/controllers/api/actions/runner"
+	"github.com/skygenesisenterprise/giteria/server/api/actions/ping"
+	"github.com/skygenesisenterprise/giteria/server/api/actions/runner"
 )
 
 func Routes(prefix string) *web.Router {

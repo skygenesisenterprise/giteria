@@ -5,7 +5,7 @@ package web
 
 import (
 	"github.com/skygenesisenterprise/giteria/modules/web"
-	"github.com/skygenesisenterprise/giteria/server/src/controllers/web/repo"
+	"github.com/skygenesisenterprise/giteria/server/web/repo"
 	"github.com/skygenesisenterprise/giteria/services/context"
 )
 

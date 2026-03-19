@@ -4,7 +4,7 @@
 package admin
 
 import (
-	"github.com/skygenesisenterprise/giteria/server/src/controllers/api/v1/shared"
+	"github.com/skygenesisenterprise/giteria/server/api/v1/shared"
 	"github.com/skygenesisenterprise/giteria/services/context"
 )
 

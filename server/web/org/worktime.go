@@ -9,7 +9,7 @@ import (
 
 	"github.com/skygenesisenterprise/giteria/models/organization"
 	"github.com/skygenesisenterprise/giteria/modules/templates"
-	shared_user "github.com/skygenesisenterprise/giteria/server/src/controllers/web/shared/user"
+	shared_user "github.com/skygenesisenterprise/giteria/server/web/shared/user"
 	"github.com/skygenesisenterprise/giteria/services/context"
 )
 

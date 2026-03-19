@@ -6,7 +6,7 @@ package admin
 import (
 	api "github.com/skygenesisenterprise/giteria/modules/structs"
 	"github.com/skygenesisenterprise/giteria/modules/web"
-	"github.com/skygenesisenterprise/giteria/server/src/controllers/api/v1/repo"
+	"github.com/skygenesisenterprise/giteria/server/api/v1/repo"
 	"github.com/skygenesisenterprise/giteria/services/context"
 )
 

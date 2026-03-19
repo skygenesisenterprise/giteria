@@ -8,7 +8,7 @@ import (
 
 	actions_model "github.com/skygenesisenterprise/giteria/models/actions"
 	"github.com/skygenesisenterprise/giteria/modules/util"
-	"github.com/skygenesisenterprise/giteria/routers/common"
+	"github.com/skygenesisenterprise/giteria/server/common"
 	"github.com/skygenesisenterprise/giteria/services/context"
 )
 
