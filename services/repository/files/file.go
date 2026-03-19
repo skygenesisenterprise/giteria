@@ -16,7 +16,7 @@ import (
 	"github.com/skygenesisenterprise/giteria/modules/setting"
 	api "github.com/skygenesisenterprise/giteria/modules/structs"
 	"github.com/skygenesisenterprise/giteria/modules/util"
-	"github.com/skygenesisenterprise/giteria/routers/api/v1/utils"
+	"github.com/skygenesisenterprise/giteria/server/api/v1/utils"
 )
 
 func GetContentsListFromTreePaths(ctx context.Context, repo *repo_model.Repository, gitRepo *git.Repository, refCommit *utils.RefCommit, treePaths []string) (files []*api.ContentsResponse) {

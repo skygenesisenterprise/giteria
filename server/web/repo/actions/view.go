@@ -29,7 +29,7 @@ import (
 	"github.com/skygenesisenterprise/giteria/modules/templates"
 	"github.com/skygenesisenterprise/giteria/modules/util"
 	"github.com/skygenesisenterprise/giteria/modules/web"
-	"github.com/skygenesisenterprise/giteria/routers/common"
+	"github.com/skygenesisenterprise/giteria/server/common"
 	actions_service "github.com/skygenesisenterprise/giteria/services/actions"
 	context_module "github.com/skygenesisenterprise/giteria/services/context"
 	notify_service "github.com/skygenesisenterprise/giteria/services/notify"

@@ -332,7 +332,7 @@ func ServCommand(ctx *context.PrivateContext) {
 		} else {
 			// Because of the special ref "refs/for" (AGit) we will need to delay write permission check,
 			// AGit flow needs to write its own ref when the doer has "reader" permission (allowing to create PR).
-			// The real permission check is done in HookPreReceive (routers/private/hook_pre_receive.go).
+			// The real permission check is done in HookPreReceive (server/private/hook_pre_receive.go).
 			// Here it should relax the permission check for "git push (git-receive-pack)", but not for others like LFS operations.
 			if git.DefaultFeatures().SupportProcReceive && unitType == unit.TypeCode && verb == git.CmdVerbReceivePack {
 				mode = perm.AccessModeRead

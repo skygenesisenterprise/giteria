@@ -9,7 +9,7 @@ import (
 	"html/template"
 	"strings"
 
-	"github.com/skygenesisenterprise/giteria/highlight"
+	"github.com/skygenesisenterprise/giteria/modules/highlight"
 	"github.com/skygenesisenterprise/giteria/modules/indexer/code/internal"
 	"github.com/skygenesisenterprise/giteria/modules/timeutil"
 )

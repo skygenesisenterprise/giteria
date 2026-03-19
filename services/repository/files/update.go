@@ -23,7 +23,7 @@ import (
 	"github.com/skygenesisenterprise/giteria/modules/setting"
 	"github.com/skygenesisenterprise/giteria/modules/structs"
 	"github.com/skygenesisenterprise/giteria/modules/util"
-	"github.com/skygenesisenterprise/giteria/routers/api/v1/utils"
+	"github.com/skygenesisenterprise/giteria/server/api/v1/utils"
 	asymkey_service "github.com/skygenesisenterprise/giteria/services/asymkey"
 	pull_service "github.com/skygenesisenterprise/giteria/services/pull"
 )

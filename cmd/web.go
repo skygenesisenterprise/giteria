@@ -24,8 +24,8 @@ import (
 	"github.com/skygenesisenterprise/giteria/modules/public"
 	"github.com/skygenesisenterprise/giteria/modules/setting"
 	"github.com/skygenesisenterprise/giteria/modules/util"
-	"github.com/skygenesisenterprise/giteria/routers"
-	"github.com/skygenesisenterprise/giteria/routers/install"
+	"github.com/skygenesisenterprise/giteria/server"
+	"github.com/skygenesisenterprise/giteria/server/install"
 
 	"github.com/felixge/fgprof"
 	"github.com/urfave/cli/v3"
@@ -133,7 +133,7 @@ func showWebStartupMessage(msg string) {
 func serveInstall(cmd *cli.Command) error {
 	showWebStartupMessage("Prepare to run install page")
 
-	routers.InitWebInstallPage(graceful.GetManager().HammerContext())
+	server.InitWebInstallPage(graceful.GetManager().HammerContext())
 
 	// Flag for port number in case first time run conflict
 	if cmd.IsSet("port") {
@@ -203,7 +203,7 @@ func serveInstalled(c *cli.Command) error {
 		log.Error(`Found legacy public asset "robots.txt" in CustomPath. Please move it to %s/public/robots.txt`, setting.CustomPath)
 	}
 
-	routers.InitWebInstalled(graceful.GetManager().HammerContext())
+	server.InitWebInstalled(graceful.GetManager().HammerContext())
 
 	// We check that AppDataPath exists here (it should have been created during installation)
 	// We can't check it in `InitWebInstalled`, because some integration tests
@@ -226,7 +226,7 @@ func serveInstalled(c *cli.Command) error {
 	gtprof.EnableBuiltinTracer(util.Iif(setting.IsProd, 2000*time.Millisecond, 100*time.Millisecond))
 
 	// Set up Chi routes
-	webRoutes := routers.NormalRoutes()
+	webRoutes := server.NormalRoutes()
 	err := listen(webRoutes, true)
 	<-graceful.GetManager().Done()
 	log.Info("PID: %d Gitea Web Finished", os.Getpid())

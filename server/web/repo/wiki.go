@@ -28,7 +28,7 @@ import (
 	"github.com/skygenesisenterprise/giteria/modules/timeutil"
 	"github.com/skygenesisenterprise/giteria/modules/util"
 	"github.com/skygenesisenterprise/giteria/modules/web"
-	"github.com/skygenesisenterprise/giteria/routers/common"
+	"github.com/skygenesisenterprise/giteria/server/common"
 	"github.com/skygenesisenterprise/giteria/services/context"
 	"github.com/skygenesisenterprise/giteria/services/forms"
 	git_service "github.com/skygenesisenterprise/giteria/services/git"
