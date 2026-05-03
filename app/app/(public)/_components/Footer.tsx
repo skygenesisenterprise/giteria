@@ -74,7 +74,7 @@ export default function Footer() {
     { name: "Guides & Tutorials", href: "/guides" },
     { name: "Changelog", href: "/changelog" },
     { name: "Whitepapers", href: "/whitepaper" },
-    { name: "Developer Portal", href: "https://developer.giteria.com" },
+    { name: "Developer Portal", href: "https://developer.skygenesisenterprise.com" },
     { name: "Newsletter", href: "/newsletter" },
     { name: "Certificates", href: "/certificates" },
   ];

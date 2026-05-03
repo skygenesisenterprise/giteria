@@ -17,7 +17,7 @@ import (
 	base "github.com/skygenesisenterprise/giteria/modules/migration"
 	"github.com/skygenesisenterprise/giteria/modules/structs"
 
-	gitea_sdk "github.com/go-gitea/sdk/gitea"
+	gitea_sdk "code.gitea.io/sdk/gitea"
 )
 
 var (

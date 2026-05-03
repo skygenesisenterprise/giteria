@@ -9,7 +9,7 @@ godebug x509negativeserial=1
 
 require (
 	code.gitea.io/actions-proto-go v0.4.1
-	code.gitea.io/sdk/gitea v0.22.0
+	code.gitea.io/sdk/gitea v0.23.2
 	codeberg.org/gusted/mcaptcha v0.0.0-20220723083913-4f3072e1d570
 	connectrpc.com/connect v1.19.1
 	gitea.com/go-chi/binding v0.0.0-20240430071103-39a851e106ed
@@ -18,17 +18,17 @@ require (
 	gitea.com/go-chi/session v0.0.0-20251124165456-68e0254e989e
 	gitea.com/lunny/dingtalk_webhook v0.0.0-20171025031554-e3534c89ef96
 	gitea.com/lunny/levelqueue v0.4.2-0.20230414023320-3c0159fe0fe4
-	github.com/42wim/httpsig v1.2.3
+	github.com/42wim/httpsig v1.2.4
 	github.com/42wim/sshsig v0.0.0-20250502153856-5100632e8920
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.21.0
 	github.com/Azure/azure-sdk-for-go/sdk/storage/azblob v1.6.4
 	github.com/Azure/go-ntlmssp v0.0.0-20221128193559-754e69321358
-	github.com/ProtonMail/go-crypto v1.3.0
+	github.com/ProtonMail/go-crypto v1.4.1
 	github.com/PuerkitoBio/goquery v1.10.3
 	github.com/SaveTheRbtz/zstd-seekable-format-go/pkg v0.8.0
 	github.com/alecthomas/chroma/v2 v2.23.1
-	github.com/aws/aws-sdk-go-v2/credentials v1.19.10
-	github.com/aws/aws-sdk-go-v2/service/codecommit v1.33.9
+	github.com/aws/aws-sdk-go-v2/credentials v1.19.12
+	github.com/aws/aws-sdk-go-v2/service/codecommit v1.33.11
 	github.com/blakesmith/ar v0.0.0-20190502131153-809d4375e1fb
 	github.com/blevesearch/bleve/v2 v2.5.7
 	github.com/bohde/codel v0.2.0
@@ -48,7 +48,7 @@ require (
 	github.com/felixge/fgprof v0.9.5
 	github.com/fsnotify/fsnotify v1.9.0
 	github.com/gliderlabs/ssh v0.3.8
-	github.com/go-ap/activitypub v0.0.0-20260217161652-7bec47e1f870
+	github.com/go-ap/activitypub v0.0.0-20260314162927-f37166117816
 	github.com/go-ap/jsonld v0.0.0-20251216162253-e38fa664ea77
 	github.com/go-chi/chi/v5 v5.2.5
 	github.com/go-chi/cors v1.2.2
@@ -76,7 +76,7 @@ require (
 	github.com/jaytaylor/html2text v0.0.0-20230321000545-74c2419ad056
 	github.com/jhillyerd/enmime v1.3.0
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51
-	github.com/klauspost/compress v1.18.2
+	github.com/klauspost/compress v1.18.4
 	github.com/klauspost/cpuid/v2 v2.3.0
 	github.com/lib/pq v1.10.9
 	github.com/markbates/goth v1.82.0
@@ -107,22 +107,22 @@ require (
 	github.com/tstranex/u2f v1.0.0
 	github.com/ulikunitz/xz v0.5.15
 	github.com/urfave/cli-docs/v3 v3.1.0
-	github.com/urfave/cli/v3 v3.6.2
+	github.com/urfave/cli/v3 v3.7.0
 	github.com/wneessen/go-mail v0.7.2
 	github.com/xeipuuv/gojsonschema v1.2.0
 	github.com/yohcop/openid-go v1.0.1
 	github.com/yuin/goldmark v1.7.16
 	github.com/yuin/goldmark-highlighting/v2 v2.0.0-20230729083705-37449abec8cc
 	github.com/yuin/goldmark-meta v1.1.0
-	gitlab.com/gitlab-org/api/client-go v1.44.0
-	golang.org/x/crypto v0.48.0
+	gitlab.com/gitlab-org/api/client-go v1.46.0
+	golang.org/x/crypto v0.49.0
 	golang.org/x/image v0.36.0
-	golang.org/x/net v0.50.0
-	golang.org/x/oauth2 v0.34.0
-	golang.org/x/sync v0.19.0
-	golang.org/x/sys v0.41.0
-	golang.org/x/text v0.34.0
-	google.golang.org/grpc v1.79.1
+	golang.org/x/net v0.52.0
+	golang.org/x/oauth2 v0.36.0
+	golang.org/x/sync v0.20.0
+	golang.org/x/sys v0.42.0
+	golang.org/x/text v0.35.0
+	google.golang.org/grpc v1.79.3
 	google.golang.org/protobuf v1.36.11
 	gopkg.in/ini.v1 v1.67.0
 	gopkg.in/yaml.v3 v3.0.1
@@ -138,6 +138,7 @@ require (
 	dario.cat/mergo v1.0.2 // indirect
 	filippo.io/edwards25519 v1.1.0 // indirect
 	git.sr.ht/~mariusor/go-xsd-duration v0.0.0-20220703122237-02e73435a078 // indirect
+	gitea.com/gitea/go-sdk v0.16.0 // indirect
 	github.com/Azure/azure-sdk-for-go/sdk/internal v1.11.2 // indirect
 	github.com/DataDog/zstd v1.5.7 // indirect
 	github.com/Microsoft/go-winio v0.6.2 // indirect
@@ -146,10 +147,10 @@ require (
 	github.com/andybalholm/brotli v1.2.0 // indirect
 	github.com/andybalholm/cascadia v1.3.3 // indirect
 	github.com/anmitsu/go-shlex v0.0.0-20200514113438-38f4b401e2be // indirect
-	github.com/aws/aws-sdk-go-v2 v1.41.2 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/configsources v1.4.18 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.7.18 // indirect
-	github.com/aws/smithy-go v1.24.1 // indirect
+	github.com/aws/aws-sdk-go-v2 v1.41.4 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/configsources v1.4.20 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.7.20 // indirect
+	github.com/aws/smithy-go v1.24.2 // indirect
 	github.com/aymerick/douceur v0.2.0 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bits-and-blooms/bitset v1.24.0 // indirect
@@ -179,7 +180,7 @@ require (
 	github.com/caddyserver/zerossl v0.1.5 // indirect
 	github.com/cention-sany/utf7 v0.0.0-20170124080048-26cad61bd60a // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
-	github.com/cloudflare/circl v1.6.1 // indirect
+	github.com/cloudflare/circl v1.6.2 // indirect
 	github.com/couchbase/go-couchbase v0.1.1 // indirect
 	github.com/couchbase/gomemcached v0.3.3 // indirect
 	github.com/couchbase/goutils v0.1.2 // indirect
@@ -266,7 +267,7 @@ require (
 	github.com/ssor/bom v0.0.0-20170718123548-6386211fdfcf // indirect
 	github.com/tinylib/msgp v1.6.1 // indirect
 	github.com/unknwon/com v1.0.1 // indirect
-	github.com/valyala/fastjson v1.6.7 // indirect
+	github.com/valyala/fastjson v1.6.10 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
 	github.com/xanzy/ssh-agent v0.3.3 // indirect
 	github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb // indirect

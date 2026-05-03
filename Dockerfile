@@ -5,7 +5,7 @@ FROM docker.io/library/golang:1.25-alpine3.22 AS build-env
 ARG GOPROXY=direct
 ENV GOPROXY=$GOPROXY
 
-ARG GITEA_VERSION
+ARG GITERIA_VERSION
 ARG TAGS="sqlite sqlite_unlock_notify"
 ENV TAGS="bindata timetzdata $TAGS"
 ARG CGO_EXTRA_CFLAGS
